@@ -1,21 +1,26 @@
 package io.swagger.model;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 /**
  * Account
  */
 @Validated
+@Entity
+@Table
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T10:16:52.088Z[GMT]")
 public class Account   {
+  @Id
+  @SequenceGenerator(name = "account_seq", initialValue = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
   @JsonProperty("id")
   private Integer id = null;
 
@@ -258,5 +263,17 @@ public class Account   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public Account(){
+
+  }
+
+  public Account(Integer userId, TypeEnum type, CurrencyEnum currency, Object balance, String iban){
+    this.userId = userId;
+    this.type = type;
+    this.currency = currency;
+    this.balance = balance;
+    this.iban = iban;
   }
 }

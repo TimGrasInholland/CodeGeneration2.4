@@ -1,20 +1,24 @@
 package io.swagger.model;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 /**
  * Balance
  */
+@Entity
+@Table
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T10:16:52.088Z[GMT]")
 public class Balance   {
+  @Id
+  @SequenceGenerator(name = "balance_seq", initialValue = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "balance_seq")
   @JsonProperty("id")
   private Integer id = null;
 
@@ -125,5 +129,14 @@ public class Balance   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public Balance(){
+
+  }
+
+  public Balance(Integer accountId, Double balance){
+    this.accountId = accountId;
+    this.balance = balance;
   }
 }
