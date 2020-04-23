@@ -6,6 +6,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -15,6 +20,15 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T17:10:12.432Z[GMT]")
 public class AccountBalance   {
+
+  public AccountBalance(Integer accountId, Double balance) {
+    this.accountId = accountId;
+    this.balance = balance;
+  }
+
+  @Id
+  @SequenceGenerator(name = "balance_seq", initialValue = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "balance_seq")
   @JsonProperty("id")
   private Integer id = null;
 
