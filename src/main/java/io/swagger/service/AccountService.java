@@ -10,8 +10,16 @@ import java.util.List;
 @Service
 public class AccountService {
 
-    @Autowired
     private AccountRepository accountRepository;
 
-    public List<Account> getAllAccounts() {return (List<Account>) accountRepository.findAll();}
+    public AccountService(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
+
+    public AccountService() {
+    }
+
+    public List<Account> getAllAccounts() {
+        return (List<Account>) accountRepository.findAll();
+    }
 }
