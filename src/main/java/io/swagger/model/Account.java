@@ -1,14 +1,15 @@
 package io.swagger.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModelProperty;
-import org.springframework.validation.annotation.Validated;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.model.AccountBalance;
+import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 /**
  * Account
@@ -92,7 +93,7 @@ public class Account   {
   private CurrencyEnum currency = null;
 
   @JsonProperty("balance")
-  private Object balance = null;
+  private AccountBalance balance = null;
 
   @JsonProperty("iban")
   private String iban = null;
@@ -126,8 +127,9 @@ public class Account   {
    * Get userId
    * @return userId
   **/
-  @ApiModelProperty(example = "1", value = "")
-  
+  @ApiModelProperty(example = "1", required = true, value = "")
+      @NotNull
+
     public Integer getUserId() {
     return userId;
   }
@@ -176,7 +178,7 @@ public class Account   {
     this.currency = currency;
   }
 
-  public Account balance(Object balance) {
+  public Account balance(AccountBalance balance) {
     this.balance = balance;
     return this;
   }
@@ -185,14 +187,15 @@ public class Account   {
    * Get balance
    * @return balance
   **/
-  @ApiModelProperty(example = "#/components/schemas/Balance", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
       @NotNull
 
-    public Object getBalance() {
+    @Valid
+    public AccountBalance getBalance() {
     return balance;
   }
 
-  public void setBalance(Object balance) {
+  public void setBalance(AccountBalance balance) {
     this.balance = balance;
   }
 

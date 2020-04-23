@@ -17,7 +17,7 @@ import javax.validation.constraints.*;
  * User
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T10:16:52.088Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T17:10:12.432Z[GMT]")
 public class User   {
   @JsonProperty("id")
   private Integer id = null;
@@ -87,10 +87,6 @@ public class User   {
   }
   @JsonProperty("type")
   private TypeEnum type = null;
-
-  @JsonProperty("accounts")
-  @Valid
-  private List<Object> accounts = new ArrayList<Object>();
 
   public User id(Integer id) {
     this.id = id;
@@ -351,31 +347,6 @@ public class User   {
     this.type = type;
   }
 
-  public User accounts(List<Object> accounts) {
-    this.accounts = accounts;
-    return this;
-  }
-
-  public User addAccountsItem(Object accountsItem) {
-    this.accounts.add(accountsItem);
-    return this;
-  }
-
-  /**
-   * Get accounts
-   * @return accounts
-  **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
-
-    public List<Object> getAccounts() {
-    return accounts;
-  }
-
-  public void setAccounts(List<Object> accounts) {
-    this.accounts = accounts;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -398,13 +369,12 @@ public class User   {
         Objects.equals(this.postalcode, user.postalcode) &&
         Objects.equals(this.city, user.city) &&
         Objects.equals(this.phoneNumber, user.phoneNumber) &&
-        Objects.equals(this.type, user.type) &&
-        Objects.equals(this.accounts, user.accounts);
+        Objects.equals(this.type, user.type);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, username, password, firstName, prefix, lastName, email, birthdate, address, postalcode, city, phoneNumber, type, accounts);
+    return Objects.hash(id, username, password, firstName, prefix, lastName, email, birthdate, address, postalcode, city, phoneNumber, type);
   }
 
   @Override
@@ -425,7 +395,6 @@ public class User   {
     sb.append("    city: ").append(toIndentedString(city)).append("\n");
     sb.append("    phoneNumber: ").append(toIndentedString(phoneNumber)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
-    sb.append("    accounts: ").append(toIndentedString(accounts)).append("\n");
     sb.append("}");
     return sb.toString();
   }

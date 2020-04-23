@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T10:16:52.088Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T17:10:12.432Z[GMT]")
 @Controller
 public class UsersApiController implements UsersApi {
 
@@ -52,7 +52,7 @@ public class UsersApiController implements UsersApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<List<User>>(objectMapper.readValue("[ {\n  \"lastName\" : \"Tol\",\n  \"birthdate\" : \"2000-01-23\",\n  \"address\" : \"Fryslandlaan 12\",\n  \"city\" : \"Maaskantje\",\n  \"prefix\" : \"van\",\n  \"type\" : \"Customer\",\n  \"firstName\" : \"Thijs\",\n  \"password\" : \"Welcome0!\",\n  \"phoneNumber\" : \"0612345678\",\n  \"postalcode\" : \"1902DR\",\n  \"id\" : 1,\n  \"accounts\" : [ \"#/components/schemas/Account\", \"#/components/schemas/Account\" ],\n  \"email\" : \"ThijsVanTol@gmail.com\",\n  \"username\" : \"thijs\"\n}, {\n  \"lastName\" : \"Tol\",\n  \"birthdate\" : \"2000-01-23\",\n  \"address\" : \"Fryslandlaan 12\",\n  \"city\" : \"Maaskantje\",\n  \"prefix\" : \"van\",\n  \"type\" : \"Customer\",\n  \"firstName\" : \"Thijs\",\n  \"password\" : \"Welcome0!\",\n  \"phoneNumber\" : \"0612345678\",\n  \"postalcode\" : \"1902DR\",\n  \"id\" : 1,\n  \"accounts\" : [ \"#/components/schemas/Account\", \"#/components/schemas/Account\" ],\n  \"email\" : \"ThijsVanTol@gmail.com\",\n  \"username\" : \"thijs\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<List<User>>(objectMapper.readValue("[ {\n  \"lastName\" : \"Tol\",\n  \"birthdate\" : \"2000-01-23\",\n  \"address\" : \"Fryslandlaan 12\",\n  \"city\" : \"Maaskantje\",\n  \"prefix\" : \"van\",\n  \"type\" : \"Customer\",\n  \"firstName\" : \"Thijs\",\n  \"password\" : \"Welcome0!\",\n  \"phoneNumber\" : \"0612345678\",\n  \"postalcode\" : \"1902DR\",\n  \"id\" : 1,\n  \"email\" : \"ThijsVanTol@gmail.com\",\n  \"username\" : \"thijs\"\n}, {\n  \"lastName\" : \"Tol\",\n  \"birthdate\" : \"2000-01-23\",\n  \"address\" : \"Fryslandlaan 12\",\n  \"city\" : \"Maaskantje\",\n  \"prefix\" : \"van\",\n  \"type\" : \"Customer\",\n  \"firstName\" : \"Thijs\",\n  \"password\" : \"Welcome0!\",\n  \"phoneNumber\" : \"0612345678\",\n  \"postalcode\" : \"1902DR\",\n  \"id\" : 1,\n  \"email\" : \"ThijsVanTol@gmail.com\",\n  \"username\" : \"thijs\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<List<User>>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -84,7 +84,7 @@ public class UsersApiController implements UsersApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<List<Account>>(objectMapper.readValue("[ {\n  \"balance\" : \"#/components/schemas/Balance\",\n  \"iban\" : \"NLxxINHO0xxxxxxxxx\",\n  \"currency\" : \"EUR\",\n  \"id\" : 1,\n  \"type\" : \"Savings\",\n  \"userId\" : 1\n}, {\n  \"balance\" : \"#/components/schemas/Balance\",\n  \"iban\" : \"NLxxINHO0xxxxxxxxx\",\n  \"currency\" : \"EUR\",\n  \"id\" : 1,\n  \"type\" : \"Savings\",\n  \"userId\" : 1\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<List<Account>>(objectMapper.readValue("[ {\n  \"balance\" : {\n    \"accountId\" : 1,\n    \"balance\" : 250,\n    \"id\" : 1\n  },\n  \"iban\" : \"NLxxINHO0xxxxxxxxx\",\n  \"currency\" : \"EUR\",\n  \"id\" : 1,\n  \"type\" : \"Savings\",\n  \"userId\" : 1\n}, {\n  \"balance\" : {\n    \"accountId\" : 1,\n    \"balance\" : 250,\n    \"id\" : 1\n  },\n  \"iban\" : \"NLxxINHO0xxxxxxxxx\",\n  \"currency\" : \"EUR\",\n  \"id\" : 1,\n  \"type\" : \"Savings\",\n  \"userId\" : 1\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<List<Account>>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -99,7 +99,7 @@ public class UsersApiController implements UsersApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<List<User>>(objectMapper.readValue("[ {\n  \"lastName\" : \"Tol\",\n  \"birthdate\" : \"2000-01-23\",\n  \"address\" : \"Fryslandlaan 12\",\n  \"city\" : \"Maaskantje\",\n  \"prefix\" : \"van\",\n  \"type\" : \"Customer\",\n  \"firstName\" : \"Thijs\",\n  \"password\" : \"Welcome0!\",\n  \"phoneNumber\" : \"0612345678\",\n  \"postalcode\" : \"1902DR\",\n  \"id\" : 1,\n  \"accounts\" : [ \"#/components/schemas/Account\", \"#/components/schemas/Account\" ],\n  \"email\" : \"ThijsVanTol@gmail.com\",\n  \"username\" : \"thijs\"\n}, {\n  \"lastName\" : \"Tol\",\n  \"birthdate\" : \"2000-01-23\",\n  \"address\" : \"Fryslandlaan 12\",\n  \"city\" : \"Maaskantje\",\n  \"prefix\" : \"van\",\n  \"type\" : \"Customer\",\n  \"firstName\" : \"Thijs\",\n  \"password\" : \"Welcome0!\",\n  \"phoneNumber\" : \"0612345678\",\n  \"postalcode\" : \"1902DR\",\n  \"id\" : 1,\n  \"accounts\" : [ \"#/components/schemas/Account\", \"#/components/schemas/Account\" ],\n  \"email\" : \"ThijsVanTol@gmail.com\",\n  \"username\" : \"thijs\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<List<User>>(objectMapper.readValue("[ {\n  \"lastName\" : \"Tol\",\n  \"birthdate\" : \"2000-01-23\",\n  \"address\" : \"Fryslandlaan 12\",\n  \"city\" : \"Maaskantje\",\n  \"prefix\" : \"van\",\n  \"type\" : \"Customer\",\n  \"firstName\" : \"Thijs\",\n  \"password\" : \"Welcome0!\",\n  \"phoneNumber\" : \"0612345678\",\n  \"postalcode\" : \"1902DR\",\n  \"id\" : 1,\n  \"email\" : \"ThijsVanTol@gmail.com\",\n  \"username\" : \"thijs\"\n}, {\n  \"lastName\" : \"Tol\",\n  \"birthdate\" : \"2000-01-23\",\n  \"address\" : \"Fryslandlaan 12\",\n  \"city\" : \"Maaskantje\",\n  \"prefix\" : \"van\",\n  \"type\" : \"Customer\",\n  \"firstName\" : \"Thijs\",\n  \"password\" : \"Welcome0!\",\n  \"phoneNumber\" : \"0612345678\",\n  \"postalcode\" : \"1902DR\",\n  \"id\" : 1,\n  \"email\" : \"ThijsVanTol@gmail.com\",\n  \"username\" : \"thijs\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<List<User>>(HttpStatus.INTERNAL_SERVER_ERROR);
