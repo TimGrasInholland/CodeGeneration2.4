@@ -7,16 +7,14 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * AccountBalance
  */
+@Entity
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T17:10:12.432Z[GMT]")
 public class AccountBalance   {

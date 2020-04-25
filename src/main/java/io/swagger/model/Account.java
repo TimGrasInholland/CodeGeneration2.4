@@ -93,6 +93,7 @@ public class Account   {
   private CurrencyEnum currency = null;
 
   @JsonProperty("balance")
+  @OneToOne
   private AccountBalance balance = null;
 
   @JsonProperty("iban")
