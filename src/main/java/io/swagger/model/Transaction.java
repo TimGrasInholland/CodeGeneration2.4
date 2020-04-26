@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
+
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -15,8 +17,13 @@ import javax.validation.constraints.*;
  * Transaction
  */
 @Validated
+@Entity
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T17:10:12.432Z[GMT]")
 public class Transaction   {
+
+  @SequenceGenerator(name = "transaction_seq", initialValue = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_seq")
+  @Id
   @JsonProperty("id")
   private Integer id = null;
 
@@ -288,5 +295,17 @@ public class Transaction   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public Transaction() {}
+
+  public Transaction(OffsetDateTime timestamp, String accountFrom, String accountTo, double amount, String description, int userPerforming, TransactionTypeEnum transactionType) {
+    this.timestamp = timestamp;
+    this.accountFrom = accountFrom;
+    this.accountTo = accountTo;
+    this.amount = amount;
+    this.description = description;
+    this.userPerforming = userPerforming;
+    this.transactionType = transactionType;
   }
 }
