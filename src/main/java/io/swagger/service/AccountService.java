@@ -16,9 +16,6 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
-    public AccountService() {
-    }
-
     public List<Account> getAllAccounts() {
         return (List<Account>) accountRepository.findAll();
     }

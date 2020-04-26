@@ -86,7 +86,6 @@ public class AccountsApiController implements AccountsApi {
         if (accept != null && accept.contains("application/json")) {
             return ResponseEntity.status(200).body(service.getAllAccounts());
         }
-
         return new ResponseEntity<List<Account>>(HttpStatus.NOT_IMPLEMENTED);
     }
 

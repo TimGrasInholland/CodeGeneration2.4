@@ -15,13 +15,14 @@ import java.util.Objects;
  * Account
  */
 @Validated
-@Table
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T10:16:52.088Z[GMT]")
 @Entity
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T10:16:52.088Z[GMT]")
 public class Account   {
+  //  @Pattern(regexp = "NL\\d{2}INHO0\\d{9}")
+//  @Id
+//  @SequenceGenerator(name = "account_seq", initialValue = 1)
+//  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
   @Id
-  @SequenceGenerator(name = "account_seq", initialValue = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
   @JsonProperty("id")
   private Integer id = null;
 
@@ -269,9 +270,7 @@ public class Account   {
     return o.toString().replace("\n", "\n    ");
   }
 
-  public Account(){
-
-  }
+  public Account() { }
 
   public Account(Integer userId, TypeEnum type, CurrencyEnum currency, AccountBalance balance, String iban){
     this.userId = userId;
