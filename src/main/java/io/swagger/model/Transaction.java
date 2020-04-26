@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
+
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -15,8 +17,25 @@ import javax.validation.constraints.*;
  * Transaction
  */
 @Validated
+@Entity
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-26T17:58:10.113Z[GMT]")
 public class Transaction   {
+
+  public Transaction() {}
+
+  public Transaction(OffsetDateTime timestamp, String accountFrom, String accountTo, double amount, String description, int userPerforming, TransactionTypeEnum transactionType) {
+    this.timestamp = timestamp;
+    this.accountFrom = accountFrom;
+    this.accountTo = accountTo;
+    this.amount = amount;
+    this.description = description;
+    this.userPerforming = userPerforming;
+    this.transactionType = transactionType;
+  }
+
+  @SequenceGenerator(name = "transaction_seq", initialValue = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_seq")
+  @Id
   @JsonProperty("id")
   private Integer id = null;
 
@@ -43,13 +62,13 @@ public class Transaction   {
    */
   public enum TransactionTypeEnum {
     DEPOSIT("Deposit"),
-    
+
     WITHDRAWAL("Withdrawal"),
-    
+
     PAYMENT("Payment"),
-    
+
     ATMDEPOSIT("AtmDeposit"),
-    
+
     ATMWITHDRAWAL("AtmWithdrawal");
 
     private String value;
@@ -188,7 +207,7 @@ public class Transaction   {
    * @return description
   **/
   @ApiModelProperty(example = "Money for your boat", value = "")
-  
+
     public String getDescription() {
     return description;
   }
@@ -266,7 +285,7 @@ public class Transaction   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Transaction {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
     sb.append("    accountFrom: ").append(toIndentedString(accountFrom)).append("\n");
