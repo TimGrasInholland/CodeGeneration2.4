@@ -23,7 +23,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T17:10:12.432Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-26T17:58:10.113Z[GMT]")
 @Api(value = "Accounts", description = "the Accounts API")
 public interface AccountsApi {
 
@@ -49,7 +49,7 @@ public interface AccountsApi {
         @ApiResponse(code = 400, message = "bad request", response = String.class),
         @ApiResponse(code = 401, message = "API key is missing or invalid"),
         @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
-    @RequestMapping(value = "/Accounts/{IBAN}",
+    @RequestMapping(value = "/Accounts/iban/{IBAN}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<List<Account>> getAccountByIBAN(@ApiParam(value = "the IBAN",required=true) @PathVariable("IBAN") String IBAN
@@ -63,7 +63,7 @@ public interface AccountsApi {
         @ApiResponse(code = 400, message = "bad request", response = String.class),
         @ApiResponse(code = 401, message = "API key is missing or invalid"),
         @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
-    @RequestMapping(value = "/Accounts/{username}",
+    @RequestMapping(value = "/Accounts/username/{username}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<List<Account>> getAccountByUsername(@ApiParam(value = "the username",required=true) @PathVariable("username") String username

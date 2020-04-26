@@ -16,8 +16,19 @@ import java.util.Objects;
  */
 @Validated
 @Entity
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T10:16:52.088Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-26T17:58:10.113Z[GMT]")
 public class Account   {
+
+  public Account() {
+  }
+
+  public Account(Integer userId, TypeEnum type, CurrencyEnum currency, AccountBalance balance, String iban){
+    this.userId = userId;
+    this.type = type;
+    this.currency = currency;
+    this.balance = balance;
+    this.iban = iban;
+  }
 
   @SequenceGenerator(name = "account_seq", initialValue = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
@@ -33,7 +44,7 @@ public class Account   {
    */
   public enum TypeEnum {
     SAVINGS("Savings"),
-    
+
     CURRENT("Current");
 
     private String value;
@@ -107,11 +118,11 @@ public class Account   {
   /**
    * Get id
    * @return id
-  **/
+   **/
   @ApiModelProperty(example = "1", required = true, value = "")
-      @NotNull
+  @NotNull
 
-    public Integer getId() {
+  public Integer getId() {
     return id;
   }
 
@@ -127,11 +138,11 @@ public class Account   {
   /**
    * Get userId
    * @return userId
-  **/
+   **/
   @ApiModelProperty(example = "1", required = true, value = "")
-      @NotNull
+  @NotNull
 
-    public Integer getUserId() {
+  public Integer getUserId() {
     return userId;
   }
 
@@ -147,11 +158,11 @@ public class Account   {
   /**
    * Get type
    * @return type
-  **/
+   **/
   @ApiModelProperty(example = "Savings", required = true, value = "")
-      @NotNull
+  @NotNull
 
-    public TypeEnum getType() {
+  public TypeEnum getType() {
     return type;
   }
 
@@ -167,11 +178,11 @@ public class Account   {
   /**
    * Get currency
    * @return currency
-  **/
+   **/
   @ApiModelProperty(example = "EUR", required = true, value = "")
-      @NotNull
+  @NotNull
 
-    public CurrencyEnum getCurrency() {
+  public CurrencyEnum getCurrency() {
     return currency;
   }
 
@@ -187,12 +198,12 @@ public class Account   {
   /**
    * Get balance
    * @return balance
-  **/
+   **/
   @ApiModelProperty(required = true, value = "")
-      @NotNull
+  @NotNull
 
-    @Valid
-    public AccountBalance getBalance() {
+  @Valid
+  public AccountBalance getBalance() {
     return balance;
   }
 
@@ -208,11 +219,11 @@ public class Account   {
   /**
    * Get iban
    * @return iban
-  **/
+   **/
   @ApiModelProperty(example = "NLxxINHO0xxxxxxxxx", required = true, value = "")
-      @NotNull
+  @NotNull
 
-    public String getIban() {
+  public String getIban() {
     return iban;
   }
 
@@ -231,11 +242,11 @@ public class Account   {
     }
     Account account = (Account) o;
     return Objects.equals(this.id, account.id) &&
-        Objects.equals(this.userId, account.userId) &&
-        Objects.equals(this.type, account.type) &&
-        Objects.equals(this.currency, account.currency) &&
-        Objects.equals(this.balance, account.balance) &&
-        Objects.equals(this.iban, account.iban);
+            Objects.equals(this.userId, account.userId) &&
+            Objects.equals(this.type, account.type) &&
+            Objects.equals(this.currency, account.currency) &&
+            Objects.equals(this.balance, account.balance) &&
+            Objects.equals(this.iban, account.iban);
   }
 
   @Override
@@ -247,7 +258,7 @@ public class Account   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Account {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
@@ -267,15 +278,5 @@ public class Account   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
-
-  public Account() { }
-
-  public Account(Integer userId, TypeEnum type, CurrencyEnum currency, AccountBalance balance, String iban){
-    this.userId = userId;
-    this.type = type;
-    this.currency = currency;
-    this.balance = balance;
-    this.iban = iban;
   }
 }

@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
  */
 @Validated
 @Entity
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T17:10:12.432Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-26T17:58:10.113Z[GMT]")
 public class Transaction   {
 
   @SequenceGenerator(name = "transaction_seq", initialValue = 1)
@@ -50,13 +50,13 @@ public class Transaction   {
    */
   public enum TransactionTypeEnum {
     DEPOSIT("Deposit"),
-    
+
     WITHDRAWAL("Withdrawal"),
-    
+
     PAYMENT("Payment"),
-    
+
     ATMDEPOSIT("AtmDeposit"),
-    
+
     ATMWITHDRAWAL("AtmWithdrawal");
 
     private String value;
@@ -195,7 +195,7 @@ public class Transaction   {
    * @return description
   **/
   @ApiModelProperty(example = "Money for your boat", value = "")
-  
+
     public String getDescription() {
     return description;
   }
@@ -273,7 +273,7 @@ public class Transaction   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Transaction {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
     sb.append("    accountFrom: ").append(toIndentedString(accountFrom)).append("\n");

@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T17:10:12.432Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-26T17:58:10.113Z[GMT]")
 @Controller
 public class AccountsApiController implements AccountsApi {
 
@@ -38,13 +38,13 @@ public class AccountsApiController implements AccountsApi {
     }
 
     public ResponseEntity<Void> createAccount(@ApiParam(value = ""  )  @Valid @RequestBody Account body
-) {
+    ) {
         String accept = request.getHeader("Accept");
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<List<Account>> getAccountByIBAN(@ApiParam(value = "the IBAN",required=true) @PathVariable("IBAN") String IBAN
-) {
+    ) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
@@ -59,7 +59,7 @@ public class AccountsApiController implements AccountsApi {
     }
 
     public ResponseEntity<List<Account>> getAccountByUsername(@ApiParam(value = "the username",required=true) @PathVariable("username") String username
-) {
+    ) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
@@ -74,8 +74,8 @@ public class AccountsApiController implements AccountsApi {
     }
 
     public ResponseEntity<List<Account>> getAllAccounts(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
-,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
-) {
+            ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
+    ) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             return ResponseEntity.status(200).body(service.getAllAccounts());
