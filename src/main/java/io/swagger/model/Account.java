@@ -18,10 +18,9 @@ import java.util.Objects;
 @Entity
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T10:16:52.088Z[GMT]")
 public class Account   {
-  //  @Pattern(regexp = "NL\\d{2}INHO0\\d{9}")
-//  @Id
-//  @SequenceGenerator(name = "account_seq", initialValue = 1)
-//  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
+
+  @SequenceGenerator(name = "account_seq", initialValue = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
   @Id
   @JsonProperty("id")
   private Integer id = null;
@@ -94,7 +93,7 @@ public class Account   {
   private CurrencyEnum currency = null;
 
   @JsonProperty("balance")
-  @OneToOne
+  @OneToOne(cascade = CascadeType.ALL)
   private AccountBalance balance = null;
 
   @JsonProperty("iban")

@@ -2,7 +2,6 @@ package io.swagger.service;
 
 import io.swagger.dao.AccountRepository;
 import io.swagger.model.Account;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +11,7 @@ public class AccountService {
 
     private AccountRepository accountRepository;
 
-    public AccountService(AccountRepository accountRepository) {
+    public AccountService(AccountRepository accountRepository){
         this.accountRepository = accountRepository;
     }
 
