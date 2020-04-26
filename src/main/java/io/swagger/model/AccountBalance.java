@@ -1,20 +1,32 @@
 package io.swagger.model;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 /**
  * AccountBalance
  */
+@Entity
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-26T17:58:10.113Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T17:10:12.432Z[GMT]")
 public class AccountBalance   {
+
+  public AccountBalance(){
+  }
+
+  public AccountBalance(Integer accountId, Double balance) {
+    this.accountId = accountId;
+    this.balance = balance;
+  }
+
+  @Id
+  @SequenceGenerator(name = "balance_seq", initialValue = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "balance_seq")
   @JsonProperty("id")
   private Integer id = null;
 
@@ -32,11 +44,11 @@ public class AccountBalance   {
   /**
    * Get id
    * @return id
-  **/
+   **/
   @ApiModelProperty(example = "1", required = true, value = "")
-      @NotNull
+  @NotNull
 
-    public Integer getId() {
+  public Integer getId() {
     return id;
   }
 
@@ -52,11 +64,11 @@ public class AccountBalance   {
   /**
    * Get accountId
    * @return accountId
-  **/
+   **/
   @ApiModelProperty(example = "1", required = true, value = "")
-      @NotNull
+  @NotNull
 
-    public Integer getAccountId() {
+  public Integer getAccountId() {
     return accountId;
   }
 
@@ -72,11 +84,11 @@ public class AccountBalance   {
   /**
    * Get balance
    * @return balance
-  **/
+   **/
   @ApiModelProperty(example = "250", required = true, value = "")
-      @NotNull
+  @NotNull
 
-    public Double getBalance() {
+  public Double getBalance() {
     return balance;
   }
 
@@ -95,8 +107,8 @@ public class AccountBalance   {
     }
     AccountBalance accountBalance = (AccountBalance) o;
     return Objects.equals(this.id, accountBalance.id) &&
-        Objects.equals(this.accountId, accountBalance.accountId) &&
-        Objects.equals(this.balance, accountBalance.balance);
+            Objects.equals(this.accountId, accountBalance.accountId) &&
+            Objects.equals(this.balance, accountBalance.balance);
   }
 
   @Override
@@ -108,7 +120,7 @@ public class AccountBalance   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AccountBalance {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    accountId: ").append(toIndentedString(accountId)).append("\n");
     sb.append("    balance: ").append(toIndentedString(balance)).append("\n");
