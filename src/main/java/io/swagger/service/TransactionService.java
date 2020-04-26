@@ -20,4 +20,8 @@ public class TransactionService {
     public List<Transaction> getAllTransactions() {
         return (List<Transaction>) transactionRepository.findAll();
     }
+
+    public List<Transaction> getAllTransactionsByAccountId(int accountId) {
+        return (List<Transaction>) transactionRepository.getTransactionsByIdEquals(accountId);
+    }
 }

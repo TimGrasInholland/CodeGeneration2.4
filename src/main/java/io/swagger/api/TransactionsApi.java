@@ -44,11 +44,11 @@ public interface TransactionsApi {
     @ApiOperation(value = "gets all transactions from the given account", nickname = "getTransactionsFromAccountId", notes = "Calling this allows you to get all transactions from an account.", response = Transaction.class, responseContainer = "List", authorizations = {
         @Authorization(value = "ApiKeyAuth")    }, tags={ "Transactions", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Transactions", response = Transaction.class, responseContainer = "List"),
+        @ApiResponse(code = 200, message = "get all transactions by account id", response = Transaction.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "bad request", response = String.class),
         @ApiResponse(code = 401, message = "API key is missing or invalid"),
         @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
-    @RequestMapping(value = "/Transactions/account/{accountId}",
+    @RequestMapping(value = "/Transactions/{accountId}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<List<Transaction>> getTransactionsFromAccountId(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("accountId") Integer accountId
