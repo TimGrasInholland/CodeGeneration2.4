@@ -21,6 +21,18 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-26T17:58:10.113Z[GMT]")
 public class Transaction   {
 
+  public Transaction() {}
+
+  public Transaction(OffsetDateTime timestamp, String accountFrom, String accountTo, double amount, String description, int userPerforming, TransactionTypeEnum transactionType) {
+    this.timestamp = timestamp;
+    this.accountFrom = accountFrom;
+    this.accountTo = accountTo;
+    this.amount = amount;
+    this.description = description;
+    this.userPerforming = userPerforming;
+    this.transactionType = transactionType;
+  }
+
   @SequenceGenerator(name = "transaction_seq", initialValue = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_seq")
   @Id
@@ -295,17 +307,5 @@ public class Transaction   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
-
-  public Transaction() {}
-
-  public Transaction(OffsetDateTime timestamp, String accountFrom, String accountTo, double amount, String description, int userPerforming, TransactionTypeEnum transactionType) {
-    this.timestamp = timestamp;
-    this.accountFrom = accountFrom;
-    this.accountTo = accountTo;
-    this.amount = amount;
-    this.description = description;
-    this.userPerforming = userPerforming;
-    this.transactionType = transactionType;
   }
 }
