@@ -1,27 +1,22 @@
 package io.swagger.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModelProperty;
-import org.springframework.validation.annotation.Validated;
-
-import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.model.AccountBalance;
+import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 /**
  * Account
  */
 @Validated
-@Entity
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T10:16:52.088Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-26T17:58:10.113Z[GMT]")
 public class Account   {
-
-  @SequenceGenerator(name = "account_seq", initialValue = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
-  @Id
   @JsonProperty("id")
   private Integer id = null;
 
@@ -93,7 +88,6 @@ public class Account   {
   private CurrencyEnum currency = null;
 
   @JsonProperty("balance")
-  @OneToOne(cascade = CascadeType.ALL)
   private AccountBalance balance = null;
 
   @JsonProperty("iban")
@@ -267,15 +261,5 @@ public class Account   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
-
-  public Account() { }
-
-  public Account(Integer userId, TypeEnum type, CurrencyEnum currency, AccountBalance balance, String iban){
-    this.userId = userId;
-    this.type = type;
-    this.currency = currency;
-    this.balance = balance;
-    this.iban = iban;
   }
 }
