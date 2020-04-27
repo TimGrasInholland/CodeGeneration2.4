@@ -79,21 +79,6 @@ public class UsersApiController implements UsersApi {
         return new ResponseEntity<List<Transaction>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<List<Account>> getUserAccountsByUserId(@Min(1)@ApiParam(value = "bad input parameter",required=true, allowableValues="") @PathVariable("id") Integer id
-) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<List<Account>>(objectMapper.readValue("[ {\n  \"balance\" : {\n    \"accountId\" : 1,\n    \"balance\" : 250,\n    \"id\" : 1\n  },\n  \"iban\" : \"NLxxINHO0xxxxxxxxx\",\n  \"currency\" : \"EUR\",\n  \"id\" : 1,\n  \"type\" : \"Savings\",\n  \"userId\" : 1\n}, {\n  \"balance\" : {\n    \"accountId\" : 1,\n    \"balance\" : 250,\n    \"id\" : 1\n  },\n  \"iban\" : \"NLxxINHO0xxxxxxxxx\",\n  \"currency\" : \"EUR\",\n  \"id\" : 1,\n  \"type\" : \"Savings\",\n  \"userId\" : 1\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<List<Account>>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
-
-        return new ResponseEntity<List<Account>>(HttpStatus.NOT_IMPLEMENTED);
-    }
-
     public ResponseEntity<List<User>> getUserById(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Integer id
 ) {
         String accept = request.getHeader("Accept");

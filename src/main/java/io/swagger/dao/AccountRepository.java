@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AccountRepository extends CrudRepository<Account, Integer> {
-    public Iterable<Account> findAccountsByUserId(Long userId);
+    public Iterable<Account> findAccountsByUserId(Integer userId);
 }

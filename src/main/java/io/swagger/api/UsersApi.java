@@ -74,20 +74,6 @@ public interface UsersApi {
 );
 
 
-    @ApiOperation(value = "Get user accounts", nickname = "getUserAccountsByUserId", notes = "Calling this allows you to fetch all the Accounts by a user", response = Account.class, responseContainer = "List", authorizations = {
-        @Authorization(value = "ApiKeyAuth")    }, tags={ "Accounts", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "list of accounts", response = Account.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "bad request", response = String.class),
-        @ApiResponse(code = 401, message = "API key is missing or invalid"),
-        @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
-    @RequestMapping(value = "/Users/{id}/Accounts",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    ResponseEntity<List<Account>> getUserAccountsByUserId(@Min(1)@ApiParam(value = "bad input parameter",required=true, allowableValues="") @PathVariable("id") Integer id
-);
-
-
     @ApiOperation(value = "gets a user from a given ID", nickname = "getUserById", notes = "Calling this allows you to fetch a user from a given ID", response = User.class, responseContainer = "List", authorizations = {
         @Authorization(value = "ApiKeyAuth")    }, tags={ "Users", })
     @ApiResponses(value = { 

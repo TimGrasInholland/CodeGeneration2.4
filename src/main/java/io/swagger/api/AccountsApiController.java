@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.io.IOException;
 import java.util.List;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-26T17:58:10.113Z[GMT]")
@@ -74,11 +75,30 @@ public class AccountsApiController implements AccountsApi {
     }
 
     public ResponseEntity<List<Account>> getAllAccounts(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
-            ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
-    ) {
+    ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
-            return ResponseEntity.status(200).body(service.getAllAccounts());
+            try {
+                return ResponseEntity.status(200).body(service.getAllAccounts());
+            } catch (Exception e) {
+                log.error("Couldn't serialize response for content type application/json", e);
+             return new ResponseEntity<List<Account>>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+        return new ResponseEntity<List<Account>>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
+    public ResponseEntity<List<Account>> getUserAccountsByUserId(@Min(1)@ApiParam(value = "bad input parameter",required=true, allowableValues="") @PathVariable("id") Integer id) {
+        String accept = request.getHeader("Accept");
+        List<Account> accounts = service.getAccountsByUserId(id);
+        if (accept != null && accept.contains("application/json") && !accounts.isEmpty()) {
+            try {
+                return ResponseEntity.status(200).body(accounts);
+            } catch (Exception e) {
+                log.error("Couldn't serialize response for content type application/json", e);
+                return new ResponseEntity<List<Account>>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
         return new ResponseEntity<List<Account>>(HttpStatus.NOT_IMPLEMENTED);
     }
