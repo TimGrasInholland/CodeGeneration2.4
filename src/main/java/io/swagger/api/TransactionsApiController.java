@@ -51,13 +51,19 @@ public class TransactionsApiController implements TransactionsApi {
     public ResponseEntity<List<Transaction>> getTransactionsFromAccountId(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("accountId") Integer accountId,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
-            return ResponseEntity.status(200).body(service.getAllTransactionsByAccountId(accountId));
+            List<Transaction> transactions;
+            if ((transactions = service.getAllTransactionsByAccountId(accountId)).isEmpty()) {
+                // TODO: dit kan vast netter.... TransactionsApi..?
+                return new ResponseEntity<List<Transaction>>(HttpStatus.NOT_FOUND);
+            } else {
+                return ResponseEntity.status(200).body(transactions);
+            }
         }
         return new ResponseEntity<List<Transaction>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<List<Transaction>> getAllTransactions(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
-        // todo: limit and offset
+        // TODO: limit and offset
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             return ResponseEntity.status(200).body(service.getAllTransactions());

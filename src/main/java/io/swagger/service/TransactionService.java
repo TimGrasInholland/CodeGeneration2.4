@@ -22,6 +22,6 @@ public class TransactionService {
     }
 
     public List<Transaction> getAllTransactionsByAccountId(int accountId) {
-        return (List<Transaction>) transactionRepository.getTransactionsByIdEquals(accountId);
+        return (List<Transaction>) transactionRepository.getTransactionsByAccountId(accountId);
     }
 }
