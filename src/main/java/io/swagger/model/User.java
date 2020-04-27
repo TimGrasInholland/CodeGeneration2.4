@@ -120,8 +120,7 @@ public class User   {
    * Get id
    * @return id
   **/
-  @ApiModelProperty(example = "1", required = true, value = "")
-      @NotNull
+  @ApiModelProperty(example = "1", required = false, value = "")
 
     public Integer getId() {
     return id;
@@ -407,7 +406,7 @@ public class User   {
     StringBuilder sb = new StringBuilder();
     sb.append("class User {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    ids: ").append(toIndentedString(id)).append("\n");
     sb.append("    username: ").append(toIndentedString(username)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");

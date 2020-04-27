@@ -129,7 +129,7 @@ public interface UsersApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> regiserUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
+    ResponseEntity<String> regiserUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
 );
 
 

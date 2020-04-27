@@ -1,5 +1,6 @@
 package io.swagger.api;
 
+import io.swagger.dao.UserRepository;
 import io.swagger.model.Account;
 import io.swagger.model.Transaction;
 import io.swagger.model.User;
@@ -121,10 +122,20 @@ public class UsersApiController implements UsersApi {
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Void> regiserUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
+    public ResponseEntity<String> regiserUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
 ) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        if (accept != null && accept.contains("application/json") && body != null) {
+            List<User> users = service.getAllUsers();
+            if (users.stream().filter((user) -> user.getUsername().equals(body.getUsername())).count() > 0) {
+                // maybe extra info why not correct
+                return ResponseEntity.status(400).body("This username already exist");
+            } else {
+                service.createUser(body);
+                return ResponseEntity.status(HttpStatus.CREATED).body("User has been created");
+            }
+        }
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body("Not implementen");
     }
 
     public ResponseEntity<Void> updateUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
