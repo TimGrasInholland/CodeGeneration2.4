@@ -91,14 +91,14 @@ public interface UsersApi {
     @ApiOperation(value = "gets a user from a given ID", nickname = "getUserById", notes = "Calling this allows you to fetch a user from a given ID", response = User.class, responseContainer = "List", authorizations = {
         @Authorization(value = "ApiKeyAuth")    }, tags={ "Users", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Users", response = User.class, responseContainer = "List"),
+        @ApiResponse(code = 200, message = "Users", response = User.class),
         @ApiResponse(code = 400, message = "bad request", response = String.class),
         @ApiResponse(code = 401, message = "API key is missing or invalid"),
         @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
     @RequestMapping(value = "/Users/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<User>> getUserById(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Integer id
+    ResponseEntity<User> getUserById(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Integer id
 );
 
 
