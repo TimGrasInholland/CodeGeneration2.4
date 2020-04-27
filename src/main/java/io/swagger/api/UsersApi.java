@@ -39,7 +39,7 @@ public interface UsersApi {
     @RequestMapping(value = "/Users/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteUser(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Integer id
+    ResponseEntity<Void> deleteUserById(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Integer id
 );
 
 

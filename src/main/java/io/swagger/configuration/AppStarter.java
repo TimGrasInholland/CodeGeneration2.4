@@ -2,11 +2,14 @@ package io.swagger.configuration;
 
 import io.swagger.dao.AccountRepository;
 import io.swagger.dao.TransactionRepository;
+import io.swagger.dao.UserRepository;
 import io.swagger.model.Account;
 import io.swagger.model.AccountBalance;
 import io.swagger.model.Transaction;
+import io.swagger.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 
 import javax.annotation.PostConstruct;
@@ -22,10 +25,14 @@ public class AppStarter{
     @Autowired
     private TransactionRepository transactionRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @PostConstruct
     public void init(){
         initAccounts();
         initTransactions();
+        initUsers();
     }
 
     private void initAccounts() {
@@ -49,6 +56,21 @@ public class AppStarter{
 
         transactions.forEach(
                 transactionRepository::save
+        );
+    }
+
+    private void initUsers(){
+        List<User> users = Arrays.asList(
+                new User("JackMogur", "Welcome567?", "Jack", "Von", "Moger", "JackVMogur@gmail.com",
+                        LocalDate.of(1965, 1, 29), "Arnold straat 33", "1354PK", "Utrecht", "0638313905", User.TypeEnum.CUSTOMER ),
+                new User("Adrie538", "Welkom123!", "Andries", "", "Komen", "AndriesK@gmail.com",
+                        LocalDate.of(1992, 11, 3), "Bloemendotter 12", "1958TX", "Haarlem", "0637291827", User.TypeEnum.EMPLOYEE ),
+                new User("SjaakMaster", "Test123!", "Sjaak", "Van", "Bergen", "SjaakVBergen@gmail.com",
+                        LocalDate.of(2000, 12, 12), "Jacobstraat", "1938DR", "Amsterdam", "0638273745", User.TypeEnum.CUSTOMER )
+        );
+
+        users.forEach(
+                userRepository::save
         );
     }
 }
