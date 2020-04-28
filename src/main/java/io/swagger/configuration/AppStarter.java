@@ -30,9 +30,9 @@ public class AppStarter{
 
     @PostConstruct
     public void init(){
-        initUsers();
         initAccounts();
         initTransactions();
+        initUsers();
     }
 
     private void initAccounts() {
