@@ -6,8 +6,10 @@ import io.swagger.model.Transaction;
 import io.swagger.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import io.swagger.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,6 +32,9 @@ public class UsersApiController implements UsersApi {
     private final ObjectMapper objectMapper;
 
     private final HttpServletRequest request;
+
+    @Autowired
+    private UserService service;
 
     @org.springframework.beans.factory.annotation.Autowired
     public UsersApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -66,8 +71,8 @@ public class UsersApiController implements UsersApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return ResponseEntity<User>(HttpStatus.)
-            } catch (IOException e) {
+                return ResponseEntity.status(200).body(service.getUserById(id));
+            } catch (IllegalArgumentException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
