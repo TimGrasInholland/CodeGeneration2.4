@@ -6,6 +6,7 @@
 package io.swagger.api;
 
 import io.swagger.model.Account;
+import io.swagger.model.Body;
 import io.swagger.model.Transaction;
 import io.swagger.model.User;
 import io.swagger.annotations.*;
@@ -25,21 +26,21 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-26T17:58:10.113Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
 @Api(value = "Users", description = "the Users API")
 public interface UsersApi {
 
-    @ApiOperation(value = "delete the user", nickname = "deleteUser", notes = "Calling this allows you to remove the given user", authorizations = {
-        @Authorization(value = "ApiKeyAuth")    }, tags={ "Users", })
+    @ApiOperation(value = "create a new user", nickname = "createUser", notes = "Create a user", tags={ "Users", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "user deleted"),
+        @ApiResponse(code = 200, message = "created user"),
         @ApiResponse(code = 400, message = "bad request", response = String.class),
         @ApiResponse(code = 401, message = "API key is missing or invalid"),
         @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
-    @RequestMapping(value = "/Users/{id}",
+    @RequestMapping(value = "/Users",
         produces = { "application/json" }, 
-        method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteUser(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Integer id
+        consumes = { "application/json" },
+        method = RequestMethod.POST)
+    ResponseEntity<Void> createUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
 );
 
 
@@ -53,12 +54,14 @@ public interface UsersApi {
     @RequestMapping(value = "/Users",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<User>> getAllUsers(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
+    ResponseEntity<List<User>> getAllUsers(@ApiParam(value = "get users based on lastname") @Valid @RequestParam(value = "lastname", required = false) String lastname
+,@ApiParam(value = "get users based on username") @Valid @RequestParam(value = "username", required = false) String username
+,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
 ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
 );
 
 
-    @ApiOperation(value = "gets all transactions from the given user", nickname = "getTransactionsFromUserId", notes = "Calling this allows you to get all transactions from a user.", response = Transaction.class, responseContainer = "List", authorizations = {
+    @ApiOperation(value = "gets all transactions from the given userId", nickname = "getTransactionsFromUserId", notes = "Calling this allows you to get all transactions from a user.", response = Transaction.class, responseContainer = "List", authorizations = {
         @Authorization(value = "ApiKeyAuth")    }, tags={ "Transactions", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Transactions", response = Transaction.class, responseContainer = "List"),
@@ -74,7 +77,7 @@ public interface UsersApi {
 );
 
 
-    @ApiOperation(value = "Get user accounts", nickname = "getUserAccountsByUserId", notes = "Calling this allows you to fetch all the Accounts by a user", response = Account.class, responseContainer = "List", authorizations = {
+    @ApiOperation(value = "Get user accounts", nickname = "getUserAccountsByUserId", notes = "Calling this allows you to fetch all the Accounts by a userId", response = Account.class, responseContainer = "List", authorizations = {
         @Authorization(value = "ApiKeyAuth")    }, tags={ "Accounts", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "list of accounts", response = Account.class, responseContainer = "List"),
@@ -88,28 +91,27 @@ public interface UsersApi {
 );
 
 
-    @ApiOperation(value = "gets a user from a given ID", nickname = "getUserById", notes = "Calling this allows you to fetch a user from a given ID", response = User.class, responseContainer = "List", authorizations = {
+    @ApiOperation(value = "gets a user from a given ID", nickname = "getUserById", notes = "Calling this allows you to fetch a user from a given ID", response = User.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")    }, tags={ "Users", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Users", response = User.class, responseContainer = "List"),
+        @ApiResponse(code = 200, message = "requested user", response = User.class),
         @ApiResponse(code = 400, message = "bad request", response = String.class),
         @ApiResponse(code = 401, message = "API key is missing or invalid"),
         @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
     @RequestMapping(value = "/Users/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<User>> getUserById(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Integer id
+    ResponseEntity<User> getUserById(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Integer id
 );
 
 
-    @ApiOperation(value = "Login", nickname = "login", notes = "Get api token from user login request", authorizations = {
-        @Authorization(value = "ApiKeyAuth")    }, tags={ "Users", })
+    @ApiOperation(value = "Login", nickname = "login", notes = "Get api token from user login request", tags={ "Users", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Sucessfully logged in"),
         @ApiResponse(code = 400, message = "bad request", response = String.class),
         @ApiResponse(code = 401, message = "API key is missing or invalid"),
         @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
-    @RequestMapping(value = "/Users/login",
+    @RequestMapping(value = "/Users/Login",
         produces = { "application/json" }, 
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.POST)
@@ -118,25 +120,25 @@ public interface UsersApi {
 );
 
 
-    @ApiOperation(value = "register a new user", nickname = "regiserUser", notes = "Calling this allows you to fetch all the Accounts by a user", authorizations = {
+    @ApiOperation(value = "toggle the users' active boolean", nickname = "toggleUserActive", notes = "Calling this allows you to togle the given users' active boolean", authorizations = {
         @Authorization(value = "ApiKeyAuth")    }, tags={ "Users", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "registerd user"),
+        @ApiResponse(code = 200, message = "user boolean updated"),
         @ApiResponse(code = 400, message = "bad request", response = String.class),
         @ApiResponse(code = 401, message = "API key is missing or invalid"),
         @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
     @RequestMapping(value = "/Users",
         produces = { "application/json" }, 
         consumes = { "application/json" },
-        method = RequestMethod.POST)
-    ResponseEntity<Void> regiserUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
+        method = RequestMethod.PATCH)
+    ResponseEntity<Void> toggleUserActive(@ApiParam(value = ""  )  @Valid @RequestBody Body body
 );
 
 
-    @ApiOperation(value = "updates the user", nickname = "updateUser", notes = "Calling this allows you to fetch all the Accounts by a user", authorizations = {
+    @ApiOperation(value = "updates the user", nickname = "updateUser", notes = "update user", authorizations = {
         @Authorization(value = "ApiKeyAuth")    }, tags={ "Users", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "registered user"),
+        @ApiResponse(code = 200, message = "updated user"),
         @ApiResponse(code = 400, message = "bad request", response = String.class),
         @ApiResponse(code = 401, message = "API key is missing or invalid"),
         @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })

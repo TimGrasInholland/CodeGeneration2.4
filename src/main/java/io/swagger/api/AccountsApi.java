@@ -6,6 +6,7 @@
 package io.swagger.api;
 
 import io.swagger.model.Account;
+import io.swagger.model.Transaction;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,14 +24,14 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-26T17:58:10.113Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
 @Api(value = "Accounts", description = "the Accounts API")
 public interface AccountsApi {
 
     @ApiOperation(value = "create a new account", nickname = "createAccount", notes = "Calling this allows you to create a new Accounts.", authorizations = {
         @Authorization(value = "ApiKeyAuth")    }, tags={ "Accounts", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "create new  user"),
+        @ApiResponse(code = 200, message = "create new account"),
         @ApiResponse(code = 400, message = "bad request", response = String.class),
         @ApiResponse(code = 401, message = "API key is missing or invalid"),
         @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
@@ -42,31 +43,17 @@ public interface AccountsApi {
 );
 
 
-    @ApiOperation(value = "get account by IBAN", nickname = "getAccountByIBAN", notes = "Calling this allows you to get the account by IBAN", response = Account.class, responseContainer = "List", authorizations = {
+    @ApiOperation(value = "get account by IBAN", nickname = "getAccountByIBAN", notes = "Calling this allows you to get the account by IBAN", response = Account.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")    }, tags={ "Accounts", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Accounts", response = Account.class, responseContainer = "List"),
+        @ApiResponse(code = 200, message = "Accounts", response = Account.class),
         @ApiResponse(code = 400, message = "bad request", response = String.class),
         @ApiResponse(code = 401, message = "API key is missing or invalid"),
         @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
-    @RequestMapping(value = "/Accounts/iban/{IBAN}",
+    @RequestMapping(value = "/Accounts/{iban}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Account>> getAccountByIBAN(@ApiParam(value = "the IBAN",required=true) @PathVariable("IBAN") String IBAN
-);
-
-
-    @ApiOperation(value = "get account by username", nickname = "getAccountByUsername", notes = "Calling this allows you to get the accounts by username", response = Account.class, responseContainer = "List", authorizations = {
-        @Authorization(value = "ApiKeyAuth")    }, tags={ "Accounts", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Accounts", response = Account.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "bad request", response = String.class),
-        @ApiResponse(code = 401, message = "API key is missing or invalid"),
-        @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
-    @RequestMapping(value = "/Accounts/username/{username}",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    ResponseEntity<List<Account>> getAccountByUsername(@ApiParam(value = "the username",required=true) @PathVariable("username") String username
+    ResponseEntity<Account> getAccountByIBAN(@ApiParam(value = "the IBAN",required=true) @PathVariable("iban") String iban
 );
 
 
@@ -81,6 +68,22 @@ public interface AccountsApi {
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<List<Account>> getAllAccounts(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
+,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
+);
+
+
+    @ApiOperation(value = "gets all transactions from the given accountId", nickname = "getTransactionsFromAccountId", notes = "Calling this allows you to get all transactions from an account.", response = Transaction.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "ApiKeyAuth")    }, tags={ "Transactions", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Transactions", response = Transaction.class, responseContainer = "List"),
+        @ApiResponse(code = 400, message = "bad request", response = String.class),
+        @ApiResponse(code = 401, message = "API key is missing or invalid"),
+        @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
+    @RequestMapping(value = "/Accounts/{id}/Transactions",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<List<Transaction>> getTransactionsFromAccountId(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Integer id
+,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
 ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
 );
 

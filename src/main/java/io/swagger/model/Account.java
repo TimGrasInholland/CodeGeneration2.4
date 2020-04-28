@@ -1,40 +1,24 @@
 package io.swagger.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModelProperty;
-import org.springframework.validation.annotation.Validated;
-
-import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.model.AccountBalance;
+import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 /**
  * Account
  */
 @Validated
-@Entity
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-26T17:58:10.113Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
 public class Account   {
-
-  public Account() {
-  }
-
-  public Account(Integer userId, TypeEnum type, CurrencyEnum currency, AccountBalance balance, String iban){
-    this.userId = userId;
-    this.type = type;
-    this.currency = currency;
-    this.balance = balance;
-    this.iban = iban;
-  }
-
-  @SequenceGenerator(name = "account_seq", initialValue = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
-  @Id
   @JsonProperty("id")
-  private Integer id = null;
+  private Long id = null;
 
   @JsonProperty("userId")
   private Integer userId = null;
@@ -44,7 +28,7 @@ public class Account   {
    */
   public enum TypeEnum {
     SAVINGS("Savings"),
-
+    
     CURRENT("Current");
 
     private String value;
@@ -104,13 +88,15 @@ public class Account   {
   private CurrencyEnum currency = null;
 
   @JsonProperty("balance")
-  @OneToOne(cascade = CascadeType.ALL)
   private AccountBalance balance = null;
+
+  @JsonProperty("active")
+  private Boolean active = null;
 
   @JsonProperty("iban")
   private String iban = null;
 
-  public Account id(Integer id) {
+  public Account id(Long id) {
     this.id = id;
     return this;
   }
@@ -118,15 +104,14 @@ public class Account   {
   /**
    * Get id
    * @return id
-   **/
-  @ApiModelProperty(example = "1", required = true, value = "")
-  @NotNull
-
-  public Integer getId() {
+  **/
+  @ApiModelProperty(example = "10000000001", value = "")
+  
+    public Long getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -138,11 +123,11 @@ public class Account   {
   /**
    * Get userId
    * @return userId
-   **/
+  **/
   @ApiModelProperty(example = "1", required = true, value = "")
-  @NotNull
+      @NotNull
 
-  public Integer getUserId() {
+    public Integer getUserId() {
     return userId;
   }
 
@@ -158,11 +143,11 @@ public class Account   {
   /**
    * Get type
    * @return type
-   **/
+  **/
   @ApiModelProperty(example = "Savings", required = true, value = "")
-  @NotNull
+      @NotNull
 
-  public TypeEnum getType() {
+    public TypeEnum getType() {
     return type;
   }
 
@@ -178,11 +163,11 @@ public class Account   {
   /**
    * Get currency
    * @return currency
-   **/
+  **/
   @ApiModelProperty(example = "EUR", required = true, value = "")
-  @NotNull
+      @NotNull
 
-  public CurrencyEnum getCurrency() {
+    public CurrencyEnum getCurrency() {
     return currency;
   }
 
@@ -198,17 +183,36 @@ public class Account   {
   /**
    * Get balance
    * @return balance
-   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-  public AccountBalance getBalance() {
+  **/
+  @ApiModelProperty(value = "")
+  
+    @Valid
+    public AccountBalance getBalance() {
     return balance;
   }
 
   public void setBalance(AccountBalance balance) {
     this.balance = balance;
+  }
+
+  public Account active(Boolean active) {
+    this.active = active;
+    return this;
+  }
+
+  /**
+   * Get active
+   * @return active
+  **/
+  @ApiModelProperty(example = "true", required = true, value = "")
+      @NotNull
+
+    public Boolean isActive() {
+    return active;
+  }
+
+  public void setActive(Boolean active) {
+    this.active = active;
   }
 
   public Account iban(String iban) {
@@ -219,11 +223,10 @@ public class Account   {
   /**
    * Get iban
    * @return iban
-   **/
-  @ApiModelProperty(example = "NLxxINHO0xxxxxxxxx", required = true, value = "")
-  @NotNull
-
-  public String getIban() {
+  **/
+  @ApiModelProperty(example = "NLxxINHO0xxxxxxxxx", value = "")
+  
+    public String getIban() {
     return iban;
   }
 
@@ -242,28 +245,30 @@ public class Account   {
     }
     Account account = (Account) o;
     return Objects.equals(this.id, account.id) &&
-            Objects.equals(this.userId, account.userId) &&
-            Objects.equals(this.type, account.type) &&
-            Objects.equals(this.currency, account.currency) &&
-            Objects.equals(this.balance, account.balance) &&
-            Objects.equals(this.iban, account.iban);
+        Objects.equals(this.userId, account.userId) &&
+        Objects.equals(this.type, account.type) &&
+        Objects.equals(this.currency, account.currency) &&
+        Objects.equals(this.balance, account.balance) &&
+        Objects.equals(this.active, account.active) &&
+        Objects.equals(this.iban, account.iban);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, userId, type, currency, balance, iban);
+    return Objects.hash(id, userId, type, currency, balance, active, iban);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Account {\n");
-
+    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
     sb.append("    balance: ").append(toIndentedString(balance)).append("\n");
+    sb.append("    active: ").append(toIndentedString(active)).append("\n");
     sb.append("    iban: ").append(toIndentedString(iban)).append("\n");
     sb.append("}");
     return sb.toString();

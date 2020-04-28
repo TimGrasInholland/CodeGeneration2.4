@@ -15,10 +15,10 @@ import javax.validation.constraints.*;
  * User
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-26T17:58:10.113Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
 public class User   {
   @JsonProperty("id")
-  private Integer id = null;
+  private Long id = null;
 
   @JsonProperty("username")
   private String username = null;
@@ -86,7 +86,10 @@ public class User   {
   @JsonProperty("type")
   private TypeEnum type = null;
 
-  public User id(Integer id) {
+  @JsonProperty("active")
+  private Boolean active = null;
+
+  public User id(Long id) {
     this.id = id;
     return this;
   }
@@ -95,14 +98,13 @@ public class User   {
    * Get id
    * @return id
   **/
-  @ApiModelProperty(example = "1", required = true, value = "")
-      @NotNull
-
-    public Integer getId() {
+  @ApiModelProperty(example = "10000000001", value = "")
+  
+    public Long getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -345,6 +347,26 @@ public class User   {
     this.type = type;
   }
 
+  public User active(Boolean active) {
+    this.active = active;
+    return this;
+  }
+
+  /**
+   * Get active
+   * @return active
+  **/
+  @ApiModelProperty(example = "true", required = true, value = "")
+      @NotNull
+
+    public Boolean isActive() {
+    return active;
+  }
+
+  public void setActive(Boolean active) {
+    this.active = active;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -367,12 +389,13 @@ public class User   {
         Objects.equals(this.postalcode, user.postalcode) &&
         Objects.equals(this.city, user.city) &&
         Objects.equals(this.phoneNumber, user.phoneNumber) &&
-        Objects.equals(this.type, user.type);
+        Objects.equals(this.type, user.type) &&
+        Objects.equals(this.active, user.active);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, username, password, firstName, prefix, lastName, email, birthdate, address, postalcode, city, phoneNumber, type);
+    return Objects.hash(id, username, password, firstName, prefix, lastName, email, birthdate, address, postalcode, city, phoneNumber, type, active);
   }
 
   @Override
@@ -393,6 +416,7 @@ public class User   {
     sb.append("    city: ").append(toIndentedString(city)).append("\n");
     sb.append("    phoneNumber: ").append(toIndentedString(phoneNumber)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    active: ").append(toIndentedString(active)).append("\n");
     sb.append("}");
     return sb.toString();
   }

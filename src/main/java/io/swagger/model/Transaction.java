@@ -8,8 +8,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
-
-import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -17,27 +15,10 @@ import javax.validation.constraints.*;
  * Transaction
  */
 @Validated
-@Entity
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-26T17:58:10.113Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
 public class Transaction   {
-
-  public Transaction() {}
-
-  public Transaction(OffsetDateTime timestamp, String accountFrom, String accountTo, double amount, String description, int userPerforming, TransactionTypeEnum transactionType) {
-    this.timestamp = timestamp;
-    this.accountFrom = accountFrom;
-    this.accountTo = accountTo;
-    this.amount = amount;
-    this.description = description;
-    this.userPerforming = userPerforming;
-    this.transactionType = transactionType;
-  }
-
-  @SequenceGenerator(name = "transaction_seq", initialValue = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_seq")
-  @Id
   @JsonProperty("id")
-  private Integer id = null;
+  private Long id = null;
 
   @JsonProperty("timestamp")
   private OffsetDateTime timestamp = null;
@@ -54,22 +35,18 @@ public class Transaction   {
   @JsonProperty("description")
   private String description = null;
 
-  @JsonProperty("userPerforming")
-  private Integer userPerforming = null;
+  @JsonProperty("userPerformingId")
+  private Integer userPerformingId = null;
 
   /**
    * Gets or Sets transactionType
    */
   public enum TransactionTypeEnum {
     DEPOSIT("Deposit"),
-
+    
     WITHDRAWAL("Withdrawal"),
-
-    PAYMENT("Payment"),
-
-    ATMDEPOSIT("AtmDeposit"),
-
-    ATMWITHDRAWAL("AtmWithdrawal");
+    
+    PAYMENT("Payment");
 
     private String value;
 
@@ -96,7 +73,7 @@ public class Transaction   {
   @JsonProperty("transactionType")
   private TransactionTypeEnum transactionType = null;
 
-  public Transaction id(Integer id) {
+  public Transaction id(Long id) {
     this.id = id;
     return this;
   }
@@ -105,14 +82,13 @@ public class Transaction   {
    * Get id
    * @return id
   **/
-  @ApiModelProperty(example = "1", required = true, value = "")
-      @NotNull
-
-    public Integer getId() {
+  @ApiModelProperty(example = "10000000001", value = "")
+  
+    public Long getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -146,9 +122,8 @@ public class Transaction   {
    * Get accountFrom
    * @return accountFrom
   **/
-  @ApiModelProperty(example = "NL01INHO0000000001", required = true, value = "")
-      @NotNull
-
+  @ApiModelProperty(example = "NL01INHO0000000001", value = "")
+  
     public String getAccountFrom() {
     return accountFrom;
   }
@@ -166,9 +141,8 @@ public class Transaction   {
    * Get accountTo
    * @return accountTo
   **/
-  @ApiModelProperty(example = "NL01INHO0000000001", required = true, value = "")
-      @NotNull
-
+  @ApiModelProperty(example = "NL01INHO0000000001", value = "")
+  
     public String getAccountTo() {
     return accountTo;
   }
@@ -207,7 +181,7 @@ public class Transaction   {
    * @return description
   **/
   @ApiModelProperty(example = "Money for your boat", value = "")
-
+  
     public String getDescription() {
     return description;
   }
@@ -216,24 +190,24 @@ public class Transaction   {
     this.description = description;
   }
 
-  public Transaction userPerforming(Integer userPerforming) {
-    this.userPerforming = userPerforming;
+  public Transaction userPerformingId(Integer userPerformingId) {
+    this.userPerformingId = userPerformingId;
     return this;
   }
 
   /**
-   * Get userPerforming
-   * @return userPerforming
+   * Get userPerformingId
+   * @return userPerformingId
   **/
   @ApiModelProperty(example = "1", required = true, value = "")
       @NotNull
 
-    public Integer getUserPerforming() {
-    return userPerforming;
+    public Integer getUserPerformingId() {
+    return userPerformingId;
   }
 
-  public void setUserPerforming(Integer userPerforming) {
-    this.userPerforming = userPerforming;
+  public void setUserPerformingId(Integer userPerformingId) {
+    this.userPerformingId = userPerformingId;
   }
 
   public Transaction transactionType(TransactionTypeEnum transactionType) {
@@ -272,27 +246,27 @@ public class Transaction   {
         Objects.equals(this.accountTo, transaction.accountTo) &&
         Objects.equals(this.amount, transaction.amount) &&
         Objects.equals(this.description, transaction.description) &&
-        Objects.equals(this.userPerforming, transaction.userPerforming) &&
+        Objects.equals(this.userPerformingId, transaction.userPerformingId) &&
         Objects.equals(this.transactionType, transaction.transactionType);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, timestamp, accountFrom, accountTo, amount, description, userPerforming, transactionType);
+    return Objects.hash(id, timestamp, accountFrom, accountTo, amount, description, userPerformingId, transactionType);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Transaction {\n");
-
+    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
     sb.append("    accountFrom: ").append(toIndentedString(accountFrom)).append("\n");
     sb.append("    accountTo: ").append(toIndentedString(accountTo)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
-    sb.append("    userPerforming: ").append(toIndentedString(userPerforming)).append("\n");
+    sb.append("    userPerformingId: ").append(toIndentedString(userPerformingId)).append("\n");
     sb.append("    transactionType: ").append(toIndentedString(transactionType)).append("\n");
     sb.append("}");
     return sb.toString();
