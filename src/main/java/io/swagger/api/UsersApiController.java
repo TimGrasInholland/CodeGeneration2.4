@@ -42,9 +42,23 @@ public class UsersApiController implements UsersApi {
         this.request = request;
     }
 
-    public ResponseEntity<Void> createUser(@ApiParam(value = ""  )  @Valid @RequestBody User body) {
+    public ResponseEntity<String> createUser(@ApiParam(value = ""  )  @Valid @RequestBody User body) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        if (accept != null && accept.contains("application/json") && body != null) {
+            List<User> users = service.getAllUsers();
+            if (users.stream().anyMatch((user) -> user.getUsername().equals(body.getUsername()))) {
+                // maybe extra info why not correct
+                return ResponseEntity.status(400).body("This username already exist");
+            }
+            if(body.getId() != null) {
+                return ResponseEntity.status(400).body("No id must be given");
+            }else
+            {
+                service.createUser(body);
+                return ResponseEntity.status(HttpStatus.CREATED).body("User has been created");
+            }
+        }
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body("Not implementen");
     }
 
 
@@ -55,14 +69,8 @@ public class UsersApiController implements UsersApi {
 ) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<List<User>>(objectMapper.readValue("[ {\n  \"lastName\" : \"Tol\",\n  \"birthdate\" : \"2000-01-23\",\n  \"address\" : \"Fryslandlaan 12\",\n  \"city\" : \"Maaskantje\",\n  \"prefix\" : \"van\",\n  \"active\" : true,\n  \"type\" : \"Customer\",\n  \"firstName\" : \"Thijs\",\n  \"password\" : \"Welcome0!\",\n  \"phoneNumber\" : \"0612345678\",\n  \"postalcode\" : \"1902DR\",\n  \"id\" : 10000000001,\n  \"email\" : \"ThijsVanTol@gmail.com\",\n  \"username\" : \"thijs\"\n}, {\n  \"lastName\" : \"Tol\",\n  \"birthdate\" : \"2000-01-23\",\n  \"address\" : \"Fryslandlaan 12\",\n  \"city\" : \"Maaskantje\",\n  \"prefix\" : \"van\",\n  \"active\" : true,\n  \"type\" : \"Customer\",\n  \"firstName\" : \"Thijs\",\n  \"password\" : \"Welcome0!\",\n  \"phoneNumber\" : \"0612345678\",\n  \"postalcode\" : \"1902DR\",\n  \"id\" : 10000000001,\n  \"email\" : \"ThijsVanTol@gmail.com\",\n  \"username\" : \"thijs\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<List<User>>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            return ResponseEntity.status(200).body(service.getAllUsers());
         }
-
         return new ResponseEntity<List<User>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
@@ -93,9 +101,27 @@ public class UsersApiController implements UsersApi {
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Void> updateUser(@ApiParam(value = ""  )  @Valid @RequestBody User body) {
+    public ResponseEntity<String> updateUser(@ApiParam(value = ""  )  @Valid @RequestBody User body) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+            if (accept != null && accept.contains("application/json")) {
+                if(body != null && body.getId() != null){
+                    List<User> users = service.getAllUsers();
+                    if(users.stream().anyMatch((user) -> user.getId().equals(body.getId()))){
+                        if(!users.stream().anyMatch((user) -> user.getUsername().equals(body.getUsername()))){
+                            service.updateUser(body);
+                            return ResponseEntity.status(HttpStatus.CREATED).body("User has been Updated");
+                        }
+                        //when username exits and is own id
+                        if(users.stream().filter((user) -> user.getUsername().equals(body.getUsername())).findFirst().get().getId().equals(body.getId())){
+                            service.updateUser(body);
+                            return ResponseEntity.status(HttpStatus.CREATED).body("User has been Updated");
+                        }
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already in use");
+                    }
+                }
+                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body("No id was given");
+            }
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body("No accept was given");
     }
 
 }

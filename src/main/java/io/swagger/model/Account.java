@@ -34,7 +34,7 @@ public class Account   {
   }
 
   @JsonProperty("id")
-  @SequenceGenerator(name = "account_seq", initialValue = 100001)
+  @SequenceGenerator(name = "account_seq", sequenceName = "account_seq", initialValue = 1, allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
   @Id
   private Long id = null;
