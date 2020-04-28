@@ -2,39 +2,57 @@ package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
 
 /**
- * Body
+ * Body1
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
-public class Body   {
-  @JsonProperty("id")
-  private Integer id = null;
+public class Body {
+  @JsonProperty("username")
+  private String username = null;
 
-  public Body id(Integer id) {
-    this.id = id;
+  @JsonProperty("password")
+  private String password = null;
+
+  public Body username(String username) {
+    this.username = username;
     return this;
   }
 
   /**
-   * Get id
-   * @return id
+   * Get username
+   * @return username
   **/
   @ApiModelProperty(value = "")
   
-    public Integer getId() {
-    return id;
+    public String getUsername() {
+    return username;
   }
 
-  public void setId(Integer id) {
-    this.id = id;
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  public Body password(String password) {
+    this.password = password;
+    return this;
+  }
+
+  /**
+   * Get password
+   * @return password
+  **/
+  @ApiModelProperty(value = "")
+  
+    public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
   }
 
 
@@ -47,20 +65,22 @@ public class Body   {
       return false;
     }
     Body body = (Body) o;
-    return Objects.equals(this.id, body.id);
+    return Objects.equals(this.username, body.username) &&
+        Objects.equals(this.password, body.password);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id);
+    return Objects.hash(username, password);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Body {\n");
+    sb.append("class Body1 {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    username: ").append(toIndentedString(username)).append("\n");
+    sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("}");
     return sb.toString();
   }
