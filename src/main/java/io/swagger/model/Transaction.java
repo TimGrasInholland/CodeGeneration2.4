@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
+
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -15,8 +17,26 @@ import javax.validation.constraints.*;
  * Transaction
  */
 @Validated
+@Entity
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
 public class Transaction   {
+
+  public Transaction() {
+  }
+
+  public Transaction(OffsetDateTime timestamp, String accountFrom, String accountTo, Double amount, String description, Long userPerformingId, TransactionTypeEnum transactionType) {
+    this.timestamp = timestamp;
+    this.accountFrom = accountFrom;
+    this.accountTo = accountTo;
+    this.amount = amount;
+    this.description = description;
+    this.userPerformingId = userPerformingId;
+    this.transactionType = transactionType;
+  }
+
+  @SequenceGenerator(name = "transaction_seq", initialValue = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_seq")
+  @Id
   @JsonProperty("id")
   private Long id = null;
 
@@ -36,7 +56,7 @@ public class Transaction   {
   private String description = null;
 
   @JsonProperty("userPerformingId")
-  private Integer userPerformingId = null;
+  private Long userPerformingId = null;
 
   /**
    * Gets or Sets transactionType
@@ -190,7 +210,7 @@ public class Transaction   {
     this.description = description;
   }
 
-  public Transaction userPerformingId(Integer userPerformingId) {
+  public Transaction userPerformingId(Long userPerformingId) {
     this.userPerformingId = userPerformingId;
     return this;
   }
@@ -202,11 +222,11 @@ public class Transaction   {
   @ApiModelProperty(example = "1", required = true, value = "")
       @NotNull
 
-    public Integer getUserPerformingId() {
+    public Long getUserPerformingId() {
     return userPerformingId;
   }
 
-  public void setUserPerformingId(Integer userPerformingId) {
+  public void setUserPerformingId(Long userPerformingId) {
     this.userPerformingId = userPerformingId;
   }
 

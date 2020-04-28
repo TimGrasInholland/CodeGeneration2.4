@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
+
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -13,13 +15,27 @@ import javax.validation.constraints.*;
  * AccountBalance
  */
 @Validated
+@Entity
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
 public class AccountBalance   {
+
+  public AccountBalance() {
+  }
+
+  public AccountBalance(Long accountId, Double balance) {
+    this.accountId = accountId;
+    this.balance = balance;
+  }
+
+
+  @Id
+  @SequenceGenerator(name = "balance_seq", initialValue = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "balance_seq")
   @JsonProperty("id")
   private Long id = null;
 
   @JsonProperty("accountId")
-  private Integer accountId = null;
+  private Long accountId = null;
 
   @JsonProperty("balance")
   private Double balance = null;
@@ -43,7 +59,7 @@ public class AccountBalance   {
     this.id = id;
   }
 
-  public AccountBalance accountId(Integer accountId) {
+  public AccountBalance accountId(Long accountId) {
     this.accountId = accountId;
     return this;
   }
@@ -54,11 +70,11 @@ public class AccountBalance   {
   **/
   @ApiModelProperty(example = "1", value = "")
   
-    public Integer getAccountId() {
+    public Long getAccountId() {
     return accountId;
   }
 
-  public void setAccountId(Integer accountId) {
+  public void setAccountId(Long accountId) {
     this.accountId = accountId;
   }
 

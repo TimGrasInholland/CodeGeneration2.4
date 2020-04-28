@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.threeten.bp.LocalDate;
 import org.springframework.validation.annotation.Validated;
+
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -15,8 +17,32 @@ import javax.validation.constraints.*;
  * User
  */
 @Validated
+@Entity
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
 public class User   {
+
+  public User() {
+  }
+
+  public User(String username, String password, String firstName, String prefix, String lastName, String email, LocalDate birthdate, String address, String postalcode, String city, String phoneNumber, TypeEnum type, Boolean active) {
+    this.username = username;
+    this.password = password;
+    this.firstName = firstName;
+    this.prefix = prefix;
+    this.lastName = lastName;
+    this.email = email;
+    this.birthdate = birthdate;
+    this.address = address;
+    this.postalcode = postalcode;
+    this.city = city;
+    this.phoneNumber = phoneNumber;
+    this.type = type;
+    this.active = active;
+  }
+
+  @SequenceGenerator(name = "user_seq", initialValue = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+  @Id
   @JsonProperty("id")
   private Long id = null;
 
@@ -59,7 +85,9 @@ public class User   {
   public enum TypeEnum {
     CUSTOMER("Customer"),
     
-    EMPLOYEE("Employee");
+    EMPLOYEE("Employee"),
+
+    BANK("Bank");
 
     private String value;
 
@@ -216,10 +244,10 @@ public class User   {
    * Get email
    * @return email
   **/
-  @ApiModelProperty(example = "ThijsVanTol@gmail.com", required = true, value = "")
+  /*@ApiModelProperty(example = "ThijsVanTol@gmail.com", required = true, value = "")
       @NotNull
 
-  @Pattern(regexp="/^([\\w\\.%\\+\\-]+)@([\\w\\-]+\\.)+([\\w]{2,})$/i")   public String getEmail() {
+  @Pattern(regexp="/^([\\w\\.%\\+\\-]+)@([\\w\\-]+\\.)+([\\w]{2,})$/i")*/   public String getEmail() {
     return email;
   }
 
@@ -257,10 +285,10 @@ public class User   {
    * Get address
    * @return address
   **/
-  @ApiModelProperty(example = "Fryslandlaan 12", required = true, value = "")
+  /*@ApiModelProperty(example = "Fryslandlaan 12", required = true, value = "")
       @NotNull
 
-  @Pattern(regexp="/^([1-9][e][\\s])([a-zA-Z]+(([.][\\s])|([\\s]))?)+[1-9][0-9](([-][1-9][0-9]*)|([\\s]?[a-zA-Z]+))?$/i")   public String getAddress() {
+  @Pattern(regexp="/^([1-9][e][\\s])([a-zA-Z]+(([.][\\s])|([\\s]))?)+[1-9][0-9](([-][1-9][0-9]*)|([\\s]?[a-zA-Z]+))?$/i")*/   public String getAddress() {
     return address;
   }
 
@@ -277,9 +305,9 @@ public class User   {
    * Get postalcode
    * @return postalcode
   **/
-  @ApiModelProperty(example = "1902DR", value = "")
+  /*@ApiModelProperty(example = "1902DR", value = "")
   
-  @Pattern(regexp="/^[1-9][0-9]{3}[\\s]?[A-Za-z]{2}$/i")   public String getPostalcode() {
+  @Pattern(regexp="/^[1-9][0-9]{3}[\\s]?[A-Za-z]{2}$/i")*/   public String getPostalcode() {
     return postalcode;
   }
 

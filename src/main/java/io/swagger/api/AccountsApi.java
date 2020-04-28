@@ -50,7 +50,7 @@ public interface AccountsApi {
         @ApiResponse(code = 400, message = "bad request", response = String.class),
         @ApiResponse(code = 401, message = "API key is missing or invalid"),
         @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
-    @RequestMapping(value = "/Accounts/{iban}",
+    @RequestMapping(value = "/Accounts/iban/{iban}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<Account> getAccountByIBAN(@ApiParam(value = "the IBAN",required=true) @PathVariable("iban") String iban
