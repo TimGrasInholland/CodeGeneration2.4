@@ -10,31 +10,53 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Body
+ * Body1
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
-public class Body   {
-  @JsonProperty("id")
-  private Integer id = null;
+public class Body1   {
+  @JsonProperty("username")
+  private String username = null;
 
-  public Body id(Integer id) {
-    this.id = id;
+  @JsonProperty("password")
+  private String password = null;
+
+  public Body1 username(String username) {
+    this.username = username;
     return this;
   }
 
   /**
-   * Get id
-   * @return id
+   * Get username
+   * @return username
   **/
   @ApiModelProperty(value = "")
   
-    public Integer getId() {
-    return id;
+    public String getUsername() {
+    return username;
   }
 
-  public void setId(Integer id) {
-    this.id = id;
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  public Body1 password(String password) {
+    this.password = password;
+    return this;
+  }
+
+  /**
+   * Get password
+   * @return password
+  **/
+  @ApiModelProperty(value = "")
+  
+    public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
   }
 
 
@@ -46,21 +68,23 @@ public class Body   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Body body = (Body) o;
-    return Objects.equals(this.id, body.id);
+    Body1 body1 = (Body1) o;
+    return Objects.equals(this.username, body1.username) &&
+        Objects.equals(this.password, body1.password);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id);
+    return Objects.hash(username, password);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Body {\n");
+    sb.append("class Body1 {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    username: ").append(toIndentedString(username)).append("\n");
+    sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("}");
     return sb.toString();
   }
