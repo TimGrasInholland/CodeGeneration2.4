@@ -1,11 +1,14 @@
 package io.swagger.model;
 
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.annotations.DynamicUpdate;
 import org.threeten.bp.LocalDate;
 import org.springframework.validation.annotation.Validated;
 
@@ -19,6 +22,10 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-26T17:58:10.113Z[GMT]")
 @Entity
+@DynamicUpdate
+@org.hibernate.annotations.Entity(
+        dynamicUpdate = true
+)
 public class User   {
 
   public User() {
@@ -48,6 +55,8 @@ public class User   {
   @JsonProperty("username")
   private String username = null;
 
+  @Transient
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @JsonProperty("password")
   private String password = null;
 
@@ -160,7 +169,6 @@ public class User   {
    * @return password
   **/
   @ApiModelProperty(example = "Welcome0!", required = true, value = "")
-      @NotNull
 
     public String getPassword() {
     return password;
@@ -180,8 +188,6 @@ public class User   {
    * @return firstName
   **/
   @ApiModelProperty(example = "Thijs", required = true, value = "")
-      @NotNull
-
     public String getFirstName() {
     return firstName;
   }

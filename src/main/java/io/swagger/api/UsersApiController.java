@@ -28,6 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-26T17:58:10.113Z[GMT]")
 @Controller
 public class UsersApiController implements UsersApi {
@@ -138,10 +140,15 @@ public class UsersApiController implements UsersApi {
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body("Not implementen");
     }
 
-    public ResponseEntity<Void> updateUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
+    public ResponseEntity<String> updateUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
 ) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        if (accept != null && accept.contains("application/json") && body != null && body.getId() > 0 || body.getId() != null) {
+            List<User> users = service.getAllUsers();
+                service.updateUser(body);
+                return ResponseEntity.status(HttpStatus.CREATED).body("User has been created");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body("Not implementen");
     }
 
 }

@@ -144,7 +144,7 @@ public interface UsersApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<Void> updateUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
+    ResponseEntity<String> updateUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
 );
 
 }
