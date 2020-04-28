@@ -1,12 +1,11 @@
 package io.swagger.api;
 
+import org.threeten.bp.LocalDate;
 import io.swagger.model.Transaction;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
-import io.swagger.service.TransactionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-26T17:58:10.113Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
 @Controller
 public class TransactionsApiController implements TransactionsApi {
 
@@ -33,9 +32,6 @@ public class TransactionsApiController implements TransactionsApi {
     private final ObjectMapper objectMapper;
 
     private final HttpServletRequest request;
-
-    @Autowired
-    private TransactionService service;
 
     @org.springframework.beans.factory.annotation.Autowired
     public TransactionsApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -48,25 +44,19 @@ public class TransactionsApiController implements TransactionsApi {
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<List<Transaction>> getTransactionsFromAccountId(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("accountId") Integer accountId,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
+    public ResponseEntity<List<Transaction>> getAllTransactions(@ApiParam(value = "transactions to date") @Valid @RequestParam(value = "dateTo", required = false) LocalDate dateTo
+,@ApiParam(value = "transactions from date") @Valid @RequestParam(value = "dateFrom", required = false) LocalDate dateFrom
+,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
+,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
+) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
-            List<Transaction> transactions;
-            if ((transactions = service.getAllTransactionsByAccountId(accountId)).isEmpty()) {
-                // TODO: dit kan vast netter.... TransactionsApi..?
-                return new ResponseEntity<List<Transaction>>(HttpStatus.NOT_FOUND);
-            } else {
-                return ResponseEntity.status(200).body(transactions);
+            try {
+                return new ResponseEntity<List<Transaction>>(objectMapper.readValue("[ {\n  \"transactionType\" : \"Deposit\",\n  \"accountTo\" : \"NL01INHO0000000001\",\n  \"amount\" : 100,\n  \"userPerformingId\" : 1,\n  \"description\" : \"Money for your boat\",\n  \"id\" : 10000000001,\n  \"accountFrom\" : \"NL01INHO0000000001\",\n  \"timestamp\" : \"2020-04-21T17:32:28Z\"\n}, {\n  \"transactionType\" : \"Deposit\",\n  \"accountTo\" : \"NL01INHO0000000001\",\n  \"amount\" : 100,\n  \"userPerformingId\" : 1,\n  \"description\" : \"Money for your boat\",\n  \"id\" : 10000000001,\n  \"accountFrom\" : \"NL01INHO0000000001\",\n  \"timestamp\" : \"2020-04-21T17:32:28Z\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+            } catch (IOException e) {
+                log.error("Couldn't serialize response for content type application/json", e);
+                return new ResponseEntity<List<Transaction>>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        }
-        return new ResponseEntity<List<Transaction>>(HttpStatus.NOT_IMPLEMENTED);
-    }
-
-    public ResponseEntity<List<Transaction>> getAllTransactions(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
-        // TODO: limit and offset
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            return ResponseEntity.status(200).body(service.getAllTransactions());
         }
         return new ResponseEntity<List<Transaction>>(HttpStatus.NOT_IMPLEMENTED);
     }

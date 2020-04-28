@@ -2,19 +2,15 @@ package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
 
 /**
  * Body
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-26T17:58:10.113Z[GMT]")
-public class Body   {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
+public class Body {
   @JsonProperty("username")
   private String username = null;
 
@@ -81,7 +77,7 @@ public class Body   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Body {\n");
+    sb.append("class Body1 {\n");
     
     sb.append("    username: ").append(toIndentedString(username)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");

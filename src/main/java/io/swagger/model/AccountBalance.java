@@ -1,42 +1,46 @@
 package io.swagger.model;
 
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.Objects;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 /**
  * AccountBalance
  */
-@Entity
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-23T17:10:12.432Z[GMT]")
+@Entity
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
 public class AccountBalance   {
 
-  public AccountBalance(){
+  public AccountBalance() {
   }
 
-  public AccountBalance(Integer accountId, Double balance) {
+  public AccountBalance(Long accountId, Double balance) {
     this.accountId = accountId;
     this.balance = balance;
   }
+
 
   @Id
   @SequenceGenerator(name = "balance_seq", initialValue = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "balance_seq")
   @JsonProperty("id")
-  private Integer id = null;
+  private Long id = null;
 
   @JsonProperty("accountId")
-  private Integer accountId = null;
+  private Long accountId = null;
 
   @JsonProperty("balance")
   private Double balance = null;
 
-  public AccountBalance id(Integer id) {
+  public AccountBalance id(Long id) {
     this.id = id;
     return this;
   }
@@ -44,19 +48,18 @@ public class AccountBalance   {
   /**
    * Get id
    * @return id
-   **/
-  @ApiModelProperty(example = "1", required = true, value = "")
-  @NotNull
-
-  public Integer getId() {
+  **/
+  @ApiModelProperty(example = "10000000001", value = "")
+  
+    public Long getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
-  public AccountBalance accountId(Integer accountId) {
+  public AccountBalance accountId(Long accountId) {
     this.accountId = accountId;
     return this;
   }
@@ -64,15 +67,14 @@ public class AccountBalance   {
   /**
    * Get accountId
    * @return accountId
-   **/
-  @ApiModelProperty(example = "1", required = true, value = "")
-  @NotNull
-
-  public Integer getAccountId() {
+  **/
+  @ApiModelProperty(example = "1", value = "")
+  
+    public Long getAccountId() {
     return accountId;
   }
 
-  public void setAccountId(Integer accountId) {
+  public void setAccountId(Long accountId) {
     this.accountId = accountId;
   }
 
@@ -84,11 +86,10 @@ public class AccountBalance   {
   /**
    * Get balance
    * @return balance
-   **/
-  @ApiModelProperty(example = "250", required = true, value = "")
-  @NotNull
-
-  public Double getBalance() {
+  **/
+  @ApiModelProperty(example = "250", value = "")
+  
+    public Double getBalance() {
     return balance;
   }
 
@@ -107,8 +108,8 @@ public class AccountBalance   {
     }
     AccountBalance accountBalance = (AccountBalance) o;
     return Objects.equals(this.id, accountBalance.id) &&
-            Objects.equals(this.accountId, accountBalance.accountId) &&
-            Objects.equals(this.balance, accountBalance.balance);
+        Objects.equals(this.accountId, accountBalance.accountId) &&
+        Objects.equals(this.balance, accountBalance.balance);
   }
 
   @Override
@@ -120,7 +121,7 @@ public class AccountBalance   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AccountBalance {\n");
-
+    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    accountId: ").append(toIndentedString(accountId)).append("\n");
     sb.append("    balance: ").append(toIndentedString(balance)).append("\n");
