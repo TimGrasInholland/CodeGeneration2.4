@@ -79,8 +79,8 @@ public class UsersApiController implements UsersApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<User>(objectMapper.readValue("{\n  \"lastName\" : \"Tol\",\n  \"birthdate\" : \"2000-01-23\",\n  \"address\" : \"Fryslandlaan 12\",\n  \"city\" : \"Maaskantje\",\n  \"prefix\" : \"van\",\n  \"active\" : true,\n  \"type\" : \"Customer\",\n  \"firstName\" : \"Thijs\",\n  \"password\" : \"Welcome0!\",\n  \"phoneNumber\" : \"0612345678\",\n  \"postalcode\" : \"1902DR\",\n  \"id\" : 10000000001,\n  \"email\" : \"ThijsVanTol@gmail.com\",\n  \"username\" : \"thijs\"\n}", User.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
+                return ResponseEntity.status(200).body(service.getUserById(id));
+            } catch (IllegalArgumentException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
             }

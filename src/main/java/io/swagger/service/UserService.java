@@ -23,4 +23,8 @@ public class UserService {
 
     @Modifying
     public void updateUser(User user) {userRepository.save(user);}
+
+    public User getUserById(Long id) {
+        return userRepository.getUserByIdEquals(id);
+    }
 }
