@@ -24,12 +24,13 @@ public class Account   {
   public Account() {
   }
 
-  public Account(Long userId, TypeEnum type, CurrencyEnum currency, AccountBalance balance, String iban){
+  public Account(Long userId, TypeEnum type, CurrencyEnum currency, AccountBalance balance, String iban, Boolean active){
     this.userId = userId;
     this.type = type;
     this.currency = currency;
     this.balance = balance;
     this.iban = iban;
+    this.active = active;
   }
 
   @JsonProperty("id")
