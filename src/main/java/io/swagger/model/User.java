@@ -40,7 +40,8 @@ public class User   {
     this.active = active;
   }
 
-  @SequenceGenerator(name = "user_seq", initialValue = 1)
+  @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", initialValue = 1, allocationSize = 1)
+  //@SequenceGenerator(name = "user_seq", initialValue = 1, allocationSize = 1000)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
   @Id
   @JsonProperty("id")
