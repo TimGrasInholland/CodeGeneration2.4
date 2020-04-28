@@ -5,8 +5,6 @@ import io.swagger.dao.UserRepository;
 import io.swagger.model.User;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class UserService {
     private UserRepository userRepository;

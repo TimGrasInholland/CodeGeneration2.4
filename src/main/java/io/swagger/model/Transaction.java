@@ -34,7 +34,7 @@ public class Transaction   {
     this.transactionType = transactionType;
   }
 
-  @SequenceGenerator(name = "transaction_seq", sequenceName = "transaction_seq", initialValue = 1, allocationSize = 1)
+  @SequenceGenerator(name = "transaction_seq", initialValue = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_seq")
   @Id
   @JsonProperty("id")

@@ -35,7 +35,7 @@ public interface UsersApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<String> createUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
+    ResponseEntity<Void> createUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
 );
 
 
@@ -111,7 +111,7 @@ public interface UsersApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<String> updateUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
+    ResponseEntity<Void> updateUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
 );
 
 }
