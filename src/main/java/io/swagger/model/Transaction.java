@@ -16,6 +16,7 @@ import javax.validation.constraints.*;
 /**
  * Transaction
  */
+@SequenceGenerator(name = "transaction_seq", initialValue = 1,allocationSize = 1)
 @Validated
 @Entity
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-26T17:58:10.113Z[GMT]")
@@ -33,7 +34,7 @@ public class Transaction   {
     this.transactionType = transactionType;
   }
 
-  @SequenceGenerator(name = "transaction_seq", initialValue = 1)
+
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_seq")
   @Id
   @JsonProperty("id")

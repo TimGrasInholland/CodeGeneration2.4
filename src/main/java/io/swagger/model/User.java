@@ -19,6 +19,7 @@ import javax.validation.constraints.*;
 /**
  * User
  */
+@SequenceGenerator(name = "user_seq", initialValue = 1, allocationSize = 1)
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-26T17:58:10.113Z[GMT]")
 @Entity
@@ -46,7 +47,7 @@ public class User   {
     this.type = type;
   }
 
-  @SequenceGenerator(name = "user_seq", initialValue = 1)
+
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
   @Id
   @JsonProperty("id")

@@ -30,8 +30,8 @@ public class Account   {
     this.iban = iban;
   }
 
-  @SequenceGenerator(name = "account_seq", initialValue = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
+  @SequenceGenerator(name = "account_seq", initialValue = 1, allocationSize = 1)
   @Id
   @JsonProperty("id")
   private Integer id = null;
