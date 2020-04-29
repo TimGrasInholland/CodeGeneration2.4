@@ -10,6 +10,8 @@ import io.swagger.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -67,9 +69,19 @@ public class UsersApiController implements UsersApi {
 ,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
 ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
 ) {
+        if(limit == null || offset == null || limit == 0 || offset == 0){
+            return ResponseEntity.status(200).body(service.getAllUsers());
+        }
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
-            return ResponseEntity.status(200).body(service.getAllUsers());
+            Pageable pageable = new PageRequest(offset, limit);
+            if(lastname != null &&!lastname.isEmpty()){
+                return ResponseEntity.status(200).body(service.getAllUsersByLastname(lastname.toLowerCase(), pageable));
+            }
+            if(username != null && !username.isEmpty()){
+                return ResponseEntity.status(200).body(service.getAllUsersByUsername(username.toLowerCase(), pageable));
+            }
+            return ResponseEntity.status(200).body(service.getAllUsers(pageable));
         }
         return new ResponseEntity<List<User>>(HttpStatus.NOT_IMPLEMENTED);
     }
