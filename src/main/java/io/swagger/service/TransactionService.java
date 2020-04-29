@@ -5,6 +5,7 @@ import io.swagger.dao.TransactionRepository;
 import io.swagger.model.Account;
 import io.swagger.model.Transaction;
 import org.springframework.stereotype.Service;
+import org.threeten.bp.OffsetDateTime;
 
 import java.util.List;
 
@@ -23,5 +24,10 @@ public class TransactionService {
 
     public List<Transaction> getAllTransactionsByAccountId(int accountId) {
         return (List<Transaction>) transactionRepository.getTransactionsByAccountId(accountId);
+    }
+
+    public List<Transaction> getTransactionFilterDate(OffsetDateTime localDate, OffsetDateTime localDate2){
+        System.out.println(localDate);
+        return (List<Transaction>) transactionRepository.getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqual(localDate, localDate2);
     }
 }

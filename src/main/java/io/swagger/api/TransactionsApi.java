@@ -5,7 +5,8 @@
  */
 package io.swagger.api;
 
-import org.threeten.bp.LocalDate;
+//import org.threeten.bp.LocalDate;
+import java.time.LocalDate;
 import io.swagger.model.Transaction;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -53,8 +54,8 @@ public interface TransactionsApi {
     @RequestMapping(value = "/Transactions",
         produces = { "application/json" },
         method = RequestMethod.GET)
-    ResponseEntity<List<Transaction>> getAllTransactions(@ApiParam(value = "transactions to date") @Valid @RequestParam(value = "dateTo", required = false) LocalDate dateTo
-,@ApiParam(value = "transactions from date") @Valid @RequestParam(value = "dateFrom", required = false) LocalDate dateFrom
+    ResponseEntity<List<Transaction>> getAllTransactions(@ApiParam(value = "transactions to date") @Valid @RequestParam(value = "dateTo", required = false) String dateTo
+,@ApiParam(value = "transactions from date") @Valid @RequestParam(value = "dateFrom", required = false) String dateFrom
 ,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
 ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
 );
