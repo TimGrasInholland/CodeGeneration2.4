@@ -86,15 +86,10 @@ public class AccountsApiController implements AccountsApi {
 ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit, HttpServletRequest request) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
-            try {
-                if(request.getQueryString().contains("limit") && request.getQueryString().contains("offset") && limit > 0 && offset >= 0){
-                    return ResponseEntity.status(200).body(service.getAllAccountsWithQuery(offset, limit));
-                }
-                else{
-                    return new ResponseEntity<List<Account>>(HttpStatus.BAD_REQUEST);
-                }
+            if (limit != null && offset != null && limit > 0 && offset >= 0){
+                return ResponseEntity.status(200).body(service.getAllAccounts(offset, limit));
             }
-            catch (Exception e){
+            else{
                 return ResponseEntity.status(200).body(service.getAllAccounts());
             }
         }
@@ -105,12 +100,7 @@ public class AccountsApiController implements AccountsApi {
     public ResponseEntity<List<Account>> getUserAccountsByUserId(@Min(1)@ApiParam(value = "bad input parameter",required=true, allowableValues="") @PathVariable("id") Long id){
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
-            try {
-                return ResponseEntity.status(200).body(service.getAccountsByUserId(id));
-            } catch (Exception e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<List<Account>>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            return ResponseEntity.status(200).body(service.getAccountsByUserId(id));
         }
         return new ResponseEntity<List<Account>>(HttpStatus.NOT_IMPLEMENTED);
     }
