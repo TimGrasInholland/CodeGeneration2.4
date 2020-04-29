@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
     User getUserByIdEquals(Long id);
+
+    User getUserByUsernameEqualsAndPasswordEquals(String username, String password);
 }

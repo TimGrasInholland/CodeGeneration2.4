@@ -90,11 +90,25 @@ public class UsersApiController implements UsersApi {
     }
 
 
-    public ResponseEntity<Void> login(@ApiParam(value = "") @RequestParam(value="username", required=false)  String username
-,@ApiParam(value = "") @RequestParam(value="password", required=false)  String password) {
+    public ResponseEntity<String> login(@ApiParam(value = "") @RequestParam(value="username", required=false)  String username
+            ,@ApiParam(value = "") @RequestParam(value="password", required=false)  String password
+    ) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        if (accept != null && accept.contains("application/json")) {
+            try {
+                User user = service.login(username, password);
+                if (!(user == null)){
+                    return ResponseEntity.status(200).body("An auth key should be here or something");
+                } else{
+                    return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+                }
+            } catch (IllegalArgumentException e){
+                return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+            }
+        }
+        return new ResponseEntity<String>(HttpStatus.NOT_IMPLEMENTED);
     }
+
 
     public ResponseEntity<Void> toggleUserActive(@ApiParam(value = ""  )  @Valid @RequestBody Body body) {
         String accept = request.getHeader("Accept");
