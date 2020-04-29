@@ -86,4 +86,19 @@ public interface AccountsApi {
     ResponseEntity<List<Account>> getUserAccountsByUserId(@Min(1)@ApiParam(value = "bad input parameter",required=true, allowableValues="") @PathVariable("id") Long id
     );
 
+
+    @ApiOperation(value = "update the account", nickname = "updateAccount", notes = "update account", authorizations = {
+            @Authorization(value = "ApiKeyAuth")    }, tags={ "Accounts", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "delete account"),
+            @ApiResponse(code = 400, message = "bad request", response = String.class),
+            @ApiResponse(code = 401, message = "API key is missing or invalid"),
+            @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
+    @RequestMapping(value = "/Accounts",
+            produces = { "application/json" },
+            consumes = { "application/json" },
+            method = RequestMethod.PUT)
+    ResponseEntity<Void> updateAccount(@ApiParam(value = ""  )  @Valid @RequestBody Account body
+    );
+
 }

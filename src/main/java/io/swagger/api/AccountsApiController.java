@@ -108,6 +108,11 @@ public class AccountsApiController implements AccountsApi {
         return new ResponseEntity<List<Account>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
+    public ResponseEntity<Void> updateAccount(@ApiParam(value = ""  )  @Valid @RequestBody Account body) {
+        String accept = request.getHeader("Accept");
+        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
     private String generateIBAN(){
         Random rnd = new Random();
         String iban = "NL01INHO";
