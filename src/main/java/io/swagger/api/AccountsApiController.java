@@ -50,10 +50,18 @@ public class AccountsApiController implements AccountsApi {
     public ResponseEntity<Void> createAccount(@ApiParam(value = "") @Valid @RequestBody Account body) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
-            body.setBalance(new AccountBalance(body.getUserId(), 0.00));
-            body.setIban(generateIBAN());
-            service.createAccount(body);
-            return new ResponseEntity<Void>(HttpStatus.CREATED);
+            if(body.getId() == null){
+                if(body.isActive() == null){
+                    body.setActive(true);
+                }
+                body.setBalance(new AccountBalance(body.getUserId(), 0.00));
+                body.setIban(generateIBAN());
+                service.createAccount(body);
+                return new ResponseEntity<Void>(HttpStatus.CREATED);
+            }
+            else{
+                return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+            }
         }
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
@@ -79,7 +87,7 @@ public class AccountsApiController implements AccountsApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                if(request.getQueryString().contains("limit") && request.getQueryString().contains("offset")){
+                if(request.getQueryString().contains("limit") && request.getQueryString().contains("offset") && limit > 0 && offset >= 0){
                     return ResponseEntity.status(200).body(service.getAllAccountsWithQuery(offset, limit));
                 }
                 else{
@@ -96,10 +104,9 @@ public class AccountsApiController implements AccountsApi {
 
     public ResponseEntity<List<Account>> getUserAccountsByUserId(@Min(1)@ApiParam(value = "bad input parameter",required=true, allowableValues="") @PathVariable("id") Long id){
         String accept = request.getHeader("Accept");
-        List<Account> accounts = service.getAccountsByUserId(id);
-        if (accept != null && accept.contains("application/json") && !accounts.isEmpty()) {
+        if (accept != null && accept.contains("application/json")) {
             try {
-                return ResponseEntity.status(200).body(accounts);
+                return ResponseEntity.status(200).body(service.getAccountsByUserId(id));
             } catch (Exception e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<List<Account>>(HttpStatus.INTERNAL_SERVER_ERROR);
