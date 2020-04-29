@@ -6,22 +6,26 @@
 package io.swagger.api;
 
 import io.swagger.model.Account;
-import io.swagger.model.Body;
 import io.swagger.model.Transaction;
 import io.swagger.model.User;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.CookieValue;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
-
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
+import java.util.Map;
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-29T09:56:10.359Z[GMT]")
 @Api(value = "Users", description = "the Users API")
 public interface UsersApi {
 
@@ -35,7 +39,7 @@ public interface UsersApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<String> createUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
+    ResponseEntity<Void> createUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
 );
 
 
@@ -56,6 +60,36 @@ public interface UsersApi {
 );
 
 
+    @ApiOperation(value = "gets all transactions from the given userId", nickname = "getTransactionsFromUserId", notes = "Calling this allows you to get all transactions from a user.", response = Transaction.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "ApiKeyAuth")    }, tags={ "Transactions", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Transactions", response = Transaction.class, responseContainer = "List"),
+        @ApiResponse(code = 400, message = "bad request", response = String.class),
+        @ApiResponse(code = 401, message = "API key is missing or invalid"),
+        @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
+    @RequestMapping(value = "/Users/{id}/Transactions",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<List<Transaction>> getTransactionsFromUserId(@Min(1L)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Long id
+,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
+,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
+);
+
+
+    @ApiOperation(value = "Get user accounts", nickname = "getUserAccountsByUserId", notes = "Calling this allows you to fetch all the Accounts by a userId", response = Account.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "ApiKeyAuth")    }, tags={ "Accounts", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "list of accounts", response = Account.class, responseContainer = "List"),
+        @ApiResponse(code = 400, message = "bad request", response = String.class),
+        @ApiResponse(code = 401, message = "API key is missing or invalid"),
+        @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
+    @RequestMapping(value = "/Users/{id}/Accounts",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<List<Account>> getUserAccountsByUserId(@Min(1)@ApiParam(value = "bad input parameter",required=true, allowableValues="") @PathVariable("id") Integer id
+);
+
+
     @ApiOperation(value = "gets a user from a given ID", nickname = "getUserById", notes = "Calling this allows you to fetch a user from a given ID", response = User.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")    }, tags={ "Users", })
     @ApiResponses(value = { 
@@ -66,7 +100,7 @@ public interface UsersApi {
     @RequestMapping(value = "/Users/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<User> getUserById(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Long id
+    ResponseEntity<User> getUserById(@Min(1L)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Long id
 );
 
 
@@ -85,21 +119,6 @@ public interface UsersApi {
 );
 
 
-    @ApiOperation(value = "toggle the users' active boolean", nickname = "toggleUserActive", notes = "Calling this allows you to togle the given users' active boolean", authorizations = {
-        @Authorization(value = "ApiKeyAuth")    }, tags={ "Users", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "user boolean updated"),
-        @ApiResponse(code = 400, message = "bad request", response = String.class),
-        @ApiResponse(code = 401, message = "API key is missing or invalid"),
-        @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
-    @RequestMapping(value = "/Users",
-        produces = { "application/json" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.PATCH)
-    ResponseEntity<Void> toggleUserActive(@ApiParam(value = ""  )  @Valid @RequestBody Body body
-);
-
-
     @ApiOperation(value = "updates the user", nickname = "updateUser", notes = "update user", authorizations = {
         @Authorization(value = "ApiKeyAuth")    }, tags={ "Users", })
     @ApiResponses(value = { 
@@ -111,7 +130,7 @@ public interface UsersApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<String> updateUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
+    ResponseEntity<Void> updateUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
 );
 
 }

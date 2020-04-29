@@ -8,8 +8,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.AccountBalance;
 import org.springframework.validation.annotation.Validated;
-
-import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -17,26 +15,9 @@ import javax.validation.constraints.*;
  * Account
  */
 @Validated
-@Entity
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-29T09:56:10.359Z[GMT]")
 public class Account   {
-
-  public Account() {
-  }
-
-  public Account(Long userId, TypeEnum type, CurrencyEnum currency, AccountBalance balance, String iban, Boolean active){
-    this.userId = userId;
-    this.type = type;
-    this.currency = currency;
-    this.balance = balance;
-    this.iban = iban;
-    this.active = active;
-  }
-
   @JsonProperty("id")
-  @SequenceGenerator(name = "account_seq", sequenceName = "account_seq", initialValue = 1, allocationSize = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
-  @Id
   private Long id = null;
 
   @JsonProperty("userId")
@@ -106,7 +87,6 @@ public class Account   {
   @JsonProperty("currency")
   private CurrencyEnum currency = null;
 
-  @OneToOne(cascade = CascadeType.ALL)
   @JsonProperty("balance")
   private AccountBalance balance = null;
 
@@ -144,7 +124,7 @@ public class Account   {
    * Get userId
    * @return userId
   **/
-  @ApiModelProperty(example = "1", required = true, value = "")
+  @ApiModelProperty(example = "10000000002", required = true, value = "")
       @NotNull
 
     public Long getUserId() {

@@ -24,7 +24,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-29T09:56:10.359Z[GMT]")
 @Api(value = "Transactions", description = "the Transactions API")
 public interface TransactionsApi {
 
@@ -58,37 +58,5 @@ public interface TransactionsApi {
 ,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
 ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
 );
-
-
-    @ApiOperation(value = "gets all transactions from the given accountId", nickname = "getTransactionsFromAccountId", notes = "Calling this allows you to get all transactions from an account.", response = Transaction.class, responseContainer = "List", authorizations = {
-            @Authorization(value = "ApiKeyAuth")    }, tags={ "Transactions", })
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Transactions", response = Transaction.class, responseContainer = "List"),
-            @ApiResponse(code = 400, message = "bad request", response = String.class),
-            @ApiResponse(code = 401, message = "API key is missing or invalid"),
-            @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
-    @RequestMapping(value = "/Accounts/{id}/Transactions",
-            produces = { "application/json" },
-            method = RequestMethod.GET)
-    ResponseEntity<List<Transaction>> getTransactionsFromAccountId(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Long id
-,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
-,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
-    );
-
-
-    @ApiOperation(value = "gets all transactions from the given userId", nickname = "getTransactionsFromUserId", notes = "Calling this allows you to get all transactions from a user.", response = Transaction.class, responseContainer = "List", authorizations = {
-            @Authorization(value = "ApiKeyAuth")    }, tags={ "Transactions", })
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Transactions", response = Transaction.class, responseContainer = "List"),
-            @ApiResponse(code = 400, message = "bad request", response = String.class),
-            @ApiResponse(code = 401, message = "API key is missing or invalid"),
-            @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
-    @RequestMapping(value = "/Users/{id}/Transactions",
-            produces = { "application/json" },
-            method = RequestMethod.GET)
-    ResponseEntity<List<Transaction>> getTransactionsFromUserId(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Long id
-,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
-,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
-    );
 
 }
