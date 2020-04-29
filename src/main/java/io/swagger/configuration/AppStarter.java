@@ -30,16 +30,16 @@ public class AppStarter{
 
     @PostConstruct
     public void init(){
-        initUsers();
         initAccounts();
         initTransactions();
+        initUsers();
     }
 
     private void initAccounts() {
         List<Account> accounts = Arrays.asList(
-                new Account(1L, Account.TypeEnum.CURRENT, Account.CurrencyEnum.EUR, null, "NL01 INHO 0000 0000 01", true),
-                new Account(2L, Account.TypeEnum.SAVINGS, Account.CurrencyEnum.EUR, null, "NL43 INHO 0996 9476 94", true),
-                new Account(3L, Account.TypeEnum.CURRENT, Account.CurrencyEnum.EUR, null, "NL15 INHO 0666 9346 94", true)
+                new Account(1L, Account.TypeEnum.CURRENT, Account.CurrencyEnum.EUR, null, "NL01INHO0000000001", true),
+                new Account(2L, Account.TypeEnum.SAVINGS, Account.CurrencyEnum.EUR, null, "NL01INHO4996947694", true),
+                new Account(3L, Account.TypeEnum.CURRENT, Account.CurrencyEnum.EUR, null, "NL01INHO6666934694", true)
         );
 
         accounts.forEach(
