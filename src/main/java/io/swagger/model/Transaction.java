@@ -40,6 +40,10 @@ public class Transaction   {
   @JsonProperty("id")
   private Long id = null;
 
+  @ManyToOne
+  @JoinColumn(name="ID_ACCOUNT")
+  private Account account;
+
   @JsonProperty("timestamp")
   private OffsetDateTime timestamp = null;
 
