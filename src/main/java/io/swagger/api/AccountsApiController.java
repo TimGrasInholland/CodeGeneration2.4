@@ -86,6 +86,9 @@ public class AccountsApiController implements AccountsApi {
 ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit, HttpServletRequest request) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
+            if (limit != null && offset == null){
+                offset = 0;
+            }
             if (limit != null && offset != null && limit > 0 && offset >= 0){
                 return ResponseEntity.status(200).body(service.getAllAccounts(offset, limit));
             }
