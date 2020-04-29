@@ -77,7 +77,6 @@ public class AccountsApiController implements AccountsApi {
                 return new ResponseEntity<Account>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-
         return new ResponseEntity<Account>(HttpStatus.NOT_IMPLEMENTED);
     }
 
