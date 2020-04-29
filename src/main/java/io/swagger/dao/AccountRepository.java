@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AccountRepository extends CrudRepository<Account, Long> {
     public Iterable<Account> findAccountsByUserId(Long userId);
+
+    public Account findAccountByIbanEquals(String iban);
 }
