@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.CookieValue;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
@@ -68,7 +69,7 @@ public interface AccountsApi {
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<List<Account>> getAllAccounts(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
-,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
+,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit, HttpServletRequest request
 );
 
 
@@ -83,6 +84,21 @@ public interface AccountsApi {
             produces = { "application/json" },
             method = RequestMethod.GET)
     ResponseEntity<List<Account>> getUserAccountsByUserId(@Min(1)@ApiParam(value = "bad input parameter",required=true, allowableValues="") @PathVariable("id") Long id
+    );
+
+
+    @ApiOperation(value = "update the account", nickname = "updateAccount", notes = "update account", authorizations = {
+            @Authorization(value = "ApiKeyAuth")    }, tags={ "Accounts", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "delete account"),
+            @ApiResponse(code = 400, message = "bad request", response = String.class),
+            @ApiResponse(code = 401, message = "API key is missing or invalid"),
+            @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
+    @RequestMapping(value = "/Accounts",
+            produces = { "application/json" },
+            consumes = { "application/json" },
+            method = RequestMethod.PUT)
+    ResponseEntity<Void> updateAccount(@ApiParam(value = ""  )  @Valid @RequestBody Account body
     );
 
 }

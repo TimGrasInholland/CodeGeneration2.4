@@ -35,7 +35,7 @@ public interface UsersApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> createUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
+    ResponseEntity<String> createUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
 );
 
 
@@ -85,21 +85,6 @@ public interface UsersApi {
 );
 
 
-    @ApiOperation(value = "toggle the users' active boolean", nickname = "toggleUserActive", notes = "Calling this allows you to togle the given users' active boolean", authorizations = {
-        @Authorization(value = "ApiKeyAuth")    }, tags={ "Users", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "user boolean updated"),
-        @ApiResponse(code = 400, message = "bad request", response = String.class),
-        @ApiResponse(code = 401, message = "API key is missing or invalid"),
-        @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
-    @RequestMapping(value = "/Users",
-        produces = { "application/json" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.PATCH)
-    ResponseEntity<Void> toggleUserActive(@ApiParam(value = ""  )  @Valid @RequestBody Body body
-);
-
-
     @ApiOperation(value = "updates the user", nickname = "updateUser", notes = "update user", authorizations = {
         @Authorization(value = "ApiKeyAuth")    }, tags={ "Users", })
     @ApiResponses(value = { 
@@ -111,7 +96,7 @@ public interface UsersApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<Void> updateUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
+    ResponseEntity<String> updateUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
 );
 
 }
