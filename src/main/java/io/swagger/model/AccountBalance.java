@@ -29,7 +29,7 @@ public class AccountBalance   {
 
 
   @Id
-  @SequenceGenerator(name = "balance_seq", initialValue = 1)
+  @SequenceGenerator(name = "balance_seq", sequenceName = "balance_seq", initialValue = 1, allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "balance_seq")
   @JsonProperty("id")
   private Long id = null;

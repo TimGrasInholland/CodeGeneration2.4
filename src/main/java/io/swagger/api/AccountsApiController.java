@@ -5,6 +5,7 @@ import io.swagger.model.AccountBalance;
 import io.swagger.model.Transaction;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import io.swagger.model.User;
 import io.swagger.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,9 +109,26 @@ public class AccountsApiController implements AccountsApi {
         return new ResponseEntity<List<Account>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Void> updateAccount(@ApiParam(value = ""  )  @Valid @RequestBody Account body) {
+    public ResponseEntity<String> disableAccount(@ApiParam(value = ""  )  @Valid @RequestBody Account body) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        if (accept != null && accept.contains("application/json")) {
+            try {
+                List<Account> accounts = service.getAccountsByUserId(body.getId());
+                for (Account account : accounts) {
+                    if (account.getId().equals(body.getId())){
+                        // Make sure account is not changed but only set to inactive
+                        body = account;
+                        body.setActive(false);
+                        service.disableAccount(body);
+                        return ResponseEntity.status(200).body("Account disabeled succesfully");
+                    }
+                }
+            } catch (IllegalArgumentException e) {
+                log.error("Couldn't serialize response for content type application/json", e);
+                return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+        return new ResponseEntity<String>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     private String generateIBAN(){
