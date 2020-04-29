@@ -22,8 +22,8 @@ public class AccountService {
         return (List<Account>) accountRepository.findAll();
     }
 
-    public List<Account> getAllAccountsWithQuery(int offset, int limit){
-        Pageable pageable = new PageRequest(offset,limit);
+    public List<Account> getAllAccounts(int offset, int limit) {
+        Pageable pageable = new PageRequest(offset, limit);
         Page<Account> page = accountRepository.findAll(pageable);
         return page.getContent();
     }
@@ -32,11 +32,11 @@ public class AccountService {
         return (List<Account>) accountRepository.findAccountsByUserId(id);
     }
 
-    public void createAccount(Account account){
+    public void createAccount(Account account) {
         accountRepository.save(account);
     }
 
-    public Integer countAccountByIBAN(String iban){
+    public Integer countAccountByIBAN(String iban) {
         return accountRepository.countAccountByIbanEquals(iban);
     }
 }
