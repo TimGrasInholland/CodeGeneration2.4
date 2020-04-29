@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.threeten.bp.OffsetDateTime;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -30,16 +29,11 @@ public class TransactionService {
         return page.getContent();
     }
 
-    public List<Transaction> getAllTransactionsBetweenDates(LocalDate dateFrom, LocalDate dateTo) {
-        return (List<Transaction>) transactionRepository.findTransactionsByTimestampBetween(dateFrom, dateTo);
-    }
-
     public List<Transaction> getAllTransactionsByAccountId(long id) {
         return (List<Transaction>) transactionRepository.getTransactionsByAccountId(id);
     }
 
-    public List<Transaction> getTransactionFilterDate(OffsetDateTime localDate, OffsetDateTime localDate2){
-        System.out.println(localDate);
-        return (List<Transaction>) transactionRepository.getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqual(localDate, localDate2);
+    public List<Transaction> getTransactionFilterDate(OffsetDateTime dateFrom, OffsetDateTime dateTo){
+        return (List<Transaction>) transactionRepository.getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqual(dateFrom, dateTo);
     }
 }
