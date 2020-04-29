@@ -1,6 +1,7 @@
 package io.swagger.api;
 
 import io.swagger.model.Account;
+import io.swagger.model.AccountBalance;
 import io.swagger.model.Transaction;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
@@ -25,6 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
 @Controller
 public class AccountsApiController implements AccountsApi {
@@ -46,6 +49,12 @@ public class AccountsApiController implements AccountsApi {
 
     public ResponseEntity<Void> createAccount(@ApiParam(value = "") @Valid @RequestBody Account body) {
         String accept = request.getHeader("Accept");
+        if (accept != null && accept.contains("application/json")) {
+            body.setBalance(new AccountBalance(body.getUserId(), 0.00));
+            body.setIban(generateIBAN());
+            service.createAccount(body);
+            return new ResponseEntity<Void>(HttpStatus.CREATED);
+        }
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
@@ -66,14 +75,19 @@ public class AccountsApiController implements AccountsApi {
 
 
     public ResponseEntity<List<Account>> getAllAccounts(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
-,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
+,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit, HttpServletRequest request) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
+                if(request.getQueryString().contains("limit") && request.getQueryString().contains("offset")){
+                    return ResponseEntity.status(200).body(service.getAllAccountsWithQuery(offset, limit));
+                }
+                else{
+                    return new ResponseEntity<List<Account>>(HttpStatus.BAD_REQUEST);
+                }
+            }
+            catch (Exception e){
                 return ResponseEntity.status(200).body(service.getAllAccounts());
-            } catch (Exception e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<List<Account>>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
         return new ResponseEntity<List<Account>>(HttpStatus.NOT_IMPLEMENTED);
@@ -92,6 +106,25 @@ public class AccountsApiController implements AccountsApi {
             }
         }
         return new ResponseEntity<List<Account>>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+    public ResponseEntity<Void> updateAccount(@ApiParam(value = ""  )  @Valid @RequestBody Account body) {
+        String accept = request.getHeader("Accept");
+        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+    private String generateIBAN(){
+        Random rnd = new Random();
+        String iban = "NL01INHO";
+        for(int i = 0; i < 10; i++){
+            iban += rnd.nextInt(10);
+        }
+        if(service.countAccountByIBAN(iban) == 0){
+            return iban;
+        }
+        else{
+            return iban = generateIBAN();
+        }
     }
 
 }

@@ -109,12 +109,6 @@ public class UsersApiController implements UsersApi {
         return new ResponseEntity<String>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-
-    public ResponseEntity<Void> toggleUserActive(@ApiParam(value = ""  )  @Valid @RequestBody Body body) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
-    }
-
     public ResponseEntity<String> updateUser(@ApiParam(value = ""  )  @Valid @RequestBody User body) {
         String accept = request.getHeader("Accept");
             if (accept != null && accept.contains("application/json")) {
