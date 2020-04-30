@@ -43,7 +43,7 @@ public class TransactionsApiController implements TransactionsApi {
 
     public ResponseEntity<Void> createTransaction(@ApiParam(value = ""  )  @Valid @RequestBody Transaction body) {
         // TODO: regels check + waardes aanpassen
-        // REGELS:
+        // RULES:
         /*
             1.	One cannot directly transfer from a savings account to an account that is not of the same customer
             2.	One cannot directly transfer to a savings account from an account that is not from the same customer.
@@ -57,7 +57,17 @@ public class TransactionsApiController implements TransactionsApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             if (body.getId() == null) {
-
+                if (body.getTransactionType() == Transaction.TransactionTypeEnum.DEPOSIT || body.getTransactionType() == Transaction.TransactionTypeEnum.WITHDRAWAL) {
+                    Long userFromId = service.checkUserFromId(body.getAccountFrom());
+                    Long userToId = service.checkUserToId(body.getAccountTo());
+                    if (userFromId != userToId) { return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST); }
+                }
+                String ibanFrom = body.getAccountFrom();
+                if (service.getBalanceByIbanFrom(body.getAccountFrom()) - body.getAmount() < bankConfig.getAbsoluteLimit()) { return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST); }
+                if (service.getDailyTransactionsByUserPerforming(body.getUserPerformingId()) > bankConfig.getDayLimit()) { return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST); }
+                if (body.getAmount() > bankConfig.getTransactionLimit()) { return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST); }
+                // TRANSACTION ???
+                // create transaction... 
                 return new ResponseEntity<Void>(HttpStatus.CREATED);
             }
             else {

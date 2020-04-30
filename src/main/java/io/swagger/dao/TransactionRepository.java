@@ -12,5 +12,4 @@ public interface TransactionRepository extends PagingAndSortingRepository<Transa
     Iterable<Transaction> getTransactionsByAccountId(long accountId);
 
     Iterable<Transaction> getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqual(OffsetDateTime dateFrom, OffsetDateTime dateTo);
-
 }
