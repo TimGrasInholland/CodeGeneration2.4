@@ -80,7 +80,7 @@ public interface UsersApi {
         produces = { "application/json" }, 
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> login(@ApiParam(value = "") @RequestParam(value="username", required=false)  String username
+    ResponseEntity<String> login(@ApiParam(value = "") @RequestParam(value="username", required=false)  String username
 ,@ApiParam(value = "") @RequestParam(value="password", required=false)  String password
 );
 

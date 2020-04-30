@@ -2,9 +2,11 @@ package io.swagger.service;
 
 import io.swagger.dao.AccountRepository;
 import io.swagger.model.Account;
+import io.swagger.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,5 +40,10 @@ public class AccountService {
 
     public Integer countAccountByIBAN(String iban) {
         return accountRepository.countAccountByIbanEquals(iban);
+    }
+
+    @Modifying
+    public void disableAccount(Account account) {
+        accountRepository.save(account);
     }
 }
