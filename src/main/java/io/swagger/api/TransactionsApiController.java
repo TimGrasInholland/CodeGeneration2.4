@@ -1,6 +1,10 @@
 package io.swagger.api;
 
 import io.swagger.configuration.BankConfig;
+import io.swagger.dao.AccountRepository;
+import io.swagger.model.Account;
+import io.swagger.model.AccountBalance;
+import io.swagger.service.AccountService;
 import io.swagger.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import io.swagger.model.Transaction;
@@ -19,6 +23,8 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+
+import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import java.util.List;
 
@@ -35,6 +41,9 @@ public class TransactionsApiController implements TransactionsApi {
     @Autowired
     private TransactionService service;
 
+    @Autowired
+    private AccountService accountService;
+
     @org.springframework.beans.factory.annotation.Autowired
     public TransactionsApiController(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;
@@ -42,37 +51,45 @@ public class TransactionsApiController implements TransactionsApi {
     }
 
     public ResponseEntity<Void> createTransaction(@ApiParam(value = ""  )  @Valid @RequestBody Transaction body) {
-        // TODO: regels check + waardes aanpassen
-        // RULES:
+        // TODO: regels checken + CLEANUP
         /*
+           RULES:
             1.	One cannot directly transfer from a savings account to an account that is not of the same customer
             2.	One cannot directly transfer to a savings account from an account that is not from the same customer.
             3.	All money flows are done with transactions, depositing and withdrawing being special cases (why?)
-                - DIT BETEKENT: if (type == deposit || type == withdraw) { CHECK OF BIJDE DEZELFDE userId HEBBEN }
+                - DIT BETEKENT: if (type == deposit || type == withdraw) { CHECK OF BEIDE DEZELFDE userId HEBBEN }
             4. Balance cannot become lower than a predefined number, referred to as absolute limit
             5. Cumulative transactions per day cannot surpass a predefined number, referred to as day limit
             6. The maximum amount per transaction cannot be higher than a predefined number, referred to a transaction limit
          */
         BankConfig bankConfig = new BankConfig();
         String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            if (body.getId() == null) {
-                if (body.getTransactionType() == Transaction.TransactionTypeEnum.DEPOSIT || body.getTransactionType() == Transaction.TransactionTypeEnum.WITHDRAWAL) {
-                    Long userFromId = service.checkUserFromId(body.getAccountFrom());
-                    Long userToId = service.checkUserToId(body.getAccountTo());
-                    if (userFromId != userToId) { return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST); }
-                }
-                String ibanFrom = body.getAccountFrom();
-                if (service.getBalanceByIbanFrom(body.getAccountFrom()) - body.getAmount() < bankConfig.getAbsoluteLimit()) { return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST); }
-                if (service.getDailyTransactionsByUserPerforming(body.getUserPerformingId()) > bankConfig.getDayLimit()) { return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST); }
-                if (body.getAmount() > bankConfig.getTransactionLimit()) { return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST); }
-                // TRANSACTION ???
-                // create transaction... 
-                return new ResponseEntity<Void>(HttpStatus.CREATED);
+        if (accept != null && accept.contains("application/json") && body != null) {
+            if (body.getTransactionType() == Transaction.TransactionTypeEnum.DEPOSIT || body.getTransactionType() == Transaction.TransactionTypeEnum.WITHDRAWAL) {
+                Long userFromId = service.checkUserFromId(body.getAccountFrom()).getUserPerformingId();
+                Long userToId = service.checkUserToId(body.getAccountTo()).getUserPerformingId();
+                if (userFromId != userToId) { return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST); }
             }
-            else {
-                return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-            }
+            Account accountFrom = accountService.getAccountByIBAN(body.getAccountFrom());
+            Account accountTo = accountService.getAccountByIBAN(body.getAccountTo());
+
+            if (accountFrom.getCurrency() != accountTo.getCurrency()) { return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST); }
+
+            Double newAmountFrom = accountFrom.getBalance().getBalance() - body.getAmount();
+            Double newAmountTo = accountTo.getBalance().getBalance() + body.getAmount();
+
+            if (newAmountFrom < bankConfig.getAbsoluteLimit()) { return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST); }
+            LocalDate currentDate = LocalDate.now();
+            if (service.getDailyTransactionsByUserPerforming(body.getUserPerformingId(), OffsetDateTime.parse(currentDate + "T00:00:00.001+02:00"), OffsetDateTime.parse(currentDate + "T23:59:59.999+02:00")) > bankConfig.getDayLimit()) { return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST); }
+            if (body.getAmount() > bankConfig.getTransactionLimit()) { return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST); }
+
+            accountFrom.getBalance().setBalance(newAmountFrom);
+            accountTo.getBalance().setBalance(newAmountTo);
+
+            service.updateAccount(accountFrom);
+            service.updateAccount(accountTo);
+            service.createTransaction(new Transaction(OffsetDateTime.now(), body.getAccountFrom(), body.getAccountTo(), body.getAmount(), body.getDescription(), body.getUserPerformingId(), body.getTransactionType()));
+            return new ResponseEntity<Void>(HttpStatus.CREATED);
         }
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }

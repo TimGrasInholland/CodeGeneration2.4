@@ -7,6 +7,7 @@ import io.swagger.model.Transaction;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.threeten.bp.OffsetDateTime;
 
@@ -57,5 +58,26 @@ public class TransactionService {
         );
 
         return transactions;
+    }
+
+    public Transaction checkUserFromId(String accountFrom) {
+        return transactionRepository.getTransactionByAccountFromEquals(accountFrom);
+    }
+
+    public Transaction checkUserToId(String accountTo) {
+        return transactionRepository.getTransactionByAccountToEquals(accountTo);
+    }
+
+    public Integer getDailyTransactionsByUserPerforming(Long userPerformingId, OffsetDateTime minDate, OffsetDateTime maxDate) {
+        return transactionRepository.countTransactionsByUserPerformingIdEqualsAndTimestampBetween(userPerformingId, minDate, maxDate);
+    }
+
+    @Modifying
+    public void updateAccount(Account account) {
+        accountRepository.save(account);
+    }
+
+    public void createTransaction(Transaction transaction) {
+        transactionRepository.save(transaction);
     }
 }
