@@ -70,6 +70,7 @@ public class TransactionsApiController implements TransactionsApi {
                 Long userToId = service.checkUserToId(body.getAccountTo()).getUserPerformingId();
                 if (userFromId != userToId) { return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST); }
             }
+            // checken of rol customer is zoja check of accountFrom iban behoort tot de customer
             Account accountFrom = accountService.getAccountByIBAN(body.getAccountFrom());
             Account accountTo = accountService.getAccountByIBAN(body.getAccountTo());
 
@@ -114,12 +115,12 @@ public class TransactionsApiController implements TransactionsApi {
         return new ResponseEntity<List<Transaction>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    // TODO: elke accountId return alle transactions ???????????
     public ResponseEntity<List<Transaction>> getTransactionsFromAccountId(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Long id,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
+            // if customer: mag alleen EIGEN transactions ophalen
             List<Transaction> transactions;
-            if ((transactions = service.getAllTransactionsByAccountId(id)).isEmpty()) {
+            if ((transactions = service.getTransactionsByAccountId(id)).isEmpty()) {
                 // TODO: dit kan vast netter.... TransactionsApi..?
                 return new ResponseEntity<List<Transaction>>(HttpStatus.NOT_FOUND);
             } else {

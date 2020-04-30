@@ -11,12 +11,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AccountRepository extends PagingAndSortingRepository<Account, Long> {
 
-    public Iterable<Account> findAccountsByUserId(Long userId);
+    Iterable<Account> findAccountsByUserId(Long userId);
 
-    public Account findAccountByIbanEquals(String iban);
+    Account findAccountByIbanEquals(String iban);
     
-    public Integer countAccountByIbanEquals(String iban);
+    Integer countAccountByIbanEquals(String iban);
 
     //find all accounts with query values
     public Page<Account> findAll(Pageable pageable);
+
+    Account findAccountById(Long userId);
 }

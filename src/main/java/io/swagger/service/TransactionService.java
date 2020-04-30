@@ -35,8 +35,10 @@ public class TransactionService {
         return page.getContent();
     }
 
-    public List<Transaction> getAllTransactionsByAccountId(long id) {
-        return (List<Transaction>) transactionRepository.getTransactionsByAccountId(id);
+    public List<Transaction> getTransactionsByAccountId(long accountId) {
+        Account account = accountRepository.findAccountById(accountId);
+        List<Transaction> transactions = (List<Transaction>) transactionRepository.getTransactionsByAccountFromEqualsOrAccountToEquals(account.getIban(), account.getIban());
+        return transactions;
     }
 
     public List<Transaction> getTransactionFilterDate(OffsetDateTime dateFrom, OffsetDateTime dateTo) {
