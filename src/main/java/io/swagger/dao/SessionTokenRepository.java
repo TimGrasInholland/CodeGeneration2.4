@@ -6,13 +6,11 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SessionTokenRepository extends CrudRepository<SessionToken, String> {
+public interface SessionTokenRepository extends CrudRepository<SessionToken, Long> {
 
     public SessionToken getByAuthKeyEquals(String authKey);
 
     public SessionToken getByUserIdEquals(Long id);
 
     public void deleteByAuthKeyEquals(String authKey);
-
-    public void deleteByUserIdEquals(Long userId);
 }

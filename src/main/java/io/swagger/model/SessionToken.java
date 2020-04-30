@@ -23,6 +23,14 @@ public class SessionToken {
         this.role = role;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getAuthKey() {
         return authKey;
     }

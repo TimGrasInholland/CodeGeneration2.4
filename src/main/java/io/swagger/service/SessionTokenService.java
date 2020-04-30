@@ -17,27 +17,28 @@ public class SessionTokenService {
     public void registerSessionToken(SessionToken sessionToken){
         SessionToken checkSessionToken = sessionTokenRepository.getByUserIdEquals(sessionToken.getUserId());
         if (checkSessionToken != null){
-            sessionTokenRepository.deleteByUserIdEquals(sessionToken.getUserId());
+            sessionTokenRepository.delete(checkSessionToken.getId());
             sessionTokenRepository.save(sessionToken);
         } else{
             sessionTokenRepository.save(sessionToken);
         }
     }
 
-    public boolean isPermitted(String authKey, User.TypeEnum role){
-        SessionToken sessionToken = new SessionToken();
-        if (!authKey.equals(null)){
-            sessionToken = sessionTokenRepository.getByAuthKeyEquals(authKey);
-        }
+    private SessionToken getSessionTokenByAuthKey(String authKey){
+        return sessionTokenRepository.getByAuthKeyEquals(authKey);
+    }
 
-        if (sessionToken != null && role.equals(sessionToken.getRole())){
+    public boolean isPermitted(String authKey, User.TypeEnum requiredRole){
+        SessionToken sessionToken = sessionTokenRepository.getByAuthKeyEquals(authKey);
+        if (sessionToken != null && requiredRole.equals(sessionToken.getRole()) || sessionToken.getRole().equals(User.TypeEnum.EMPLOYEE)){
             return true;
         }
         return false;
     }
 
     public void logout(String authKey){
-        sessionTokenRepository.deleteByAuthKeyEquals(authKey);
+        SessionToken sessionToken = getSessionTokenByAuthKey(authKey);
+        sessionTokenRepository.delete(sessionToken.getId());
     }
 
 

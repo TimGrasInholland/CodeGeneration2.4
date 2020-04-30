@@ -2,6 +2,7 @@ package io.swagger.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import io.swagger.model.Account;
 import io.swagger.model.SessionToken;
 import io.swagger.model.User;
 import io.swagger.service.LoginService;
@@ -50,9 +51,18 @@ public class SecurityApiController implements SecurityApi {
         this.request = request;
     }
 
-    public ResponseEntity<Void> logout() {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+    public ResponseEntity<String> logout() {
+        String authKey = request.getHeader("session");
+        try {
+            if (sessionTokenService.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
+                sessionTokenService.logout(authKey);
+                return ResponseEntity.status(200).body("You are logged out");
+            } else{
+                return ResponseEntity.status(400).body("You are not logged in");
+            }
+        } catch (IllegalArgumentException e){
+            return ResponseEntity.status(400).body("FCK");
+        }
     }
 
     public ResponseEntity<String> login(@ApiParam(value = "") @RequestParam(value="username", required=false)  String username

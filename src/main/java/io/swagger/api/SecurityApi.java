@@ -36,7 +36,7 @@ public interface SecurityApi {
     @RequestMapping(value = "/Logout",
         produces = { "application/json" }, 
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> logout();
+    ResponseEntity<String> logout();
 
 
     @ApiOperation(value = "Login", nickname = "login", notes = "Get api token from user login request", tags={ "Login", })

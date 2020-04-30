@@ -86,7 +86,7 @@ public class AccountsApiController implements AccountsApi {
     public ResponseEntity<List<Account>> getAllAccounts(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
 ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit, HttpServletRequest request) {
         String authKey = request.getHeader("session");
-        if (sessionTokenService.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
+        if (authKey != null && sessionTokenService.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
             if (limit != null && offset == null){
                 offset = 0;
             }
