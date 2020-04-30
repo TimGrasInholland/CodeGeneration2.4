@@ -98,7 +98,7 @@ public interface AccountsApi {
             produces = { "application/json" },
             consumes = { "application/json" },
             method = RequestMethod.PUT)
-    ResponseEntity<Void> updateAccount(@ApiParam(value = ""  )  @Valid @RequestBody Account body
+    ResponseEntity<String> disableAccount(@ApiParam(value = ""  )  @Valid @RequestBody Account body
     );
 
 }

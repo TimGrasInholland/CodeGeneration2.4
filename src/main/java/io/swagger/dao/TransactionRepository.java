@@ -10,11 +10,11 @@ import org.threeten.bp.OffsetDateTime;
 public interface TransactionRepository extends PagingAndSortingRepository<Transaction, Long> {
     
     @Query("SELECT t FROM Transaction as t, Account a WHERE a.id = ?1")
-    Iterable<Transaction> getTransactionsByAccountId(long accountId);
+    public Iterable<Transaction> getTransactionsByAccountId(long accountId);
 
     @Query("SELECT t FROM Transaction AS t WHERE t.accountFrom LIKE ?1 OR t.accountTo LIKE ?1 ORDER BY t.timestamp")
-    Iterable<Transaction> getTransactionsByIban(String iban);
+    public Iterable<Transaction> getTransactionsByIban(String iban);
 
-    Iterable<Transaction> getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqual(OffsetDateTime dateFrom, OffsetDateTime dateTo);
+    public Iterable<Transaction> getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqual(OffsetDateTime dateFrom, OffsetDateTime dateTo);
 
 }

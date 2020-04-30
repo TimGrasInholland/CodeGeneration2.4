@@ -91,8 +91,8 @@ public class UsersApiController implements UsersApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<User>(objectMapper.readValue("{\n  \"lastName\" : \"Tol\",\n  \"birthdate\" : \"2000-01-23\",\n  \"address\" : \"Fryslandlaan 12\",\n  \"city\" : \"Maaskantje\",\n  \"prefix\" : \"van\",\n  \"active\" : true,\n  \"type\" : \"Customer\",\n  \"firstName\" : \"Thijs\",\n  \"password\" : \"Welcome0!\",\n  \"phoneNumber\" : \"0612345678\",\n  \"postalcode\" : \"1902DR\",\n  \"id\" : 10000000001,\n  \"email\" : \"ThijsVanTol@gmail.com\",\n  \"username\" : \"thijs\"\n}", User.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
+                return ResponseEntity.status(200).body(service.getUserById(id));
+            } catch (IllegalArgumentException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
@@ -102,10 +102,23 @@ public class UsersApiController implements UsersApi {
     }
 
 
-    public ResponseEntity<Void> login(@ApiParam(value = "") @RequestParam(value="username", required=false)  String username
-,@ApiParam(value = "") @RequestParam(value="password", required=false)  String password) {
+    public ResponseEntity<String> login(@ApiParam(value = "") @RequestParam(value="username", required=false)  String username
+            ,@ApiParam(value = "") @RequestParam(value="password", required=false)  String password
+    ) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        if (accept != null && accept.contains("application/json")) {
+            try {
+                User user = service.login(username, password);
+                if (!(user == null)){
+                    return ResponseEntity.status(200).body("An auth key should be here or something");
+                } else{
+                    return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+                }
+            } catch (IllegalArgumentException e){
+                return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+            }
+        }
+        return new ResponseEntity<String>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<String> updateUser(@ApiParam(value = ""  )  @Valid @RequestBody User body) {

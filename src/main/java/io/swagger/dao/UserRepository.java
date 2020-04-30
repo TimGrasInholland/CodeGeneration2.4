@@ -13,7 +13,13 @@ import java.util.List;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
 
+    public User getUserByIdEquals(Long id);
+
+    public User getUserByUsernameEqualsAndPasswordEquals(String username, String password);
+
     public List<User> findAll(Pageable pageable);
+
     public List<User> getAllByUsernameContainingIgnoreCase(String Username, Pageable pageable);
+
     public List<User> getAllByLastNameContainingIgnoreCase(String lastname, Pageable pageable);
 }
