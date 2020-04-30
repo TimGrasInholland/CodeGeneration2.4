@@ -22,6 +22,8 @@ public class AccountService {
         return (List<Account>) accountRepository.findAll();
     }
 
+    public Account getAccountByIBAN(String iban) {return (Account) accountRepository.findAccountByIbanEquals(iban);}
+
     public List<Account> getAllAccounts(int offset, int limit) {
         Pageable pageable = new PageRequest(offset, limit);
         Page<Account> page = accountRepository.findAll(pageable);
