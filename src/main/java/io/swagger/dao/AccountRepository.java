@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 public interface AccountRepository extends PagingAndSortingRepository<Account, Long> {
     public Iterable<Account> findAccountsByUserId(Long userId);
 
+    public Account findAccountByIbanEquals(String iban);
+    
     public Integer countAccountByIbanEquals(String iban);
 
     //find all accounts with query values
