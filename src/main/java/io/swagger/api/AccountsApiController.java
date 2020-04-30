@@ -32,14 +32,12 @@ import java.util.Random;
 public class AccountsApiController implements AccountsApi {
 
     private static final Logger log = LoggerFactory.getLogger(AccountsApiController.class);
-
     private final ObjectMapper objectMapper;
-
     private final HttpServletRequest request;
-
     @Autowired
     private AccountService service;
-
+    @Autowired
+    private Security security;
     @Autowired
     private SessionTokenService sessionTokenService;
 
@@ -50,28 +48,32 @@ public class AccountsApiController implements AccountsApi {
     }
 
     public ResponseEntity<Void> createAccount(@ApiParam(value = "") @Valid @RequestBody Account body) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
+        String authKey = request.getHeader("session");
+        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
             if(body.getId() == null){
                 if(body.isActive() == null){
                     body.setActive(true);
                 }
-                body.setBalance(new AccountBalance(body.getUserId(), 0.00));
-                body.setIban(generateIBAN());
-                service.createAccount(body);
-                return new ResponseEntity<Void>(HttpStatus.CREATED);
+                if (security.isOwner(authKey, body.getUserId()) || sessionTokenService.getSessionTokenByAuthKey(authKey).getRole().equals(User.TypeEnum.EMPLOYEE)){
+                    body.setBalance(new AccountBalance(body.getUserId(), 0.00));
+                    body.setIban(generateIBAN());
+                    service.createAccount(body);
+                    return new ResponseEntity<Void>(HttpStatus.CREATED);
+                } else{
+                    return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
+                }
             }
             else{
                 return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
             }
         }
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
     }
 
 
     public ResponseEntity<Account> getAccountByIBAN(@ApiParam(value = "the IBAN", required = true) @PathVariable("iban") String iban) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
+        String authKey = request.getHeader("session");
+        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
             try {
                 return ResponseEntity.status(200).body(service.getAccountByIBAN(iban));
             } catch (Exception e) {
@@ -79,14 +81,14 @@ public class AccountsApiController implements AccountsApi {
                 return new ResponseEntity<Account>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-        return new ResponseEntity<Account>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<Account>(HttpStatus.UNAUTHORIZED);
     }
 
 
     public ResponseEntity<List<Account>> getAllAccounts(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
 ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit, HttpServletRequest request) {
         String authKey = request.getHeader("session");
-        if (authKey != null && sessionTokenService.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
+        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
             if (limit != null && offset == null){
                 offset = 0;
             }
@@ -100,18 +102,17 @@ public class AccountsApiController implements AccountsApi {
         return new ResponseEntity<List<Account>>(HttpStatus.UNAUTHORIZED);
     }
 
-
     public ResponseEntity<List<Account>> getUserAccountsByUserId(@Min(1)@ApiParam(value = "bad input parameter",required=true, allowableValues="") @PathVariable("id") Long id){
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
+        String authKey = request.getHeader("session");
+        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
             return ResponseEntity.status(200).body(service.getAccountsByUserId(id));
         }
-        return new ResponseEntity<List<Account>>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<List<Account>>(HttpStatus.UNAUTHORIZED);
     }
 
     public ResponseEntity<String> disableAccount(@ApiParam(value = ""  )  @Valid @RequestBody Account body) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
+        String authKey = request.getHeader("session");
+        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
             try {
                 List<Account> accounts = service.getAccountsByUserId(body.getId());
                 for (Account account : accounts) {
@@ -128,7 +129,7 @@ public class AccountsApiController implements AccountsApi {
                 return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-        return new ResponseEntity<String>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
     }
 
     private String generateIBAN(){

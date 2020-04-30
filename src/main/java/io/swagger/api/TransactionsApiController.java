@@ -1,6 +1,7 @@
 package io.swagger.api;
 
 import io.swagger.configuration.BankConfig;
+import io.swagger.model.User;
 import io.swagger.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import io.swagger.model.Transaction;
@@ -27,18 +28,17 @@ import java.util.List;
 public class TransactionsApiController implements TransactionsApi {
 
     private static final Logger log = LoggerFactory.getLogger(TransactionsApiController.class);
-
     private final ObjectMapper objectMapper;
-
     private final HttpServletRequest request;
-
-    @Autowired
     private TransactionService service;
+    private Security security;
 
     @org.springframework.beans.factory.annotation.Autowired
-    public TransactionsApiController(ObjectMapper objectMapper, HttpServletRequest request) {
+    public TransactionsApiController(ObjectMapper objectMapper, HttpServletRequest request, TransactionService transactionService, Security security) {
         this.objectMapper = objectMapper;
         this.request = request;
+        this.service = transactionService;
+        this.security = security;
     }
 
     public ResponseEntity<Void> createTransaction(@ApiParam(value = ""  )  @Valid @RequestBody Transaction body) {
@@ -54,8 +54,8 @@ public class TransactionsApiController implements TransactionsApi {
             6. The maximum amount per transaction cannot be higher than a predefined number, referred to a transaction limit
          */
         BankConfig bankConfig = new BankConfig();
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
+        String authKey = request.getHeader("session");
+        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
             if (body.getId() == null) {
 
                 return new ResponseEntity<Void>(HttpStatus.CREATED);
@@ -64,13 +64,12 @@ public class TransactionsApiController implements TransactionsApi {
                 return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
             }
         }
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
     }
 
-
     public ResponseEntity<List<Transaction>> getAllTransactions(@ApiParam(value = "transactions to date") @Valid @RequestParam(value = "dateTo", required = false) String dateTo,@ApiParam(value = "transactions from date") @Valid @RequestParam(value = "dateFrom", required = false) String dateFrom,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
+        String authKey = request.getHeader("session");
+        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
             if (limit != null && offset == null) {
                 offset = 0;
             }
@@ -84,13 +83,13 @@ public class TransactionsApiController implements TransactionsApi {
                 return ResponseEntity.status(200).body(service.getAllTransactions());
             }
         }
-        return new ResponseEntity<List<Transaction>>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<List<Transaction>>(HttpStatus.UNAUTHORIZED);
     }
 
     // TODO: elke accountId return alle transactions ???????????
     public ResponseEntity<List<Transaction>> getTransactionsFromAccountId(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Long id,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
+        String authKey = request.getHeader("session");
+        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
             List<Transaction> transactions;
             if ((transactions = service.getAllTransactionsByAccountId(id)).isEmpty()) {
                 // TODO: dit kan vast netter.... TransactionsApi..?
@@ -99,13 +98,13 @@ public class TransactionsApiController implements TransactionsApi {
                 return ResponseEntity.status(200).body(transactions);
             }
         }
-        return new ResponseEntity<List<Transaction>>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<List<Transaction>>(HttpStatus.UNAUTHORIZED);
     }
 
 
     public ResponseEntity<List<Transaction>> getTransactionsFromUserId(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Long id,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
+        String authKey = request.getHeader("session");
+        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
             try {
                 return ResponseEntity.status(200).body(service.getTransactionsByUserId(id));            }
             catch (Exception e) {
@@ -113,7 +112,7 @@ public class TransactionsApiController implements TransactionsApi {
                 return new ResponseEntity<List<Transaction>>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-        return new ResponseEntity<List<Transaction>>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<List<Transaction>>(HttpStatus.UNAUTHORIZED);
     }
 
 }

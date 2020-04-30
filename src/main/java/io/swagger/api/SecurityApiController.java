@@ -45,6 +45,9 @@ public class SecurityApiController implements SecurityApi {
     @Autowired
     private SessionTokenService sessionTokenService;
 
+    @Autowired
+    private Security security;
+
     @org.springframework.beans.factory.annotation.Autowired
     public SecurityApiController(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;
@@ -54,7 +57,7 @@ public class SecurityApiController implements SecurityApi {
     public ResponseEntity<String> logout() {
         String authKey = request.getHeader("session");
         try {
-            if (sessionTokenService.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
+            if (security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
                 sessionTokenService.logout(authKey);
                 return ResponseEntity.status(200).body("You are logged out");
             } else{

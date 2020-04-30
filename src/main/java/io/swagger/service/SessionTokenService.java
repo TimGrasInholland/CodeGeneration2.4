@@ -24,16 +24,8 @@ public class SessionTokenService {
         }
     }
 
-    private SessionToken getSessionTokenByAuthKey(String authKey){
+    public SessionToken getSessionTokenByAuthKey(String authKey){
         return sessionTokenRepository.getByAuthKeyEquals(authKey);
-    }
-
-    public boolean isPermitted(String authKey, User.TypeEnum requiredRole){
-        SessionToken sessionToken = sessionTokenRepository.getByAuthKeyEquals(authKey);
-        if (sessionToken != null && requiredRole.equals(sessionToken.getRole()) || sessionToken.getRole().equals(User.TypeEnum.EMPLOYEE)){
-            return true;
-        }
-        return false;
     }
 
     public void logout(String authKey){
