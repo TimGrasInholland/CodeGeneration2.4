@@ -58,9 +58,9 @@ public class AppStarter{
 
     private void initTransactions() {
         List<Transaction> transactions = Arrays.asList(
-                new Transaction(OffsetDateTime.now(), "AccountFrom1", "AccountTo1", 100.0, "Description1", 1L, Transaction.TransactionTypeEnum.DEPOSIT),
-                new Transaction(OffsetDateTime.now(), "AccountFrom2", "AccountTo2", 200.0, "Description2", 2L, Transaction.TransactionTypeEnum.WITHDRAWAL),
-                new Transaction(OffsetDateTime.now(), "AccountFrom3", "AccountTo3", 300.0, "Description3", 3L, Transaction.TransactionTypeEnum.DEPOSIT)
+                new Transaction(OffsetDateTime.now(), "NL01INHO0000000001", "NL01INHO4996947694", 100.0, "Description1", 1L, Transaction.TransactionTypeEnum.DEPOSIT),
+                new Transaction(OffsetDateTime.now(), "NL01INHO4996947694", "NL01INHO6666934694", 200.0, "Description2", 2L, Transaction.TransactionTypeEnum.WITHDRAWAL),
+                new Transaction(OffsetDateTime.now(), "NL01INHO6666934694", "NL01INHO0000000001", 300.0, "Description3", 3L, Transaction.TransactionTypeEnum.DEPOSIT)
         );
 
         transactions.forEach(
