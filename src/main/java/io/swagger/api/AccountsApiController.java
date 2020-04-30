@@ -1,12 +1,10 @@
 package io.swagger.api;
 
-import io.swagger.model.Account;
-import io.swagger.model.AccountBalance;
-import io.swagger.model.Transaction;
+import io.swagger.model.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
-import io.swagger.model.User;
 import io.swagger.service.AccountService;
+import io.swagger.service.SessionTokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +39,9 @@ public class AccountsApiController implements AccountsApi {
 
     @Autowired
     private AccountService service;
+
+    @Autowired
+    private SessionTokenService sessionTokenService;
 
     @org.springframework.beans.factory.annotation.Autowired
     public AccountsApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -84,8 +85,8 @@ public class AccountsApiController implements AccountsApi {
 
     public ResponseEntity<List<Account>> getAllAccounts(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
 ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit, HttpServletRequest request) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
+        String authKey = request.getHeader("session");
+        if (sessionTokenService.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
             if (limit != null && offset == null){
                 offset = 0;
             }
@@ -96,7 +97,7 @@ public class AccountsApiController implements AccountsApi {
                 return ResponseEntity.status(200).body(service.getAllAccounts());
             }
         }
-        return new ResponseEntity<List<Account>>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<List<Account>>(HttpStatus.UNAUTHORIZED);
     }
 
 

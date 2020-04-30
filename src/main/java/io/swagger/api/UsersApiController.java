@@ -1,7 +1,6 @@
 package io.swagger.api;
 
 import io.swagger.model.Account;
-import io.swagger.model.Body;
 import io.swagger.model.Transaction;
 import io.swagger.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -99,26 +98,6 @@ public class UsersApiController implements UsersApi {
         }
 
         return new ResponseEntity<User>(HttpStatus.NOT_IMPLEMENTED);
-    }
-
-
-    public ResponseEntity<String> login(@ApiParam(value = "") @RequestParam(value="username", required=false)  String username
-            ,@ApiParam(value = "") @RequestParam(value="password", required=false)  String password
-    ) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                User user = service.login(username, password);
-                if (!(user == null)){
-                    return ResponseEntity.status(200).body("An auth key should be here or something");
-                } else{
-                    return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-                }
-            } catch (IllegalArgumentException e){
-                return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-            }
-        }
-        return new ResponseEntity<String>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<String> updateUser(@ApiParam(value = ""  )  @Valid @RequestBody User body) {

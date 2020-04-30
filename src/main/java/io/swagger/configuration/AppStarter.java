@@ -1,12 +1,10 @@
 package io.swagger.configuration;
 
 import io.swagger.dao.AccountRepository;
+import io.swagger.dao.SessionTokenRepository;
 import io.swagger.dao.TransactionRepository;
 import io.swagger.dao.UserRepository;
-import io.swagger.model.Account;
-import io.swagger.model.AccountBalance;
-import io.swagger.model.Transaction;
-import io.swagger.model.User;
+import io.swagger.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.threeten.bp.LocalDate;
@@ -28,11 +26,25 @@ public class AppStarter{
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private SessionTokenRepository sessionTokenRepository;
+
     @PostConstruct
     public void init(){
         initAccounts();
         initTransactions();
         initUsers();
+        initTestSessionToken();
+    }
+
+    private void initTestSessionToken(){
+        List<SessionToken> sessionTokens = Arrays.asList(
+                new SessionToken("0", 3L, User.TypeEnum.CUSTOMER),
+                new SessionToken("1", 1L, User.TypeEnum.EMPLOYEE)
+        );
+        sessionTokens.forEach(
+                sessionTokenRepository::save
+        );
     }
 
     private void initAccounts() {
