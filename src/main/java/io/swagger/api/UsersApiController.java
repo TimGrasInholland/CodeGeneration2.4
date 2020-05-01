@@ -1,14 +1,12 @@
 package io.swagger.api;
 
-import io.swagger.model.Account;
-import io.swagger.model.Transaction;
 import io.swagger.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import io.swagger.service.SessionTokenService;
 import io.swagger.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -17,11 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.List;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
@@ -33,13 +29,15 @@ public class UsersApiController implements UsersApi {
     private final HttpServletRequest request;
     private UserService service;
     private Security security;
+    private SessionTokenService sessionTokenService;
 
     @org.springframework.beans.factory.annotation.Autowired
-    public UsersApiController(ObjectMapper objectMapper, HttpServletRequest request, UserService service, Security security) {
+    public UsersApiController(ObjectMapper objectMapper, HttpServletRequest request, UserService service, Security security, SessionTokenService sessionTokenService) {
         this.objectMapper = objectMapper;
         this.request = request;
         this.service = service;
         this.security = security;
+        this.sessionTokenService = sessionTokenService;
     }
 
     public ResponseEntity<String> createUser(@ApiParam(value = ""  )  @Valid @RequestBody User body) {
@@ -86,7 +84,9 @@ public class UsersApiController implements UsersApi {
         String authKey = request.getHeader("session");
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
             try {
-                return ResponseEntity.status(200).body(service.getUserById(id));
+                if (security.isOwner(authKey, id) || sessionTokenService.getSessionTokenByAuthKey(authKey).getRole().equals(User.TypeEnum.EMPLOYEE)){
+                    return ResponseEntity.status(200).body(service.getUserById(id));
+                }
             } catch (IllegalArgumentException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -100,13 +100,15 @@ public class UsersApiController implements UsersApi {
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
             if(body != null && body.getId() != null){
                 List<User> users = service.getAllUsers();
+                // Match the user body with the user which is going to be updated
                 if(users.stream().anyMatch((user) -> user.getId().equals(body.getId()))){
+                    // If the usernames do not match
                     if(!users.stream().anyMatch((user) -> user.getUsername().equals(body.getUsername()))){
                         service.updateUser(body);
                         return ResponseEntity.status(HttpStatus.CREATED).body("User has been Updated");
                     }
-                    //when username exits and is own id
-                    if(users.stream().filter((user) -> user.getUsername().equals(body.getUsername())).findFirst().get().getId().equals(body.getId())){
+                    // When user exits and is own.
+                    if(security.isOwner(authKey, body.getId())){
                         service.updateUser(body);
                         return ResponseEntity.status(HttpStatus.CREATED).body("User has been Updated");
                     }

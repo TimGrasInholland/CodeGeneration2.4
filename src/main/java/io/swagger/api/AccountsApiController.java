@@ -105,7 +105,9 @@ public class AccountsApiController implements AccountsApi {
     public ResponseEntity<List<Account>> getUserAccountsByUserId(@Min(1)@ApiParam(value = "bad input parameter",required=true, allowableValues="") @PathVariable("id") Long id){
         String authKey = request.getHeader("session");
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
-            return ResponseEntity.status(200).body(service.getAccountsByUserId(id));
+            if (security.isOwner(authKey, id) || sessionTokenService.getSessionTokenByAuthKey(authKey).getRole().equals(User.TypeEnum.EMPLOYEE)){
+                return ResponseEntity.status(200).body(service.getAccountsByUserId(id));
+            }
         }
         return new ResponseEntity<List<Account>>(HttpStatus.UNAUTHORIZED);
     }
