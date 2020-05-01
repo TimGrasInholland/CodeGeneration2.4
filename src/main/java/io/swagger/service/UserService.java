@@ -30,9 +30,7 @@ public class UserService {
         return userRepository.getUserByIdEquals(id);
     }
 
-    public User login(String username, String password) {
-        return userRepository.getUserByUsernameEqualsAndPasswordEquals(username, password);
-    }
+    public User getUserByUsername(String username) { return  userRepository.getUserByUsernameEquals(username); }
 
     public List<User> getAllUsersByUsername(String username, Pageable pageable){return  (List<User>) userRepository.getAllByUsernameContainingIgnoreCase(username, pageable);}
     public List<User> getAllUsersByLastname(String lastname, Pageable pageable){return  (List<User>) userRepository.getAllByLastNameContainingIgnoreCase(lastname, pageable);}

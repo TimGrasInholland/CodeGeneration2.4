@@ -6,7 +6,6 @@
 package io.swagger.api;
 
 import io.swagger.model.Account;
-import io.swagger.model.Body;
 import io.swagger.model.Transaction;
 import io.swagger.model.User;
 import io.swagger.annotations.*;
@@ -67,21 +66,6 @@ public interface UsersApi {
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<User> getUserById(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Long id
-);
-
-
-    @ApiOperation(value = "Login", nickname = "login", notes = "Get api token from user login request", tags={ "Users", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Sucessfully logged in"),
-        @ApiResponse(code = 400, message = "bad request", response = String.class),
-        @ApiResponse(code = 401, message = "API key is missing or invalid"),
-        @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
-    @RequestMapping(value = "/Users/Login",
-        produces = { "application/json" }, 
-        consumes = { "application/x-www-form-urlencoded" },
-        method = RequestMethod.POST)
-    ResponseEntity<String> login(@ApiParam(value = "") @RequestParam(value="username", required=false)  String username
-,@ApiParam(value = "") @RequestParam(value="password", required=false)  String password
 );
 
 

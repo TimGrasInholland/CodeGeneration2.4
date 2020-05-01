@@ -1,12 +1,10 @@
 package io.swagger.configuration;
 
 import io.swagger.dao.AccountRepository;
+import io.swagger.dao.SessionTokenRepository;
 import io.swagger.dao.TransactionRepository;
 import io.swagger.dao.UserRepository;
-import io.swagger.model.Account;
-import io.swagger.model.AccountBalance;
-import io.swagger.model.Transaction;
-import io.swagger.model.User;
+import io.swagger.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.threeten.bp.LocalDate;
@@ -28,17 +26,32 @@ public class AppStarter{
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private SessionTokenRepository sessionTokenRepository;
+
     @PostConstruct
     public void init(){
         initAccounts();
         initTransactions();
         initUsers();
+        initTestSessionToken();
+    }
+
+    private void initTestSessionToken(){
+        List<SessionToken> sessionTokens = Arrays.asList(
+                new SessionToken("0", 3L, User.TypeEnum.CUSTOMER),
+                new SessionToken("1", 1L, User.TypeEnum.EMPLOYEE)
+        );
+        sessionTokens.forEach(
+                sessionTokenRepository::save
+        );
     }
 
     private void initAccounts() {
         List<Account> accounts = Arrays.asList(
                 new Account(1L, Account.TypeEnum.CURRENT, Account.CurrencyEnum.EUR, null, "NL01INHO0000000001", true),
-                new Account(2L, Account.TypeEnum.SAVINGS, Account.CurrencyEnum.EUR, null, "NL01INHO4996947694", true),
+                new Account(3L, Account.TypeEnum.SAVINGS, Account.CurrencyEnum.EUR, null, "NL01INHO4996947694", true),
+                new Account(3L, Account.TypeEnum.SAVINGS, Account.CurrencyEnum.EUR, null, "NL01INHO4995677694", true),
                 new Account(2L, Account.TypeEnum.CURRENT, Account.CurrencyEnum.EUR, null, "NL01INHO6666934694", true),
                 new Account(3L, Account.TypeEnum.CURRENT, Account.CurrencyEnum.EUR, null, "NL01INHO6666134694", true)
         );
@@ -59,9 +72,9 @@ public class AppStarter{
 
     private void initTransactions() {
         List<Transaction> transactions = Arrays.asList(
-                new Transaction(OffsetDateTime.now(), "NL01INHO6666934694", "NL01INHO4996947694", 100.0, "Description1", 2L, Transaction.TransactionTypeEnum.DEPOSIT),
-                new Transaction(OffsetDateTime.now(), "NL01INHO4996947694", "NL01INHO6666934694", 50.0, "Description2", 2L, Transaction.TransactionTypeEnum.WITHDRAWAL),
-                new Transaction(OffsetDateTime.now(), "NL01INHO6666134694", "NL01INHO6666934694", 10.0, "Description3", 3L, Transaction.TransactionTypeEnum.PAYMENT)
+                new Transaction("NL01INHO6666934694", "NL01INHO4996947694", 100.0, "Description1", 2L, Transaction.TransactionTypeEnum.DEPOSIT),
+                new Transaction("NL01INHO4996947694", "NL01INHO6666934694", 50.0, "Description2", 2L, Transaction.TransactionTypeEnum.WITHDRAWAL),
+                new Transaction("NL01INHO6666134694", "NL01INHO6666934694", 10.0, "Description3", 3L, Transaction.TransactionTypeEnum.PAYMENT)
         );
 
         transactions.forEach(
