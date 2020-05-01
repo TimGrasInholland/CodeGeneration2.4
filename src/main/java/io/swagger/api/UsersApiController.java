@@ -19,6 +19,7 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.stream.Stream;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
 @Controller
@@ -98,22 +99,37 @@ public class UsersApiController implements UsersApi {
     public ResponseEntity<String> updateUser(@ApiParam(value = ""  )  @Valid @RequestBody User body) {
         String authKey = request.getHeader("session");
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
-            if(body != null && body.getId() != null){
-                List<User> users = service.getAllUsers();
-                // Match the user body with the user which is going to be updated
-                if(users.stream().anyMatch((user) -> user.getId().equals(body.getId()))){
-                    // If the usernames do not match
-                    if(!users.stream().anyMatch((user) -> user.getUsername().equals(body.getUsername()))){
-                        service.updateUser(body);
-                        return ResponseEntity.status(HttpStatus.CREATED).body("User has been Updated");
+            if (body != null && body.getId() != null) {
+                // Check if user is owner or is employee.
+                if (security.isOwner(authKey, body.getId()) || sessionTokenService.getSessionTokenByAuthKey(authKey).getRole().equals(User.TypeEnum.EMPLOYEE)) {
+                    // Check if the username already exists.
+                    List<User> users = service.getAllUsers();
+                    if  (users.stream().anyMatch((user) -> user.getUsername().equals(body.getUsername())) && (body.getId().equals(sessionTokenService.getSessionTokenByAuthKey(authKey).getUserId()))){
+                        // When user is owner and is employee allow all updates except role.
+                        if (security.isOwner(authKey, body.getId()) && sessionTokenService.getSessionTokenByAuthKey(authKey).getRole().equals(User.TypeEnum.EMPLOYEE)) {
+                            body.setType(User.TypeEnum.EMPLOYEE);
+                            service.updateUser(body);
+                            return ResponseEntity.status(HttpStatus.CREATED).body("User has been Updated");
+                        }
+                        // When user iw owner and is customer allow all changes except active and role.
+                        else if (security.isOwner(authKey, body.getId()) && sessionTokenService.getSessionTokenByAuthKey(authKey).getRole().equals(User.TypeEnum.CUSTOMER)){
+                            body.setType(User.TypeEnum.CUSTOMER);
+                            body.setActive(true);
+                            service.updateUser(body);
+                            return ResponseEntity.status(HttpStatus.CREATED).body("User has been Updated");
+                        }
+                        // Else an employee is changing another use and may edit all except role.
+                        else{
+
+                            body.setType(User.TypeEnum.CUSTOMER);
+                            service.updateUser(body);
+                            return ResponseEntity.status(HttpStatus.CREATED).body("User has been Updated");
+                        }
+                    } else{
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already in use");
                     }
-                    // When user exits and is own.
-                    if(security.isOwner(authKey, body.getId())){
-                        service.updateUser(body);
-                        return ResponseEntity.status(HttpStatus.CREATED).body("User has been Updated");
-                    }
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already in use");
                 }
+                return  new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
             }
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body("No id was given");
         }

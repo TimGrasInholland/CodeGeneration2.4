@@ -130,13 +130,16 @@ public class TransactionsApiController implements TransactionsApi {
     public ResponseEntity<List<Transaction>> getTransactionsFromAccountId(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Long id,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
         String authKey = request.getHeader("session");
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
-            List<Transaction> transactions;
-            if ((transactions = service.getTransactionsByAccountId(id)).isEmpty()) {
-                // TODO: dit kan vast netter.... TransactionsApi..?
-                return new ResponseEntity<List<Transaction>>(HttpStatus.NOT_FOUND);
-            } else {
-                return ResponseEntity.status(200).body(transactions);
+            if (security.isOwner(authKey, accountService.findAccountByUserId(id).getUserId()) || sessionTokenService.getSessionTokenByAuthKey(authKey).getRole().equals(User.TypeEnum.EMPLOYEE)) {
+                List<Transaction> transactions;
+                if ((transactions = service.getTransactionsByAccountId(id)).isEmpty()) {
+                    // TODO: dit kan vast netter.... TransactionsApi..?
+                    return new ResponseEntity<List<Transaction>>(HttpStatus.NO_CONTENT);
+                } else {
+                    return ResponseEntity.status(200).body(transactions);
+                }
             }
+            return new ResponseEntity<List<Transaction>>(HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity<List<Transaction>>(HttpStatus.UNAUTHORIZED);
     }
@@ -145,12 +148,15 @@ public class TransactionsApiController implements TransactionsApi {
     public ResponseEntity<List<Transaction>> getTransactionsFromUserId(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Long id,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
         String authKey = request.getHeader("session");
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
-            try {
-                return ResponseEntity.status(200).body(service.getTransactionsByUserId(id));            }
-            catch (Exception e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<List<Transaction>>(HttpStatus.INTERNAL_SERVER_ERROR);
+            if (security.isOwner(authKey, id) || sessionTokenService.getSessionTokenByAuthKey(authKey).getRole().equals(User.TypeEnum.EMPLOYEE)) {
+                List<Transaction> transactions = service.getTransactionsByUserId(id);
+                if (transactions.isEmpty()){
+                    return new ResponseEntity<List<Transaction>>(HttpStatus.NO_CONTENT);
+                } else{
+                    return ResponseEntity.status(200).body(service.getTransactionsByUserId(id));
+                }
             }
+            return new ResponseEntity<List<Transaction>>(HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity<List<Transaction>>(HttpStatus.UNAUTHORIZED);
     }

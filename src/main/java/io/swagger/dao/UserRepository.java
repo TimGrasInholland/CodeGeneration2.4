@@ -22,4 +22,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
     public List<User> getAllByUsernameContainingIgnoreCase(String Username, Pageable pageable);
 
     public List<User> getAllByLastNameContainingIgnoreCase(String lastname, Pageable pageable);
+
+    public User getUserByUsernameEquals(String username);
 }
