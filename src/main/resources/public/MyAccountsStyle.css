@@ -40,3 +40,26 @@ li a:not(.active) {
     margin-left: 280px;
     font-weight: bold;
 }
+
+#overview-title {
+    position: relative;
+    left: 300px;
+    top: 100px;
+    width: 0px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+#newAccount-Btn {
+    position: relative;
+    top: 150px;
+    left: 1200px;
+    height: 50px;
+    width: 270px;
+    border-style: none;
+    padding: 16px, 46px, 16px, 46px;
+    font-weight: 500;
+    color: white;
+    background-color: #07CF97;
+    cursor: pointer;
+}
