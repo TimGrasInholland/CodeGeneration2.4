@@ -55,7 +55,7 @@ public class TransactionsApiController implements TransactionsApi {
     public ResponseEntity<Void> createTransaction(@ApiParam(value = ""  )  @Valid @RequestBody Transaction body) {
         BankConfig bankConfig = new BankConfig();
         String authKey = request.getHeader("session");
-        if (security.isOwner(authKey, body.getUserPerformingId()) || sessionTokenService.getSessionTokenByAuthKey(authKey).getRole().equals(User.TypeEnum.EMPLOYEE)) {
+        if (security.isOwner(authKey, body.getUserPerformingId()) || security.employeeCheck(authKey)) {
             if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER) && body != null) {
                 if (body.getTransactionType() == Transaction.TransactionTypeEnum.WITHDRAWAL) {
                     Long userFromId = accountService.getAccountByIBAN(body.getAccountFrom()).getUserId();
@@ -130,7 +130,7 @@ public class TransactionsApiController implements TransactionsApi {
     public ResponseEntity<List<Transaction>> getTransactionsFromAccountId(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Long id,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
         String authKey = request.getHeader("session");
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
-            if (security.isOwner(authKey, accountService.findAccountByUserId(id).getUserId()) || sessionTokenService.getSessionTokenByAuthKey(authKey).getRole().equals(User.TypeEnum.EMPLOYEE)) {
+            if (security.isOwner(authKey, accountService.findAccountByUserId(id).getUserId()) || security.employeeCheck(authKey)) {
                 List<Transaction> transactions;
                 if ((transactions = service.getTransactionsByAccountId(id)).isEmpty()) {
                     // TODO: dit kan vast netter.... TransactionsApi..?
@@ -148,7 +148,7 @@ public class TransactionsApiController implements TransactionsApi {
     public ResponseEntity<List<Transaction>> getTransactionsFromUserId(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Long id,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
         String authKey = request.getHeader("session");
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
-            if (security.isOwner(authKey, id) || sessionTokenService.getSessionTokenByAuthKey(authKey).getRole().equals(User.TypeEnum.EMPLOYEE)) {
+            if (security.isOwner(authKey, id) || security.employeeCheck(authKey)) {
                 List<Transaction> transactions = service.getTransactionsByUserId(id);
                 if (transactions.isEmpty()){
                     return new ResponseEntity<List<Transaction>>(HttpStatus.NO_CONTENT);
