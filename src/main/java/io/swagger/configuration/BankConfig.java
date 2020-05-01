@@ -7,7 +7,7 @@ public class BankConfig {
 
     public BankConfig() {
         absoluteLimit = 0.00;
-        dayLimit = 10;
+        dayLimit = 25;
         transactionLimit = 2000;
     }
 

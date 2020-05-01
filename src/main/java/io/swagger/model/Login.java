@@ -6,18 +6,18 @@ import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * Body
+ * Login
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
-public class Body {
+public class Login {
   @JsonProperty("username")
   private String username = null;
 
   @JsonProperty("password")
   private String password = null;
 
-  public Body username(String username) {
+  public Login username(String username) {
     this.username = username;
     return this;
   }
@@ -36,7 +36,7 @@ public class Body {
     this.username = username;
   }
 
-  public Body password(String password) {
+  public Login password(String password) {
     this.password = password;
     return this;
   }
@@ -64,7 +64,7 @@ public class Body {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Body body = (Body) o;
+    Login body = (Login) o;
     return Objects.equals(this.username, body.username) &&
         Objects.equals(this.password, body.password);
   }
@@ -77,7 +77,7 @@ public class Body {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Body {\n");
+    sb.append("class Login {\n");
     
     sb.append("    username: ").append(toIndentedString(username)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");

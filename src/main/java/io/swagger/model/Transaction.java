@@ -24,8 +24,7 @@ public class Transaction   {
   public Transaction() {
   }
 
-  public Transaction(OffsetDateTime timestamp, String accountFrom, String accountTo, Double amount, String description, Long userPerformingId, TransactionTypeEnum transactionType) {
-    this.timestamp = timestamp;
+  public Transaction(String accountFrom, String accountTo, Double amount, String description, Long userPerformingId, TransactionTypeEnum transactionType) {
     this.accountFrom = accountFrom;
     this.accountTo = accountTo;
     this.amount = amount;
@@ -45,7 +44,7 @@ public class Transaction   {
   private Account account;
 
   @JsonProperty("timestamp")
-  private OffsetDateTime timestamp = null;
+  private OffsetDateTime timestamp = OffsetDateTime.now();
 
   @JsonProperty("accountFrom")
   private String accountFrom = null;
