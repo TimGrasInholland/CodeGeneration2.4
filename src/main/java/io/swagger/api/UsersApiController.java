@@ -102,31 +102,32 @@ public class UsersApiController implements UsersApi {
             if (body != null && body.getId() != null) {
                 // Check if user is owner or is employee.
                 if (security.isOwner(authKey, body.getId()) || sessionTokenService.getSessionTokenByAuthKey(authKey).getRole().equals(User.TypeEnum.EMPLOYEE)) {
+
                     // Check if the username already exists.
                     List<User> users = service.getAllUsers();
-                    if  (users.stream().anyMatch((user) -> user.getUsername().equals(body.getUsername())) && (body.getId().equals(sessionTokenService.getSessionTokenByAuthKey(authKey).getUserId()))){
-                        // When user is owner and is employee allow all updates except role.
-                        if (security.isOwner(authKey, body.getId()) && sessionTokenService.getSessionTokenByAuthKey(authKey).getRole().equals(User.TypeEnum.EMPLOYEE)) {
-                            body.setType(User.TypeEnum.EMPLOYEE);
-                            service.updateUser(body);
-                            return ResponseEntity.status(HttpStatus.CREATED).body("User has been Updated");
-                        }
-                        // When user iw owner and is customer allow all changes except active and role.
-                        else if (security.isOwner(authKey, body.getId()) && sessionTokenService.getSessionTokenByAuthKey(authKey).getRole().equals(User.TypeEnum.CUSTOMER)){
-                            body.setType(User.TypeEnum.CUSTOMER);
-                            body.setActive(true);
-                            service.updateUser(body);
-                            return ResponseEntity.status(HttpStatus.CREATED).body("User has been Updated");
-                        }
-                        // Else an employee is changing another use and may edit all except role.
-                        else{
-
-                            body.setType(User.TypeEnum.CUSTOMER);
-                            service.updateUser(body);
-                            return ResponseEntity.status(HttpStatus.CREATED).body("User has been Updated");
-                        }
-                    } else{
+                    if  (users.stream().anyMatch((user) -> user.getUsername().equals(body.getUsername())) && !(service.getUserByUsername(body.getUsername()).getId().equals(body.getId()))){
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already in use");
+                    }
+
+                    // When user is owner and is employee allow all updates except role.
+                    if (security.isOwner(authKey, body.getId()) && sessionTokenService.getSessionTokenByAuthKey(authKey).getRole().equals(User.TypeEnum.EMPLOYEE)) {
+                        body.setType(User.TypeEnum.EMPLOYEE);
+                        service.updateUser(body);
+                        return ResponseEntity.status(HttpStatus.CREATED).body("User has been Updated");
+                    }
+                    // When user iw owner and is customer allow all changes except active and role.
+                    else if (security.isOwner(authKey, body.getId()) && sessionTokenService.getSessionTokenByAuthKey(authKey).getRole().equals(User.TypeEnum.CUSTOMER)){
+                        body.setType(User.TypeEnum.CUSTOMER);
+                        body.setActive(true);
+                        service.updateUser(body);
+                        return ResponseEntity.status(HttpStatus.CREATED).body("User has been Updated");
+                    }
+                    // Else an employee is changing another use and may edit all except role.
+                    else{
+
+                        body.setType(User.TypeEnum.CUSTOMER);
+                        service.updateUser(body);
+                        return ResponseEntity.status(HttpStatus.CREATED).body("User has been Updated");
                     }
                 }
                 return  new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
