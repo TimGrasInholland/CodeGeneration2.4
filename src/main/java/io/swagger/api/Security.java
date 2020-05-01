@@ -23,6 +23,24 @@ public class Security {
         return false;
     }
 
+    public boolean employeeCheck(String authKey){
+        SessionToken sessionToken = sessionTokenRepository.getByAuthKeyEquals(authKey);
+        if (sessionToken.getRole().equals(User.TypeEnum.EMPLOYEE)){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
+    public boolean customerCheck(String authKey){
+        SessionToken sessionToken = sessionTokenRepository.getByAuthKeyEquals(authKey);
+        if (sessionToken.getRole().equals(User.TypeEnum.CUSTOMER)){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
     public boolean isOwner(String authKey, Long userId){
         SessionToken sessionToken = sessionTokenRepository.getByAuthKeyEquals(authKey);
         if (sessionToken.getUserId().equals(userId)){

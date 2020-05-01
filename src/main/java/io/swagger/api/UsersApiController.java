@@ -85,7 +85,7 @@ public class UsersApiController implements UsersApi {
         String authKey = request.getHeader("session");
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
             try {
-                if (security.isOwner(authKey, id) || sessionTokenService.getSessionTokenByAuthKey(authKey).getRole().equals(User.TypeEnum.EMPLOYEE)){
+                if (security.isOwner(authKey, id) || security.employeeCheck(authKey)){
                     return ResponseEntity.status(200).body(service.getUserById(id));
                 }
             } catch (IllegalArgumentException e) {
@@ -101,7 +101,7 @@ public class UsersApiController implements UsersApi {
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
             if (body != null && body.getId() != null) {
                 // Check if user is owner or is employee.
-                if (security.isOwner(authKey, body.getId()) || sessionTokenService.getSessionTokenByAuthKey(authKey).getRole().equals(User.TypeEnum.EMPLOYEE)) {
+                if (security.isOwner(authKey, body.getId()) || security.employeeCheck(authKey)) {
 
                     // Check if the username already exists.
                     List<User> users = service.getAllUsers();
@@ -110,13 +110,13 @@ public class UsersApiController implements UsersApi {
                     }
 
                     // When user is owner and is employee allow all updates except role.
-                    if (security.isOwner(authKey, body.getId()) && sessionTokenService.getSessionTokenByAuthKey(authKey).getRole().equals(User.TypeEnum.EMPLOYEE)) {
+                    if (security.isOwner(authKey, body.getId()) && security.employeeCheck(authKey)) {
                         body.setType(User.TypeEnum.EMPLOYEE);
                         service.updateUser(body);
                         return ResponseEntity.status(HttpStatus.CREATED).body("User has been Updated");
                     }
                     // When user iw owner and is customer allow all changes except active and role.
-                    else if (security.isOwner(authKey, body.getId()) && sessionTokenService.getSessionTokenByAuthKey(authKey).getRole().equals(User.TypeEnum.CUSTOMER)){
+                    else if (security.isOwner(authKey, body.getId()) && security.customerCheck(authKey)){
                         body.setType(User.TypeEnum.CUSTOMER);
                         body.setActive(true);
                         service.updateUser(body);

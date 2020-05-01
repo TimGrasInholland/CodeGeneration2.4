@@ -54,7 +54,7 @@ public class AccountsApiController implements AccountsApi {
                 if(body.isActive() == null){
                     body.setActive(true);
                 }
-                if (security.isOwner(authKey, body.getUserId()) || sessionTokenService.getSessionTokenByAuthKey(authKey).getRole().equals(User.TypeEnum.EMPLOYEE)){
+                if (security.isOwner(authKey, body.getUserId()) || security.employeeCheck(authKey)){
                     body.setBalance(new AccountBalance(body.getUserId(), 0.00));
                     body.setIban(generateIBAN());
                     service.createAccount(body);
@@ -105,7 +105,7 @@ public class AccountsApiController implements AccountsApi {
     public ResponseEntity<List<Account>> getUserAccountsByUserId(@Min(1)@ApiParam(value = "bad input parameter",required=true, allowableValues="") @PathVariable("id") Long id){
         String authKey = request.getHeader("session");
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
-            if (security.isOwner(authKey, id) || sessionTokenService.getSessionTokenByAuthKey(authKey).getRole().equals(User.TypeEnum.EMPLOYEE)){
+            if (security.isOwner(authKey, id) || security.employeeCheck(authKey)){
                 return ResponseEntity.status(200).body(service.getAccountsByUserId(id));
             }
         }
