@@ -36,9 +36,7 @@ public class AccountService {
         return (List<Account>) accountRepository.findAccountsByUserId(id);
     }
 
-    public void createAccount(Account account) {
-        accountRepository.save(account);
-    }
+    public void createAccount(Account account) { accountRepository.save(account); }
 
     public Integer countAccountByIBAN(String iban) {
         return accountRepository.countAccountByIbanEquals(iban);

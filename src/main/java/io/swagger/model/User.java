@@ -19,7 +19,7 @@ import javax.validation.constraints.*;
 @Validated
 @Entity
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
-public class User   {
+public class User {
 
   public User() {
   }
