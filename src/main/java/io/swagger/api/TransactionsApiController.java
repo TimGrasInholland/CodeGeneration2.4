@@ -61,7 +61,7 @@ public class TransactionsApiController implements TransactionsApi {
                     Long userFromId = accountService.getAccountByIBAN(body.getAccountFrom()).getUserId();
                     Long userToId = accountService.getAccountByIBAN(body.getAccountTo()).getUserId();
                     if (userFromId != userToId) {
-                        return new ResponseEntity<Void>(HttpStatus.I_AM_A_TEAPOT);
+                        return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
                     }
                 }
                 // checken of rol customer is zoja check of accountFrom iban behoort tot de customer
