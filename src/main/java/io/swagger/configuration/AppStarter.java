@@ -51,7 +51,8 @@ public class AppStarter{
         List<Account> accounts = Arrays.asList(
                 new Account(1L, Account.TypeEnum.CURRENT, Account.CurrencyEnum.EUR, null, "NL01INHO0000000001", true),
                 new Account(2L, Account.TypeEnum.SAVINGS, Account.CurrencyEnum.EUR, null, "NL01INHO4996947694", true),
-                new Account(3L, Account.TypeEnum.CURRENT, Account.CurrencyEnum.EUR, null, "NL01INHO6666934694", true)
+                new Account(2L, Account.TypeEnum.CURRENT, Account.CurrencyEnum.EUR, null, "NL01INHO6666934694", true),
+                new Account(3L, Account.TypeEnum.CURRENT, Account.CurrencyEnum.EUR, null, "NL01INHO6666134694", true)
         );
 
         accounts.forEach(
@@ -59,7 +60,7 @@ public class AppStarter{
         );
         accounts.forEach(
                 account ->
-                        account.setBalance(new AccountBalance(account.getId(), 0.00))
+                        account.setBalance(new AccountBalance(account.getId(), 150.00))
         );
 
         //TODO: ff netter maken
@@ -70,9 +71,9 @@ public class AppStarter{
 
     private void initTransactions() {
         List<Transaction> transactions = Arrays.asList(
-                new Transaction(OffsetDateTime.now(), "NL01INHO0000000001", "NL01INHO4996947694", 100.0, "Description1", 1L, Transaction.TransactionTypeEnum.DEPOSIT),
-                new Transaction(OffsetDateTime.now(), "NL01INHO4996947694", "NL01INHO6666934694", 200.0, "Description2", 2L, Transaction.TransactionTypeEnum.WITHDRAWAL),
-                new Transaction(OffsetDateTime.now(), "NL01INHO6666934694", "NL01INHO0000000001", 300.0, "Description3", 3L, Transaction.TransactionTypeEnum.DEPOSIT)
+                new Transaction(OffsetDateTime.now(), "NL01INHO6666934694", "NL01INHO4996947694", 100.0, "Description1", 2L, Transaction.TransactionTypeEnum.DEPOSIT),
+                new Transaction(OffsetDateTime.now(), "NL01INHO4996947694", "NL01INHO6666934694", 50.0, "Description2", 2L, Transaction.TransactionTypeEnum.WITHDRAWAL),
+                new Transaction(OffsetDateTime.now(), "NL01INHO6666134694", "NL01INHO6666934694", 10.0, "Description3", 3L, Transaction.TransactionTypeEnum.PAYMENT)
         );
 
         transactions.forEach(
