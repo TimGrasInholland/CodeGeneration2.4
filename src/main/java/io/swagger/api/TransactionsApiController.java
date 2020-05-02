@@ -52,7 +52,7 @@ public class TransactionsApiController implements TransactionsApi {
         this.accountService = accountService;
     }
 
-    public ResponseEntity<Void> createTransaction(@ApiParam(value = ""  )  @Valid @RequestBody Transaction body) {
+    public ResponseEntity<String> createTransaction(@ApiParam(value = ""  )  @Valid @RequestBody Transaction body) {
         BankConfig bankConfig = new BankConfig();
         String authKey = request.getHeader("session");
         if (security.isOwner(authKey, body.getUserPerformingId()) || security.employeeCheck(authKey)) {
@@ -61,51 +61,61 @@ public class TransactionsApiController implements TransactionsApi {
                     Long userFromId = accountService.getAccountByIBAN(body.getAccountFrom()).getUserId();
                     Long userToId = accountService.getAccountByIBAN(body.getAccountTo()).getUserId();
                     if (userFromId != userToId) {
-                        return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
+                        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Can't withrdaw from account that isn't yours");
                     }
                 }
-                // checken of rol customer is zoja check of accountFrom iban behoort tot de customer
                 Account accountFrom = accountService.getAccountByIBAN(body.getAccountFrom());
                 Account accountTo = accountService.getAccountByIBAN(body.getAccountTo());
 
-                // Currency check.
+                // If transaction is done by customer, check if the accounts' id matches the userPerformingId
+                if (security.customerCheck(authKey)) {
+                    if (accountFrom.getUserId() != body.getUserPerformingId()) {
+                        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is not permitted to do this action");
+                    }
+                }
+                // Currency check
                 if (accountFrom.getCurrency() != accountTo.getCurrency()) {
-                    return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can't do transactions with account with different currency");
                 }
-                // Dont let savings accounts transfer money to savings accounts.
+                // Don't let savings accounts transfer money to savings accounts
                 if (accountFrom.getType() == Account.TypeEnum.SAVINGS && accountTo.getType() == Account.TypeEnum.SAVINGS) {
-                    return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can't do transactions between two savings accounts");
                 }
-                // Check if SAVINGS withdrawals and deposits are from own user or not.
+                // Check if SAVINGS withdrawals and deposits are from own user or not
                 if ((accountTo.getType().equals(Account.TypeEnum.SAVINGS) || accountFrom.getType().equals(Account.TypeEnum.SAVINGS)) && accountFrom.getUserId() != accountTo.getUserId()) {
-                    return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Savings transactions needs to be done within a users' own accounts");
                 }
 
                 Double newAmountFrom = accountFrom.getBalance().getBalance() - body.getAmount();
                 Double newAmountTo = accountTo.getBalance().getBalance() + body.getAmount();
 
+                // Check if the accounts losing it's money doesn't go below the absolute limit with this transaction
                 if (newAmountFrom < bankConfig.getAbsoluteLimit()) {
-                    return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Account balance can't go lower than predefined absole limit");
                 }
+                // Check if todays transactions by this user don't pass the daily transaction limit
                 LocalDate currentDate = LocalDate.now();
                 if (service.getDailyTransactionsByUserPerforming(body.getUserPerformingId(), OffsetDateTime.parse(currentDate + "T00:00:00.001+02:00"), OffsetDateTime.parse(currentDate + "T23:59:59.999+02:00")) > bankConfig.getDayLimit()) {
-                    return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
+                    return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("User's daily transactions can't pass the limit");
                 }
+                // Check if the amount of the transaction isn't higher than the transaction amount limit
                 if (body.getAmount() > bankConfig.getTransactionLimit()) {
-                    return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Transaction amount can't pass the limit");
                 }
 
+                // Update both accounts accordingly
                 accountFrom.getBalance().setBalance(newAmountFrom);
                 accountTo.getBalance().setBalance(newAmountTo);
-
                 service.updateAccount(accountFrom);
                 service.updateAccount(accountTo);
+
+                // Create new Transaction object to be saved in H2 DB
                 service.createTransaction(new Transaction(body.getAccountFrom(), body.getAccountTo(), body.getAmount(), body.getDescription(), body.getUserPerformingId(), body.getTransactionType()));
-                return new ResponseEntity<Void>(HttpStatus.CREATED);
+                return ResponseEntity.status(HttpStatus.CREATED).body("Transaction successful");
             }
-            return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is not permitted to do this action");
         }
-        return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is not permitted to do this action");
     }
 
     public ResponseEntity<List<Transaction>> getAllTransactions(@ApiParam(value = "transactions to date") @Valid @RequestParam(value = "dateTo", required = false) String dateTo,@ApiParam(value = "transactions from date") @Valid @RequestParam(value = "dateFrom", required = false) String dateFrom,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
@@ -133,7 +143,6 @@ public class TransactionsApiController implements TransactionsApi {
             if (security.isOwner(authKey, accountService.findAccountByUserId(id).getUserId()) || security.employeeCheck(authKey)) {
                 List<Transaction> transactions;
                 if ((transactions = service.getTransactionsByAccountId(id)).isEmpty()) {
-                    // TODO: dit kan vast netter.... TransactionsApi..?
                     return new ResponseEntity<List<Transaction>>(HttpStatus.NO_CONTENT);
                 } else {
                     return ResponseEntity.status(200).body(transactions);
