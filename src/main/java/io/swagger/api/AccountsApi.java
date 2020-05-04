@@ -10,7 +10,6 @@ import io.swagger.model.Account;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.List;
@@ -58,7 +57,7 @@ public interface AccountsApi {
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<List<Account>> getAllAccounts(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
-,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit, HttpServletRequest request
+,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
 );
 
 

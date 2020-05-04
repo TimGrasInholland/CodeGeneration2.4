@@ -10,6 +10,7 @@ import org.threeten.bp.LocalDate;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 /**
@@ -40,7 +41,6 @@ public class User {
   }
 
   @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", initialValue = 1, allocationSize = 1)
-  //@SequenceGenerator(name = "user_seq", initialValue = 1, allocationSize = 1000)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
   @Id
   @JsonProperty("id")
@@ -127,8 +127,7 @@ public class User {
    * @return id
   **/
   @ApiModelProperty(example = "10000000001", value = "")
-  
-    public Long getId() {
+  public Long getId() {
     return id;
   }
 
@@ -146,9 +145,8 @@ public class User {
    * @return username
   **/
   @ApiModelProperty(example = "thijs", required = true, value = "")
-      @NotNull
-
-    public String getUsername() {
+  @NotNull
+  public String getUsername() {
     return username;
   }
 
@@ -166,9 +164,8 @@ public class User {
    * @return password
   **/
   @ApiModelProperty(example = "Welcome0!", required = true, value = "")
-      @NotNull
-
-    public String getPassword() {
+  @NotNull
+  public String getPassword() {
     return password;
   }
 
@@ -186,9 +183,8 @@ public class User {
    * @return firstName
   **/
   @ApiModelProperty(example = "Thijs", required = true, value = "")
-      @NotNull
-
-    public String getFirstName() {
+  @NotNull
+  public String getFirstName() {
     return firstName;
   }
 
@@ -206,8 +202,7 @@ public class User {
    * @return prefix
   **/
   @ApiModelProperty(example = "van", value = "")
-  
-    public String getPrefix() {
+  public String getPrefix() {
     return prefix;
   }
 
@@ -225,9 +220,8 @@ public class User {
    * @return lastName
   **/
   @ApiModelProperty(example = "Tol", required = true, value = "")
-      @NotNull
-
-    public String getLastName() {
+  @NotNull
+  public String getLastName() {
     return lastName;
   }
 
@@ -244,10 +238,10 @@ public class User {
    * Get email
    * @return email
   **/
-  /*@ApiModelProperty(example = "ThijsVanTol@gmail.com", required = true, value = "")
-      @NotNull
-
-  @Pattern(regexp="/^([\\w\\.%\\+\\-]+)@([\\w\\-]+\\.)+([\\w]{2,})$/i")*/   public String getEmail() {
+  @ApiModelProperty(example = "ThijsVanTol@gmail.com", required = true, value = "")
+  @NotNull
+  @Pattern(regexp="([\\w\\.%\\+\\-]+)@([\\w\\-]+\\.)+([\\w]{2,})$")
+  public String getEmail() {
     return email;
   }
 
@@ -265,10 +259,9 @@ public class User {
    * @return birthdate
   **/
   @ApiModelProperty(required = true, value = "")
-      @NotNull
-
-    @Valid
-    public LocalDate getBirthdate() {
+  @NotNull
+  @Valid
+  public LocalDate getBirthdate() {
     return birthdate;
   }
 
@@ -285,10 +278,9 @@ public class User {
    * Get address
    * @return address
   **/
-  /*@ApiModelProperty(example = "Fryslandlaan 12", required = true, value = "")
-      @NotNull
-
-  @Pattern(regexp="/^([1-9][e][\\s])([a-zA-Z]+(([.][\\s])|([\\s]))?)+[1-9][0-9](([-][1-9][0-9]*)|([\\s]?[a-zA-Z]+))?$/i")*/   public String getAddress() {
+  @ApiModelProperty(example = "Fryslandlaan 12", required = true, value = "")
+  @NotNull
+  public String getAddress() {
     return address;
   }
 
@@ -305,9 +297,9 @@ public class User {
    * Get postalcode
    * @return postalcode
   **/
-  /*@ApiModelProperty(example = "1902DR", value = "")
-  
-  @Pattern(regexp="/^[1-9][0-9]{3}[\\s]?[A-Za-z]{2}$/i")*/   public String getPostalcode() {
+  @ApiModelProperty(example = "1902DR", value = "")
+  @Pattern(regexp="[1-9][0-9]{3}[\\s]?[A-Za-z]{2}$")
+  public String getPostalcode() {
     return postalcode;
   }
 
@@ -325,9 +317,8 @@ public class User {
    * @return city
   **/
   @ApiModelProperty(example = "Maaskantje", required = true, value = "")
-      @NotNull
-
-    public String getCity() {
+  @NotNull
+  public String getCity() {
     return city;
   }
 
@@ -345,9 +336,8 @@ public class User {
    * @return phoneNumber
   **/
   @ApiModelProperty(example = "0612345678", required = true, value = "")
-      @NotNull
-
-    public String getPhoneNumber() {
+  @NotNull
+  public String getPhoneNumber() {
     return phoneNumber;
   }
 
@@ -365,9 +355,8 @@ public class User {
    * @return type
   **/
   @ApiModelProperty(example = "Customer", required = true, value = "")
-      @NotNull
-
-    public TypeEnum getType() {
+  @NotNull
+  public TypeEnum getType() {
     return type;
   }
 
@@ -385,9 +374,8 @@ public class User {
    * @return active
   **/
   @ApiModelProperty(example = "true", required = true, value = "")
-      @NotNull
-
-    public Boolean isActive() {
+  @NotNull
+  public Boolean isActive() {
     return active;
   }
 
