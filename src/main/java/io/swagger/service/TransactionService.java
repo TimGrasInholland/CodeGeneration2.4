@@ -5,9 +5,6 @@ import io.swagger.dao.TransactionRepository;
 import io.swagger.dao.UserRepository;
 import io.swagger.model.Account;
 import io.swagger.model.Transaction;
-import io.swagger.model.User;
-import io.swagger.models.auth.In;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
@@ -20,9 +17,9 @@ import java.util.List;
 @Service
 public class TransactionService {
 
-    private TransactionRepository transactionRepository;
-    private AccountRepository accountRepository;
-    private UserRepository userRepository;
+    private final TransactionRepository transactionRepository;
+    private final AccountRepository accountRepository;
+    private final UserRepository userRepository;
 
     public TransactionService(TransactionRepository transactionRepository, AccountRepository accountRepository, UserRepository userRepository) {
         this.transactionRepository = transactionRepository;
@@ -30,9 +27,9 @@ public class TransactionService {
         this.userRepository = userRepository;
     }
 
-    public List<Transaction> getAllTransactions(OffsetDateTime dateFrom, OffsetDateTime dateTo, Integer offset, Integer limit, String username){
+    public List<Transaction> getAllTransactions(OffsetDateTime dateFrom, OffsetDateTime dateTo, Integer offset, Integer limit, String username) {
         Pageable pageable = new PageRequest(offset, limit);
-        if (username.equals("%")){
+        if (username.equals("%")) {
             return transactionRepository.getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqual(dateFrom, dateTo, pageable);
         }
         Long id = userRepository.getUserByUsernameEquals(username).getId();
