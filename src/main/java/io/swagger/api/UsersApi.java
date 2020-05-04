@@ -5,19 +5,13 @@
  */
 package io.swagger.api;
 
-import io.swagger.model.Account;
-import io.swagger.model.Transaction;
-import io.swagger.model.User;
 import io.swagger.annotations.*;
+import io.swagger.model.User;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")

@@ -1,8 +1,8 @@
 package io.swagger.api;
 
-import io.swagger.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
+import io.swagger.annotations.ApiParam;
+import io.swagger.model.User;
 import io.swagger.service.SessionTokenService;
 import io.swagger.service.UserService;
 import org.slf4j.Logger;
@@ -15,11 +15,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
-import java.util.stream.Stream;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
 @Controller
