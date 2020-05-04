@@ -2,8 +2,11 @@ package io.swagger.service;
 
 import io.swagger.dao.AccountRepository;
 import io.swagger.dao.TransactionRepository;
+import io.swagger.dao.UserRepository;
 import io.swagger.model.Account;
 import io.swagger.model.Transaction;
+import io.swagger.model.User;
+import io.swagger.models.auth.In;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,30 +22,27 @@ public class TransactionService {
 
     private TransactionRepository transactionRepository;
     private AccountRepository accountRepository;
+    private UserRepository userRepository;
 
-    public TransactionService(TransactionRepository transactionRepository, AccountRepository accountRepository) {
+    public TransactionService(TransactionRepository transactionRepository, AccountRepository accountRepository, UserRepository userRepository) {
         this.transactionRepository = transactionRepository;
         this.accountRepository = accountRepository;
+        this.userRepository = userRepository;
     }
 
-    public List<Transaction> getAllTransactions() {
-        return (List<Transaction>) transactionRepository.findAll();
-    }
-
-    public List<Transaction> getAllTransactionsWithQuery(int offset, int limit) {
-        Pageable pageable = new PageRequest(offset,limit);
-        Page<Transaction> page = transactionRepository.findAll(pageable);
-        return page.getContent();
+    public List<Transaction> getAllTransactions(OffsetDateTime dateFrom, OffsetDateTime dateTo, Integer offset, Integer limit, String username){
+        Pageable pageable = new PageRequest(offset, limit);
+        if (username.equals("%")){
+            return transactionRepository.getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqual(dateFrom, dateTo, pageable);
+        }
+        Long id = userRepository.getUserByUsernameEquals(username).getId();
+        return transactionRepository.getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqualAndIdEquals(dateFrom, dateTo, id, pageable);
     }
 
     public List<Transaction> getTransactionsByAccountId(long accountId) {
         Account account = accountRepository.findAccountById(accountId);
         List<Transaction> transactions = (List<Transaction>) transactionRepository.getTransactionsByAccountFromEqualsOrAccountToEquals(account.getIban(), account.getIban());
         return transactions;
-    }
-
-    public List<Transaction> getTransactionFilterDate(OffsetDateTime dateFrom, OffsetDateTime dateTo) {
-        return (List<Transaction>) transactionRepository.getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqual(dateFrom, dateTo);
     }
 
     public List<Transaction> getTransactionsByIban(String iban) {
@@ -62,14 +62,6 @@ public class TransactionService {
         return transactions;
     }
 
-    public Transaction checkUserFromId(String accountFrom) {
-        return transactionRepository.getTransactionByAccountFromEquals(accountFrom);
-    }
-
-    public Transaction checkUserToId(String accountTo) {
-        return transactionRepository.getTransactionByAccountToEquals(accountTo);
-    }
-
     public Integer getDailyTransactionsByUserPerforming(Long userPerformingId, OffsetDateTime minDate, OffsetDateTime maxDate) {
         return transactionRepository.countTransactionsByUserPerformingIdEqualsAndTimestampBetween(userPerformingId, minDate, maxDate);
     }
@@ -82,4 +74,6 @@ public class TransactionService {
     public void createTransaction(Transaction transaction) {
         transactionRepository.save(transaction);
     }
+
+    public Integer countAllTransactions(){ return transactionRepository.countAllTransactions();}
 }

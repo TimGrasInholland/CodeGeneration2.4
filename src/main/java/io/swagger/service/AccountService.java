@@ -2,7 +2,6 @@ package io.swagger.service;
 
 import io.swagger.dao.AccountRepository;
 import io.swagger.model.Account;
-import io.swagger.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +23,9 @@ public class AccountService {
         return (List<Account>) accountRepository.findAll();
     }
 
-    public Account getAccountByIBAN(String iban) {return (Account) accountRepository.findAccountByIbanEquals(iban);}
+    public Account getAccountByIBAN(String iban) {
+        return accountRepository.findAccountByIbanEquals(iban);
+    }
 
     public List<Account> getAllAccounts(int offset, int limit) {
         Pageable pageable = new PageRequest(offset, limit);
@@ -40,7 +41,9 @@ public class AccountService {
         return accountRepository.findAccountById(id);
     }
 
-    public void createAccount(Account account) { accountRepository.save(account); }
+    public void createAccount(Account account) {
+        accountRepository.save(account);
+    }
 
     public Integer countAccountByIBAN(String iban) {
         return accountRepository.countAccountByIbanEquals(iban);
