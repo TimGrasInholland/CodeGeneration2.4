@@ -1,8 +1,10 @@
 package io.swagger.api;
 
-import io.swagger.model.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
+import io.swagger.annotations.ApiParam;
+import io.swagger.model.Account;
+import io.swagger.model.AccountBalance;
+import io.swagger.model.User;
 import io.swagger.service.AccountService;
 import io.swagger.service.SessionTokenService;
 import org.slf4j.Logger;
@@ -11,20 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.*;
-import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
@@ -86,7 +82,7 @@ public class AccountsApiController implements AccountsApi {
 
 
     public ResponseEntity<List<Account>> getAllAccounts(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
-,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit, HttpServletRequest request) {
+,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
         String authKey = request.getHeader("session");
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
             if (limit != null && offset == null){

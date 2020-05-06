@@ -8,7 +8,6 @@ import io.swagger.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
