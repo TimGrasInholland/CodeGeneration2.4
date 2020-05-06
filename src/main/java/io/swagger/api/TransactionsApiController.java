@@ -1,17 +1,14 @@
 package io.swagger.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.ApiParam;
 import io.swagger.configuration.BankConfig;
-import io.swagger.model.User;
-import io.swagger.dao.AccountRepository;
 import io.swagger.model.Account;
-import io.swagger.model.AccountBalance;
+import io.swagger.model.Transaction;
+import io.swagger.model.User;
 import io.swagger.service.AccountService;
 import io.swagger.service.SessionTokenService;
 import io.swagger.service.TransactionService;
-import org.springframework.beans.factory.annotation.Autowired;
-import io.swagger.model.Transaction;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -20,14 +17,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.validation.constraints.*;
-import javax.validation.Valid;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
@@ -118,23 +113,42 @@ public class TransactionsApiController implements TransactionsApi {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is not permitted to do this action");
     }
 
-    public ResponseEntity<List<Transaction>> getAllTransactions(@ApiParam(value = "transactions to date") @Valid @RequestParam(value = "dateTo", required = false) String dateTo,@ApiParam(value = "transactions from date") @Valid @RequestParam(value = "dateFrom", required = false) String dateFrom,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
-        String authKey = request.getHeader("session");
-        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
-            if (limit != null && offset == null) {
-                offset = 0;
+    public ResponseEntity<List<Transaction>> getAllTransactions(@ApiParam(value = "transactions to date") @Valid @RequestParam(value = "dateTo", required = false) String dateTo,@ApiParam(value = "transactions from date") @Valid @RequestParam(value = "dateFrom", required = false) String dateFrom, @ApiParam(value = "transactions from username") @Valid @RequestParam(value = "username", required = false) String username,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
+        try {
+            String authKey = request.getHeader("session");
+            if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
+            OffsetDateTime dateFromNew;
+            OffsetDateTime dateToNew;
+
+                if (dateFrom == null){
+                    dateFromNew = OffsetDateTime.MIN;
+                }
+                else{
+                    dateFromNew = OffsetDateTime.parse(dateFrom + "T00:00:00.001+02:00");
+                }
+                if (dateTo == null){
+                    dateToNew = OffsetDateTime.MAX;
+                }
+                else{
+                    dateToNew = OffsetDateTime.parse(dateTo + "T23:59:59.999+02:00");
+                }
+                if (offset == null){
+                    offset = 0;
+                }
+                if (limit == null){
+                    limit = service.countAllTransactions();
+                }
+                if (username == null){
+                    username = "%";
+                }
+                return ResponseEntity.status(200).body(service.getAllTransactions(dateFromNew, dateToNew, offset, limit, username));
             }
-            if (limit != null && offset != null && limit > 0 && offset >= 0) {
-                return ResponseEntity.status(200).body(service.getAllTransactionsWithQuery(offset, limit));
-            } else if (dateFrom != null && dateTo != null) {
-                OffsetDateTime dateFromNew = OffsetDateTime.parse(dateFrom + "T00:00:01.001+02:00");
-                OffsetDateTime dateToNew = OffsetDateTime.parse(dateTo + "T00:00:01.001+02:00");
-                return ResponseEntity.status(200).body(service.getTransactionFilterDate(dateFromNew, dateToNew));
-            } else {
-                return ResponseEntity.status(200).body(service.getAllTransactions());
-            }
+            return new ResponseEntity<List<Transaction>>(HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<List<Transaction>>(HttpStatus.UNAUTHORIZED);
+        catch (Exception e){
+            List<Transaction> ls = null;
+            return ResponseEntity.status(200).header("error",e.getMessage()).body(ls);
+        }
     }
 
     public ResponseEntity<List<Transaction>> getTransactionsFromAccountId(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Long id,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
