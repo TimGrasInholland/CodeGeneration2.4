@@ -1,0 +1,12 @@
+Home				- Jesse
+Login				- Stef
+Register			- Tim
+Create Account			- Thijs
+Customer-My Accounts		- Chris
+Customer-View Account		- Stef
+Employee-Dashboard		- Chris
+Employee-View Accounts		- Jesse
+Employee-View Users		- Tim
+Employee-View Transactions	- Thijs
+Employee-View Account		- Chris
+Employee-View User		- Stef
