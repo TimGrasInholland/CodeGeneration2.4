@@ -49,19 +49,6 @@ li a:not(.active) {
     top: 50px;
 }
 
-#disable-account-btn{
-    background-color: #EE3E68;
-    color: #FFFFFF;
-    border-style: none;
-    float: left;
-    font-size: 20px;
-    font-weight: bold;
-    width: 200px;
-    height: 70px;
-    cursor: pointer;
-    margin-right: 800p
-}
-
 /* Alles hieronder zit in de account-header*/
 
 #account-header{
@@ -102,7 +89,6 @@ li a:not(.active) {
 #center-content{
     margin-left: 50px;
     height: 900px;
-
 }
 
 #accounts-box {
@@ -111,8 +97,22 @@ li a:not(.active) {
     float: left;
     width: 1000px;
     border: 1px solid rgba(112, 112, 112, 0.5);
+    margin-right: 800px;
 }
 
+#disable-account-btn{
+    background-color: #EE3E68;
+    color: #FFFFFF;
+    border-style: none;
+    float: left;
+    font-size: 20px;
+    font-weight: bold;
+    width: 200px;
+    height: 70px;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-left: 802px;
+}
 
 /*================================================*/
 
