@@ -48,13 +48,24 @@ li a:not(.active) {
     top: 50px;
 }
 
+
+#transaction-title{
+    position: relative;
+    float: left;
+    color: #07CF97;
+    margin-top: 50px;
+    margin-left: 55px;
+}
+
+
 /* Alles hieronder zit in de account-header*/
 
 #account-header{
-    margin-left: 50px;
+    float: left;
     margin-top: 60px;
-    margin-bottom: 100px;
     width: 1000px;
+    margin-left: 50px;
+    margin-bottom: 20px;
 }
 
 #current-iban{
@@ -100,8 +111,8 @@ li a:not(.active) {
     float: left;
     position: relative;
     margin-left: 50px;
-    height: 200px;
-    width: 400px;
+    height: 250px;
+    width: 500px;
     border: 1px solid rgba(112, 112, 112, 0.5);
 }
 
@@ -155,6 +166,75 @@ li a:not(.active) {
     margin-top: 5px;
     float: left;
     background-color: #000000;
+}
+
+/*================================================*/
+
+/* Alles hieronder zit in de transaction-box*/ 
+
+#label-box{
+    float: left;
+    margin-left: 20px;
+    margin-top: 20px;
+    width: 100px;
+    height: 200px;
+}
+
+#input-box{
+    float: left;
+    margin-left: 20px;
+    margin-top: 18px;
+    width: 300px;
+    font-size: 18px;
+}
+
+.labels{
+    float: left;
+    width: 100%;
+    font-size: 18px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+#send-btn {
+    position: relative;
+    float: right; 
+    margin-top: 20px;
+    margin-right: 40px;
+}
+
+input[type=text]{
+    border: none;
+    border-bottom:  1px solid black;
+}
+
+.input-transaction{
+    width: 280px;
+    padding-left: 5px;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+#form-transaction {
+    position: relative;
+    cursor: pointer;
+    height: 55px;
+    width: 130px;
+    border-style: none;
+    padding: 25px, 70px, 25px, 70px;
+    font-size: 17px;
+    font-weight: bold;
+    color: white;
+    background-color: #07CF97;
+}
+
+.currency-tag-small{
+    float: right;
+    font-weight: bold;
+    z-index: -10;
+    font-size: 18px;
+    margin-top: 130px;
+    width: 50px;
 }
 
 /*================================================*/

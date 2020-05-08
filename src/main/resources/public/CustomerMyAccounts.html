@@ -28,7 +28,8 @@
     <h2 id="account-balance">€ 100.00</h2>
     <p class="currency-tag">EUR</p>
   </div>
-
+  
+  <h1 id="transaction-title">New Transaction</h1>
 
   <div id="center-content">
     <div id="accounts-box">
@@ -64,9 +65,29 @@
     </div>
 
     <div id="new-transaction-box">
-      <form action="" method="post">
+      <div id="label-box">
+        <p class="labels">From:</p>
+        <p class="labels">To:</p>
+        <p class="labels">Description:</p>
+        <p class="labels">Amount:</p>
+      </div>
 
+
+      <form action="" method="post">
+        <div id="input-box">
+            <input type="text" name="ibanFrom" class="input-transaction" placeholder="your iban here">
+            <input type="text" name="ibanTo" class="input-transaction" placeholder="recipient iban here">
+            <input type="text" name="description" class="input-transaction" placeholder="your personal message here">
+            <input type="text" name="amount" class="input-transaction" placeholder="0.00">
+        </div>
+
+        <p class="currency-tag-small">EUR</p>
+
+        <div id="send-btn">
+          <input type="submit" name="sendBtn" id="form-transaction" value="SEND">
+        </div>
       </form>
+
     </div>
   </div>
 
