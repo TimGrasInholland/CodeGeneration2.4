@@ -1,0 +1,179 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 0px 16px;
+    text-decoration: none;
+}
+
+li a:not(.active) {
+    opacity: 50%;
+}
+
+
+.active {
+    font-weight: bold;
+}
+
+.top-navbar {
+    margin-right: 250px;
+    margin-top: 25px;
+}
+
+.group-name {
+    margin-left: 280px;
+    font-weight: bold;
+}
+
+#page-title{
+    position: relative;
+    color: #07CF97;
+    left: 50px;
+    top: 50px;
+}
+
+#disable-account-btn{
+    background-color: #EE3E68;
+    color: #FFFFFF;
+    border-style: none;
+    float: left;
+    font-size: 20px;
+    font-weight: bold;
+    width: 200px;
+    height: 70px;
+    cursor: pointer;
+    margin-right: 800p
+}
+
+/* Alles hieronder zit in de account-header*/
+
+#account-header{
+    float: left;
+    margin-top: 60px;
+    width: 1000px;
+    margin-left: 50px;
+    margin-bottom: 20px;
+}
+
+#current-iban{
+    float: left;
+    position: relative;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+#account-balance{
+    float: left;
+    position: relative;
+    font-size: 20px;
+    font-weight: normal;
+    padding-left: 600px;
+}
+
+.currency-tag{
+    float: right;
+    position: relative;
+    font-weight: bold;
+    font-size: 20px;
+    width: 50px;
+}
+
+/*==============================================*/
+
+/* Alles hieronder zit in de center-content*/
+
+#center-content{
+    margin-left: 50px;
+    height: 900px;
+
+}
+
+#accounts-box {
+    position: relative;
+    height: 600px;
+    float: left;
+    width: 1000px;
+    border: 1px solid rgba(112, 112, 112, 0.5);
+}
+
+
+/*================================================*/
+
+/* Alles hieronder zit in de transaction-row*/
+
+.transaction-row{
+    float: left;
+    margin-left: 8px;
+    margin-top: 8px;
+    width: 982px;
+    font-size: 20px;
+}
+
+.date-tag{
+    float: left;
+    font-size: 20px;
+    width: 100%;
+    font-weight: bold;
+}
+
+.transaction-from-to{
+    float: left;
+    font-weight: bold;
+    padding-right: 10px;
+    width: 75px;
+
+}
+
+.transaction-iban{
+    float: left;
+}
+
+.transaction-operator{
+    float: left;
+    padding-left: 450px;
+    padding-right: 15px;
+    font-weight: bold;
+}
+
+.transaction-amount{
+    float: left;
+    padding-left: 
+
+}
+
+.hr-line{
+    height: 1px;
+    width: 980px;
+    margin-top: 5px;
+    float: left;
+    background-color: #000000;
+}
+
+/*================================================*/
+
+
+#material-sidethingy-img {
+    position: absolute;
+    z-index: -1;
+    bottom: 0;
+    right: 0;
+    width: 600px;
+    height: 600px;
+}
