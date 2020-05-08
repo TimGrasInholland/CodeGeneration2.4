@@ -1,0 +1,87 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 0px 16px;
+    text-decoration: none;
+}
+
+li a:not(.active) {
+    opacity: 50%;
+}
+
+.active {
+    font-weight: bold;
+}
+
+.top-navbar {
+    margin-right: 275px;
+    margin-top: 25px;
+}
+
+.group-name {
+    margin-left: 280px;
+    font-weight: bold;
+}
+
+#page-title{
+    position: relative;
+    color: #07CF97;
+    left: 50px;
+    top: 50px;
+}
+
+body{
+    background-image: url("Images/background-design.png");
+    background-size: 1920px 1080px;
+    background-repeat: no-repeat;
+}
+
+/* Alles hieronder zit in de transaction-box*/ 
+
+#dashboard-btns{
+    margin-left: 230px;
+}
+
+.dashboard-btn{
+    color: #FFFFFF;
+    border-style: none;
+    font-size: 28px;
+    font-weight: bold;
+    width: 350px;
+    height: 180px;
+    margin-top: 320px;
+    margin-left: 80px;
+    cursor: pointer;
+}
+
+#view-transactions-btn{
+    background-color: #EE3E68;
+}
+
+#view-users-btn{
+    background-color: #FFCB5D;
+}
+
+#view-accounts-btn{
+    background-color: #07CF97;
+}
+
+/*================================================*/

@@ -27,6 +27,7 @@ li a:not(.active) {
     opacity: 50%;
 }
 
+
 .active {
     font-weight: bold;
 }
