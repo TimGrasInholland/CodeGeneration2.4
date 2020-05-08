@@ -1,0 +1,66 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 0px 16px;
+    text-decoration: none;
+}
+
+li a:not(.active) {
+    opacity: 50%;
+}
+
+.active {
+    font-weight: bold;
+}
+
+.top-navbar {
+    margin-right: 250px;
+    margin-top: 25px;
+}
+
+.group-name {
+    margin-left: 280px;
+    font-weight: bold;
+}
+
+#account-title {
+    position: relative;
+    top: 150px;
+    left: 250px;
+    color: #07CF97;
+}
+
+#account-overview {
+    position: relative;
+    top: 155px;
+    left: 250px;
+}
+
+#account-iban {
+    font-weight: 400;
+}
+
+.valuta-change {
+    position: relative;
+    top: -22px;
+    left: 700px;
+    font-weight: 400;
+}
