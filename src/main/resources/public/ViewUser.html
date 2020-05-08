@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Groep 3B CodeGeneration - My Accounts</title>
+  <meta name="description" content="CodeGeneration project website by Thijs van Tol, Chris Lips, Tim Gras, Jesse van Gelder and Stef Robbe.">
+  <meta name="author" content="SitePoint">
+  <link rel="stylesheet" href="Style/ViewUserStyle.css">
+  <link rel="icon" type="image/png" href="kaas.png">
+  <script src="scripts.js"></script>
+</head>
+
+<body>
+    <div class="top-navbar">
+        <ul>
+          <li><p class="group-name"> Groep 3B</p></li>
+          <li style="float:right"><a href="#logout">Logout</a></li>
+          <li style="float:right"><a href="#myProfile">My Profile</a></li>
+          <li style="float:right"><a href="#myAccounts">My Accounts</a></li>
+          <li style="float:right"><a class="active"href="#home">Dashboard</a></li>
+        </ul>
+    </div>
+    <div id="overview-title">
+      <p>User Overview</p>
+    </div>
+    <div class="user-info">
+      <form class="user-info-form" method="POST">
+        <label for="username" class="formlbl">Username</label>
+        <input type="text" class="forminput" id="username">
+        <br />
+        <br />
+        <label for="password" class="formlbl">Password</label>
+        <input type="password" class="forminput" id="password">
+        <br />
+        <br />
+        <label for="firstname" class="formlbl">First name</label>
+        <input type="text" class="forminput" id="firstname">
+        <br />
+        <br />
+        <label for="prefix" class="formlbl">Prefix</label>
+        <input type="text" class="forminput" id="prefix">
+        <br />
+        <br />
+        <label for="lastname" class="formlbl">Last name</label>
+        <input type="text" class="forminput" id="lastname">
+        <br />
+        <br />
+        <label for="email" class="formlbl">Email</label>
+        <input type="email" class="forminput" id="email">
+        <br />
+        <br />
+        <label for="birthdate" class="formlbl">Birthdate</label>
+        <input type="date" class="forminput" id="birthdate">
+        <br />
+        <br />
+        <label for="address" class="formlbl">Address</label>
+        <input type="text" class="forminput" id="address">
+        <br />
+        <br />
+        <label for="city" class="formlbl">City</label>
+        <input type="text" class="forminput" id="city">
+        <br />
+        <br />
+        <label for="phonenumber" class="formlbl">Phone number</label>
+        <input type="text" class="forminput" id="phonenumber">
+        <br />
+        <input type="button" class="userBtn" id="disableUserBtn" value="DISABLE USER" name="disableUserBtn">
+        <input type="button" class="userBtn" id="updateUserBtn" value="UPDATE USER" name="updateUserBtn">
+      </form>
+    </div>
+</body>  
+</html>  

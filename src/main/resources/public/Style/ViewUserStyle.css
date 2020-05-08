@@ -1,0 +1,101 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-image: url('../Images/My_Accounts_BG.png');
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 0px 16px;
+    text-decoration: none;
+}
+
+li a:not(.active) {
+    opacity: 50%;
+}
+
+.active {
+    font-weight: bold;
+}
+
+.top-navbar {
+    margin-right: 250px;
+    margin-top: 25px;
+}
+
+.group-name {
+    margin-left: 280px;
+    font-weight: bold;
+}
+
+#overview-title {
+    position: relative;
+    left: 300px;
+    top: 120px;
+    width: 300px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #07CF97;
+}
+
+.user-info-form {
+    position: relative;
+    top: 150px;
+    left: 300px;
+    width: 700px;
+}
+
+.formlbl {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.forminput {
+    float: right;
+    border-style: none;
+    border-bottom: 1px solid #707070;
+    width: 400px;
+    position: relative;
+    left: 50px;
+    height: 30px;
+}
+
+.userBtn {
+    position: relative;
+    cursor: pointer;
+    height: 45px;
+    width: 150px;
+    top: 30px;
+    left: 375px;
+    border-style: none;
+    padding: 25px, 100px, 25px, 100px;
+    font-weight: 600;
+    color: white;
+}
+
+#updateUserBtn {
+    background-color: #07CF97;
+    position: relative;
+    left: 425px;
+}
+
+#disableUserBtn {
+    background-color: #EE3E68;
+}
