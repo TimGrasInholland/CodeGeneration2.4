@@ -1,0 +1,163 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-image: url(Images/EMPLOYEE\ -\ View\ Transactions\ -\ v1.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+h1{
+    font-size: 40px;
+    font-weight: bolder;
+    color: #06D4A2;
+}
+
+/* Navbar */
+
+nav {
+    margin-right: 250px;
+    margin-top: 25px;
+    background-color: white;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 0px 16px;
+    text-decoration: none;
+}
+
+li a:not(.active) {
+    opacity: 50%;
+}
+
+.active {
+    font-weight: bold;
+}
+
+.group-name {
+    margin-left: 280px;
+    font-weight: bold;
+}
+
+/* Content */
+
+.content{
+    margin-left: 300px;
+    margin-top: 100px;
+}
+
+aside{
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    padding: 20px;
+    width: 260px;
+    float: left;
+}
+
+section{
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    padding: 10px;
+    width: 600px;
+    height: 600px;
+    background-color: white;
+    float: left;
+    margin-left: 20px;
+}
+
+form{
+    margin-top: 30px;
+}
+
+input{
+    float: left;
+    width: 150px;
+    border-color: gray;
+}
+
+.form-name{
+    float: left;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100px;
+}
+
+.submit{
+    height: 47px;
+    padding-top: 16px;
+    padding-bottom: 40px;
+    padding-left: 46px;
+    padding-right: 46px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #06D4A2;
+    border: none;
+    cursor: pointer;
+    margin-left: 300px;
+}
+
+#username{
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    width: 152px;
+}
+
+/* Transaction */
+
+hr{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+object{
+    font-size: 20px;
+}
+
+section{
+    overflow: auto;
+}
+
+.sender{
+    width: 70px;
+    float: left;
+}
+
+.iban{
+    float: left;
+}
+
+.char{
+    float: right;
+    margin-right: 5px;
+}
+
+.amount{
+    float: right;
+}
+
+.currency{
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
