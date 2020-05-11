@@ -5,8 +5,15 @@
 }
 
 body {
-    background-image: url('../Images/dwawdasd.jpg');
-    /*background-position: bottom;*/
+    /*background-image: url('../Images/dwawdasd.jpg');
+    background-position: bottom;*/
+}
+
+.bg {
+    position: absolute;
+    float: right;
+    left: 1374px;
+    top: 535px;
 }
 
 ul {

@@ -4,8 +4,19 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-body {
-    background-image: url('../Images/My_Accounts_BG.png');
+.bg1 {
+    position: absolute;
+    float: right;
+    left: 1120px;
+    top: 135px;
+    z-index: -1;
+}
+
+.bg2  {
+    position: absolute;
+    float: left;
+    bottom: -0px;
+    z-index: -1;
 }
 
 ul {
