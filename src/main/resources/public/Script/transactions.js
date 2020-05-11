@@ -31,7 +31,6 @@ function GetTransactions(){
                 console.log(results)
                 output = "";
                 $.each(results, function () {
-                    var currency = GetCurrency(this.accountFrom)
                     output += '\
                     <object>\
                     <p class="date">'+ GetDateTime(this.timestamp) +'</p>\
@@ -39,7 +38,7 @@ function GetTransactions(){
                     <p class="iban">'+ this.accountFrom +'</p><br>\
                     <p class="sender">TO:</p>\
                     <p class="iban">'+ this.accountTo +'</p>\
-                    <p class="currency">'+ currency +'</p>\
+                    <p class="currency">'+ GetCurrency(this.accountFrom) +'</p>\
                     <p class="amount">'+ this.amount.toFixed(2) +'</p>\
                     <p class="char">'+ DecideChar(this.transactionType) +'</p>\
                     <br>\
@@ -84,15 +83,6 @@ function DecideChar(amount){
     }
     else{
         return '-'
-    }
-}
-
-function DecideSender(amount){
-    if(amount > 0 ){
-        return "TO:"
-    }
-    else{
-        return "FROM:"
     }
 }
 
