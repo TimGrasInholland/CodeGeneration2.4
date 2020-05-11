@@ -47,6 +47,7 @@ li a:not(.active) {
     color: #07CF97;
     left: 50px;
     top: 50px;
+    width: fit-content;
 }
 
 
