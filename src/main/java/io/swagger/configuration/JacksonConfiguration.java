@@ -23,7 +23,8 @@ public class JacksonConfiguration {
     module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
     return module;
   }
-  // CORS FIX CHROME ??????
+
+  //Disable CORS
   @Bean
   public WebMvcConfigurer corsConfigurer() {
     return new WebMvcConfigurerAdapter() {

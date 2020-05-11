@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Groep 3B CodeGeneration - My account</title>
+  <meta name="description" content="CodeGeneration project website by Thijs van Tol, Chris Lips, Tim Gras, Jesse van Gelder and Stef Robbe.">
+  <meta name="author" content="SitePoint">
+  <link rel="stylesheet" href="Style/CustomerMyAccounts.css">
+  <link rel="icon" type="image/png" href="kaas.png">
+</head>
+
+<body>
+  <script src="scripts.js"></script>
+  <div class="top-navbar">
+    <ul>
+      <li><p class="group-name"> Groep 3B</p></li>
+      <li style="float:right"><a href="#logout">Logout</a></li>
+      <li style="float:right"><a href="#myProfile">My Profile</a></li>
+      <li style="float:right"><a class="active" href="CustomerMyAccounts.html">My Accounts</a></li>
+      <li style="float:right"><a href="#home">Home</a></li>
+    </ul>
+  </div>
+  <h1 id="page-title">Current Overview</h1>
+  
+  <div id="account-header">
+    <h2 id="current-iban">NL15 INHO 0123 4567 89</h2>
+    <h2 id="account-balance">€ 100.00</h2>
+    <p class="currency-tag">EUR</p>
+  </div>
+  
+  <h1 id="transaction-title">New Transaction</h1>
+
+  <div id="center-content">
+    <div id="accounts-box">
+      <div class="transaction-row">
+        <p class="date-tag">30 April 2020</p>
+        <p class="transaction-from-to">FROM: </p>
+        <p class="transaction-iban">NL15 INHO 0123 4567 89</p>
+        <p class="transaction-operator">+ </p>
+        <p class="transaction-amount">€ 100.00</p>
+        <p class="currency-tag">EUR</p>
+        <div class="hr-line"></div>
+      </div>
+
+      <div class="transaction-row">
+        <p class="date-tag">39 April 2020</p>
+        <p class="transaction-from-to">TO: </p>
+        <p class="transaction-iban">NL15 INHO 0123 4567 89</p>
+        <p class="transaction-operator">- </p>
+        <p class="transaction-amount">€ 10.00</p>
+        <p class="currency-tag">EUR</p>
+        <div class="hr-line"></div>
+      </div>
+
+      <div class="transaction-row">
+        <p class="date-tag">28 April 2020</p>
+        <p class="transaction-from-to">FROM: </p>
+        <p class="transaction-iban">NL15 INHO 0123 4567 89</p>
+        <p class="transaction-operator">+ </p>
+        <p class="transaction-amount">€ 10.00</p>
+        <p class="currency-tag">EUR</p>
+        <div class="hr-line"></div>
+      </div>
+    </div>
+
+    <div id="new-transaction-box">
+      <div id="label-box">
+        <p class="labels">From:</p>
+        <p class="labels">To:</p>
+        <p class="labels">Description:</p>
+        <p class="labels">Amount:</p>
+      </div>
+
+
+      <form action="" method="post">
+        <div id="input-box">
+            <input type="text" name="ibanFrom" class="input-transaction" placeholder="your iban here">
+            <input type="text" name="ibanTo" class="input-transaction" placeholder="recipient iban here">
+            <input type="text" name="description" class="input-transaction" placeholder="your personal message here">
+            <input type="text" name="amount" class="input-transaction" placeholder="0.00">
+        </div>
+
+        <p class="currency-tag-small">EUR</p>
+
+        <div id="send-btn">
+          <input type="submit" name="sendBtn" id="form-transaction" value="SEND">
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+
+  <div id="material-thingy-right-login">
+    <img id="material-sidethingy-img" src="Images/material-sidethingy.png">
+  </div>
+</body>
+
+
+</html>
