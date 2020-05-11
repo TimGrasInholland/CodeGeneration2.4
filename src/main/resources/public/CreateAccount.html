@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Groep 3B CodeGeneration - Create Account</title>
+  <meta name="description" content="CodeGeneration project website by Thijs van Tol, Chris Lips, Tim Gras, Jesse van Gelder and Stef Robbe.">
+  <meta name="author" content="Inholland Informatica group 3B - 2020">
+  <link rel="stylesheet" href="CreateAccountStyle.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav>
+        <ul>
+          <li><p class="group-name"> Groep 3B</p></li>
+          <li style="float:right"><a href="#logout">Logout</a></li>
+          <li style="float:right"><a href="#myProfile">My Profile</a></li>
+          <li style="float:right"><a class="active" href="#myAccounts">My Accounts</a></li>
+          <li style="float:right"><a href="#home">Home</a></li>
+        </ul>
+      </nav>
+
+    <!-- Content -->
+    <main class="content">
+      <h1>Create Account</h1>
+        <br><br>
+        <form>
+          <p class="form-name">Type</p>
+            <select id="type" name="type" required>
+              <option value="Current">Current</option>
+              <option value="Savings" selected>Savings</option>
+            </select><br><br>
+
+          <p class="form-name">Currency</p>
+            <select id="currency" name="currency" required>
+              <option value="EUR" selected>EUR</option>
+            </select><br><br>
+          <button class="submit">CREATE</button>
+        </form>
+      </main>
+  </body>
+  
+  </html>
