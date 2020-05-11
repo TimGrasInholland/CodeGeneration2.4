@@ -49,7 +49,7 @@ li a:not(.active) {
 }
 
 body{
-    background-image: url("Images/background-design.png");
+    background-image: url("../Images/background-design.png");
     background-size: 1920px 1080px;
     background-repeat: no-repeat;
 }
