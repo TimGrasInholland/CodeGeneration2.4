@@ -14,6 +14,7 @@ function Login(){
                 console.log("logged in" + result);
                 sessionStorage.setItem("session", result);
                 alert("[TEST] API Token saved as session: "+sessionStorage.getItem("session"))
+                window.location.href = './Employee_Transactions.html';
             }
         }
     });
