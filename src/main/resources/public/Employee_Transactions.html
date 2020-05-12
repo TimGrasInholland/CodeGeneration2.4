@@ -6,6 +6,8 @@
   <meta name="description" content="CodeGeneration project website by Thijs van Tol, Chris Lips, Tim Gras, Jesse van Gelder and Stef Robbe.">
   <meta name="author" content="Inholland Informatica group 3B - 2020">
   <link rel="stylesheet" href="Style/Employee_TransactionsStyle.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="Script/transactions.js"></script>
 </head>
 
 <body>
@@ -40,102 +42,18 @@
                 <p class="form-name">Username:</p>
                     <input type="text" id="username" name="username">
                     <br><br>
-                <button class="submit" style="margin-left:111px;">FILTER</button>
+                <button type="button" class="submit" style="margin-left:111px;" onclick="GetTransactions()">FILTER</button>
               </form>
         </aside>
 
         <!-- Transactions -->
-        <section>
-            <object>
-                <p class="date">30 April 2020</p>
-                <p class="sender">FROM:</p>
-                <p class="iban">NL01INHO45938573</p>
-                <p class="currency">EUR</p>
-                <p class="amount">100.00</p>
-                <p class="char">+</p>
-                <br>
-                <hr>
-            </object>
-            <object>
-                <p class="date">29 April 2020</p>
-                <p class="sender">TO:</p>
-                <p class="iban">NL01INHO20485732</p>
-                <p class="currency">EUR</p>
-                <p class="amount">10.00</p>
-                <p class="char">-</p>
-                <br>
-                <hr>
-            </object>
-            <object>
-                <p class="date">28 April 2020</p>
-                <p class="sender">FROM:</p>
-                <p class="iban">NL01INHO92048304</p>
-                <p class="currency">EUR</p>
-                <p class="amount">10.00</p>
-                <p class="char">+</p>
-                <br>
-                <hr>
-            </object><object>
-                <p class="date">30 April 2020</p>
-                <p class="sender">FROM:</p>
-                <p class="iban">NL01INHO45938573</p>
-                <p class="currency">EUR</p>
-                <p class="amount">100.00</p>
-                <p class="char">+</p>
-                <br>
-                <hr>
-            </object>
-            <object>
-                <p class="date">29 April 2020</p>
-                <p class="sender">TO:</p>
-                <p class="iban">NL01INHO20485732</p>
-                <p class="currency">EUR</p>
-                <p class="amount">10.00</p>
-                <p class="char">-</p>
-                <br>
-                <hr>
-            </object>
-            <object>
-                <p class="date">28 April 2020</p>
-                <p class="sender">FROM:</p>
-                <p class="iban">NL01INHO92048304</p>
-                <p class="currency">EUR</p>
-                <p class="amount">10.00</p>
-                <p class="char">+</p>
-                <br>
-                <hr>
-            </object><object>
-                <p class="date">30 April 2020</p>
-                <p class="sender">FROM:</p>
-                <p class="iban">NL01INHO45938573</p>
-                <p class="currency">EUR</p>
-                <p class="amount">100.00</p>
-                <p class="char">+</p>
-                <br>
-                <hr>
-            </object>
-            <object>
-                <p class="date">29 April 2020</p>
-                <p class="sender">TO:</p>
-                <p class="iban">NL01INHO20485732</p>
-                <p class="currency">EUR</p>
-                <p class="amount">10.00</p>
-                <p class="char">-</p>
-                <br>
-                <hr>
-            </object>
-            <object>
-                <p class="date">28 April 2020</p>
-                <p class="sender">FROM:</p>
-                <p class="iban">NL01INHO92048304</p>
-                <p class="currency">EUR</p>
-                <p class="amount">10.00</p>
-                <p class="char">+</p>
-                <br>
-                <hr>
-            </object>
+        <section id="transactions">
+            
         </section>
-        
+        <script>
+        SetDates()
+        GetTransactions()
+        </script>
     </main>
   </body>
   

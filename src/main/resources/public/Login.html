@@ -7,11 +7,11 @@
   <meta name="description" content="CodeGeneration project website by Thijs van Tol, Chris Lips, Tim Gras, Jesse van Gelder and Stef Robbe.">
   <meta name="author" content="SitePoint">
   <link rel="stylesheet" href="Style/LoginStyle.css">
-  <link rel="icon" type="image/png" href="kaas.png">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="Script/login.js"></script>
 </head>
 
 <body>
-  <script src="scripts.js"></script>
   <div class="top-navbar">
     <ul>
       <li><p class="group-name"> Groep 3B</p></li>
@@ -23,20 +23,18 @@
   </div>
   <div id="login-box">
     <h1 id="login-welcome">WELCOME</h1>
-    <form action="" method="post">
       <div id="username-field">
         <input type="text" name="username" id="form-username" placeholder="Username">
       </div>
       <div id="password-field">
         <input type="password" name="password" id="form-password" placeholder="Password">
       </div>
-      <div id="login-btn">
+      <div id="login-btn" onclick="Login()">
         <input type="submit" name="longBtn" id="form-login" value="LOGIN">
       </div>
       <div id="login-newaccount">
         <p>Don't have an account? <a class="newaccount-link" href="">Create new account</a></p>
       </div>
-    </form>
   </div>
   <div id="material-thingy-right-login">
     <img id="material-sidethingy-img" src="Images/material-sidethingy.png">

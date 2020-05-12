@@ -110,13 +110,13 @@ public class TransactionsApiController implements TransactionsApi {
             OffsetDateTime dateFromNew;
             OffsetDateTime dateToNew;
 
-                if (dateFrom == null){
+                if (dateFrom.isEmpty() || dateFrom == null){
                     dateFromNew = OffsetDateTime.MIN;
                 }
                 else{
                     dateFromNew = OffsetDateTime.parse(dateFrom + "T00:00:00.001+02:00");
                 }
-                if (dateTo == null){
+                if (dateTo.isEmpty() || dateTo == null){
                     dateToNew = OffsetDateTime.MAX;
                 }
                 else{
@@ -128,7 +128,7 @@ public class TransactionsApiController implements TransactionsApi {
                 if (limit == null){
                     limit = service.countAllTransactions();
                 }
-                if (username == null){
+                if (username.isEmpty() || username == null){
                     username = "%";
                 }
                 return ResponseEntity.status(200).body(service.getAllTransactions(dateFromNew, dateToNew, offset, limit, username));
