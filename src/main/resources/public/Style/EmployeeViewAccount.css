@@ -47,6 +47,7 @@ li a:not(.active) {
     color: #07CF97;
     left: 50px;
     top: 50px;
+    width: fit-content;
 }
 
 /* Alles hieronder zit in de account-header*/
@@ -88,7 +89,7 @@ li a:not(.active) {
 
 #center-content{
     margin-left: 50px;
-    height: 900px;
+    height: 840px;
 }
 
 #accounts-box {
