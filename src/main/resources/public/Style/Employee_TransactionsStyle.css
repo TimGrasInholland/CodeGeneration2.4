@@ -138,13 +138,19 @@ section{
     overflow: auto;
 }
 
+.date{
+    font-weight: 600;
+}
+
 .sender{
     width: 70px;
     float: left;
+    color: gray;
 }
 
 .iban{
     float: left;
+    color: gray;
 }
 
 .char{

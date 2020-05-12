@@ -6,10 +6,13 @@
 package io.swagger.api;
 
 import io.swagger.annotations.*;
+import io.swagger.model.SessionToken;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-30T13:49:21.820Z[GMT]")
 @Api(value = "Security", description = "the Security API")
 public interface SecurityApi {
@@ -39,6 +42,19 @@ public interface SecurityApi {
             method = RequestMethod.POST)
     ResponseEntity<String> login(@ApiParam(value = "") @RequestParam(value="username", required=false)  String username
             ,@ApiParam(value = "") @RequestParam(value="password", required=false)  String password
+    );
+
+    @ApiOperation(value = "Get session token by auth key", nickname = "getSessionTokenByAuthKey", notes = "Calling this allows you to fetch a user from a given ID", response = SessionToken.class, authorizations = {
+            @Authorization(value = "ApiKeyAuth")    }, tags={ "Security", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "requested Auth Key", response = SessionToken.class),
+            @ApiResponse(code = 400, message = "bad request", response = String.class),
+            @ApiResponse(code = 401, message = "API key is missing or invalid"),
+            @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
+    @RequestMapping(value = "/SessionToken/{APIkey}",
+            produces = { "application/json" },
+            method = RequestMethod.GET)
+    ResponseEntity<SessionToken> getSessionTokenByAuthKey(@ApiParam(value = "",required=true, allowableValues="") @PathVariable("APIkey") String key
     );
 
 
