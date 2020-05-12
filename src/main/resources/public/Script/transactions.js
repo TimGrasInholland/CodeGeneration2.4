@@ -26,27 +26,28 @@ function GetTransactions(){
         },
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        statusCode: {
-            200: function(results){
-                console.log(results)
-                output = "";
-                $.each(results, function () {
-                    output += '\
-                    <object>\
-                    <p class="date">'+ GetDateTime(this.timestamp) +'</p>\
-                    <p class="sender">FROM:</p>\
-                    <p class="iban">'+ this.accountFrom +'</p><br>\
-                    <p class="sender">TO:</p>\
-                    <p class="iban">'+ this.accountTo +'</p>\
-                    <p class="currency">'+ GetCurrency(this.accountFrom) +'</p>\
-                    <p class="amount">'+ this.amount.toFixed(2) +'</p>\
-                    <p class="char">TODO</p>\
-                    <br>\
-                    <hr>\
-                    </object>'
-                });
-                SetListOfTransactions(output)
-            }
+        success: function(results){
+            console.log(results)
+            output = "";
+            $.each(results, function () {
+                output += '\
+                <object>\
+                <p class="date">'+ GetDateTime(this.timestamp) +'</p>\
+                <p class="sender">FROM:</p>\
+                <p class="iban">'+ this.accountFrom +'</p><br>\
+                <p class="sender">TO:</p>\
+                <p class="iban">'+ this.accountTo +'</p>\
+                <p class="currency">'+ GetCurrency(this.accountFrom) +'</p>\
+                <p class="amount">'+ this.amount.toFixed(2) +'</p>\
+                <p class="char">TODO</p>\
+                <br>\
+                <hr>\
+                </object>'
+            });
+            SetListOfTransactions(output)
+        },
+        error: function(){
+            alert("Could not load all transactions!")
         }
     });
 }
@@ -60,7 +61,7 @@ function GetDateTime(timestamp){
 }
 
 function GetCurrency(iban){
-    currency = false;
+    currency = null;
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/api/Accounts/iban/"+iban,

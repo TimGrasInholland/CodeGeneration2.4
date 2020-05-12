@@ -9,13 +9,13 @@ function Login(){
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        statusCode: {
-            200: function(result){
-                console.log("logged in" + result);
-                sessionStorage.setItem("session", result);
-                alert("[TEST] API Token saved as session: "+sessionStorage.getItem("session"))
-                window.location.href = './Employee_Transactions.html';
-            }
+        success: function(result) {
+            console.log(result)
+            sessionStorage.setItem("session", result)
+            window.location.href = './MyAccounts.html'
+        },
+        error: function(){
+            alert("Invalid username/password!")
         }
     });
 }
