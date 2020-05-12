@@ -40,7 +40,7 @@ function GetTransactions(){
                     <p class="iban">'+ this.accountTo +'</p>\
                     <p class="currency">'+ GetCurrency(this.accountFrom) +'</p>\
                     <p class="amount">'+ this.amount.toFixed(2) +'</p>\
-                    <p class="char">'+ DecideChar(this.transactionType) +'</p>\
+                    <p class="char">TODO</p>\
                     <br>\
                     <hr>\
                     </object>'
@@ -75,15 +75,6 @@ function GetCurrency(iban){
         }
     });
     return currency
-}
- 
-function DecideChar(amount){
-    if(amount > 0){
-        return '+'
-    }
-    else{
-        return '-'
-    }
 }
 
 function SetListOfTransactions(output){
