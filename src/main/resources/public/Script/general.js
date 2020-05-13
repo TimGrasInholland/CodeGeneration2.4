@@ -1,4 +1,4 @@
-function GetCustommerNavBar(){
+function GetCustomerNavBar(){
     return '\
         <ul>\
           <li><p class="group-name"> Groep 3B</p></li>\
@@ -25,7 +25,7 @@ function SetNavBar(active){
     var role = "Customer"
     var navbar;
     if(role == 'Customer'){
-        navbar = GetCustommerNavBar()
+        navbar = GetCustomerNavBar()
     }
     else if(role == 'Employee'){
         navbar = GetEmployeeNavBar()
