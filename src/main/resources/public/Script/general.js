@@ -22,8 +22,10 @@ function GetEmployeeNavBar(){
 }
 
 function SetNavBar(active){
-    var role = "Customer"
-    var navbar;
+    CheckIfUserIsLoggedIn()
+
+    var role = GetCurrentUserRole()
+    var navbar
     if(role == 'Customer'){
         navbar = GetCustomerNavBar()
     }
@@ -56,4 +58,65 @@ function logout() {
             }
         }
     });
+}
+
+function CheckIfUserIsLoggedIn(){
+    var authKey = GetCurrentUserAuthKey()
+    if(authKey == null){
+        window.location.href = './Login.html';
+    }
+}
+
+function GetCurrentUserRole(){
+    var role;
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/SessionToken/"+sessionStorage.getItem("session"),
+        headers: {
+            "session": sessionStorage.getItem("session")
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function(data){
+            role = data.role
+        }
+    });
+    return role
+}
+
+function GetCurrentUserAuthKey(){
+    var key = null;
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/SessionToken/"+sessionStorage.getItem("session"),
+        headers: {
+            "session": sessionStorage.getItem("session")
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function(data){
+            key = data.authKey
+        }
+    });
+    return key
+}
+
+function GetCurrentUserId(){
+    var id = null;
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/SessionToken/"+sessionStorage.getItem("session"),
+        headers: {
+            "session": sessionStorage.getItem("session")
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function(data){
+            id = data.id
+        }
+    });
+    return id
 }
