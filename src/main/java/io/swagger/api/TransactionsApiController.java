@@ -147,7 +147,6 @@ public class TransactionsApiController implements TransactionsApi {
             if (security.isOwner(authKey, accountService.findAccountByUserId(id).getUserId()) || security.employeeCheck(authKey)) {
                 List<Transaction> transactions;
                 if ((transactions = service.getTransactionsByAccountId(id)).isEmpty()) {
-                    // TODO: dit kan vast netter.... TransactionsApi..?
                     return new ResponseEntity<List<Transaction>>(HttpStatus.NO_CONTENT);
                 } else {
                     return ResponseEntity.status(200).body(transactions);

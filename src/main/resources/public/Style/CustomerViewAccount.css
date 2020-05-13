@@ -111,8 +111,9 @@ li a:not(.active) {
 
 #new-transaction-box{
     float: left;
-    position: relative;
+    position: absolute;
     margin-left: 50px;
+    left: 1000px;
     height: 250px;
     width: 500px;
     border: 1px solid rgba(112, 112, 112, 0.5);
