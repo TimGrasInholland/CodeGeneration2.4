@@ -12,6 +12,7 @@
 
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script type="text/javascript" src="Script/general.js"></script>
+  <script type="text/javascript" src="Script/ViewUser.js"></script>
 </head>
 
 <body>
@@ -64,8 +65,8 @@
         <label for="phonenumber" class="formlbl">Phone number</label>
         <input type="text" class="forminput" id="phonenumber">
         <br />
-        <input type="button" class="userBtn" id="disableUserBtn" value="DISABLE USER" name="disableUserBtn">
-        <input type="button" class="userBtn" id="updateUserBtn" value="UPDATE USER" name="updateUserBtn">
+        <script>LoadInfo()</script>
+        <script>GetButtons()</script>
       </form>
     </div>
     <img src="Images/View_User_BG_1.png" class="bg1">
