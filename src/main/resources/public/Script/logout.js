@@ -5,14 +5,15 @@ function logout() {
         headers: {
             "session": sessionStorage.getItem("session")
         },
-        success: function(result) {
-            confirm(result);
-            window.location.href = './Login.html';
-        },
-        error: function(result) {
-            confirm(result.responseText);
-            window.location.href = './Login.html';
-            
+        complete: function(jqXHR) {
+            switch (jqXHR.status) {
+                case 200:
+                    alert("You have been logged out.");
+                    window.location.href = './Login.html';
+                    break;
+                default:
+                    alert("Oops! Something went wrong.");
+            }
         }
     });
     
