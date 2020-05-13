@@ -24,28 +24,15 @@
   <h1 id="page-title">Current Overview</h1>
   
   <div id="account-header">
-    <h2 id="current-iban">NL15 INHO 0123 4567 89</h2>
-    <h2 id="account-balance">€ 100.00</h2>
-    <p class="currency-tag">EUR</p>
+    <h2 id="current-iban"></h2>
+    <h2 id="account-balance"></h2>
+    <p id="currency-tag" class="currency-tag"></p>
   </div>
   
   <h1 id="transaction-title">New Transaction</h1>
 
   <div id="center-content">
     <div id="accounts-box">
-      <!--
-      <div class="transaction-row">
-        <p class="date-tag">28 April 2020</p>
-        <p class="transaction-from-to">FROM: </p>
-        <p class="transaction-iban">NL15 INHO 0123 4567 89</p>
-        <p class="transaction-operator">+ </p>
-        <p class="transaction-amount">€ 10.00</p>
-        <p class="currency-tag">EUR</p>
-        <div class="hr-line"></div>
-      </div>
-    </div>
-    -->
-
     <div id="new-transaction-box">
       <div id="label-box">
         <p class="labels">From:</p>
@@ -53,31 +40,24 @@
         <p class="labels">Description:</p>
         <p class="labels">Amount:</p>
       </div>
-
-
       <form action="" method="post">
         <div id="input-box">
-            <input type="text" name="ibanFrom" class="input-transaction" placeholder="Your IBAN ">
-            <input type="text" name="ibanTo" class="input-transaction" placeholder="Recipient's IBAN">
-            <input type="text" name="description" class="input-transaction" placeholder="Message">
-            <input type="text" name="amount" class="input-transaction" placeholder="0.00">
+            <input type="text" id="ibanFrom" name="ibanFrom" class="input-transaction" disabled>
+            <input type="text" id="ibanTo" name="ibanTo" class="input-transaction" placeholder="Recipient's IBAN">
+            <input type="text" id="description" name="description" class="input-transaction" placeholder="Message">
+            <input type="text" id="amount" name="amount" class="input-transaction" placeholder="0.00">
         </div>
-
-        <p class="currency-tag-small">EUR</p>
-
+        <p id="currencyTagSmall" class="currency-tag-small"></p>
+        <script>SetValues()</script>
         <div id="send-btn">
-          <input type="submit" name="sendBtn" id="form-transaction" value="SEND">
+          <input type="button" name="sendBtn" id="form-transaction" value="SEND" onclick="CreateTransaction()">
         </div>
       </form>
-
     </div>
   </div>
-
 
   <div id="material-thingy-right-login">
     <img id="material-sidethingy-img" src="Images/material-sidethingy.png">
   </div>
 </body>
-
-
 </html>
