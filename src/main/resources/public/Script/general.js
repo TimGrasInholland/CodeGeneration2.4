@@ -2,9 +2,9 @@ function GetCustomerNavBar(){
     return '\
         <ul>\
           <li><p class="group-name"> Groep 3B</p></li>\
-          <li style="float:right"><a href="#logout">Logout</a></li>\
-          <li id="myProfile" style="float:right"><a href="#myProfile">My Profile</a></li>\
-          <li id="myAccounts" style="float:right"><a href="#myAccounts">My Accounts</a></li>\
+          <li style="float:right"><a onclick="logout()">Logout</a></li>\
+          <li id="myProfile" style="float:right"><a href="ViewUser.html">My Profile</a></li>\
+          <li id="myAccounts" style="float:right"><a href="MyAccounts.html">My Accounts</a></li>\
           <li id="home" style="float:right"><a href="#home">Home</a></li>\
         </ul>'
 }
@@ -13,10 +13,10 @@ function GetEmployeeNavBar(){
     return '\
         <ul>\
             <li><p class="group-name"> Groep 3B</p></li>\
-            <li style="float:right"><a href="#logout">Logout</a></li>\
-            <li id="myProfile" style="float:right"><a href="#myProfile">My Profile</a></li>\
-            <li id="dashboard" style="float:right"><a href="#dashboard">Dashboard</a></li>\
-            <li id="myAccounts" style="float:right"><a href="#myAccounts">My Accounts</a></li>\
+            <li style="float:right"><a onclick="logout()">Logout</a></li>\
+            <li id="myProfile" style="float:right"><a href="ViewUser.html">My Profile</a></li>\
+            <li id="dashboard" style="float:right"><a href="EmployeeDashboard.html">Dashboard</a></li>\
+            <li id="myAccounts" style="float:right"><a href="MyAccounts.html">My Accounts</a></li>\
             <li id="home"style="float:right"><a href="#home">Home</a></li>\
         </ul>'
 }
