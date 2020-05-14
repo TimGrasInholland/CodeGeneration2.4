@@ -1,5 +1,5 @@
 function CreateAccount(){
-    var userId = GetUserId()
+    var userId = GetCurrentUserId()
 
     if(userId != null){
 
@@ -39,22 +39,4 @@ function CreateAccount(){
         alert("You are not logged in!")
         window.location.href = './Login.html';
     }
-}
-
-function GetUserId(){
-    var userId = null;
-    $.ajax({
-        type: "GET",
-        url: "http://localhost:8080/api/SessionToken/"+sessionStorage.getItem("session"),
-        headers: {
-            "session": sessionStorage.getItem("session")
-        },
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function(data){
-            userId = data.userId
-        }
-    });
-    return userId
 }

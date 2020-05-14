@@ -2,29 +2,29 @@
 
 <html lang="en">
 <head>
-  <meta charset="utf-8">
   <title>Groep 3B CodeGeneration</title>
+  <meta charset="utf-8">
+  <meta name="description" content="CodeGeneration project website by Thijs van Tol, Chris Lips, Tim Gras, Jesse van Gelder and Stef Robbe.">
+  <meta name="author" content="Inholland Informatica group 3B - 2020">
+
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <meta name="description" content="CodeGeneration project website by Thijs van Tol, Chris Lips, Tim Gras, Jesse van Gelder and Stef Robbe.">
-  <meta name="author" content="SitePoint">
   <link rel="stylesheet" href="Style/UsersStyle.css">
+  <link rel="stylesheet" href="Style/general.css">
+  
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+  <script type="text/javascript" src="Script/general.js"></script>
+  <script src="Script/Users.js"></script>
 </head>
 
 <body>
-  <script src="Script/Users.js"></script>
-  <div class="top-navbar">
-    <ul>
-      <li><p class="group-name"> Groep 3B</p></li>
-      <li style="float:right"><a href="#logout">Logout</a></li>
-      <li style="float:right"><a href="#myProfile">My Profile</a></li>
-      <li style="float:right"><a href="#myAccounts">My Accounts</a></li>
-      <li style="float:right"><a class="active" href="#home">Home</a></li>
-    </ul>
-  </div>
+  <!-- Navbar -->
+  <nav>
+  </nav>
+  <script>SetNavBar("dashboard")</script>
+
   <div id="AllUsers">
-    <a href="RegisterAccount.html" id="NewUser">Create New User</a> 
+    <a href="Register.html" id="NewUser">Create New User</a> 
     <div id="SearchBar">
       <i class="fa fa-search"></i>
       <input id="seaching" type="text" name="username" class="form-input" placeholder="Search by username or last name">   
