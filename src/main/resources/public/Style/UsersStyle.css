@@ -107,6 +107,7 @@ li a:not(.active) {
 .form-input{
     border-style: none;
     width: 90%;
+    padding-left: 10px;
 }
 
 .userName{

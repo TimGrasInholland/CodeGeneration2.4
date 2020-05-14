@@ -9,11 +9,11 @@
   <meta name="description" content="CodeGeneration project website by Thijs van Tol, Chris Lips, Tim Gras, Jesse van Gelder and Stef Robbe.">
   <meta name="author" content="SitePoint">
   <link rel="stylesheet" href="Style/UsersStyle.css">
-  <link rel="icon" type="image/png" href="kaas.png">
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 </head>
 
 <body>
-  <script src="scripts.js"></script>
+  <script src="Script/Users.js"></script>
   <div class="top-navbar">
     <ul>
       <li><p class="group-name"> Groep 3B</p></li>
@@ -24,50 +24,15 @@
     </ul>
   </div>
   <div id="AllUsers">
-    <a href="newuser" id="NewUser">Create New User</a> 
-    
+    <a href="RegisterAccount.html" id="NewUser">Create New User</a> 
     <div id="SearchBar">
       <i class="fa fa-search"></i>
-      <input type="text" name="username" class="form-input" placeholder="Search by username or last name">   
+      <input id="seaching" type="text" name="username" class="form-input" placeholder="Search by username or last name">   
     </div>
     
     <div id="Users-box">
-      <a href="">
-        <div class="user-box">
-          <i class="arrow right"></i>
-          <div class="userName">
-            Thijs van Tol
-          </div>
-          <address class="Email">
-            ThijsVanTol@Gmail.com
-          </address>
-        </div>
-      </a>
-      <a href="">
-        <div class="user-box">
-          <i class="arrow right"></i>
-          <div class="userName">
-            Thijs van Tol
-          </div>
-          <address class="Email">
-            ThijsVanTol@Gmail.com
-          </address>
-        </div>
-      </a>
-      <a href="">
-        <div class="user-box">
-          <i class="arrow right"></i>
-          <div class="userName">
-            Thijs van Tol
-          </div>
-          <address class="Email">
-            ThijsVanTol@Gmail.com
-          </address>
-        </div>
-      </a>
       <div class="bottom">
-      <i class="arrow right"></i>
-        
+        <i class="arrow right"></i>
       </div>
     </div>
   </div>
