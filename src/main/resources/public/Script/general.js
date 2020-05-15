@@ -115,7 +115,7 @@ function GetCurrentUserId(){
         dataType: "json",
         async: false,
         success: function(data){
-            id = data.id
+            id = data.userId
         }
     });
     return id
