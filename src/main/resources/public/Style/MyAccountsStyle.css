@@ -16,6 +16,28 @@ body {
     top: 535px;
 }
 
+.clickAccount{
+    text-decoration: none;
+    color: black;
+}
+
+.noAccount{
+    position: relative;
+    height: 75px;
+    width: 1000px;
+    left: 300px;
+    margin-top: 10px;
+    border: 2px dashed red;
+    font-weight: 400;
+    font-size: larger;
+}
+
+.noAccountText{
+    position: relative;
+    text-align: center;
+    margin-top: 20px;
+}
+
 #overview-title {
     position: relative;
     left: 300px;
