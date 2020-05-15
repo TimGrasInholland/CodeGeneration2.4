@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <title>Groep 3B CodeGeneration - Transactions</title>
+  <meta charset="utf-8">
+  <meta name="description" content="CodeGeneration project website by Thijs van Tol, Chris Lips, Tim Gras, Jesse van Gelder and Stef Robbe.">
+  <meta name="author" content="Inholland Informatica group 3B - 2020">
+
+  <link rel="stylesheet" href="Style/Employee_TransactionsStyle.css">
+  <link rel="stylesheet" href="Style/general.css">
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="Script/transactions.js"></script>
+  <script type="text/javascript" src="Script/general.js"></script>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav>
+    </nav>
+    <script>SetNavBar("dashboard")</script>
+
+    <!-- Content -->
+    <main class="content">
+      <h1 style="float:left">Transactions</h1><button class="submit" style="margin-left: 402px;">CREATE NEW TRANSACTION</button>
+        <br><br>
+
+        <!-- Filter -->
+        <aside>
+            <h2>Filter results</h2>
+            <form>
+                <p class="form-name">From:</p>
+                    <input type="date" value="2020-01-01" id="startdate" name="startdate">
+                    <br><br>
+      
+                <p class="form-name">To:</p>
+                    <input type="date" value="2020-01-01" id="enddate" name="enddate">
+                    <br><br>
+
+                <p class="form-name">Username:</p>
+                    <input type="text" id="username" name="username">
+                    <br><br>
+                <button type="button" class="submit" style="margin-left:111px;" onclick="GetTransactions()">FILTER</button>
+              </form>
+        </aside>
+
+        <!-- Transactions -->
+        <section id="transactions">
+            
+        </section>
+        <script>
+        SetDates()
+        GetTransactions()
+        </script>
+    </main>
+  </body>
+  
+  </html>

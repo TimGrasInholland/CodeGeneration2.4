@@ -1,0 +1,214 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#page-title{
+    position: relative;
+    color: #07CF97;
+    left: 50px;
+    top: 50px;
+    width: fit-content;
+}
+
+
+#transaction-title{
+    position: relative;
+    float: left;
+    color: #07CF97;
+    margin-top: 50px;
+    margin-left: 55px;
+}
+
+
+/* Alles hieronder zit in de account-header*/
+
+#account-header{
+    float: left;
+    margin-top: 60px;
+    width: 1000px;
+    margin-left: 50px;
+    margin-bottom: 20px;
+}
+
+#current-iban{
+    float: left;
+    position: relative;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+#account-balance{
+    float: left;
+    position: relative;
+    font-size: 20px;
+    font-weight: normal;
+    padding-left: 600px;
+}
+
+.currency-tag{
+    float: right;
+    position: relative;
+    font-weight: bold;
+    font-size: 20px;
+    width: 50px;
+}
+
+/*==============================================*/
+
+/* Alles hieronder zit in de center-content*/
+
+#center-content{
+    margin-left: 50px;
+}
+
+#accounts-box {
+    position: relative;
+    height: 600px;
+    float: left;
+    width: 1000px;
+    border: 1px solid rgba(112, 112, 112, 0.5);
+}
+
+#new-transaction-box{
+    float: left;
+    position: absolute;
+    margin-left: 50px;
+    left: 1000px;
+    height: 250px;
+    width: 500px;
+    border: 1px solid rgba(112, 112, 112, 0.5);
+}
+
+/*================================================*/
+
+/* Alles hieronder zit in de transaction-row*/
+
+.transaction-row{
+    float: left;
+    margin-left: 8px;
+    margin-top: 8px;
+    width: 982px;
+    font-size: 20px;
+}
+
+.date-tag{
+    float: left;
+    font-size: 20px;
+    width: 100%;
+    font-weight: bold;
+}
+
+.transaction-from-to{
+    float: left;
+    font-weight: bold;
+    padding-right: 10px;
+    width: 75px;
+
+}
+
+.transaction-iban{
+    float: left;
+}
+
+.transaction-operator{
+    float: left;
+    padding-left: 450px;
+    padding-right: 15px;
+    font-weight: bold;
+}
+
+.transaction-amount{
+    float: left;
+    padding-left: 
+
+}
+
+.hr-line{
+    height: 1px;
+    width: 980px;
+    margin-top: 5px;
+    float: left;
+    background-color: #000000;
+}
+
+/*================================================*/
+
+/* Alles hieronder zit in de transaction-box*/ 
+
+#label-box{
+    float: left;
+    margin-left: 20px;
+    margin-top: 20px;
+    width: 100px;
+    height: 200px;
+}
+
+#input-box{
+    float: left;
+    margin-left: 20px;
+    margin-top: 18px;
+    width: 300px;
+    font-size: 18px;
+}
+
+.labels{
+    float: left;
+    width: 100%;
+    font-size: 18px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+#send-btn {
+    position: relative;
+    float: right; 
+    margin-top: 20px;
+    margin-right: 40px;
+}
+
+input[type=text]{
+    border: none;
+    border-bottom:  1px solid black;
+}
+
+.input-transaction{
+    width: 280px;
+    padding-left: 5px;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+#form-transaction {
+    position: relative;
+    cursor: pointer;
+    height: 55px;
+    width: 130px;
+    border-style: none;
+    padding: 25px, 70px, 25px, 70px;
+    font-size: 17px;
+    font-weight: bold;
+    color: white;
+    background-color: #07CF97;
+}
+
+.currency-tag-small{
+    float: right;
+    font-weight: bold;
+    z-index: -10;
+    font-size: 18px;
+    margin-top: 130px;
+    width: 50px;
+}
+
+/*================================================*/
+
+#material-sidethingy-img {
+    position: absolute;
+    z-index: -1;
+    bottom: 0;
+    right: 0;
+    width: 600px;
+    height: 600px;
+}

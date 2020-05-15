@@ -1,0 +1,118 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    /*background-image: url('../Images/dwawdasd.jpg');
+    background-position: bottom;*/
+}
+
+.bg {
+    position: absolute;
+    float: right;
+    left: 1374px;
+    top: 535px;
+}
+
+.clickAccount{
+    text-decoration: none;
+    color: black;
+}
+
+.noAccount{
+    position: relative;
+    height: 75px;
+    width: 1000px;
+    left: 300px;
+    margin-top: 10px;
+    border: 2px dashed red;
+    font-weight: 400;
+    font-size: larger;
+}
+
+.noAccountText{
+    position: relative;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#overview-title {
+    position: relative;
+    left: 300px;
+    top: 120px;
+    width: 0px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+#newAccount-Btn {
+    position: relative;
+    top: 120px;
+    left: 1100px;
+    height: 50px;
+    width: 200px;
+    border-style: none;
+    padding: 16px, 46px, 16px, 46px;
+    font-weight: 500;
+    color: white;
+    background-color: #07CF97;
+    cursor: pointer;
+}
+
+#currents-header {
+    position: relative;
+    top: 100px;
+    left: 300px;
+    width: 0px;
+    margin-bottom: 105px;
+    font-size: 30px;
+    font-style: italic;
+    color: #07CF97;
+}
+
+.account {
+    position: relative;
+    height: 75px;
+    width: 1000px;
+    left: 300px;
+    margin-top: 10px;
+    border: 1px solid black;
+    font-weight: 400;
+    font-size: larger;
+}
+
+.iban {
+    position: relative;
+    top: 20px;
+    left: 20px;
+}
+
+.price {
+    position: relative;
+    right: 160px;
+    top: -1px;
+    text-align: right;
+}
+
+.currency {
+    position: relative;
+    top: -27px;
+    left: 850px;
+    width: 150px;
+    font-weight: bold;
+}
+
+.arrow-right-accounts {
+    position: relative;
+    left: 950px;
+    top: -49px;
+    cursor: pointer;
+}
+
+.savings {
+    position: relative;
+    top: -70px;
+    height: 0px;
+}

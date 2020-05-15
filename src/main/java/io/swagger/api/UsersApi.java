@@ -32,7 +32,7 @@ public interface UsersApi {
 );
 
 
-    @ApiOperation(value = "gets all users", nickname = "getAllUsers", notes = "Calling this allows you to fetch all users", response = User.class, responseContainer = "List", authorizations = {
+    @ApiOperation(value = "gets all users", nickname = "getlAllUsers", notes = "Calling this allows you to fetch all users", response = User.class, responseContainer = "List", authorizations = {
         @Authorization(value = "ApiKeyAuth")    }, tags={ "Users", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Users", response = User.class, responseContainer = "List"),
