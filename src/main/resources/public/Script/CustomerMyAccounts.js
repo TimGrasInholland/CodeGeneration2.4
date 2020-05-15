@@ -48,29 +48,3 @@ function SetListOfAccounts(currentsOutput, savingsOutput){
     $("#currentsAccounts").html(currentsOutput)
     $("#savingsAccounts").html(savingsOutput)
 }
-
-
-// <div class="currents">
-//       <p id="currents-header">Currents</p>
-//       <div class="account">
-//         <p class="iban">NLxxINHO0xxxxxxxxx</p>
-//         <p class="price">100.00</p>
-//         <p class="currency">EUR</p>
-//         <img src="Images/arrow_right.png" class="arrow-right-accounts">
-//       </div>
-//       <div class="account">
-//         <p class="iban">NLxxINHO0xxxxxxxxx</p>
-//         <p class="price">100.00</p>
-//         <p class="currency">EUR</p>
-//         <img src="Images/arrow_right.png" class="arrow-right-accounts">
-//       </div>
-//     </div>
-//     <div class="savings">
-//       <p id="currents-header">Savings</p>
-//       <div class="account">
-//         <p class="iban">NLxxINHO0xxxxxxxxx</p>
-//         <p class="price">200.00</p>
-//         <p class="currency">EUR</p>
-//         <img src="Images/arrow_right.png" class="arrow-right-accounts">
-//       </div>
-//     </div>
