@@ -23,6 +23,10 @@ body{
     margin-left: 230px;
 }
 
+.dashboard-link{
+    text-decoration: none;
+}
+
 .dashboard-btn{
     color: #FFFFFF;
     border-style: none;
