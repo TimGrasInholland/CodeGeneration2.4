@@ -1,0 +1,137 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 0px 16px;
+    text-decoration: none;
+}
+
+li a:not(.active) {
+    opacity: 50%;
+}
+
+.active {
+    font-weight: bold;
+}
+
+.top-navbar {
+    margin-right: 250px;
+    margin-top: 25px;
+}
+
+.group-name {
+    margin-left: 280px;
+    font-weight: bold;
+}
+
+#trusted-by-millions {
+	    opacity: 0.5;
+		position: relative;
+		left: 360px;
+		top: 189px;
+		overflow: visible;
+		width: 273px;
+		white-space: nowrap;
+		text-align: left;
+		font-family: Segoe UI;
+		font-style: normal;
+		font-weight: bold;
+		font-size: 20px;
+		color: rgba(238,62,104,1);
+		letter-spacing: 1.5px;
+}
+
+#everything-you-need-to-track-your-business {
+	    position: relative;
+		left: 356px;
+		top: 223px;
+		overflow: visible;
+		width: 675px;
+		height: 343px;
+		line-height: 0.8;
+		margin-top: -5px;
+		text-align: left;
+		font-family: Segoe UI;
+		font-style: normal;
+		font-weight: bold;
+		font-size: 97px;
+		color: rgba(0,0,0,1);
+		letter-spacing: 2px;
+}
+
+#lorem-ipsum {
+	    opacity: 0.5;
+		position: relative;
+		left: 356px;
+		top: 596px;
+		overflow: hidden;
+		width: 593px;
+		height: 84px;
+		line-height: 30px;
+		margin-top: -6px;
+		text-align: left;
+		font-family: Segoe UI;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 18px;
+		color: rgba(0,0,0,1);
+}
+
+#rectangle {
+	position: relative;
+	overflow: visible;
+	left: 55px;
+	top: 25px;
+	color: rgba(238,62,104,1);
+	width: 270px;
+	height: 74px;
+	
+}
+
+#give_it_a_try {
+        position: relative;
+		left: 55px;
+		top: 25px;
+		overflow: visible;
+		width: 161px;
+		white-space: nowrap;
+		line-height: 30px;
+		margin-top: -6px;
+		text-align: center;
+		font-family: Segoe UI;
+		font-style: normal;
+		font-weight: bold;
+		font-size: 18px;
+		color: rgba(255,255,255,1);
+		letter-spacing: 2px;
+}
+
+#material-thingy-right-login {
+    position: relative;
+    top: 489px;
+}
+
+#material-sidethingy-img {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 800px;
+    height: 800px;
+}

@@ -63,3 +63,63 @@ li a:not(.active) {
     background-color: #07CF97;
     cursor: pointer;
 }
+
+#currents-header {
+	    position: absolute;
+		left: 397px;
+		top: 278px;
+		overflow: visible;
+		width: 111px;
+		white-space: nowrap;
+		text-align: left;
+		font-family: Segoe UI;
+		font-style: italic;
+		font-weight: normal;
+		font-size: 30px;
+		color: rgba(7,207,151,1);
+}
+
+#iban {
+		position: absolute;
+		left: 20px;
+		top: 20px;
+		overflow: visible;
+		width: 233px;
+		white-space: nowrap;
+		text-align: left;
+		font-family: Segoe UI;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 25px;
+		color: rgba(0,0,0,1);
+	}
+
+#price {
+		position: absolute;
+		left: 1109px;
+		top: 343px;
+		overflow: visible;
+		width: 65px;
+		white-space: nowrap;
+		text-align: right;
+		font-family: Segoe UI;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 22px;
+		color: rgba(0,0,0,1);
+	}
+	
+#EUR {
+		position: absolute;
+		left: 1183px;
+		top: 343px;
+		overflow: visible;
+		width: 43px;
+		white-space: nowrap;
+		text-align: left;
+		font-family: Segoe UI;
+		font-style: normal;
+		font-weight: bold;
+		font-size: 22px;
+		color: rgba(0,0,0,1);
+	}
