@@ -5,7 +5,7 @@ function GetCustomerNavBar(){
           <li style="float:right"><a onclick="logout()">Logout</a></li>\
           <li id="myProfile" style="float:right"><a href="ViewUser.html">My Profile</a></li>\
           <li id="myAccounts" style="float:right"><a href="MyAccounts.html">My Accounts</a></li>\
-          <li id="home" style="float:right"><a href="#home">Home</a></li>\
+          <li id="home" style="float:right"><a href="Home.html">Home</a></li>\
         </ul>'
 }
 
@@ -17,21 +17,36 @@ function GetEmployeeNavBar(){
             <li id="myProfile" style="float:right"><a href="ViewUser.html">My Profile</a></li>\
             <li id="dashboard" style="float:right"><a href="EmployeeDashboard.html">Dashboard</a></li>\
             <li id="myAccounts" style="float:right"><a href="MyAccounts.html">My Accounts</a></li>\
-            <li id="home"style="float:right"><a href="#home">Home</a></li>\
+            <li id="home"style="float:right"><a href="Home.html">Home</a></li>\
+        </ul>'
+}
+
+function GetUnsetUserNavBar(){
+    return '\
+        <ul>\
+            <li><p class="group-name"> Groep 3B</p></li>\
+            <li id="login" style="float:right"><a href="Login.html">Login</a></li>\
+            <li id="home"style="float:right"><a href="Home.html">Home</a></li>\
         </ul>'
 }
 
 function SetNavBar(active){
-    CheckIfUserIsLoggedIn()
-
-    var role = GetCurrentUserRole()
     var navbar
-    if(role == 'Customer'){
-        navbar = GetCustomerNavBar()
+    if(sessionStorage.getItem("session") == null){
+        navbar = GetUnsetUserNavBar()
     }
-    else if(role == 'Employee'){
-        navbar = GetEmployeeNavBar()
+    else{
+        CheckIfUserIsLoggedIn()
+
+        var role = GetCurrentUserRole()
+        if(role == 'Employee'){
+            navbar = GetEmployeeNavBar()
+        }
+        else{
+            navbar = GetCustomerNavBar()
+        }
     }
+
     $("nav").html(navbar)
     SetItemActive(active)
 }
@@ -115,8 +130,23 @@ function GetCurrentUserId(){
         dataType: "json",
         async: false,
         success: function(data){
-            id = data.id
+            id = data.userId
         }
     });
     return id
 }
+
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+};
