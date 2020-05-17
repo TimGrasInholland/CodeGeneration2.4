@@ -19,7 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
 @Controller
@@ -43,6 +46,10 @@ public class UsersApiController implements UsersApi {
 
     public ResponseEntity<String> createUser(@ApiParam(value = ""  )  @Valid @RequestBody User body) {
         if (body != null) {
+            //String authKey = request.getHeader("session");
+            /*if(!security.isPermitted(authKey, User.TypeEnum.BANK)){
+                body.setType(User.TypeEnum.CUSTOMER);
+            }*/
             List<User> users = service.getAllUsers();
             if (users.stream().anyMatch((user) -> user.getUsername().equals(body.getUsername()))) {
                 // maybe extra info why not correct
@@ -64,17 +71,21 @@ public class UsersApiController implements UsersApi {
 ,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
 ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
 ) {
-        if(limit == null || offset == null || limit == 0 || offset == 0){
-            return ResponseEntity.status(200).body(service.getAllUsers());
-        }
         String authKey = request.getHeader("session");
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
-            Pageable pageable = new PageRequest(offset, limit);
-            if(lastname != null &&!lastname.isEmpty()){
-                return ResponseEntity.status(200).body(service.getAllUsersByLastname(lastname.toLowerCase(), pageable));
+            if(limit == null || offset == null || limit == 0 ){
+                return ResponseEntity.status(200).body(service.getAllUsers());
             }
-            if(username != null && !username.isEmpty()){
-                return ResponseEntity.status(200).body(service.getAllUsersByUsername(username.toLowerCase(), pageable));
+            Pageable pageable = new PageRequest(offset, limit);
+            if(lastname != null &&!lastname.isEmpty() || username != null && !username.isEmpty()){
+                List<User> lastnamelist =  service.getAllUsersByLastname(lastname, pageable);
+                List<User> usernameList = service.getAllUsersByUsername(lastname, pageable);
+                for(User user : lastnamelist){
+                    if(!usernameList.stream().anyMatch(u -> u.getId() == user.getId())){
+                        usernameList.add(user);
+                    }
+                }
+                return ResponseEntity.status(200).body(usernameList);
             }
             return ResponseEntity.status(200).body(service.getAllUsers(pageable));
         }
