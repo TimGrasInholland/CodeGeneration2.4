@@ -64,7 +64,8 @@ function username_check(){
 function MakeUser(users){
     $("#Users-box").empty();
     $.each(users, function(i) {
-        $( "#Users-box" ).append("<a href='EmployeeViewAccount.html?Id="+users[i].Id+"'>"+
+        console.log(users[i]);
+        $( "#Users-box" ).append("<a href='EmployeeViewAccount.html?Id="+users[i].id+"'>"+
             "<div class='user-box'>"+
             "<i class='arrow right'></i>"+
             "<div class='userName'> "+
