@@ -165,6 +165,7 @@ public class User {
   **/
   @ApiModelProperty(example = "Welcome0!", required = true, value = "")
   @NotNull
+  @Pattern(regexp="(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\d\\s:])([^\\s]){8,16}$")
   public String getPassword() {
     return password;
   }
