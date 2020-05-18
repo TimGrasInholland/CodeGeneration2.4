@@ -25,14 +25,17 @@ function GetButtons() {
 }
 
 function GetUser() {
-    // if login with Adrie538, goes to "success", but result is empty/null? no error given
     var user = null;    
     $.ajax({
         type: 'GET',
         url: 'http://localhost:8080/api/Users/'+ GetCurrentUserId(),
-        headers: { "session": "1" },
+        headers: { "session": sessionStorage.getItem("session") },
         async: false,
         success: function(result) {
+            console.log(result);
+            console.log(GetCurrentUserId());
+            
+            
             user = result;
         },
         error: function(error) {
