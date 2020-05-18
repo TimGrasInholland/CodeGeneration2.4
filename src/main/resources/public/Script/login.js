@@ -16,7 +16,7 @@ function Login(){
         },
         error: function(xhr){
             console.log(xhr)
-            alert("Invalid username/password!")\
+            alert("Invalid username/password!")
         }
     });
 }
