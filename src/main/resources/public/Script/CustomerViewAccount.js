@@ -1,10 +1,15 @@
-var currentIban = 'NL01INHO6666934694';
-var currentAccount = GetAccount(currentIban);
+var currentIban = null;
+var currentAccount = null;
 
 // function ViewAccount(iban) {
 //     this.currentAccount = GetAccount(iban);
 //     document.getElementById("ibanFrom").innerText = currentAccount.iban;
 // }
+
+function SetIban(){
+    this.currentIban = getUrlParameter("iban");
+    this.currentAccount = GetAccount(currentIban);
+}
 
 function SetValues() {
     $("#ibanFrom").val(currentIban);
@@ -53,8 +58,10 @@ $(function () {
 
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/api/Users/2/Transactions',
-        headers: { "session": "1" },
+        url: 'http://localhost:8080/api/Accounts/'+ GetAccount(currentIban).id +'/Transactions',
+        headers: {
+            "session": sessionStorage.getItem("session")
+        },
         success: function(transactions) {
             $.each(transactions, function(i, transaction) {
                 allTransactions.append(GetTransaction(transaction));

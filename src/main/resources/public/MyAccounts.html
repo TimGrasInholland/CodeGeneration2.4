@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="Style/general.css">
 
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script type="text/javascript" src="Script/MyAccounts.js"></script>
+  <script type="text/javascript" src="Script/CustomerMyAccounts.js"></script>
   <script type="text/javascript" src="Script/general.js"></script>
 </head>
 
@@ -21,35 +21,24 @@
     </nav>
     <script>SetNavBar("myAccounts")</script>
 
+
     <div id="overview-title">
       <p>Overview</p>
     </div>
     <a href="CreateAccount.html"><button type="button" id="newAccount-Btn">CREATE NEW ACCOUNT</button></a>
     <div class="currents">
       <p id="currents-header">Currents</p>
-      <div class="account">
-        <p class="iban">NLxxINHO0xxxxxxxxx</p>
-        <p class="price">100.00</p>
-        <p class="currency">EUR</p>
-        <img src="Images/arrow_right.png" class="arrow-right-accounts">
-      </div>
-      <div class="account">
-        <p class="iban">NLxxINHO0xxxxxxxxx</p>
-        <p class="price">100.00</p>
-        <p class="currency">EUR</p>
-        <img src="Images/arrow_right.png" class="arrow-right-accounts">
-      </div>
+       <div id="currentsAccounts"></div>
     </div>
+
     <div class="savings">
       <p id="currents-header">Savings</p>
-      <div class="account">
-        <p class="iban">NLxxINHO0xxxxxxxxx</p>
-        <p class="price">200.00</p>
-        <p class="currency">EUR</p>
-        <img src="Images/arrow_right.png" class="arrow-right-accounts">
-      </div>
+      <div id="savingsAccounts"></div>
     </div>
+
+    <div id="savingsAccounts"></div>
     <img src="Images/My_Accounts_BG.png" class="bg">
+    <script>GetAccountsByUserId()</script>
 </body>
   
   
