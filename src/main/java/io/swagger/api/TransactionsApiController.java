@@ -104,41 +104,35 @@ public class TransactionsApiController implements TransactionsApi {
     }
 
     public ResponseEntity<List<Transaction>> getAllTransactions(@ApiParam(value = "transactions to date") @Valid @RequestParam(value = "dateTo", required = false) String dateTo,@ApiParam(value = "transactions from date") @Valid @RequestParam(value = "dateFrom", required = false) String dateFrom, @ApiParam(value = "transactions from username") @Valid @RequestParam(value = "username", required = false) String username,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
-        try {
-            String authKey = request.getHeader("session");
-            if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
-            OffsetDateTime dateFromNew;
-            OffsetDateTime dateToNew;
+        String authKey = request.getHeader("session");
+        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
+        OffsetDateTime dateFromNew;
+        OffsetDateTime dateToNew;
 
-                if (dateFrom.isEmpty() || dateFrom == null){
-                    dateFromNew = OffsetDateTime.MIN;
-                }
-                else{
-                    dateFromNew = OffsetDateTime.parse(dateFrom + "T00:00:00.001+02:00");
-                }
-                if (dateTo.isEmpty() || dateTo == null){
-                    dateToNew = OffsetDateTime.MAX;
-                }
-                else{
-                    dateToNew = OffsetDateTime.parse(dateTo + "T23:59:59.999+02:00");
-                }
-                if (offset == null){
-                    offset = 0;
-                }
-                if (limit == null){
-                    limit = service.countAllTransactions();
-                }
-                if (username.isEmpty() || username == null){
-                    username = "%";
-                }
-                return ResponseEntity.status(200).body(service.getAllTransactions(dateFromNew, dateToNew, offset, limit, username));
+            if (dateFrom == null || dateFrom.isEmpty()){
+                dateFromNew = OffsetDateTime.MIN;
             }
-            return new ResponseEntity<List<Transaction>>(HttpStatus.UNAUTHORIZED);
+            else{
+                dateFromNew = OffsetDateTime.parse(dateFrom + "T00:00:00.001+02:00");
+            }
+            if (dateTo == null || dateTo.isEmpty()){
+                dateToNew = OffsetDateTime.MAX;
+            }
+            else{
+                dateToNew = OffsetDateTime.parse(dateTo + "T23:59:59.999+02:00");
+            }
+            if (offset == null){
+                offset = 0;
+            }
+            if (limit == null){
+                limit = service.countAllTransactions();
+            }
+            if (username == null || username.isEmpty()){
+                username = "%";
+            }
+            return ResponseEntity.status(200).body(service.getAllTransactions(dateFromNew, dateToNew, offset, limit, username));
         }
-        catch (Exception e){
-            List<Transaction> ls = null;
-            return ResponseEntity.status(200).header("error",e.getMessage()).body(ls);
-        }
+        return new ResponseEntity<List<Transaction>>(HttpStatus.UNAUTHORIZED);
     }
 
     public ResponseEntity<List<Transaction>> getTransactionsFromAccountId(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Long id,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
