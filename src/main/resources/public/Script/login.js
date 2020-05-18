@@ -5,17 +5,18 @@ function Login(){
     $.ajax({
         type: "POST",
         url: "http://localhost:8080/api/Login",
-        data: { username: username, password: password },
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
+        data: { username: username, password: password },
         success: function(result) {
             console.log(result)
             sessionStorage.setItem("session", result)
             window.location.href = './MyAccounts.html'
         },
-        error: function(){
-            alert("Invalid username/password!")
+        error: function(xhr){
+            console.log(xhr)
+            alert("Invalid username/password!")\
         }
     });
 }
