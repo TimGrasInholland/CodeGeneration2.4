@@ -66,6 +66,7 @@ function logout() {
             switch (jqXHR.status) {
                 case 200:
                     alert("You have been logged out.");
+                    sessionStorage.removeItem("session")
                     window.location.href = './Login.html';
                     break;
                 default:
@@ -102,6 +103,7 @@ function GetCurrentUserRole(){
 
 function GetCurrentUserAuthKey(){
     var key = null;
+    console.log(sessionStorage.getItem("session"))
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/api/SessionToken/"+sessionStorage.getItem("session"),
