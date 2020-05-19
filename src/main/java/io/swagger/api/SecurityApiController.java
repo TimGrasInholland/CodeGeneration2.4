@@ -66,7 +66,7 @@ public class SecurityApiController implements SecurityApi {
             if (user != null){
                 String authKey = "";
                 Random rnd = new Random();
-                for (int i = 0; i < 10; i++) {
+                for (int i = 0; i < 16; i++) {
                     authKey += rnd.nextInt(10);
                 }
 

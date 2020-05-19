@@ -115,11 +115,7 @@ function GetAccount(iban) {
 
 function DisableAccount(){
     var account = GetAccount(currentIban);
-
-    $.ajax({
-        type: "PUT",
-        url: "http://localhost:8080/api/Accounts",
-        data: JSON.stringify({
+    var json = JSON.stringify({
             id: account.id,
             userId: account.userId,
             type: account.type,
@@ -127,18 +123,26 @@ function DisableAccount(){
             balance: account.balance,
             active: false,
             iban: account.iban
-        }),
+        })
+    console.log(json);
+
+    $.ajax({
+        type: "PUT",
+        url: "http://localhost:8080/api/Accounts",
+        data: json,
         headers: {
             "session": sessionStorage.getItem("session")
         },
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function(result) {
-            console.log(result)
-        },
-        error: function(jqXHR){
-            console.log(jqXHR);
-            alert("Oops something went wrong!")
+        contentType: "application/json;charset=UTF-8",
+        complete: function(jqXHR) {
+            switch (jqXHR.status) {
+                case 200:
+                    alert("Account has been disabled");
+                    window.location.href = './#jessedeel.html';
+                    break;
+                default:
+                    alert("Oops! Something went wrong.");
+            }
         }
     });
 

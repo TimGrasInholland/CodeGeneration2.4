@@ -109,7 +109,6 @@ public class TransactionsApiController implements TransactionsApi {
             if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
             OffsetDateTime dateFromNew;
             OffsetDateTime dateToNew;
-
                 if (dateFrom.isEmpty() || dateFrom == null){
                     dateFromNew = OffsetDateTime.MIN;
                 }
@@ -137,7 +136,7 @@ public class TransactionsApiController implements TransactionsApi {
         }
         catch (Exception e){
             List<Transaction> ls = null;
-            return ResponseEntity.status(200).header("error",e.getMessage()).body(ls);
+            return ResponseEntity.status(400).header("error",e.getMessage()).body(ls);
         }
     }
 
