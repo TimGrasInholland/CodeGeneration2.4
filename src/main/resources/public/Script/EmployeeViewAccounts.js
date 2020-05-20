@@ -1,4 +1,4 @@
-function GetUsers(){
+function GetAccounts(){
     var userId = GetUserId()
 
     if(userId != null){
@@ -14,7 +14,7 @@ function GetUsers(){
             var data = {
                 "offset": 0,
                 "limit": 100,
-                "searchname": SeachString 
+                "iban": SeachString 
             };
         }
         else{
@@ -22,12 +22,12 @@ function GetUsers(){
                 "session": sessionStorage.getItem("session")
             };
             var data = {
-                "searchname": SeachString
+                "iban": SeachString
             };
         }
         $.ajax({
             type: "Get",
-            url: "http://localhost:8080/api/Users",
+            url: "http://localhost:8080/api/Accounts",
             data: data,
             headers: header,
             contentType: "application/json; charset=utf-8",
@@ -54,25 +54,25 @@ function GetUsers(){
 
 $(document).ready(function(){
         $('#seaching').on('keyup paste',username_check);
-        GetUsers();
+        GetAccounts();
 });
 
 function username_check(){ 
-    GetUsers();
+    GetAccounts();
 }
 
-function MakeUser(users){
+function MakeUser(account){
     $("#Users-box").empty();
-    $.each(users, function(i) {
-        console.log(users[i]);
-        $( "#Users-box" ).append("<a href='ViewUser.html?Id="+users[i].id+"'>"+
+    $.each(account, function(i) {
+        console.log(account[i]);
+        $( "#Users-box" ).append("<a href='EmployeeViewAccount.html?Id="+account[i].id+"'>"+
             "<div class='user-box'>"+
             "<i class='arrow right'></i>"+
             "<div class='userName'> "+
-            users[i].username+
+            account[i].iban+
             "</div>"+
             "<address class='Email'>"+
-            users[i].email+
+            account[i].type+
             " </address>"+
             "</div>"+
             "</a>");

@@ -10,6 +10,8 @@ import io.swagger.service.SessionTokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -86,17 +88,17 @@ public class AccountsApiController implements AccountsApi {
 
 
     public ResponseEntity<List<Account>> getAllAccounts(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
-,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
+,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "iban", required = false) String iban) {
         String authKey = request.getHeader("session");
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
-            if (limit != null && offset == null){
-                offset = 0;
-            }
-            if (limit != null && offset != null && limit > 0 && offset >= 0){
-                return ResponseEntity.status(200).body(service.getAllAccounts(offset, limit));
-            }
-            else{
+            if(limit == null || offset == null || limit == 0 ){
+
                 return ResponseEntity.status(200).body(service.getAllAccounts());
+            }
+            Pageable pageable = new PageRequest(offset, limit);
+            if(iban != null &&!iban.isEmpty()){
+                List<Account> test =service.getAllAccountsByIban(iban, pageable);
+                return ResponseEntity.status(200).body(test);
             }
         }
         return new ResponseEntity<List<Account>>(HttpStatus.UNAUTHORIZED);

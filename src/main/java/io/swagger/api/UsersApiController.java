@@ -66,8 +66,7 @@ public class UsersApiController implements UsersApi {
         return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
     }
 
-    public ResponseEntity<List<User>> getAllUsers(@ApiParam(value = "get users based on lastname") @Valid @RequestParam(value = "lastname", required = false) String lastname
-,@ApiParam(value = "get users based on username") @Valid @RequestParam(value = "username", required = false) String username
+    public ResponseEntity<List<User>> getAllUsers(@ApiParam(value = "get users based on searchname") @Valid @RequestParam(value = "searchname", required = false) String searchName
 ,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
 ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
 ) {
@@ -77,9 +76,9 @@ public class UsersApiController implements UsersApi {
                 return ResponseEntity.status(200).body(service.getAllUsers());
             }
             Pageable pageable = new PageRequest(offset, limit);
-            if(lastname != null &&!lastname.isEmpty() || username != null && !username.isEmpty()){
-                List<User> lastnamelist =  service.getAllUsersByLastname(lastname, pageable);
-                List<User> usernameList = service.getAllUsersByUsername(lastname, pageable);
+            if(searchName != null &&!searchName.isEmpty()){
+                List<User> lastnamelist =  service.getAllUsersByLastname(searchName, pageable);
+                List<User> usernameList = service.getAllUsersByUsername(searchName, pageable);
                 for(User user : lastnamelist){
                     if(!usernameList.stream().anyMatch(u -> u.getId() == user.getId())){
                         usernameList.add(user);

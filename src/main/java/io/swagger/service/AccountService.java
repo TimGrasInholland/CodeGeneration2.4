@@ -23,6 +23,10 @@ public class AccountService {
         return (List<Account>) accountRepository.findAll();
     }
 
+    public List<Account> getAllAccountsByIban(String iban, Pageable pageable) {
+        return (List<Account>) accountRepository.getAllByIbanContainingIgnoreCase(iban, pageable);
+    }
+
     public Account getAccountByIBAN(String iban) {
         return accountRepository.findAccountByIbanEquals(iban);
     }
