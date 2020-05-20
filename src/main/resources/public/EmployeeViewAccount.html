@@ -12,6 +12,7 @@
 
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script type="text/javascript" src="Script/general.js"></script>
+  <script type="text/javascript" src="Script/EmployeeViewAccount.js"></script>
 </head>
 
 <body>
@@ -20,47 +21,20 @@
   </nav>
   <script>SetNavBar("dashboard")</script>
 
-  <h1 id="page-title">Current Overview</h1>
+  <h1 id="page-title">Account Overview</h1>
   
   <div id="account-header">
-    <h2 id="current-iban">NL15 INHO 0123 4567 89</h2>
-    <h2 id="account-balance">€ 100.00</h2>
-    <p class="currency-tag">EUR</p>
   </div>
+  <script>GetHeader()</script>
 
-  <div id="center-content">
-    <div id="accounts-box">
-      <div class="transaction-row">
-        <p class="date-tag">30 April 2020</p>
-        <p class="transaction-from-to">FROM: </p>
-        <p class="transaction-iban">NL15 INHO 0123 4567 89</p>
-        <p class="transaction-operator">+ </p>
-        <p class="transaction-amount">€ 100.00</p>
-        <p class="currency-tag">EUR</p>
-        <div class="hr-line"></div>
-      </div>
 
-      <div class="transaction-row">
-        <p class="date-tag">39 April 2020</p>
-        <p class="transaction-from-to">TO: </p>
-        <p class="transaction-iban">NL15 INHO 0123 4567 89</p>
-        <p class="transaction-operator">- </p>
-        <p class="transaction-amount">€ 10.00</p>
-        <p class="currency-tag">EUR</p>
-        <div class="hr-line"></div>
-      </div>
+  <!-- Transactions -->
+  <div class="center-content">
 
-      <div class="transaction-row">
-        <p class="date-tag">28 April 2020</p>
-        <p class="transaction-from-to">FROM: </p>
-        <p class="transaction-iban">NL15 INHO 0123 4567 89</p>
-        <p class="transaction-operator">+ </p>
-        <p class="transaction-amount">€ 10.00</p>
-        <p class="currency-tag">EUR</p>
-        <div class="hr-line"></div>
-      </div>
+    <div class="accounts-box" id="transactions">
+
     </div>
-    <button id="disable-account-btn">DISABLE ACCOUNT</button>
+    <button id="disable-account-btn" onclick="DisableAccount()">DISABLE ACCOUNT</button>
 
   </div>
 
@@ -68,6 +42,10 @@
   <div id="material-thingy-right-login">
     <img id="material-sidethingy-img" src="Images/material-sidethingy.png">
   </div>
+
+  <script>
+    GetTransactions()
+  </script>
 </body>
 
 
