@@ -1,11 +1,6 @@
 var currentIban = null;
 var currentAccount = null;
 
-// function ViewAccount(iban) {
-//     this.currentAccount = GetAccount(iban);
-//     document.getElementById("ibanFrom").innerText = currentAccount.iban;
-// }
-
 function SetIban(){
     this.currentIban = getUrlParameter("iban");
     this.currentAccount = GetAccount(currentIban);
@@ -47,6 +42,8 @@ function CreateTransaction() {
                     location.reload();
                     break;
                 default:
+                    console.log(jqXHR);
+                    
                     alert("Oops! Something went wrong.");
             }
         }
@@ -92,7 +89,7 @@ function GetAccount(iban) {
     $.ajax({
         type: 'GET',
         url: 'http://localhost:8080/api/Accounts/iban/'+iban,
-        headers: { "session": "1" },
+        headers: { "session": sessionStorage.getItem("session") },
         async: false,
         success: function(result) {
             account = result;

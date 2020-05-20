@@ -42,6 +42,8 @@ function GetUsers(){
                 }
             },
             success: function(result){
+                console.log(result);
+                
                 MakeUser(result);
             }
         });

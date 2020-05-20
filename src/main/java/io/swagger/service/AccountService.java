@@ -24,7 +24,7 @@ public class AccountService {
     }
 
     public Account getAccountByIBAN(String iban) {
-        return accountRepository.findAccountByIbanEquals(iban);
+        return accountRepository.findAccountByIbanEqualsAndActiveIsTrue(iban);
     }
 
     public List<Account> getAllAccounts(int offset, int limit) {
@@ -34,11 +34,11 @@ public class AccountService {
     }
 
     public List<Account> getAccountsByUserId(Long id) {
-        return (List<Account>) accountRepository.findAccountsByUserId(id);
+        return (List<Account>) accountRepository.findAccountsByUserIdAndActiveIsTrue(id);
     }
 
     public Account findAccountByUserId(Long id){
-        return accountRepository.findAccountById(id);
+        return accountRepository.findAccountByIdAndActiveIsTrue(id);
     }
 
     public void createAccount(Account account) {

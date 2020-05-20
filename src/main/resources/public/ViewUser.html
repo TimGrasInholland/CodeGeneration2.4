@@ -62,11 +62,16 @@
         <input type="text" class="forminput" id="city">
         <br />
         <br />
+        <label for="postalcode" class="formlbl">Postal Code</label>
+        <input type="text" class="forminput" id="postalcode">
+        <br />
+        <br />
         <label for="phonenumber" class="formlbl">Phone number</label>
         <input type="text" class="forminput" id="phonenumber">
         <br />
+        <input type="button" class="userBtn" id="disableUserBtn" value="DISABLE USER" name="disableUserBtn" onclick="disableUser()"></input>
+        <input type="button" class="userBtn" id="updateUserBtn" value="UPDATE USER" name="updateUserBtn" onclick="updateUser()"></input>
         <script>LoadInfo()</script>
-        <script>GetButtons()</script>
       </form>
     </div>
     <img src="Images/View_User_BG_1.png" class="bg1">

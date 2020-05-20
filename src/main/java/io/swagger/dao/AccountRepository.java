@@ -9,13 +9,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AccountRepository extends PagingAndSortingRepository<Account, Long> {
 
-    Iterable<Account> findAccountsByUserId(Long userId);
+    Iterable<Account> findAccountsByUserIdAndActiveIsTrue(Long userId);
 
-    Account findAccountByIbanEquals(String iban);
+    Account findAccountByIbanEqualsAndActiveIsTrue(String iban);
     
     Integer countAccountByIbanEquals(String iban);
 
+    // hoe werkt dit met pageAble? Die krijg ie namelijk niet mee van de service... naam aanpassen vind ie dus ook niet leuk.
     Page<Account> findAll(Pageable pageable);
 
-    Account findAccountById(Long userId);
+    Account findAccountByIdAndActiveIsTrue(Long userId);
 }

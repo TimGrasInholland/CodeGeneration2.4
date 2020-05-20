@@ -23,6 +23,7 @@ import org.threeten.bp.OffsetDateTime;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import java.util.Collections;
 import java.util.List;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
@@ -143,6 +144,7 @@ public class TransactionsApiController implements TransactionsApi {
                 if ((transactions = service.getTransactionsByAccountId(id)).isEmpty()) {
                     return new ResponseEntity<List<Transaction>>(HttpStatus.NO_CONTENT);
                 } else {
+                    //Collections.sort(transactions, Collections.reverseOrder());
                     return ResponseEntity.status(200).body(transactions);
                 }
             }

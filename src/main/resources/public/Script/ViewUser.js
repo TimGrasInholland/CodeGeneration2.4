@@ -1,7 +1,20 @@
 var currentUser;
+var isOwner;
+
+// TODO: TEST DEZE SHIT + ACCOUNT QUERIES
 
 function LoadInfo() {
-    currentUser = GetUser();
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+
+    if (id != null) { 
+        isOwner = false;
+        currentUser = GetUser(id);
+    } else {
+        isOwner = true;
+        currentUser = GetUser(GetCurrentUserId());
+    }
+
     $("#username").val(currentUser.username);
     $("#password").val(currentUser.password);
     $("#firstname").val(currentUser.firstName);
@@ -11,30 +24,115 @@ function LoadInfo() {
     $("#birthdate").val(currentUser.birthdate);
     $("#address").val(currentUser.address);
     $("#city").val(currentUser.city);
+    $("#postalcode").val(currentUser.postalcode);
     $("#phonenumber").val(currentUser.phoneNumber);
-}
 
-function GetButtons() {
-    if (currentUser.type == "Employee") {
-        return '\
-        <input type="button" class="userBtn" id="disableUserBtn" value="DISABLE USER" name="disableUserBtn">\
-        <input type="button" class="userBtn" id="updateUserBtn" value="UPDATE USER" name="updateUserBtn"></input>';
-    } else {
-        return '<input type="button" class="userBtn" id="updateUserBtn" value="UPDATE USER" name="updateUserBtn"></input>';
+    if (GetCurrentUserRole() == "Customer") {
+        document.getElementById("disableUserBtn").style.visibility = "hidden";
     }
+
+    
 }
 
-function GetUser() {
+function disableUser() {
+    $.ajax({
+        type: "PUT",
+        url: "http://localhost:8080/api/Users",
+        data: JSON.stringify({
+            active: false,
+            address: currentUser.address,
+            birthdate: currentUser.birthdate,
+            city: currentUser.city,
+            email: currentUser.email,
+            firstName: currentUser.firstName,
+            id: currentUser.id,
+            lastName: currentUser.lastName,
+            password: currentUser.password,
+            phoneNumber: currentUser.phoneNumber,
+            postalcode: currentUser.postalcode,
+            prefix: currentUser.prefix,
+            type: currentUser.type,
+            username: currentUser.username
+        }),
+        headers: {
+            "session": sessionStorage.getItem("session")
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        complete: function(jqXHR) {
+            switch (jqXHR.status) {
+                case 201:
+                    alert("Update Successful.");
+                    location.reload();
+                    break;
+                default:
+                    alert("Oops! Something went wrong.");
+            }
+        }
+    });
+}
+
+function updateUser() {
+    var address = document.getElementById("address").value;
+    var birthdate = document.getElementById("birthdate").value;
+    var city = document.getElementById("city").value;
+    var email = document.getElementById("email").value;
+    var firstName = document.getElementById("firstname").value;
+    var id = currentUser.id;
+    var lastName = document.getElementById("lastname").value;
+    var password = document.getElementById("password").value;
+    var phoneNumber = document.getElementById("phonenumber").value;
+    var postalcode = document.getElementById("postalcode").value;
+    var prefix = document.getElementById("prefix").value;
+    var type = currentUser.type;
+    var username = document.getElementById("username").value;
+
+    $.ajax({
+        type: "PUT",
+        url: "http://localhost:8080/api/Users",
+        data: JSON.stringify({
+            active: true,
+            address: address,
+            birthdate: birthdate,
+            city: city,
+            email: email,
+            firstName: firstName,
+            id: id,
+            lastName: lastName,
+            password: password,
+            phoneNumber: phoneNumber,
+            postalcode: postalcode,
+            prefix: prefix,
+            type: type,
+            username: username
+        }),
+        headers: {
+            "session": sessionStorage.getItem("session")
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        complete: function(jqXHR) {
+            switch (jqXHR.status) {
+                case 201:
+                    alert("Update Successful.");
+                    location.reload();
+                    break;
+                default:
+                    alert("Oops! Something went wrong.");
+            }
+        }
+    });
+}
+
+function GetUser(id) {
     var user = null;    
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/api/Users/'+ GetCurrentUserId(),
+        url: 'http://localhost:8080/api/Users/'+ id,
         headers: { "session": sessionStorage.getItem("session") },
         async: false,
         success: function(result) {
             console.log(result);
-            console.log(GetCurrentUserId());
-            
             
             user = result;
         },
