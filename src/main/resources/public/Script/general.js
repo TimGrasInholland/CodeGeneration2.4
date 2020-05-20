@@ -2,7 +2,7 @@ function GetCustomerNavBar(){
     return '\
         <ul>\
           <li><p class="group-name"> Groep 3B</p></li>\
-          <li style="float:right"><a onclick="logout()">Logout</a></li>\
+          <li style="float:right"><a class="logout" type="button" onclick="logout()">Logout</a></li>\
           <li id="myProfile" style="float:right"><a href="ViewUser.html">My Profile</a></li>\
           <li id="myAccounts" style="float:right"><a href="MyAccounts.html">My Accounts</a></li>\
           <li id="home" style="float:right"><a href="Home.html">Home</a></li>\
@@ -13,7 +13,7 @@ function GetEmployeeNavBar(){
     return '\
         <ul>\
             <li><p class="group-name"> Groep 3B</p></li>\
-            <li style="float:right"><a onclick="logout()">Logout</a></li>\
+            <li style="float:right"><a class="logout" type="button" onclick="logout()">Logout</a></li>\
             <li id="myProfile" style="float:right"><a href="ViewUser.html">My Profile</a></li>\
             <li id="dashboard" style="float:right"><a href="EmployeeDashboard.html">Dashboard</a></li>\
             <li id="myAccounts" style="float:right"><a href="MyAccounts.html">My Accounts</a></li>\
@@ -32,7 +32,7 @@ function GetUnsetUserNavBar(){
 
 function SetNavBar(active){
     var navbar
-    if(sessionStorage.getItem("session") == null){
+    if(sessionStorage.getItem("session") == null && (active == "home" || active == "login" || active == "unset")){
         navbar = GetUnsetUserNavBar()
     }
     else{
@@ -66,6 +66,7 @@ function logout() {
             switch (jqXHR.status) {
                 case 200:
                     alert("You have been logged out.");
+                    sessionStorage.removeItem("session")
                     window.location.href = './Login.html';
                     break;
                 default:
@@ -102,6 +103,7 @@ function GetCurrentUserRole(){
 
 function GetCurrentUserAuthKey(){
     var key = null;
+    console.log(sessionStorage.getItem("session"))
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/api/SessionToken/"+sessionStorage.getItem("session"),

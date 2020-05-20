@@ -49,18 +49,19 @@
 
 /* Alles hieronder zit in de center-content*/
 
-#center-content{
+.center-content{
     margin-left: 50px;
     height: 840px;
 }
 
-#accounts-box {
+.accounts-box {
     position: relative;
     height: 600px;
     float: left;
     width: 1000px;
     border: 1px solid rgba(112, 112, 112, 0.5);
     margin-right: 800px;
+    padding-left: 8px;
 }
 
 #disable-account-btn{
@@ -83,7 +84,6 @@
 
 .transaction-row{
     float: left;
-    margin-left: 8px;
     margin-top: 8px;
     width: 982px;
     font-size: 20px;
