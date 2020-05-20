@@ -100,7 +100,7 @@ function GetAccount(iban) {
     $.ajax({
         type: 'GET',
         url: 'http://localhost:8080/api/Accounts/iban/'+iban,
-        headers: { "session": "1" },
+        headers: { "session": sessionStorage.getItem("session")},
         async: false,
         success: function(result) {
             account = result;
