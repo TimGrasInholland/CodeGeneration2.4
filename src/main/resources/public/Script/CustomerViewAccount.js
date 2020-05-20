@@ -43,7 +43,7 @@ function CreateTransaction() {
                     break;
                 default:
                     console.log(jqXHR);
-                    
+
                     alert("Oops! Something went wrong.");
             }
         }
@@ -96,7 +96,7 @@ function GetAccount(iban) {
         },
         error: function(error) {
             console.log(error);
-            
+
         }
     });
     return account;

@@ -69,13 +69,17 @@ public class AccountsApiController implements AccountsApi {
 
     public ResponseEntity<Account> getAccountByIBAN(@ApiParam(value = "the IBAN", required = true) @PathVariable("iban") String iban) {
         String authKey = request.getHeader("session");
-        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
-            try {
-                return ResponseEntity.status(200).body(service.getAccountByIBAN(iban));
-            } catch (Exception e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<Account>(HttpStatus.INTERNAL_SERVER_ERROR);
+        if (security.isPermitted(authKey, User.TypeEnum.EMPLOYEE) || security.isOwner(authKey, service.getAccountByIBAN(iban).getUserId())) {
+            if (authKey != null){
+                try {
+                    return ResponseEntity.status(200).body(service.getAccountByIBAN(iban));
+                } catch (Exception e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<Account>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
             }
+            return new ResponseEntity<Account>(HttpStatus.BAD_REQUEST);
+
         }
         return new ResponseEntity<Account>(HttpStatus.UNAUTHORIZED);
     }
