@@ -5,7 +5,7 @@ function GetCustomerNavBar(){
           <li style="float:right"><a onclick="logout()">Logout</a></li>\
           <li id="myProfile" style="float:right"><a href="ViewUser.html">My Profile</a></li>\
           <li id="myAccounts" style="float:right"><a href="MyAccounts.html">My Accounts</a></li>\
-          <li id="home" style="float:right"><a href="#home">Home</a></li>\
+          <li id="home" style="float:right"><a href="Home.html">Home</a></li>\
         </ul>'
 }
 
@@ -17,21 +17,36 @@ function GetEmployeeNavBar(){
             <li id="myProfile" style="float:right"><a href="ViewUser.html">My Profile</a></li>\
             <li id="dashboard" style="float:right"><a href="EmployeeDashboard.html">Dashboard</a></li>\
             <li id="myAccounts" style="float:right"><a href="MyAccounts.html">My Accounts</a></li>\
-            <li id="home"style="float:right"><a href="#home">Home</a></li>\
+            <li id="home"style="float:right"><a href="Home.html">Home</a></li>\
+        </ul>'
+}
+
+function GetUnsetUserNavBar(){
+    return '\
+        <ul>\
+            <li><p class="group-name"> Groep 3B</p></li>\
+            <li id="login" style="float:right"><a href="Login.html">Login</a></li>\
+            <li id="home"style="float:right"><a href="Home.html">Home</a></li>\
         </ul>'
 }
 
 function SetNavBar(active){
-    CheckIfUserIsLoggedIn()
-
-    var role = GetCurrentUserRole()
     var navbar
-    if(role == 'Customer'){
-        navbar = GetCustomerNavBar()
+    if(sessionStorage.getItem("session") == null){
+        navbar = GetUnsetUserNavBar()
     }
-    else if(role == 'Employee'){
-        navbar = GetEmployeeNavBar()
+    else{
+        CheckIfUserIsLoggedIn()
+
+        var role = GetCurrentUserRole()
+        if(role == 'Employee'){
+            navbar = GetEmployeeNavBar()
+        }
+        else{
+            navbar = GetCustomerNavBar()
+        }
     }
+
     $("nav").html(navbar)
     SetItemActive(active)
 }
@@ -51,6 +66,7 @@ function logout() {
             switch (jqXHR.status) {
                 case 200:
                     alert("You have been logged out.");
+                    sessionStorage.removeItem("session")
                     window.location.href = './Login.html';
                     break;
                 default:
@@ -87,6 +103,7 @@ function GetCurrentUserRole(){
 
 function GetCurrentUserAuthKey(){
     var key = null;
+    console.log(sessionStorage.getItem("session"))
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/api/SessionToken/"+sessionStorage.getItem("session"),

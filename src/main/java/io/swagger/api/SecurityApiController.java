@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Min;
-import java.util.Random;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-30T13:49:21.820Z[GMT]")
 @Controller
@@ -65,10 +66,10 @@ public class SecurityApiController implements SecurityApi {
             User user = loginService.login(username, password);
             if (user != null){
                 String authKey = "";
-                Random rnd = new Random();
-                for (int i = 0; i < 16; i++) {
-                    authKey += rnd.nextInt(10);
-                }
+                OffsetDateTime dateTimeNow = OffsetDateTime.now();
+                authKey =  dateTimeNow.format(DateTimeFormatter.ISO_LOCAL_DATE) + dateTimeNow.format(DateTimeFormatter.ISO_LOCAL_TIME);
+                authKey = authKey.replaceAll("\\D", "");
+                authKey = authKey.substring(5);
 
                 SessionToken sessionToken = new SessionToken(authKey, user.getId(), user.getType());
                 sessionTokenService.registerSessionToken(sessionToken);
