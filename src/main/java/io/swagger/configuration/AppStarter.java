@@ -41,7 +41,8 @@ public class AppStarter{
     private void initTestSessionToken(){
         List<SessionToken> sessionTokens = Arrays.asList(
                 new SessionToken("0", 3L, User.TypeEnum.CUSTOMER),
-                new SessionToken("1", 1L, User.TypeEnum.EMPLOYEE)
+                new SessionToken("1", 1L, User.TypeEnum.BANK),
+                new SessionToken("testEmployee", 2L, User.TypeEnum.EMPLOYEE)
         );
         sessionTokens.forEach(
                 sessionTokenRepository::save
