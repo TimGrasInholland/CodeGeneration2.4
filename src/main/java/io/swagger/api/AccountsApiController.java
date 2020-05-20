@@ -111,8 +111,7 @@ public class AccountsApiController implements AccountsApi {
     public ResponseEntity<String> disableAccount(@ApiParam(value = ""  )  @Valid @RequestBody Account body) {
         String authKey = request.getHeader("session");
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
-            try {
-                List<Account> accounts = service.getAccountsByUserId(body.getId());
+                List<Account> accounts = service.getAccountsByUserId(body.getUserId());
                 for (Account account : accounts) {
                     if (account.getId().equals(body.getId())){
                         // Make sure account is not changed but only set to inactive
@@ -122,10 +121,7 @@ public class AccountsApiController implements AccountsApi {
                         return ResponseEntity.status(200).body("Account disabeled succesfully");
                     }
                 }
-            } catch (IllegalArgumentException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
         }
         return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
     }

@@ -62,6 +62,8 @@ function GetAccountsByUserId() {
 }
 
 
+
+
 function SetListOfAccounts(currentsOutput, savingsOutput){
     $("#currentsAccounts").html(currentsOutput)
     $("#savingsAccounts").html(savingsOutput)
