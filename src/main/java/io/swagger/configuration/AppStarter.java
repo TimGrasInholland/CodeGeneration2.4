@@ -6,6 +6,7 @@ import io.swagger.dao.TransactionRepository;
 import io.swagger.dao.UserRepository;
 import io.swagger.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.threeten.bp.LocalDate;
 
@@ -14,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
+@ConditionalOnProperty(prefix = "bankapi.autorun", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class AppStarter{
 
     @Autowired
@@ -39,7 +41,8 @@ public class AppStarter{
     private void initTestSessionToken(){
         List<SessionToken> sessionTokens = Arrays.asList(
                 new SessionToken("0", 3L, User.TypeEnum.CUSTOMER),
-                new SessionToken("1", 1L, User.TypeEnum.EMPLOYEE)
+                new SessionToken("1", 1L, User.TypeEnum.BANK),
+                new SessionToken("testEmployee", 2L, User.TypeEnum.EMPLOYEE)
         );
         sessionTokens.forEach(
                 sessionTokenRepository::save
