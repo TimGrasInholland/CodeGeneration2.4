@@ -53,25 +53,25 @@ function GetAccounts(){
 }
 
 $(document).ready(function(){
-        $('#seaching').on('keyup paste',username_check);
+        $('#seaching').on('keyup paste',iban_check);
         GetAccounts();
 });
 
-function username_check(){ 
+function iban_check(){ 
     GetAccounts();
 }
 
 function MakeUser(account){
-    $("#Users-box").empty();
+    $("#Accounts-box").empty();
     $.each(account, function(i) {
         console.log(account[i]);
-        $( "#Users-box" ).append("<a href='EmployeeViewAccount.html?Id="+account[i].id+"'>"+
-            "<div class='user-box'>"+
+        $( "#Accounts-box" ).append("<a href='EmployeeViewAccount.html?Id="+account[i].id+"'>"+
+            "<div class='Account-box'>"+
             "<i class='arrow right'></i>"+
-            "<div class='userName'> "+
+            "<div class='iban'> "+
             account[i].iban+
             "</div>"+
-            "<address class='Email'>"+
+            "<address class='typeSaving'>"+
             account[i].type+
             " </address>"+
             "</div>"+

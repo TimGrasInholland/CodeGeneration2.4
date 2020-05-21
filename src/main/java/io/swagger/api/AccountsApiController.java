@@ -92,7 +92,6 @@ public class AccountsApiController implements AccountsApi {
         String authKey = request.getHeader("session");
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
             if(limit == null || offset == null || limit == 0 ){
-
                 return ResponseEntity.status(200).body(service.getAllAccounts());
             }
             Pageable pageable = new PageRequest(offset, limit);
@@ -100,6 +99,7 @@ public class AccountsApiController implements AccountsApi {
                 List<Account> test =service.getAllAccountsByIban(iban, pageable);
                 return ResponseEntity.status(200).body(test);
             }
+            return ResponseEntity.status(200).body(service.getAllAccounts(pageable));
         }
         return new ResponseEntity<List<Account>>(HttpStatus.UNAUTHORIZED);
     }

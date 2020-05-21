@@ -36,7 +36,7 @@ public class AccountsControllerTest {
             account = new Account(2L, Account.TypeEnum.CURRENT, Account.CurrencyEnum.EUR, null, "NL01INHO8374054831", true);
         }
 
-        /*@Test
+        @Test
         public void getAllAccountsShouldReturnJsonArray() throws Exception {
             given(service.getAllAccounts()).willReturn(Arrays.asList(account));
             this.mvc.perform(get("/Accounts")).andExpect(
@@ -44,6 +44,6 @@ public class AccountsControllerTest {
                     .andExpect(jsonPath("$", hasSize(1)))
                     .andExpect(jsonPath("$[0].iban").value(account.getIban()));
 
-        }*/
+        }
     }
 }
