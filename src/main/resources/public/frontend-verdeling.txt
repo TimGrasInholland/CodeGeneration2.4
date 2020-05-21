@@ -5,7 +5,7 @@ Create Account			- Thijs
 Customer-My Accounts		- Chris
 Customer-View Account		- Stef
 Employee-Dashboard		- Chris
-Employee-View Accounts		- Jesse
+Employee-View Accounts		- Tim
 Employee-View Users		- Tim
 Employee-View Transactions	- Thijs
 Employee-View Account		- Chris

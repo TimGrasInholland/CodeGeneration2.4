@@ -12,7 +12,11 @@ function Login(){
         success: function(result) {
             console.log(result)
             sessionStorage.setItem("session", result)
-            window.location.href = './MyAccounts.html'
+            if(GetCurrentUserRole() == "Customer")
+                window.location.href = './MyAccounts.html'
+            else{
+                window.location.href = './EmployeeDashboard.html'
+            }
         },
         error: function(xhr){
             console.log(xhr)

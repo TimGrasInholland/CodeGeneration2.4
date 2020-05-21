@@ -10,6 +10,8 @@ import io.swagger.service.SessionTokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -86,18 +88,23 @@ public class AccountsApiController implements AccountsApi {
 
 
     public ResponseEntity<List<Account>> getAllAccounts(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
-,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
+,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "iban", required = false) String iban) {
         String authKey = request.getHeader("session");
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
-            if (limit != null && offset == null){
+            if(limit == null){
+                limit = service.countAllAccounts();
+            }
+            if(offset == null){
                 offset = 0;
             }
-            if (limit != null && offset != null && limit > 0 && offset >= 0){
-                return ResponseEntity.status(200).body(service.getAllAccounts(offset, limit));
+            if(iban == null || iban.isEmpty()){
+                iban = "%";
             }
             else{
-                return ResponseEntity.status(200).body(service.getAllAccounts());
+                iban = "%"+iban+"%";
             }
+            Pageable pageable = new PageRequest(offset, limit);
+            return ResponseEntity.status(200).body(service.getAllAccountsWithParams(pageable, iban));
         }
         return new ResponseEntity<List<Account>>(HttpStatus.UNAUTHORIZED);
     }
@@ -115,17 +122,17 @@ public class AccountsApiController implements AccountsApi {
     public ResponseEntity<String> disableAccount(@ApiParam(value = ""  )  @Valid @RequestBody Account body) {
         String authKey = request.getHeader("session");
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
-                List<Account> accounts = service.getAccountsByUserId(body.getUserId());
-                for (Account account : accounts) {
-                    if (account.getId().equals(body.getId())){
-                        // Make sure account is not changed but only set to inactive
-                        body = account;
-                        body.setActive(false);
-                        service.disableAccount(body);
-                        return ResponseEntity.status(200).body("Account disabeled succesfully");
-                    }
+            List<Account> accounts = service.getAccountsByUserId(body.getUserId());
+            for (Account account : accounts) {
+                if (account.getId().equals(body.getId())){
+                    // Make sure account is not changed but only set to inactive
+                    body = account;
+                    body.setActive(false);
+                    service.disableAccount(body);
+                    return ResponseEntity.status(200).body("Account disabeled succesfully");
                 }
-                return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
     }
