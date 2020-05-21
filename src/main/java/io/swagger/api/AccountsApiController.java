@@ -91,15 +91,20 @@ public class AccountsApiController implements AccountsApi {
 ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "iban", required = false) String iban) {
         String authKey = request.getHeader("session");
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
-            if(limit == null || offset == null || limit == 0 ){
-                return ResponseEntity.status(200).body(service.getAllAccounts());
+            if(limit == null){
+                limit = service.countAllAccounts();
+            }
+            if(offset == null){
+                offset = 0;
+            }
+            if(iban == null || iban.isEmpty()){
+                iban = "%";
+            }
+            else{
+                iban = "%"+iban+"%";
             }
             Pageable pageable = new PageRequest(offset, limit);
-            if(iban != null &&!iban.isEmpty()){
-                List<Account> test =service.getAllAccountsByIban(iban, pageable);
-                return ResponseEntity.status(200).body(test);
-            }
-            return ResponseEntity.status(200).body(service.getAllAccounts(pageable));
+            return ResponseEntity.status(200).body(service.getAllAccountsWithParams(pageable, iban));
         }
         return new ResponseEntity<List<Account>>(HttpStatus.UNAUTHORIZED);
     }
@@ -117,17 +122,17 @@ public class AccountsApiController implements AccountsApi {
     public ResponseEntity<String> disableAccount(@ApiParam(value = ""  )  @Valid @RequestBody Account body) {
         String authKey = request.getHeader("session");
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
-                List<Account> accounts = service.getAccountsByUserId(body.getUserId());
-                for (Account account : accounts) {
-                    if (account.getId().equals(body.getId())){
-                        // Make sure account is not changed but only set to inactive
-                        body = account;
-                        body.setActive(false);
-                        service.disableAccount(body);
-                        return ResponseEntity.status(200).body("Account disabeled succesfully");
-                    }
+            List<Account> accounts = service.getAccountsByUserId(body.getUserId());
+            for (Account account : accounts) {
+                if (account.getId().equals(body.getId())){
+                    // Make sure account is not changed but only set to inactive
+                    body = account;
+                    body.setActive(false);
+                    service.disableAccount(body);
+                    return ResponseEntity.status(200).body("Account disabeled succesfully");
                 }
-                return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
     }

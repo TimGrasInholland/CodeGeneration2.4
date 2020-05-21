@@ -43,7 +43,6 @@ public class AccountsControllerTest {
                     status().isOk())
                     .andExpect(jsonPath("$", hasSize(1)))
                     .andExpect(jsonPath("$[0].iban").value(account.getIban()));
-
         }
     }
 }

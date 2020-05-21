@@ -2,9 +2,6 @@ package io.swagger.service;
 
 import io.swagger.dao.AccountRepository;
 import io.swagger.model.Account;
-import io.swagger.model.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
@@ -20,13 +17,8 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
-    public List<Account> getAllAccounts() {return (List<Account>) accountRepository.findAll();}
-    public List<Account> getAllAccounts(Pageable pageable) {
-        return accountRepository.findAll(pageable);
-    }
-
-    public List<Account> getAllAccountsByIban(String iban, Pageable pageable) {
-        return (List<Account>) accountRepository.getAllByIbanContainingIgnoreCase(iban, pageable);
+    public List<Account> getAllAccounts() {
+        return (List<Account>) accountRepository.findAll();
     }
 
     public Account getAccountByIBAN(String iban) {
@@ -52,5 +44,13 @@ public class AccountService {
     @Modifying
     public void disableAccount(Account account) {
         accountRepository.save(account);
+    }
+
+    public Integer countAllAccounts(){
+        return accountRepository.countAllAccounts();
+    }
+
+    public List<Account> getAllAccountsWithParams(Pageable pageable, String iban){
+        return accountRepository.getAllAccountsWithParams(iban, pageable);
     }
 }
