@@ -3,6 +3,8 @@ package io.swagger.IT.steps;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.swagger.model.Account;
+import io.swagger.model.AccountBalance;
 import org.junit.Assert;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
@@ -35,6 +37,14 @@ public class SecurityStepDefinitions {
         HttpEntity<String> entity = new HttpEntity(body, headers);
         URI uriLogin = new URI(baseUrl+"Login");
         responseEntity = template.exchange(uriLogin, HttpMethod.POST, entity, String.class);
+    }
+
+    @When("I logout")
+    public void iLogout() throws URISyntaxException {
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        URI uriLogin = new URI(baseUrl+"Logout");
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        responseEntity = template.exchange(uriLogin, HttpMethod.DELETE, entity, String.class);
     }
 
     @Then("I get http status security {int}")
