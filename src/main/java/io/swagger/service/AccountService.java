@@ -2,8 +2,6 @@ package io.swagger.service;
 
 import io.swagger.dao.AccountRepository;
 import io.swagger.model.Account;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
@@ -27,12 +25,6 @@ public class AccountService {
         return accountRepository.findAccountByIbanEqualsAndActiveIsTrue(iban);
     }
 
-    public List<Account> getAllAccounts(int offset, int limit) {
-        Pageable pageable = new PageRequest(offset, limit);
-        Page<Account> page = accountRepository.findAll(pageable);
-        return page.getContent();
-    }
-
     public List<Account> getAccountsByUserId(Long id) {
         return (List<Account>) accountRepository.findAccountsByUserIdAndActiveIsTrue(id);
     }
@@ -52,5 +44,13 @@ public class AccountService {
     @Modifying
     public void disableAccount(Account account) {
         accountRepository.save(account);
+    }
+
+    public Integer countAllAccounts(){
+        return accountRepository.countAllAccounts();
+    }
+
+    public List<Account> getAllAccountsWithParams(Pageable pageable, String iban){
+        return accountRepository.getAllAccountsWithParams(iban, pageable);
     }
 }

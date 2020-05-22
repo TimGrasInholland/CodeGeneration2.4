@@ -1,8 +1,8 @@
 /* Navbar */
 
 nav {
-    margin-right: 250px;
-    margin-top: 25px;
+    padding: 25px;
+    padding-right: 50px;
     background-color: white;
 }
 
