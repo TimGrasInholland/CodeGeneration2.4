@@ -22,7 +22,7 @@ public class AccountService {
     }
 
     public Account getAccountByIBAN(String iban) {
-        return accountRepository.findAccountByIbanEqualsAndActiveIsTrue(iban);
+        return accountRepository.findAccountByIbanEquals(iban);
     }
 
     public List<Account> getAccountsByUserId(Long id) {
@@ -30,7 +30,7 @@ public class AccountService {
     }
 
     public Account findAccountByUserId(Long id){
-        return accountRepository.findAccountByIdAndActiveIsTrue(id);
+        return accountRepository.findAccountById(id);
     }
 
     public void createAccount(Account account) {

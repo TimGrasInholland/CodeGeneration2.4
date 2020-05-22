@@ -48,7 +48,7 @@ public class TransactionsApiController implements TransactionsApi {
         this.accountService = accountService;
     }
 
-    public ResponseEntity<Void> createTransaction(@ApiParam(value = ""  )  @Valid @RequestBody Transaction body) {
+    public ResponseEntity<String> createTransaction(@ApiParam(value = ""  )  @Valid @RequestBody Transaction body) {
         BankConfig bankConfig = new BankConfig();
         String authKey = request.getHeader("session");
         if (security.isOwner(authKey, body.getUserPerformingId()) || security.employeeCheck(authKey)) {
@@ -57,38 +57,42 @@ public class TransactionsApiController implements TransactionsApi {
                     Long userFromId = accountService.getAccountByIBAN(body.getAccountFrom()).getUserId();
                     Long userToId = accountService.getAccountByIBAN(body.getAccountTo()).getUserId();
                     if (userFromId != userToId) {
-                        return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
+                        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
                     }
                 }
                 // checken of rol customer is zoja check of accountFrom iban behoort tot de customer
                 Account accountFrom = accountService.getAccountByIBAN(body.getAccountFrom());
                 Account accountTo = accountService.getAccountByIBAN(body.getAccountTo());
 
+                if (accountFrom == accountTo) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can't transfer funds to the same account.");
+                }
+
                 // Currency check.
                 if (accountFrom.getCurrency() != accountTo.getCurrency()) {
-                    return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can't transfer funds to this Account since it has a different currency.");
                 }
                 // Dont let savings accounts transfer money to savings accounts.
                 if (accountFrom.getType() == Account.TypeEnum.SAVINGS && accountTo.getType() == Account.TypeEnum.SAVINGS) {
-                    return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can't transfer between savings accounts.");
                 }
                 // Check if SAVINGS withdrawals and deposits are from own user or not.
                 if ((accountTo.getType().equals(Account.TypeEnum.SAVINGS) || accountFrom.getType().equals(Account.TypeEnum.SAVINGS)) && accountFrom.getUserId() != accountTo.getUserId()) {
-                    return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can't withdraw from or deposit to someone else's savings account.");
                 }
 
                 Double newAmountFrom = accountFrom.getBalance().getBalance() - body.getAmount();
                 Double newAmountTo = accountTo.getBalance().getBalance() + body.getAmount();
 
                 if (newAmountFrom < bankConfig.getAbsoluteLimit()) {
-                    return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Account balance not high enough for this transaction.");
                 }
                 LocalDate currentDate = LocalDate.now();
                 if (service.getDailyTransactionsByUserPerforming(body.getUserPerformingId(), OffsetDateTime.parse(currentDate + "T00:00:00.001+02:00"), OffsetDateTime.parse(currentDate + "T23:59:59.999+02:00")) > bankConfig.getDayLimit()) {
-                    return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You've reached the maximum amount of transactions for today. Please try again tomorrow.");
                 }
                 if (body.getAmount() > bankConfig.getTransactionLimit()) {
-                    return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Specified transaction amount is too high.");
                 }
 
                 accountFrom.getBalance().setBalance(newAmountFrom);
@@ -97,11 +101,11 @@ public class TransactionsApiController implements TransactionsApi {
                 service.updateAccount(accountFrom);
                 service.updateAccount(accountTo);
                 service.createTransaction(new Transaction(body.getAccountFrom(), body.getAccountTo(), body.getAmount(), body.getDescription(), body.getUserPerformingId(), body.getTransactionType()));
-                return new ResponseEntity<Void>(HttpStatus.CREATED);
+                return ResponseEntity.status(HttpStatus.CREATED).body("Transaction successful!");
             }
-            return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
-        return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
 
     public ResponseEntity<List<Transaction>> getAllTransactions(@ApiParam(value = "transactions to date") @Valid @RequestParam(value = "dateTo", required = false) String dateTo,@ApiParam(value = "transactions from date") @Valid @RequestParam(value = "dateFrom", required = false) String dateFrom, @ApiParam(value = "transactions from username") @Valid @RequestParam(value = "username", required = false) String username,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
@@ -144,7 +148,6 @@ public class TransactionsApiController implements TransactionsApi {
                 if ((transactions = service.getTransactionsByAccountId(id)).isEmpty()) {
                     return new ResponseEntity<List<Transaction>>(HttpStatus.NO_CONTENT);
                 } else {
-                    //Collections.sort(transactions, Collections.reverseOrder());
                     return ResponseEntity.status(200).body(transactions);
                 }
             }

@@ -67,7 +67,7 @@ function MakeUser(users){
     $("#Users-box").empty();
     $.each(users, function(i) {
         console.log(users[i]);
-        $( "#Users-box" ).append("<a href='ViewUser.html?Id="+users[i].id+"'>"+
+        $( "#Users-box" ).append("<a href='ViewUser.html?id="+users[i].id+"'>"+
             "<div class='user-box'>"+
             "<i class='arrow right'></i>"+
             "<div class='userName'> "+

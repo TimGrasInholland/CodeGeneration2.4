@@ -1,18 +1,16 @@
 var currentUser;
 var isOwner;
 
-// TODO: TEST DEZE SHIT + ACCOUNT QUERIES
-
 function LoadInfo() {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
 
-    if (id != null) { 
-        isOwner = false;
-        currentUser = GetUser(id);
-    } else {
+    if (id == null) {
         isOwner = true;
         currentUser = GetUser(GetCurrentUserId());
+    } else {
+        isOwner = false;
+        currentUser = GetUser(id);
     }
 
     $("#username").val(currentUser.username);
@@ -27,7 +25,7 @@ function LoadInfo() {
     $("#postalcode").val(currentUser.postalcode);
     $("#phonenumber").val(currentUser.phoneNumber);
 
-    if (GetCurrentUserRole() == "Customer") {
+    if (GetCurrentUserRole() == "Customer" || isOwner) {
         document.getElementById("disableUserBtn").style.visibility = "hidden";
     }
 
@@ -115,7 +113,6 @@ function updateUser() {
             switch (jqXHR.status) {
                 case 201:
                     alert("Update Successful.");
-                    location.reload();
                     break;
                 default:
                     alert("Oops! Something went wrong.");
@@ -132,12 +129,10 @@ function GetUser(id) {
         headers: { "session": sessionStorage.getItem("session") },
         async: false,
         success: function(result) {
-            console.log(result);
-            
             user = result;
         },
         error: function(error) {
-            console.log(error);
+            alert("Something went wrong! " + error);
         }
     });
     return user;

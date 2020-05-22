@@ -22,7 +22,7 @@
 #overview-title {
     position: relative;
     left: 300px;
-    top: 70px;
+    top: 40px;
     width: 300px;
     font-size: 30px;
     font-weight: bold;
@@ -31,7 +31,7 @@
 
 .user-info-form {
     position: relative;
-    top: 100px;
+    top: 70px;
     left: 300px;
     width: 700px;
 }

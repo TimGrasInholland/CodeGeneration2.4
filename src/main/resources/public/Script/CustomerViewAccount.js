@@ -1,6 +1,9 @@
 var currentIban = null;
 var currentAccount = null;
 
+// TODO: DEPOSIT/WITHDRAWS
+// TODO: account refresh on load??
+
 function SetIban(){
     this.currentIban = getUrlParameter("iban");
     this.currentAccount = GetAccount(currentIban);
@@ -38,13 +41,11 @@ function CreateTransaction() {
         complete: function(jqXHR) {
             switch (jqXHR.status) {
                 case 201:
-                    alert("Transaction Successful.");
+                    alert(jqXHR.responseText);
                     location.reload();
                     break;
                 default:
-                    console.log(jqXHR);
-
-                    alert("Oops! Something went wrong.");
+                    alert(jqXHR.responseText);
             }
         }
     });

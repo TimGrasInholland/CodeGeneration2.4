@@ -22,7 +22,7 @@
   <script>SetNavBar("myAccounts")</script>
   <script>SetIban()</script>
 
-  <h1 id="page-title">Current Overview</h1>
+  <h1 id="page-title">Account Overview</h1>
   
   <div id="account-header">
     <h2 id="current-iban"></h2>
@@ -34,27 +34,29 @@
 
   <div id="center-content">
     <div id="accounts-box">
-    <div id="new-transaction-box">
-      <div id="label-box">
-        <p class="labels">From:</p>
-        <p class="labels">To:</p>
-        <p class="labels">Description:</p>
-        <p class="labels">Amount:</p>
-      </div>
-      <form action="" method="post">
-        <div id="input-box">
-            <input type="text" id="ibanFrom" name="ibanFrom" class="input-transaction" disabled>
-            <input type="text" id="ibanTo" name="ibanTo" class="input-transaction" placeholder="Recipient's IBAN">
-            <input type="text" id="description" name="description" class="input-transaction" placeholder="Message">
-            <input type="text" id="amount" name="amount" class="input-transaction" placeholder="0.00">
-        </div>
-        <p id="currencyTagSmall" class="currency-tag-small"></p>
-        <script>SetValues()</script>
-        <div id="send-btn">
-          <input type="button" name="sendBtn" id="form-transaction" value="SEND" onclick="CreateTransaction()">
-        </div>
-      </form>
     </div>
+  </div>
+
+  <div id="new-transaction-box">
+    <div id="label-box">
+      <p class="labels">From:</p>
+      <p class="labels">To:</p>
+      <p class="labels">Description:</p>
+      <p class="labels">Amount:</p>
+    </div>
+    <form action="" method="post">
+      <div id="input-box">
+          <input type="text" id="ibanFrom" name="ibanFrom" class="input-transaction" disabled>
+          <input type="text" id="ibanTo" name="ibanTo" class="input-transaction" placeholder="Recipient's IBAN">
+          <input type="text" id="description" name="description" class="input-transaction" placeholder="Message">
+          <input type="text" id="amount" name="amount" class="input-transaction" placeholder="0.00">
+      </div>
+      <p id="currencyTagSmall" class="currency-tag-small"></p>
+      <script>SetValues()</script>
+      <div id="send-btn">
+        <input type="button" name="sendBtn" id="form-transaction" value="SEND" onclick="CreateTransaction()">
+      </div>
+    </form>
   </div>
 
   <div id="material-thingy-right-login">
