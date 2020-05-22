@@ -7,3 +7,7 @@ Feature: Security tests
   Scenario: Logout from the application
     When I logout
     Then I get http status security 200
+
+  Scenario: Retrieve a sessionToken by authKey is OK
+    When I retrieve a sessionToken by authKey is "testEmployee"
+    Then I get http status security 200

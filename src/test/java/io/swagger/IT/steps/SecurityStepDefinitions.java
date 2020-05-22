@@ -5,6 +5,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.swagger.model.Account;
 import io.swagger.model.AccountBalance;
+import io.swagger.model.SessionToken;
 import org.junit.Assert;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
@@ -41,10 +42,19 @@ public class SecurityStepDefinitions {
 
     @When("I logout")
     public void iLogout() throws URISyntaxException {
+        headers.set("session", "0");
         headers.setContentType(MediaType.APPLICATION_JSON);
         URI uriLogin = new URI(baseUrl+"Logout");
         HttpEntity<String> entity = new HttpEntity<>(null, headers);
         responseEntity = template.exchange(uriLogin, HttpMethod.DELETE, entity, String.class);
+    }
+
+    @When("I retrieve a sessionToken by authKey is {string}")
+    public SessionToken iGetSessionTokenByAuthKey(String authKey) throws URISyntaxException {
+        URI uri = new URI(baseUrl+"/SessionToken/"+authKey);
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        responseEntity = template.exchange(uri, HttpMethod.GET, entity, String.class);
+        return template.exchange(uri, HttpMethod.GET, entity, SessionToken.class).getBody();
     }
 
     @Then("I get http status security {int}")

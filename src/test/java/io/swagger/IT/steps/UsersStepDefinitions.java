@@ -33,6 +33,13 @@ public class UsersStepDefinitions {
         responseEntity = template.exchange(uri, HttpMethod.GET, entity, String.class);
     }
 
+    @When("I retrieve user by id {int}")
+    public void iGetUserById(Integer id) throws URISyntaxException{
+        URI uri = new URI(baseUrl+"/"+id);
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        responseEntity = template.exchange(uri, HttpMethod.GET, entity, String.class);
+    }
+
     @Then("I get http status users {int}")
     public void iGetHttpStatusUsers(int status) {
         Assert.assertEquals(responseEntity.getStatusCodeValue(), status);

@@ -55,7 +55,7 @@ public class SecurityApiController implements SecurityApi {
                 return ResponseEntity.status(400).body("You are not logged in");
             }
         } catch (IllegalArgumentException e){
-            return ResponseEntity.status(400).body("FCK");
+            return ResponseEntity.status(400).body("Oops.. something went wrong");
         }
     }
 
