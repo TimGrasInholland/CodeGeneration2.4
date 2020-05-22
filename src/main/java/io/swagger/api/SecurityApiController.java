@@ -47,15 +47,11 @@ public class SecurityApiController implements SecurityApi {
 
     public ResponseEntity<String> logout() {
         String authKey = request.getHeader("session");
-        try {
-            if (security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
-                sessionTokenService.logout(authKey);
-                return ResponseEntity.status(200).body("You are logged out");
-            } else{
-                return ResponseEntity.status(400).body("You are not logged in");
-            }
-        } catch (IllegalArgumentException e){
-            return ResponseEntity.status(400).body("FCK");
+        if (security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
+            sessionTokenService.logout(authKey);
+            return ResponseEntity.status(200).body("You are logged out");
+        } else{
+            return ResponseEntity.status(400).body("You are not logged in");
         }
     }
 
