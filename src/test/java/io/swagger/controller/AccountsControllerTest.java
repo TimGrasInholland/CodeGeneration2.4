@@ -18,31 +18,28 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class AccountsControllerTest {
+@SpringBootTest
+@AutoConfigureMockMvc
+class AccountsControllerTest {
 
-    @SpringBootTest
-    @AutoConfigureMockMvc
-    class GuitarControllerTest {
+    @Autowired
+    private MockMvc mvc;
 
-        @Autowired
-        private MockMvc mvc;
+    @MockBean
+    private AccountService service;
+    private Account account;
 
-        @MockBean
-        private AccountService service;
-        private Account account;
+    @BeforeEach
+    public void setup() {
+        account = new Account(2L, Account.TypeEnum.CURRENT, Account.CurrencyEnum.EUR, null, "NL01INHO8374054831", true);
+    }
 
-        @BeforeEach
-        public void setup() {
-            account = new Account(2L, Account.TypeEnum.CURRENT, Account.CurrencyEnum.EUR, null, "NL01INHO8374054831", true);
-        }
-
-        @Test
-        public void getAllAccountsShouldReturnJsonArray() throws Exception {
-            given(service.getAllAccounts()).willReturn(Arrays.asList(account));
-            this.mvc.perform(get("/Accounts")).andExpect(
-                    status().isOk())
-                    .andExpect(jsonPath("$", hasSize(1)))
-                    .andExpect(jsonPath("$[0].iban").value(account.getIban()));
-        }
+    @Test
+    public void getAllAccountsShouldReturnJsonArray() throws Exception {
+        given(service.getAllAccounts()).willReturn(Arrays.asList(account));
+        this.mvc.perform(get("/Accounts")).andExpect(
+                status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].iban").value(account.getIban()));
     }
 }
