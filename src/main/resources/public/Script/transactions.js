@@ -2,6 +2,8 @@ function GetTransactions(){
     username = document.getElementById("username").value
     dateStart = document.getElementById("startdate").value
     dateEnd = document.getElementById("enddate").value
+    console.log(dateStart);
+    
     
     if(!username){
         username = null
