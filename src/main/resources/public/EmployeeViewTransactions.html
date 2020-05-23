@@ -6,7 +6,7 @@
   <meta name="description" content="CodeGeneration project website by Thijs van Tol, Chris Lips, Tim Gras, Jesse van Gelder and Stef Robbe.">
   <meta name="author" content="Inholland Informatica group 3B - 2020">
 
-  <link rel="stylesheet" href="Style/EmployeeViewTransactionsStyle.css">
+  <link rel="stylesheet" href="Style/EmployeeTransactionsStyle.css">
   <link rel="stylesheet" href="Style/general.css">
 
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -40,7 +40,7 @@
                 <p class="form-name">Username:</p>
                     <input type="text" id="username" name="username">
                     <br><br>
-                <button type="button" class="submit" style="margin-left:111px;" onclick="GetTransactions()">FILTER</button>
+                <button type="button" class="submit" style="margin-left:111px;" onclick="GetTransactionsFormatEmployee()">FILTER</button>
               </form>
         </aside>
 
@@ -49,8 +49,8 @@
             
         </section>
         <script>
-        SetDates()
-        GetTransactions()
+        SetDefaultDates()
+        GetTransactionsFormatEmployee()
         </script>
     </main>
   </body>
