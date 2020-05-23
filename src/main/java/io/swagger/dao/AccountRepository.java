@@ -13,15 +13,15 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
 
     Iterable<Account> findAccountsByUserIdAndActiveIsTrue(Long userId);
 
-    Account findAccountByIbanEquals(String iban);
+    Account findAccountByIbanEqualsAndActiveIsTrue(String iban);
 
-    Integer countAccountByIbanEquals(String iban);
+    Integer countAccountByIbanEqualsAndActiveIsTrue(String iban);
 
-    Account findAccountById(Long userId);
+    Account findAccountByIdAndActiveIsTrue(Long userId);
 
     @Query("SELECT COUNT(A) FROM Account AS A")
-    Integer countAllAccounts();
+    Integer countAllAccountsAndActiveIsTrue();
 
     @Query("SELECT A FROM Account AS A WHERE A.iban LIKE ?1")
-    List<Account> getAllAccountsWithParams(String iban, Pageable pageable);
+    List<Account> getAllAccountsWithParamsAndActiveIsTrue(String iban, Pageable pageable);
 }

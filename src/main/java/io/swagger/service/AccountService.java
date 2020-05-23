@@ -22,7 +22,7 @@ public class AccountService {
     }
 
     public Account getAccountByIBAN(String iban) {
-        return accountRepository.findAccountByIbanEquals(iban);
+        return accountRepository.findAccountByIbanEqualsAndActiveIsTrue(iban);
     }
 
     public List<Account> getAccountsByUserId(Long id) {
@@ -30,7 +30,7 @@ public class AccountService {
     }
 
     public Account findAccountByUserId(Long id){
-        return accountRepository.findAccountById(id);
+        return accountRepository.findAccountByIdAndActiveIsTrue(id);
     }
 
     public void createAccount(Account account) {
@@ -38,7 +38,7 @@ public class AccountService {
     }
 
     public Integer countAccountByIBAN(String iban) {
-        return accountRepository.countAccountByIbanEquals(iban);
+        return accountRepository.countAccountByIbanEqualsAndActiveIsTrue(iban);
     }
 
     @Modifying
@@ -47,10 +47,10 @@ public class AccountService {
     }
 
     public Integer countAllAccounts(){
-        return accountRepository.countAllAccounts();
+        return accountRepository.countAllAccountsAndActiveIsTrue();
     }
 
     public List<Account> getAllAccountsWithParams(Pageable pageable, String iban){
-        return accountRepository.getAllAccountsWithParams(iban, pageable);
+        return accountRepository.getAllAccountsWithParamsAndActiveIsTrue(iban, pageable);
     }
 }
