@@ -1,3 +1,4 @@
+var offset = 0;
 function GetUsers(){
     var userId = GetUserId()
 
@@ -64,7 +65,6 @@ function username_check(){
 function MakeUser(users){
     $("#Users-box").empty();
     $.each(users, function(i) {
-        console.log(users[i]);
         $( "#Users-box" ).append("<a href='ViewUser.html?Id="+users[i].id+"'>"+
             "<div class='user-box'>"+
             "<i class='arrow right'></i>"+
@@ -77,6 +77,10 @@ function MakeUser(users){
             "</div>"+
             "</a>");
     }); 
+    $( "#Users-box" ).append(
+    "<div id='next' class='bottom'>"+
+    "<i class='arrow right'></i>"+
+    "</div>");
 }
 
 function GetUserId(){
@@ -96,3 +100,7 @@ function GetUserId(){
     });
     return userId
 }
+
+$("#next").click(function(){
+    offset++;
+});

@@ -46,10 +46,11 @@ public class UsersApiController implements UsersApi {
 
     public ResponseEntity<String> createUser(@ApiParam(value = ""  )  @Valid @RequestBody User body) {
         if (body != null) {
-            //String authKey = request.getHeader("session");
-            /*if(!security.isPermitted(authKey, User.TypeEnum.BANK)){
+            body.setActive(true);
+            String authKey = request.getHeader("session");
+            if(!security.isPermitted(authKey, User.TypeEnum.BANK)){
                 body.setType(User.TypeEnum.CUSTOMER);
-            }*/
+            }
             List<User> users = service.getAllUsers();
             if (users.stream().anyMatch((user) -> user.getUsername().equals(body.getUsername()))) {
                 // maybe extra info why not correct

@@ -1,7 +1,6 @@
 function CreateUser(){
     var userId = GetUserId()
 
-    if(userId != null){
         var newUser = JSON.stringify({
             "username": $( "input[name=username]" ).val(),
             "password": $( "input[name=password]" ).val(),
@@ -17,6 +16,7 @@ function CreateUser(){
             "type": $( "select[name=type]" ).val(),
             "active": true
         });
+    if(userId != null){
         $.ajax({
             type: "POST",
             url: "http://localhost:8080/api/Users",
@@ -40,30 +40,54 @@ function CreateUser(){
         });
     }
     else{
-        alert("You are not logged in!")
-        window.location.href = './Login.html';
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/api/Users",
+            headers:"",
+            data: newUser,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            complete: function(jqXHR) {
+                switch (jqXHR.status) {
+                    case 201:
+                        alert("User created!");
+                        window.location.href = './RegisterAccount.html';
+                        break;
+                    default:
+                        alert (jqXHR.error);
+                        alert("Oops! Something went wrong.");
+                }
+            }
+        });
     }
 }
 
 function GetUserId(){
     var userId = null;
-    $.ajax({
-        type: "GET",
-        url: "http://localhost:8080/api/SessionToken/"+sessionStorage.getItem("session"),
-        headers: {
-            "session": sessionStorage.getItem("session")
-        },
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function(data){
-            userId = data.userId
-        }
-    });
-    return userId
+    var session = sessionStorage.getItem("session")
+    if(session != null){
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/api/SessionToken/"+session,
+            headers: {
+                "session": sessionStorage.getItem("session")
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function(data){
+                if(data != null){
+                    userId = data.userId
+                }
+            }
+        });
+        return userId
+    }
+    return null;
 }
 
-function test(){
-    var formData = $("form.UserFrom");//.serializeArray();
-    console.log(formData);
-}
+$(document).ready(function(){
+        if(GetUserId() == null){
+            $('#selector').empty();
+        }
+});
