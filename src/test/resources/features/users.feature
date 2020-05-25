@@ -12,6 +12,10 @@ Feature: Users tests
     When I create an user
     Then I get http status users 201
 
+  Scenario: Update an User is CREATED
+    When I update an user
+    Then I get http status users 201
+
   Scenario: Retrieve an user by username
     When I retrieve an user by username 'Adrie538'
     Then I get http status users 200

@@ -1,6 +1,5 @@
 function CreateUser(){
     var userId = GetUserId()
-
         var newUser = JSON.stringify({
             "username": $( "input[name=username]" ).val(),
             "password": $( "input[name=password]" ).val(),
@@ -88,6 +87,6 @@ function GetUserId(){
 
 $(document).ready(function(){
         if(GetUserId() == null){
-            $('#selector').empty();
+            $('#selector').hide();
         }
 });

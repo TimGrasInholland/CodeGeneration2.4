@@ -8,6 +8,7 @@ import io.cucumber.java.en.When;
 import io.swagger.model.Account;
 import io.swagger.model.AccountBalance;
 import io.swagger.model.User;
+import net.minidev.json.JSONObject;
 import org.junit.Assert;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.*;
@@ -47,16 +48,51 @@ public class UsersStepDefinitions {
         responseEntity = template.exchange(uri, HttpMethod.GET, entity, String.class);
     }
 
+    //can only be tested when birthday is not required
     @When("I create an user")
     public void iCreateUser() throws JsonProcessingException {
 
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        mapper.setDateFormat(df);
-        LocalDate date = LocalDate.of(2019, 1, 1);
-        String newUser = "{\"username\":\"test123\",\"password\":\"Welkom01!\",\"firstName\":\"test\",\"prefix\":\"t\",\"lastName\":\"Tester\",\"email\":\"test@test.nl\",\"birthday\":\"1999-05-05\",\"address\":\"Haarlem\",\"postalcode\":\"1544MK\",\"city\":\"Haarlem\",\"phoneNumber\":\"0611111111\",\"type\":\"test\",\"active\":true}";
-        User user = new User("test123", "Welkom01!", "test", "t", "Tester", "test@test.nl", date, "Haarlem", "1544MK", "HAARLEM", "0611111111", User.TypeEnum.CUSTOMER, true);
+        JSONObject obj = new JSONObject();
+
+        obj.put("username", "test123");
+        obj.put("password", "Welcome567?");
+        obj.put("firstName", "test");
+        obj.put("prefix", "t");
+        obj.put("lastName", "Tester");
+        obj.put("email", "test@test.nl");
+        obj.put("birthday", "2020-05-05");
+        obj.put("address", "Haarlem");
+        obj.put("postalcode", "1544MK");
+        obj.put("city", "Haarlem");
+        obj.put("phoneNumber", "0611111111");
+        obj.put("type", User.TypeEnum.CUSTOMER);
+        obj.put("active", true);
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> entity = new HttpEntity<>(newUser, headers);
+        HttpEntity<String> entity = new HttpEntity<>(mapper.writeValueAsString(obj), headers);
+        responseEntity = template.exchange(uri, HttpMethod.POST, entity, String.class);
+    }
+
+    //can only be tested when birthday is not required
+    @When("I update an user")
+    public void iUpdateUser() throws JsonProcessingException {
+
+        JSONObject obj = new JSONObject();
+
+        obj.put("username", "test12345");
+        obj.put("password", "Welcome567?");
+        obj.put("firstName", "test");
+        obj.put("prefix", "t");
+        obj.put("lastName", "Tester");
+        obj.put("email", "test@test.nl");
+        obj.put("birthday", "2020-05-05");
+        obj.put("address", "Haarlem");
+        obj.put("postalcode", "1544MK");
+        obj.put("city", "Haarlem");
+        obj.put("phoneNumber", "0611111111");
+        obj.put("type", User.TypeEnum.CUSTOMER);
+        obj.put("active", true);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>(mapper.writeValueAsString(obj), headers);
         responseEntity = template.exchange(uri, HttpMethod.POST, entity, String.class);
     }
 
