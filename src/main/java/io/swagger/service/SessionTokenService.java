@@ -16,7 +16,7 @@ public class SessionTokenService {
     public void registerSessionToken(SessionToken sessionToken) {
         SessionToken checkSessionToken = sessionTokenRepository.getByUserIdEquals(sessionToken.getUserId());
         if (checkSessionToken != null) {
-            sessionTokenRepository.delete(checkSessionToken.getId());
+            sessionTokenRepository.delete(checkSessionToken);
             sessionTokenRepository.save(sessionToken);
         } else {
             sessionTokenRepository.save(sessionToken);
@@ -29,7 +29,7 @@ public class SessionTokenService {
 
     public void logout(String authKey) {
         SessionToken sessionToken = getSessionTokenByAuthKey(authKey);
-        sessionTokenRepository.delete(sessionToken.getId());
+        sessionTokenRepository.delete(sessionToken);
     }
 
 

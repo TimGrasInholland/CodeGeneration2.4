@@ -19,10 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
 @Controller
@@ -75,7 +72,7 @@ public class UsersApiController implements UsersApi {
             if(limit == null || offset == null || limit == 0 ){
                 return ResponseEntity.status(200).body(service.getAllUsers());
             }
-            Pageable pageable = new PageRequest(offset, limit);
+            Pageable pageable = PageRequest.of(offset, limit);
             if(searchName != null &&!searchName.isEmpty()){
                 List<User> lastnamelist =  service.getAllUsersByLastname(searchName, pageable);
                 List<User> usernameList = service.getAllUsersByUsername(searchName, pageable);
@@ -123,21 +120,21 @@ public class UsersApiController implements UsersApi {
                     if (security.isOwner(authKey, body.getId()) && security.employeeCheck(authKey)) {
                         body.setType(User.TypeEnum.EMPLOYEE);
                         service.updateUser(body);
-                        return ResponseEntity.status(HttpStatus.CREATED).body("User has been Updated");
+                        return ResponseEntity.status(HttpStatus.OK).body("User has been Updated");
                     }
                     // When user iw owner and is customer allow all changes except active and role.
                     else if (security.isOwner(authKey, body.getId()) && security.customerCheck(authKey)){
                         body.setType(User.TypeEnum.CUSTOMER);
                         body.setActive(true);
                         service.updateUser(body);
-                        return ResponseEntity.status(HttpStatus.CREATED).body("User has been Updated");
+                        return ResponseEntity.status(HttpStatus.OK).body("User has been Updated");
                     }
                     // Else an employee is changing another use and may edit all except role.
                     else{
 
                         body.setType(User.TypeEnum.CUSTOMER);
                         service.updateUser(body);
-                        return ResponseEntity.status(HttpStatus.CREATED).body("User has been Updated");
+                        return ResponseEntity.status(HttpStatus.OK).body("User has been Updated");
                     }
                 }
                 return  new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
