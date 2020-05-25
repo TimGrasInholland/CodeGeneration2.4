@@ -90,6 +90,7 @@ public class AccountsApiController implements AccountsApi {
     public ResponseEntity<List<Account>> getAllAccounts(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
 ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "iban", required = false) String iban) {
         String authKey = request.getHeader("session");
+        List<Account> ls = service.getAllAccounts();
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
             if(limit == null){
                 limit = service.countAllAccounts();
@@ -103,7 +104,7 @@ public class AccountsApiController implements AccountsApi {
             else{
                 iban = "%"+iban+"%";
             }
-            Pageable pageable = new PageRequest(offset, limit);
+            Pageable pageable = PageRequest.of(offset, limit);
             return ResponseEntity.status(200).body(service.getAllAccountsWithParams(pageable, iban));
         }
         return new ResponseEntity<List<Account>>(HttpStatus.UNAUTHORIZED);
