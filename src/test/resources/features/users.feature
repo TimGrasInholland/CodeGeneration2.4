@@ -12,7 +12,7 @@ Feature: Users tests
     When I create an user
     Then I get http status users 201
 
-  Scenario: Update an User is CREATED
+  Scenario: Update an User is updated
     When I update an user
     Then I get http status users 201
 

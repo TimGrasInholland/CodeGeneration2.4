@@ -260,7 +260,7 @@ public class User {
    * @return birthdate
   **/
   @ApiModelProperty(required = true, value = "")
-  //@NotNull
+  @NotNull
   @Valid
   public LocalDate getBirthdate() {
     return birthdate;
