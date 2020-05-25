@@ -1,5 +1,6 @@
 var currentUser;
 var isOwner;
+var offset = 0;
 
 function GetUsers(){
     var SeachString = $( "input[id=seaching]" ).val()
@@ -59,7 +60,6 @@ function username_check(){
 function MakeUser(users){
     $("#Users-box").empty();
     $.each(users, function(i) {
-        console.log(users[i]);
         $( "#Users-box" ).append("<a href='ViewUser.html?id="+users[i].id+"'>"+
             "<div class='user-box'>"+
             "<i class='arrow right'></i>"+
@@ -71,13 +71,19 @@ function MakeUser(users){
             " </address>"+
             "</div>"+
             "</a>");
-    }); 
+    });
+    $( "#Users-box" ).append(
+        "<div id='next' class='bottom'>"+
+        "<i class='arrow right'></i>"+
+        "</div>");
 }
+
+$("#next").click(function(){
+    offset++;
+}); 
 
 function CreateUser(){
     var userId = GetCurrentUserId()
-
-    if(userId != null){
         var newUser = JSON.stringify({
             "username": $( "input[name=username]" ).val(),
             "password": $( "input[name=password]" ).val(),
@@ -93,6 +99,7 @@ function CreateUser(){
             "type": $( "select[name=type]" ).val(),
             "active": true
         });
+    if(userId != null){
         $.ajax({
             type: "POST",
             url: "http://localhost:8080/api/Users",
@@ -116,8 +123,25 @@ function CreateUser(){
         });
     }
     else{
-        alert("You are not logged in!")
-        window.location.href = './Login.html';
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/api/Users",
+            headers:"",
+            data: newUser,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            complete: function(jqXHR) {
+                switch (jqXHR.status) {
+                    case 201:
+                        alert("User created!");
+                        window.location.href = './RegisterAccount.html';
+                        break;
+                    default:
+                        alert (jqXHR.error);
+                        alert("Oops! Something went wrong.");
+                }
+            }
+        });
     }
 }
 
@@ -255,3 +279,9 @@ function GetUser(id) {
     });
     return user;
 }
+
+$(document).ready(function(){
+    if(document.getElementById("selector") && GetUserId() == null){
+        $('#selector').hide();
+    }
+});
