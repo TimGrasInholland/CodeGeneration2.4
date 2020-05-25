@@ -113,7 +113,7 @@ function CreateUser(){
                 switch (jqXHR.status) {
                     case 201:
                         alert("User created!");
-                        window.location.href = './RegisterAccount.html';
+                        window.location.href = './EmployeeViewUsers.html';
                         break;
                     default:
                         alert (jqXHR.error);
@@ -133,8 +133,8 @@ function CreateUser(){
             complete: function(jqXHR) {
                 switch (jqXHR.status) {
                     case 201:
-                        alert("User created!");
-                        window.location.href = './RegisterAccount.html';
+                        alert("Your account is created!");
+                        window.location.href = './Login.html';
                         break;
                     default:
                         alert (jqXHR.error);
@@ -281,7 +281,7 @@ function GetUser(id) {
 }
 
 $(document).ready(function(){
-    if(document.getElementById("selector") && GetUserId() == null){
+    if(document.getElementById("selector") && GetCurrentUserId() == null){
         $('#selector').hide();
     }
 });
