@@ -19,10 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
 @Controller
@@ -74,9 +71,11 @@ public class UsersApiController implements UsersApi {
         String authKey = request.getHeader("session");
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
             if(limit == null || offset == null || limit == 0 ){
-                return ResponseEntity.status(200).body(service.getAllUsers());
+                List<User> users = service.getAllUsers();
+                users = security.filterUsers(users);
+                return ResponseEntity.status(200).body(users);
             }
-            Pageable pageable = new PageRequest(offset, limit);
+            Pageable pageable = PageRequest.of(offset, limit);
             if(searchName != null &&!searchName.isEmpty()){
                 List<User> lastnamelist =  service.getAllUsersByLastname(searchName, pageable);
                 List<User> usernameList = service.getAllUsersByUsername(searchName, pageable);
@@ -85,7 +84,7 @@ public class UsersApiController implements UsersApi {
                         usernameList.add(user);
                     }
                 }
-                return ResponseEntity.status(200).body(usernameList);
+                return ResponseEntity.status(200).body(security.filterUsers(usernameList));
             }
             //return ResponseEntity.status(200).body(service.getAllUsers(pageable));
             List<User> users = service.getAllUsers(pageable);
@@ -99,7 +98,11 @@ public class UsersApiController implements UsersApi {
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
             try {
                 if (security.isOwner(authKey, id) || security.employeeCheck(authKey)){
-                    return ResponseEntity.status(200).body(service.getUserById(id));
+                    User user = service.getUserById(id);
+                    if (security.bankCheck(user.getType())){
+                        return new ResponseEntity<User>(HttpStatus.UNAUTHORIZED);
+                    }
+                    return ResponseEntity.status(200).body(user);
                 }
             } catch (IllegalArgumentException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
@@ -111,7 +114,7 @@ public class UsersApiController implements UsersApi {
 
     public ResponseEntity<String> updateUser(@ApiParam(value = ""  )  @Valid @RequestBody User body) {
         String authKey = request.getHeader("session");
-        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
+        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER) && !security.bankCheck(body.getType())) {
             if (body != null && body.getId() != null) {
                 // Check if user is owner or is employee.
                 if (security.isOwner(authKey, body.getId()) || security.employeeCheck(authKey)) {
@@ -126,21 +129,21 @@ public class UsersApiController implements UsersApi {
                     if (security.isOwner(authKey, body.getId()) && security.employeeCheck(authKey)) {
                         body.setType(User.TypeEnum.EMPLOYEE);
                         service.updateUser(body);
-                        return ResponseEntity.status(HttpStatus.CREATED).body("User has been Updated");
+                        return ResponseEntity.status(HttpStatus.OK).body("User has been Updated");
                     }
                     // When user iw owner and is customer allow all changes except active and role.
                     else if (security.isOwner(authKey, body.getId()) && security.customerCheck(authKey)){
                         body.setType(User.TypeEnum.CUSTOMER);
                         body.setActive(true);
                         service.updateUser(body);
-                        return ResponseEntity.status(HttpStatus.CREATED).body("User has been Updated");
+                        return ResponseEntity.status(HttpStatus.OK).body("User has been Updated");
                     }
                     // Else an employee is changing another use and may edit all except role.
                     else{
 
                         body.setType(User.TypeEnum.CUSTOMER);
                         service.updateUser(body);
-                        return ResponseEntity.status(HttpStatus.CREATED).body("User has been Updated");
+                        return ResponseEntity.status(HttpStatus.OK).body("User has been Updated");
                     }
                 }
                 return  new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);

@@ -17,9 +17,7 @@ public class UserService {
     }
 
     public List<User> getAllUsers() {return (List<User>) userRepository.findAll();}
-    public List<User> getAllUsers(Pageable pageable) {
-        return (List<User>) userRepository.findAll(pageable);
-    }
+    public List<User> getAllUsers(Pageable pageable) { return userRepository.findAll(pageable);
     public void createUser(User user) {userRepository.save(user);}
 
     @Modifying

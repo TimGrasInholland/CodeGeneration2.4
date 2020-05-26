@@ -1,4 +1,6 @@
-function GetAccounts(){
+window.offset = 0;
+var nextpage = false;
+function GetUsers(){
     var userId = GetUserId()
 
     if(userId != null){
@@ -14,7 +16,18 @@ function GetAccounts(){
             var data = {
                 "offset": 0,
                 "limit": 100,
-                "iban": SeachString 
+                "searchname": SeachString 
+            };
+        }
+        if(nextpage){
+            nextpage = false;
+            var header = {
+                "session": sessionStorage.getItem("session")
+            };
+            var data = {
+                "offset": window.offset,
+                "limit": 100,
+                "searchname": SeachString 
             };
         }
         else{
@@ -22,12 +35,12 @@ function GetAccounts(){
                 "session": sessionStorage.getItem("session")
             };
             var data = {
-                "iban": SeachString
+                "searchname": SeachString
             };
         }
         $.ajax({
             type: "Get",
-            url: "http://localhost:8080/api/Accounts",
+            url: "http://localhost:8080/api/Users",
             data: data,
             headers: header,
             contentType: "application/json; charset=utf-8",
@@ -53,30 +66,38 @@ function GetAccounts(){
 }
 
 $(document).ready(function(){
-        $('#seaching').on('keyup paste',iban_check);
-        GetAccounts();
+        $('#seaching').on('keyup paste',username_check);
+        GetUsers();
+        offset = 0;
 });
 
-function iban_check(){ 
-    GetAccounts();
+function username_check(){ 
+    GetUsers();
 }
 
-function MakeUser(account){
-    $("#Accounts-box").empty();
-    $.each(account, function(i) {
-        console.log(account[i]);
-        $( "#Accounts-box" ).append("<a href='EmployeeViewAccount.html?Id="+account[i].id+"'>"+
-            "<div class='Account-box'>"+
+function MakeUser(users){
+    $("#Users-box").empty();
+    $.each(users, function(i) {
+        $( "#Users-box" ).append("<a href='ViewUser.html?Id="+users[i].id+"'>"+
+            "<div class='user-box'>"+
             "<i class='arrow right'></i>"+
-            "<div class='iban'> "+
-            account[i].iban+
+            "<div class='userName'> "+
+            users[i].username+
             "</div>"+
-            "<address class='typeSaving'>"+
-            account[i].type+
+            "<address class='Email'>"+
+            users[i].email+
             " </address>"+
             "</div>"+
             "</a>");
     }); 
+    $( "#Users-box" ).append(
+    "<div id='back' onclick='back()' class='bottomleft'>"+
+    "<i class='arrow left'></i>"+
+    "</div>");
+    $( "#Users-box" ).append(
+    "<div id='next' onclick='next()' class='bottomright'>"+
+    "<i class='arrow right'></i>"+
+    "</div>");
 }
 
 function GetUserId(){
@@ -95,4 +116,20 @@ function GetUserId(){
         }
     });
     return userId
+}
+
+function next(){
+    offset++;
+    nextpage = true;
+    GetUsers();
+    console.log(offset);
+}
+
+function back(){
+    if(window.offset != 0){
+        offset--;
+        nextpage = true;
+        GetUsers();
+    }
+    console.log(offset);
 }

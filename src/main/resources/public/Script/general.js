@@ -152,3 +152,28 @@ var getUrlParameter = function getUrlParameter(sParam) {
         }
     }
 };
+
+function GetDate(transaction) {
+    var date = new Date(transaction.timestamp);
+    var ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date)
+    var mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(date)
+    var da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date)
+    date = `${da} ${mo} ${ye}`
+    return date;
+}
+
+function GetDateTime(timestamp){
+    const date = new Date(timestamp)
+    const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date)
+    const mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(date)
+    const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date)
+    return `${da} ${mo} ${ye}`
+}
+
+function SetDefaultDates(){
+    var dateFrom = new Date()
+    dateFrom.setDate(dateFrom.getDate() - 7)
+    dateStart = document.getElementById("startdate").value = dateFrom.toISOString().substr(0, 10)
+    var dateTo = new Date()
+    dateEnd = document.getElementById("enddate").value = dateTo.toISOString().substr(0, 10)
+}
