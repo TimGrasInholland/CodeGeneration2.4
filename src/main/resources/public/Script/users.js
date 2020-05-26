@@ -1,48 +1,69 @@
 var currentUser;
 var isOwner;
-var offset = 0;
+window.offset = 0;
+var nextpage = false;
 
 function GetUsers(){
-    var SeachString = $( "input[id=seaching]" ).val()
+    var userId = GetCurrentUserId()
 
-    if(SeachString != null && SeachString != ""){
-        var header = {
-            "session": sessionStorage.getItem("session")
-        };
-        var data = {
-            "offset": 0,
-            "limit": 100,
-            "searchname": SeachString 
-        };
+    if(userId != null){
+        var offset = null;
+        var limit = null;
+        var SeachString = $( "input[id=seaching]" ).val()
+
+        if(SeachString != null && SeachString != ""){
+            var header = {
+                "session": sessionStorage.getItem("session")
+            };
+            var data = {
+                "offset": 0,
+                "limit": 100,
+                "searchname": SeachString 
+            };
+        }
+        else if(nextpage){
+            nextpage = false;
+            var header = {
+                "session": sessionStorage.getItem("session")
+            };
+            var data = {
+                "offset": window.offset,
+                "limit": 100,
+                "searchname": SeachString 
+            };
+        }
+        else{
+            var header = {
+                "session": sessionStorage.getItem("session")
+            };
+            var data = {
+                "searchname": SeachString
+            };
+        }
+        $.ajax({
+            type: "Get",
+            url: "http://localhost:8080/api/Users",
+            data: data,
+            headers: header,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            complete: function(jqXHR) {
+                switch (jqXHR.status) {
+                    case 200:
+                        break;
+                    default:
+                        alert("Oops! Something went wrong.");
+                }
+            },
+            success: function(result){
+                MakeUser(result);
+            }
+        });
     }
     else{
-        var header = {
-            "session": sessionStorage.getItem("session")
-        };
-        var data = {
-            "searchname": SeachString
-        };
+        alert("You are not logged in!")
+        window.location.href = './Login.html';
     }
-    $.ajax({
-        type: "Get",
-        url: "http://localhost:8080/api/Users",
-        data: data,
-        headers: header,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        complete: function(jqXHR) {
-            switch (jqXHR.status) {
-                case 200:
-
-                    break;
-                default:
-                    alert("Oops! Something went wrong.");
-            }
-        },
-        success: function(result){
-            MakeUser(result);
-        }
-    });
 }
 
 $(document).ready(function(){
@@ -50,6 +71,7 @@ $(document).ready(function(){
     if(document.getElementById("seaching")){
         $('#seaching').on('keyup paste',username_check);
         GetUsers();
+        offset = 0;
     }
 });
 
@@ -73,14 +95,30 @@ function MakeUser(users){
             "</a>");
     });
     $( "#Users-box" ).append(
-        "<div id='next' class='bottom'>"+
+        "<div id='back' onclick='back()' class='bottomleft'>"+
+        "<i class='arrow left'></i>"+
+        "</div>");
+    $( "#Users-box" ).append(
+        "<div id='next' onclick='next()' class='bottom'>"+
         "<i class='arrow right'></i>"+
         "</div>");
 }
 
-$("#next").click(function(){
+function next(){
     offset++;
-}); 
+    nextpage = true;
+    GetUsers();
+    console.log(offset)
+}; 
+
+function back(){
+    if(window.offset != 0){
+        offset--;
+        nextpage = true;
+        GetUsers();
+    }
+    console.log(offset);
+}
 
 function CreateUser(){
     var userId = GetCurrentUserId()
