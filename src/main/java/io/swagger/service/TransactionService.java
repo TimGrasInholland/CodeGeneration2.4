@@ -30,10 +30,10 @@ public class TransactionService {
     public List<Transaction> getAllTransactions(OffsetDateTime dateFrom, OffsetDateTime dateTo, Integer offset, Integer limit, String username) {
         Pageable pageable = PageRequest.of(offset, limit);
         if (username.equals("%")) {
-            return transactionRepository.getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqual(dateFrom, dateTo, pageable);
+            return transactionRepository.getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqualOrderByTimestampDesc(dateFrom, dateTo, pageable);
         }
         Long id = userRepository.getUserByUsernameEquals(username).getId();
-        return transactionRepository.getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqualAndIdEquals(dateFrom, dateTo, id, pageable);
+        return transactionRepository.getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqualAndIdEqualsOrderByTimestampDesc(dateFrom, dateTo, id, pageable);
     }
 
     public List<Transaction> getTransactionsByAccountId(long accountId) {
@@ -60,7 +60,7 @@ public class TransactionService {
     }
 
     public Integer getDailyTransactionsByUserPerforming(Long userPerformingId, OffsetDateTime minDate, OffsetDateTime maxDate) {
-        return transactionRepository.countTransactionsByUserPerformingIdEqualsAndTimestampBetween(userPerformingId, minDate, maxDate);
+        return transactionRepository.countTransactionsByUserPerformingIdEqualsAndTimestampBetweenOrderByTimestampDesc(userPerformingId, minDate, maxDate);
     }
 
     @Modifying

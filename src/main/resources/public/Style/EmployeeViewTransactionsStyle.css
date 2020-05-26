@@ -48,12 +48,6 @@ form{
     margin-top: 30px;
 }
 
-input{
-    float: left;
-    width: 150px;
-    border-color: gray;
-}
-
 .form-name{
     float: left;
     font-size: 16px;
@@ -127,3 +121,131 @@ section{
     float: right;
     margin-left: 5px;
 }
+  
+  /* Add padding and center-align text to the container */
+  .container {
+    padding: 16px;
+    text-align: center;
+  }
+  
+  /* The Modal (background) */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: #474e5d;
+    padding-top: 50px;
+  }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+  
+  /* Style the horizontal ruler */
+  hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 25px;
+  }
+  
+  /* The Modal Close Button (x) */
+  .close {
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    font-size: 40px;
+    font-weight: bold;
+    color: #f1f1f1;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #f44336;
+    cursor: pointer;
+  }
+  
+  /* Clear floats */
+  .clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  .cancelbtn {
+    position: relative;
+    cursor: pointer;
+    height: 40px;
+    width: 110px;
+    border-style: none;
+    padding: 25px, 70px, 25px, 70px;
+    font-size: 17px;
+    font-weight: bold;
+    color: white;
+    background-color: #EE3E68;
+  }
+
+  .sendbtn {
+    position: relative;
+    cursor: pointer;
+    height: 40px;
+    width: 110px;
+    border-style: none;
+    padding: 25px, 70px, 25px, 70px;
+    font-size: 17px;
+    font-weight: bold;
+    color: white;
+    background-color: #07CF97;
+  }
+
+  #account-header{
+    float: left;
+    margin-top: 60px;
+    width: 1000px;
+    margin-left: 50px;
+    margin-bottom: 20px;
+}
+
+#current-iban{
+    float: left;
+    position: relative;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+#account-balance{
+    float: left;
+    position: relative;
+    font-size: 20px;
+    font-weight: normal;
+    padding-left: 600px;
+}
+
+.currency-tag{
+    float: right;
+    position: relative;
+    font-weight: bold;
+    font-size: 20px;
+    width: 50px;
+}
+
+input[type=text]{
+    border: none;
+    border-bottom:  1px solid black;
+}
+
+.input-transaction{
+    width: 280px;
+    padding-left: 5px;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+  

@@ -1,10 +1,4 @@
-var currentIban = null;
-var currentAccount = null;
 
-function SetIban(){
-    this.currentIban = getUrlParameter("iban");
-    this.currentAccount = GetAccount(currentIban);
-}
 
 function CreateAccount(){
     var userId = GetCurrentUserId()
