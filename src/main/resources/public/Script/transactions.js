@@ -141,6 +141,8 @@ function GetTransactionType(accountTo, currentType) {
     if (GetAccount(accountTo).type == "Savings" && currentType == "Current") {return "Deposit";}
     if (GetAccount(accountTo).type == "Current" && currentType == "Savings") {return "Withdrawal";}
     if (GetAccount(accountTo).type == "Current" && currentType == "Current") {return "Payment";}
+    else {return "Payment";};
+
 }
 
 function CreateTransaction() {
@@ -173,11 +175,11 @@ function CreateTransaction() {
         complete: function(jqXHR) {
             switch (jqXHR.status) {
                 case 201:
-                    alert("Transaction Successful.");
+                    alert(jqXHR.responseText);
                     location.reload();
                     break;
                 default:
-                    alert("Oops! Something went wrong.");
+                    alert(jqXHR.responseText);
             }
         }
     });
