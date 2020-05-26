@@ -87,7 +87,9 @@ public class UsersApiController implements UsersApi {
                 }
                 return ResponseEntity.status(200).body(usernameList);
             }
-            return ResponseEntity.status(200).body(service.getAllUsers(pageable));
+            //return ResponseEntity.status(200).body(service.getAllUsers(pageable));
+            List<User> users = service.getAllUsers(pageable);
+                return ResponseEntity.status(200).body(users);
         }
         return new ResponseEntity<List<User>>(HttpStatus.UNAUTHORIZED);
     }

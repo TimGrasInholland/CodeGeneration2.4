@@ -1,4 +1,5 @@
-var offset = 0;
+window.offset = 0;
+var nextpage = false;
 function GetUsers(){
     var userId = GetUserId()
 
@@ -14,6 +15,17 @@ function GetUsers(){
             };
             var data = {
                 "offset": 0,
+                "limit": 100,
+                "searchname": SeachString 
+            };
+        }
+        if(nextpage){
+            nextpage = false;
+            var header = {
+                "session": sessionStorage.getItem("session")
+            };
+            var data = {
+                "offset": window.offset,
                 "limit": 100,
                 "searchname": SeachString 
             };
@@ -56,6 +68,7 @@ function GetUsers(){
 $(document).ready(function(){
         $('#seaching').on('keyup paste',username_check);
         GetUsers();
+        offset = 0;
 });
 
 function username_check(){ 
@@ -78,7 +91,11 @@ function MakeUser(users){
             "</a>");
     }); 
     $( "#Users-box" ).append(
-    "<div id='next' class='bottom'>"+
+    "<div id='back' onclick='back()' class='bottomleft'>"+
+    "<i class='arrow left'></i>"+
+    "</div>");
+    $( "#Users-box" ).append(
+    "<div id='next' onclick='next()' class='bottomright'>"+
     "<i class='arrow right'></i>"+
     "</div>");
 }
@@ -101,6 +118,18 @@ function GetUserId(){
     return userId
 }
 
-$("#next").click(function(){
+function next(){
     offset++;
-});
+    nextpage = true;
+    GetUsers();
+    console.log(offset);
+}
+
+function back(){
+    if(window.offset != 0){
+        offset--;
+        nextpage = true;
+        GetUsers();
+    }
+    console.log(offset);
+}
