@@ -1,47 +1,69 @@
 var currentUser;
 var isOwner;
+window.offset = 0;
+var nextpage = false;
 
 function GetUsers(){
-    var SeachString = $( "input[id=seaching]" ).val()
+    var userId = GetCurrentUserId()
 
-    if(SeachString != null && SeachString != ""){
-        var header = {
-            "session": sessionStorage.getItem("session")
-        };
-        var data = {
-            "offset": 0,
-            "limit": 100,
-            "searchname": SeachString 
-        };
+    if(userId != null){
+        var offset = null;
+        var limit = null;
+        var SeachString = $( "input[id=seaching]" ).val()
+
+        if(SeachString != null && SeachString != ""){
+            var header = {
+                "session": sessionStorage.getItem("session")
+            };
+            var data = {
+                "offset": 0,
+                "limit": 100,
+                "searchname": SeachString 
+            };
+        }
+        else if(nextpage){
+            nextpage = false;
+            var header = {
+                "session": sessionStorage.getItem("session")
+            };
+            var data = {
+                "offset": window.offset,
+                "limit": 100,
+                "searchname": SeachString 
+            };
+        }
+        else{
+            var header = {
+                "session": sessionStorage.getItem("session")
+            };
+            var data = {
+                "searchname": SeachString
+            };
+        }
+        $.ajax({
+            type: "Get",
+            url: "http://localhost:8080/api/Users",
+            data: data,
+            headers: header,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            complete: function(jqXHR) {
+                switch (jqXHR.status) {
+                    case 200:
+                        break;
+                    default:
+                        alert("Oops! Something went wrong.");
+                }
+            },
+            success: function(result){
+                MakeUser(result);
+            }
+        });
     }
     else{
-        var header = {
-            "session": sessionStorage.getItem("session")
-        };
-        var data = {
-            "searchname": SeachString
-        };
+        alert("You are not logged in!")
+        window.location.href = './Login.html';
     }
-    $.ajax({
-        type: "Get",
-        url: "http://localhost:8080/api/Users",
-        data: data,
-        headers: header,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        complete: function(jqXHR) {
-            switch (jqXHR.status) {
-                case 200:
-
-                    break;
-                default:
-                    alert("Oops! Something went wrong.");
-            }
-        },
-        success: function(result){
-            MakeUser(result);
-        }
-    });
 }
 
 $(document).ready(function(){
@@ -49,6 +71,7 @@ $(document).ready(function(){
     if(document.getElementById("seaching")){
         $('#seaching').on('keyup paste',username_check);
         GetUsers();
+        offset = 0;
     }
 });
 
@@ -59,7 +82,6 @@ function username_check(){
 function MakeUser(users){
     $("#Users-box").empty();
     $.each(users, function(i) {
-        console.log(users[i]);
         $( "#Users-box" ).append("<a href='ViewUser.html?id="+users[i].id+"'>"+
             "<div class='user-box'>"+
             "<i class='arrow right'></i>"+
@@ -71,13 +93,35 @@ function MakeUser(users){
             " </address>"+
             "</div>"+
             "</a>");
-    }); 
+    });
+    $( "#Users-box" ).append(
+        "<div id='back' onclick='back()' class='bottomleft'>"+
+        "<i class='arrow left'></i>"+
+        "</div>");
+    $( "#Users-box" ).append(
+        "<div id='next' onclick='next()' class='bottomright'>"+
+        "<i class='arrow right'></i>"+
+        "</div>");
+}
+
+function next(){
+    offset++;
+    nextpage = true;
+    GetUsers();
+    console.log(offset)
+}; 
+
+function back(){
+    if(window.offset != 0){
+        offset--;
+        nextpage = true;
+        GetUsers();
+    }
+    console.log(offset);
 }
 
 function CreateUser(){
     var userId = GetCurrentUserId()
-
-    if(userId != null){
         var newUser = JSON.stringify({
             "username": $( "input[name=username]" ).val(),
             "password": $( "input[name=password]" ).val(),
@@ -93,6 +137,7 @@ function CreateUser(){
             "type": $( "select[name=type]" ).val(),
             "active": true
         });
+    if(userId != null){
         $.ajax({
             type: "POST",
             url: "http://localhost:8080/api/Users",
@@ -106,7 +151,7 @@ function CreateUser(){
                 switch (jqXHR.status) {
                     case 201:
                         alert("User created!");
-                        window.location.href = './RegisterAccount.html';
+                        window.location.href = './EmployeeViewUsers.html';
                         break;
                     default:
                         alert (jqXHR.error);
@@ -116,8 +161,25 @@ function CreateUser(){
         });
     }
     else{
-        alert("You are not logged in!")
-        window.location.href = './Login.html';
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/api/Users",
+            headers:"",
+            data: newUser,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            complete: function(jqXHR) {
+                switch (jqXHR.status) {
+                    case 201:
+                        alert("Your account is created!");
+                        window.location.href = './Login.html';
+                        break;
+                    default:
+                        alert (jqXHR.error);
+                        alert("Oops! Something went wrong.");
+                }
+            }
+        });
     }
 }
 
@@ -255,3 +317,9 @@ function GetUser(id) {
     });
     return user;
 }
+
+$(document).ready(function(){
+    if(document.getElementById("selector") && GetCurrentUserId() == null){
+        $('#selector').hide();
+    }
+});
