@@ -154,7 +154,11 @@ function CreateUser(){
                         window.location.href = './EmployeeViewUsers.html';
                         break;
                     default:
-                        alert (jqXHR.error);
+                        var obj = jQuery.parseJSON(jqXHR.responseText);
+                        $.each(obj, function(key,value) {
+                          alert(value.defaultMessage);
+                        }); 
+                        alert (jqXHR.responseText);
                         alert("Oops! Something went wrong.");
                 }
             }
@@ -175,8 +179,14 @@ function CreateUser(){
                         window.location.href = './Login.html';
                         break;
                     default:
-                        alert (jqXHR.error);
-                        alert("Oops! Something went wrong.");
+                        var obj = jQuery.parseJSON(jqXHR.responseText);
+                        $.each(obj, function(key,value) {
+                            if(key == "errors"){
+                                $.each(value, function(key,value) {
+                                      alert(value.field + ":" +value.defaultMessage);
+                                }); 
+                            }
+                        }); 
                 }
             }
         });
