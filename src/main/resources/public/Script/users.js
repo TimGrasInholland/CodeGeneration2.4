@@ -99,7 +99,7 @@ function MakeUser(users){
         "<i class='arrow left'></i>"+
         "</div>");
     $( "#Users-box" ).append(
-        "<div id='next' onclick='next()' class='bottom'>"+
+        "<div id='next' onclick='next()' class='bottomright'>"+
         "<i class='arrow right'></i>"+
         "</div>");
 }
