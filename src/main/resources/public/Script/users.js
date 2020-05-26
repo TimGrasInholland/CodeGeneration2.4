@@ -19,7 +19,7 @@ function GetUsers(){
                 "searchname": SeachString 
             };
         }
-        if(nextpage){
+        else if(nextpage){
             nextpage = false;
             var header = {
                 "session": sessionStorage.getItem("session")
