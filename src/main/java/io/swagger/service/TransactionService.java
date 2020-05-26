@@ -28,7 +28,7 @@ public class TransactionService {
     }
 
     public List<Transaction> getAllTransactions(OffsetDateTime dateFrom, OffsetDateTime dateTo, Integer offset, Integer limit, String username) {
-        Pageable pageable = new PageRequest(offset, limit);
+        Pageable pageable = PageRequest.of(offset, limit);
         if (username.equals("%")) {
             return transactionRepository.getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqual(dateFrom, dateTo, pageable);
         }

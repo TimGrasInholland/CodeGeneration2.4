@@ -177,7 +177,7 @@ function disableUser() {
         dataType: "json",
         complete: function(jqXHR) {
             switch (jqXHR.status) {
-                case 201:
+                case 200:
                     alert("Update Successful.");
                     location.reload();
                     break;
@@ -229,7 +229,7 @@ function updateUser() {
         dataType: "json",
         complete: function(jqXHR) {
             switch (jqXHR.status) {
-                case 201:
+                case 200:
                     alert("Update Successful.");
                     break;
                 default:

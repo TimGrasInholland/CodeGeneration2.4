@@ -15,7 +15,7 @@ public class AccountTest {
     }
 
     @Test
-    public void createGuitarShouldNotBeNull() {
+    public void createAccountShouldNotBeNull() {
         assertNotNull(account);
     }
 }
