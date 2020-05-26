@@ -43,10 +43,11 @@ public class UsersApiController implements UsersApi {
 
     public ResponseEntity<String> createUser(@ApiParam(value = ""  )  @Valid @RequestBody User body) {
         if (body != null) {
-            //String authKey = request.getHeader("session");
-            /*if(!security.isPermitted(authKey, User.TypeEnum.BANK)){
+            body.setActive((true));
+            String authKey = request.getHeader("session");
+            if(!security.isPermitted(authKey, User.TypeEnum.BANK)){
                 body.setType(User.TypeEnum.CUSTOMER);
-            }*/
+            }
             List<User> users = service.getAllUsers();
             if (users.stream().anyMatch((user) -> user.getUsername().equals(body.getUsername()))) {
                 // maybe extra info why not correct
@@ -70,7 +71,9 @@ public class UsersApiController implements UsersApi {
         String authKey = request.getHeader("session");
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
             if(limit == null || offset == null || limit == 0 ){
-                return ResponseEntity.status(200).body(service.getAllUsers());
+                List<User> users = service.getAllUsers();
+                users = security.filterUsers(users);
+                return ResponseEntity.status(200).body(users);
             }
             Pageable pageable = PageRequest.of(offset, limit);
             if(searchName != null &&!searchName.isEmpty()){
@@ -81,9 +84,9 @@ public class UsersApiController implements UsersApi {
                         usernameList.add(user);
                     }
                 }
-                return ResponseEntity.status(200).body(usernameList);
+                return ResponseEntity.status(200).body(security.filterUsers(usernameList));
             }
-            return ResponseEntity.status(200).body(service.getAllUsers(pageable));
+            return ResponseEntity.status(200).body(security.filterUsers(service.getAllUsers(pageable)));
         }
         return new ResponseEntity<List<User>>(HttpStatus.UNAUTHORIZED);
     }
@@ -93,7 +96,11 @@ public class UsersApiController implements UsersApi {
         if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
             try {
                 if (security.isOwner(authKey, id) || security.employeeCheck(authKey)){
-                    return ResponseEntity.status(200).body(service.getUserById(id));
+                    User user = service.getUserById(id);
+                    if (security.bankCheck(user.getType())){
+                        return new ResponseEntity<User>(HttpStatus.UNAUTHORIZED);
+                    }
+                    return ResponseEntity.status(200).body(user);
                 }
             } catch (IllegalArgumentException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
@@ -105,7 +112,7 @@ public class UsersApiController implements UsersApi {
 
     public ResponseEntity<String> updateUser(@ApiParam(value = ""  )  @Valid @RequestBody User body) {
         String authKey = request.getHeader("session");
-        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
+        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER) && !security.bankCheck(body.getType())) {
             if (body != null && body.getId() != null) {
                 // Check if user is owner or is employee.
                 if (security.isOwner(authKey, body.getId()) || security.employeeCheck(authKey)) {

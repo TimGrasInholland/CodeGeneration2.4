@@ -101,15 +101,30 @@ body {
 }
 
 .right {
-  transform: rotate(-45deg);
-  -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    cursor: pointer;
 }
 
-.bottom{
+.left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+    cursor: pointer;
+}
+  
+.bottomright{
     position:absolute;  
     padding-bottom: 10px;                
     bottom:0; 
     right: 0;
+}
+
+.bottomleft{
+    position:absolute;  
+    padding-bottom: 10px; 
+    padding-left: 10px;               
+    bottom:0; 
+    left: 0;
 }
 
 #register-welcome {
