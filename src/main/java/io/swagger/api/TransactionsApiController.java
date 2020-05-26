@@ -60,14 +60,17 @@ public class TransactionsApiController implements TransactionsApi {
                         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
                     }
                 }
-                // checken of rol customer is zoja check of accountFrom iban behoort tot de customer
                 Account accountFrom = accountService.getAccountByIBAN(body.getAccountFrom());
                 Account accountTo = accountService.getAccountByIBAN(body.getAccountTo());
 
+                // Check if role is customer and make sure accountFrom iban belongs to the current logged in user
+                if (security.customerCheck(authKey) && accountFrom.getUserId() != security.getCurrentUserId(authKey)) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can't transfer funds from someone else's to your account.");
+                }
+                // Check if accounts dont equal each other
                 if (accountFrom == accountTo) {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can't transfer funds to the same account.");
                 }
-
                 // Currency check.
                 if (accountFrom.getCurrency() != accountTo.getCurrency()) {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can't transfer funds to this Account since it has a different currency.");
@@ -84,13 +87,16 @@ public class TransactionsApiController implements TransactionsApi {
                 Double newAmountFrom = accountFrom.getBalance().getBalance() - body.getAmount();
                 Double newAmountTo = accountTo.getBalance().getBalance() + body.getAmount();
 
+                // Absolute limit check
                 if (newAmountFrom < bankConfig.getAbsoluteLimit()) {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Account balance not high enough for this transaction.");
                 }
+                // Max amount transactions per day check
                 LocalDate currentDate = LocalDate.now();
                 if (service.getDailyTransactionsByUserPerforming(body.getUserPerformingId(), OffsetDateTime.parse(currentDate + "T00:00:00.001+02:00"), OffsetDateTime.parse(currentDate + "T23:59:59.999+02:00")) > bankConfig.getDayLimit()) {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You've reached the maximum amount of transactions for today. Please try again tomorrow.");
                 }
+                // Transaction limit check
                 if (body.getAmount() > bankConfig.getTransactionLimit()) {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Specified transaction amount is too high.");
                 }
