@@ -81,10 +81,10 @@ public class SecurityApiController implements SecurityApi {
     }
 
 
-    public ResponseEntity<SessionToken> getSessionTokenByAuthKey(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("APIkey") String key) {
-        if (key != null && security.isPermitted(key, User.TypeEnum.CUSTOMER)) {
+    public ResponseEntity<SessionToken> getSessionTokenByAuthKey(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("APIkey") String authKey) {
+        if (security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
             try {
-                return ResponseEntity.status(200).body(sessionTokenService.getSessionTokenByAuthKey(key));
+                return ResponseEntity.status(200).body(sessionTokenService.getSessionTokenByAuthKey(authKey));
             } catch (IllegalArgumentException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<SessionToken>(HttpStatus.INTERNAL_SERVER_ERROR);

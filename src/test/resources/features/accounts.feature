@@ -17,7 +17,7 @@ Feature: Accounts tests
     Then I get http status account 200
 
   Scenario: Retrieve an account by IBAN is OK
-    When I retrieve an account by iban "NL01INHO6666934694"
+    When I retrieve an account by iban "NL01INHO4995677694"
     Then I get http status account 200
 
   Scenario: Retrieve an account by UserId is Ok

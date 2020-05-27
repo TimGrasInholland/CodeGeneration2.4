@@ -5,7 +5,7 @@ Feature: Users tests
     Then I get http status users 200
 
   Scenario: Retrieve user by id is OK
-    When I retrieve user by id 1
+    When I retrieve user by id 2
     Then I get http status users 200
 
   Scenario: Create an User is CREATED
