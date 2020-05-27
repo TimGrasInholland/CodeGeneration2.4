@@ -14,7 +14,7 @@ Feature: Users tests
 
   Scenario: Update an User is updated
     When I update an user
-    Then I get http status users 201
+    Then I get http status users 200
 
   Scenario: Retrieve an user by username
     When I retrieve an user by username 'Adrie538'
