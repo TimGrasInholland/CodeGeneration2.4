@@ -103,7 +103,6 @@ function GetCurrentUserRole(){
 
 function GetCurrentUserAuthKey(){
     var key = null;
-    console.log(sessionStorage.getItem("session"))
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/api/SessionToken/"+sessionStorage.getItem("session"),

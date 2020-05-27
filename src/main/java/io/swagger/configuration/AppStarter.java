@@ -53,9 +53,9 @@ public class AppStarter{
         List<Account> accounts = Arrays.asList(
                 new Account(1L, Account.TypeEnum.CURRENT, Account.CurrencyEnum.EUR, null, "NL01INHO0000000001", true),
                 new Account(3L, Account.TypeEnum.SAVINGS, Account.CurrencyEnum.EUR, null, "NL01INHO4996947694", true),
-                new Account(3L, Account.TypeEnum.SAVINGS, Account.CurrencyEnum.EUR, null, "NL01INHO4995677694", true),
+                new Account(3L, Account.TypeEnum.CURRENT, Account.CurrencyEnum.EUR, null, "NL01INHO4995677694", true),
                 new Account(2L, Account.TypeEnum.CURRENT, Account.CurrencyEnum.EUR, null, "NL01INHO6666934694", true),
-                new Account(3L, Account.TypeEnum.CURRENT, Account.CurrencyEnum.EUR, null, "NL01INHO6666134694", true)
+                new Account(2L, Account.TypeEnum.SAVINGS, Account.CurrencyEnum.EUR, null, "NL01INHO6666134694", true)
         );
 
         accounts.forEach(
@@ -74,6 +74,7 @@ public class AppStarter{
 
     private void initTransactions() {
         List<Transaction> transactions = Arrays.asList(
+                // illegal transactions
                 new Transaction("NL01INHO6666934694", "NL01INHO4996947694", 100.0, "Description1", 2L, Transaction.TransactionTypeEnum.DEPOSIT),
                 new Transaction("NL01INHO4996947694", "NL01INHO6666934694", 50.0, "Description2", 2L, Transaction.TransactionTypeEnum.WITHDRAWAL),
                 new Transaction("NL01INHO6666134694", "NL01INHO6666934694", 10.0, "Description3", 3L, Transaction.TransactionTypeEnum.PAYMENT)
@@ -87,11 +88,11 @@ public class AppStarter{
     private void initUsers() {
         List<User> users = Arrays.asList(
                 new User("Inholland-Bank", "Welcome567?", "Bank", "", "Inholland", "bank@inholland-bank.nl",
-                        LocalDate.of(2019, 1, 1), "Arnold straat 33", "1354PK", "Haarlem", "0638313905", User.TypeEnum.BANK, true),
+                        "2019/1/1", "Arnold straat 33", "1354PK", "Haarlem", "0638313905", User.TypeEnum.BANK, true),
                 new User("Adrie538", "Welkom123!", "Andries", "", "Komen", "AndriesK@gmail.com",
-                        LocalDate.of(1992, 11, 3), "Bloemendotter 12", "1958TX", "Haarlem", "0637291827", User.TypeEnum.EMPLOYEE, true),
+                        "2019/1/1", "Bloemendotter 12", "1958TX", "Haarlem", "0637291827", User.TypeEnum.EMPLOYEE, true),
                 new User("SjaakMaster", "Test123!", "Sjaak", "Van", "Bergen", "SjaakVBergen@gmail.com",
-                        LocalDate.of(2000, 12, 12), "Jacobstraat", "1938DR", "Amsterdam", "0638273745", User.TypeEnum.CUSTOMER, true)
+                        "2019/1/1", "Jacobstraat", "1938DR", "Amsterdam", "0638273745", User.TypeEnum.CUSTOMER, true)
         );
 
         users.forEach(
