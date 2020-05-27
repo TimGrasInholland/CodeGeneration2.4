@@ -30,7 +30,7 @@ public interface SecurityApi {
     ResponseEntity<String> logout();
 
 
-    @ApiOperation(value = "Login", nickname = "login", notes = "Get api token from user login request", tags={ "Login", })
+    @ApiOperation(value = "Login", nickname = "login", notes = "Get api token from user login request", tags={ "Security", })
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Sucessfully logged in"),
             @ApiResponse(code = 400, message = "bad request", response = String.class),
