@@ -7,6 +7,7 @@ import io.swagger.model.AccountBalance;
 import io.swagger.model.User;
 import io.swagger.service.AccountService;
 import io.swagger.service.SessionTokenService;
+import io.swagger.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,8 @@ public class AccountsApiController implements AccountsApi {
     private Security security;
     @Autowired
     private SessionTokenService sessionTokenService;
+    @Autowired
+    private UserService userService;
 
     @org.springframework.beans.factory.annotation.Autowired
     public AccountsApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -74,7 +77,12 @@ public class AccountsApiController implements AccountsApi {
         if (security.isPermitted(authKey, User.TypeEnum.EMPLOYEE) || security.isOwner(authKey, service.getAccountByIBAN(iban).getUserId())) {
             if (authKey != null){
                 try {
-                    return ResponseEntity.status(200).body(service.getAccountByIBAN(iban));
+                    // Check if the account gotten form this iban belongs to the bank and if so block this request.
+                    if (!security.bankCheck(userService.getUserById(service.getAccountByIBAN(iban).getUserId()).getType())){
+                        return ResponseEntity.status(200).body(service.getAccountByIBAN(iban));
+                    } else{
+                        return new ResponseEntity<Account>(HttpStatus.UNAUTHORIZED);
+                    }
                 } catch (Exception e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<Account>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -105,14 +113,14 @@ public class AccountsApiController implements AccountsApi {
                 iban = "%"+iban+"%";
             }
             Pageable pageable = PageRequest.of(offset, limit);
-            return ResponseEntity.status(200).body(service.getAllAccountsWithParams(pageable, iban));
+            return ResponseEntity.status(200).body(security.filterAccounts(service.getAllAccountsWithParams(pageable, iban)));
         }
         return new ResponseEntity<List<Account>>(HttpStatus.UNAUTHORIZED);
     }
 
     public ResponseEntity<List<Account>> getUserAccountsByUserId(@Min(1)@ApiParam(value = "bad input parameter",required=true, allowableValues="") @PathVariable("id") Long id){
         String authKey = request.getHeader("session");
-        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
+        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER) && !security.bankCheck(userService.getUserById(id).getType())) {
             if (security.isOwner(authKey, id) || security.employeeCheck(authKey)){
                 return ResponseEntity.status(200).body(service.getAccountsByUserId(id));
             }
@@ -122,7 +130,7 @@ public class AccountsApiController implements AccountsApi {
 
     public ResponseEntity<String> disableAccount(@ApiParam(value = ""  )  @Valid @RequestBody Account body) {
         String authKey = request.getHeader("session");
-        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
+        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE) && !security.bankCheck(userService.getUserById(body.getUserId()).getType())) {
             List<Account> accounts = service.getAccountsByUserId(body.getUserId());
             for (Account account : accounts) {
                 if (account.getId().equals(body.getId())){
