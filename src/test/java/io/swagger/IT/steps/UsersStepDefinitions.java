@@ -2,15 +2,13 @@ package io.swagger.IT.steps;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.cucumber.core.internal.gherkin.deps.com.google.gson.Gson;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import io.swagger.model.User;
 import net.minidev.json.JSONObject;
 import org.junit.Assert;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
-import org.threeten.bp.LocalDate;
 
 import java.net.URI;
 import java.net.URISyntaxException;

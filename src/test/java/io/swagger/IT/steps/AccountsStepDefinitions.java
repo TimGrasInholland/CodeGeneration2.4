@@ -2,8 +2,8 @@ package io.swagger.IT.steps;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import io.swagger.model.Account;
 import io.swagger.model.AccountBalance;
 import org.junit.Assert;

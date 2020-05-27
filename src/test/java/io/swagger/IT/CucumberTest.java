@@ -1,7 +1,7 @@
 package io.swagger.IT;
 
-import io.cucumber.junit.Cucumber;
-import io.cucumber.junit.CucumberOptions;
+import cucumber.api.CucumberOptions;
+import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
@@ -11,5 +11,6 @@ import org.junit.runner.RunWith;
         plugin = "pretty",
         strict = true
 )
-public class CumcumberIT {
+
+public class CucumberTest {
 }
