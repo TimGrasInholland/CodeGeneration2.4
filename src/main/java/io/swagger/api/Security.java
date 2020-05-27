@@ -28,11 +28,6 @@ public class Security {
         return false;
     }
 
-    public Long getCurrentUserId(String authKey) {
-        SessionToken sessionToken = sessionTokenRepository.getByAuthKeyEquals(authKey);
-        return sessionToken.getUserId();
-    }
-
     public boolean employeeCheck(String authKey){
         SessionToken sessionToken = sessionTokenRepository.getByAuthKeyEquals(authKey);
         return sessionToken.getRole().equals(User.TypeEnum.EMPLOYEE);

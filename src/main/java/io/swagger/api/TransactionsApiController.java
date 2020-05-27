@@ -64,7 +64,7 @@ public class TransactionsApiController implements TransactionsApi {
                 Account accountTo = accountService.getAccountByIBAN(body.getAccountTo());
 
                 // Check if role is customer and make sure accountFrom iban belongs to the current logged in user
-                if (security.customerCheck(authKey) && accountFrom.getUserId() != security.getCurrentUserId(authKey)) {
+                if (security.customerCheck(authKey) && accountFrom.getUserId() != sessionTokenService.getSessionTokenByAuthKey(authKey).getUserId()) {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can't transfer funds from someone else's to your account.");
                 }
                 // Check if accounts dont equal each other
