@@ -55,12 +55,9 @@ public class TransactionsStepDefinitions {
 
     @When("I create a transaction")
     public void iCreateTransaction() throws JsonProcessingException {
-        Transaction transaction = new Transaction("NL01INHO6666934694", "NL01INHO4996947694", 10.0, "TestDescription", 2L, Transaction.TransactionTypeEnum.DEPOSIT);
         headers.setContentType(MediaType.APPLICATION_JSON);
-        Gson gson = new Gson();
-        gson.toJson(transaction);
-        String transactionS = "{\"accountFrom\": \"NL01INHO6666934694\", \"accountTo\": \"NL01INHO6666134694\", \"amount\": 10.0, \"description\": \"TestDescription\", \"userPerformingId\": 2, \"transactionType\": \"Deposit\"}";
-        HttpEntity<String> entity = new HttpEntity<>(transactionS, headers);
+        String transactions = "{\"accountFrom\": \"NL01INHO4995677694\", \"accountTo\": \"NL01INHO4996947694\", \"amount\": 10.0, \"description\": \"TestDescription\", \"userPerformingId\": 2, \"transactionType\": \"Deposit\"}";
+        HttpEntity<String> entity = new HttpEntity<>(transactions, headers);
         responseEntity = template.exchange(uri, HttpMethod.POST, entity, String.class);
     }
 
