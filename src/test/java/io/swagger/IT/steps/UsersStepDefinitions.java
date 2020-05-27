@@ -47,14 +47,13 @@ public class UsersStepDefinitions {
     public void iCreateUser() throws JsonProcessingException {
 
         JSONObject obj = new JSONObject();
-        LocalDate date = LocalDate.of(2020, 5, 5);
         obj.put("username", "test123");
         obj.put("password", "Welcome567?");
         obj.put("firstName", "test");
         obj.put("prefix", "t");
         obj.put("lastName", "Tester");
         obj.put("email", "test@test.nl");
-        obj.put("birthday", "2020-05-05");
+        obj.put("birthdate", "2020-05-05");
         obj.put("address", "Haarlem");
         obj.put("postalcode", "1544MK");
         obj.put("city", "Haarlem");
@@ -62,16 +61,10 @@ public class UsersStepDefinitions {
         obj.put("type", User.TypeEnum.CUSTOMER);
         obj.put("active", true);
 
-        User user = new User("hank", "Welcome567?", "test", "t", "tester", "t@test.nl", date, "haarlem", "1544MK", "haarlem", "0611111111", User.TypeEnum.CUSTOMER
-                , true);
-        Gson gson = new Gson();
-
-        String json = gson.toJson(user);
-
 
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> entity = new HttpEntity<>(json, headers);
-        //HttpEntity<String> entity = new HttpEntity<>(mapper.writeValueAsString(obj), headers);
+        //HttpEntity<String> entity = new HttpEntity<>(json, headers);
+        HttpEntity<String> entity = new HttpEntity<>(mapper.writeValueAsString(obj), headers);
         responseEntity = template.exchange(uri, HttpMethod.POST, entity, String.class);
     }
 
@@ -87,7 +80,7 @@ public class UsersStepDefinitions {
         obj.put("prefix", "");
         obj.put("lastName", "Komen");
         obj.put("email", "AndriesK@gmail.com");
-        obj.put("birthday", "1992-11-03");
+        obj.put("birthdate", "1992-11-03");
         obj.put("address", "Bloemendotter 12");
         obj.put("postalcode", "1958TX");
         obj.put("city", "Haarlem");
