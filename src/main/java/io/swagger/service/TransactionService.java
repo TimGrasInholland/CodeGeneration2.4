@@ -30,15 +30,15 @@ public class TransactionService {
     public List<Transaction> getAllTransactions(OffsetDateTime dateFrom, OffsetDateTime dateTo, Integer offset, Integer limit, String username) {
         Pageable pageable = PageRequest.of(offset, limit);
         if (username.equals("%")) {
-            return transactionRepository.getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqual(dateFrom, dateTo, pageable);
+            return transactionRepository.getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqualOrderByTimestampDesc(dateFrom, dateTo, pageable);
         }
         Long id = userRepository.getUserByUsernameEquals(username).getId();
-        return transactionRepository.getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqualAndIdEquals(dateFrom, dateTo, id, pageable);
+        return transactionRepository.getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqualAndIdEqualsOrderByTimestampDesc(dateFrom, dateTo, id, pageable);
     }
 
     public List<Transaction> getTransactionsByAccountId(long accountId) {
-        Account account = accountRepository.findAccountById(accountId);
-        List<Transaction> transactions = (List<Transaction>) transactionRepository.getTransactionsByAccountFromEqualsOrAccountToEquals(account.getIban(), account.getIban());
+        Account account = accountRepository.findAccountByIdAndActiveIsTrue(accountId);
+        List<Transaction> transactions = (List<Transaction>) transactionRepository.getTransactionsByAccountFromEqualsOrAccountToEqualsOrderByTimestampDesc(account.getIban(), account.getIban());
         return transactions;
     }
 
@@ -48,7 +48,7 @@ public class TransactionService {
 
     public List<Transaction> getTransactionsByUserId(Long id) {
         //Get all accounts of user from userId
-        List<Account> userAccounts = (List<Account>) accountRepository.findAccountsByUserId(id);
+        List<Account> userAccounts = (List<Account>) accountRepository.findAccountsByUserIdAndActiveIsTrue(id);
         List<Transaction> transactions = new ArrayList<>();
 
         //Get foreach account all send and received transactions
@@ -60,7 +60,7 @@ public class TransactionService {
     }
 
     public Integer getDailyTransactionsByUserPerforming(Long userPerformingId, OffsetDateTime minDate, OffsetDateTime maxDate) {
-        return transactionRepository.countTransactionsByUserPerformingIdEqualsAndTimestampBetween(userPerformingId, minDate, maxDate);
+        return transactionRepository.countTransactionsByUserPerformingIdEqualsAndTimestampBetweenOrderByTimestampDesc(userPerformingId, minDate, maxDate);
     }
 
     @Modifying

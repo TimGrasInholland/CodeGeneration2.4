@@ -1,5 +1,10 @@
-var currentIban = "NL01INHO6666134694";
-// Via een get doen!
+var currentIban = null;
+var currentAccount = null;
+
+function SetIban(){
+    this.currentIban = getUrlParameter("iban");
+    this.currentAccount = GetAccount(currentIban);
+}
 
 function GetTransactionsFormatEmployee(){
     username = document.getElementById("username").value
@@ -136,9 +141,17 @@ function GetTransactionType(accountTo, currentType) {
     if (GetAccount(accountTo).type == "Savings" && currentType == "Current") {return "Deposit";}
     if (GetAccount(accountTo).type == "Current" && currentType == "Savings") {return "Withdrawal";}
     if (GetAccount(accountTo).type == "Current" && currentType == "Current") {return "Payment";}
+    else {return "Payment";};
+
 }
 
 function CreateTransaction() {
+    if (currentAccount == null) {
+        currentAccount = GetAccount(document.getElementById("ibanFrom").value)
+        var accountFrom = currentAccount.iban;
+    } else {
+        var accountFrom = currentAccount.iban;
+    }
     var accountTo = document.getElementById("ibanTo").value;
     var description = document.getElementById("description").value;
     var amount = document.getElementById("amount").value;
@@ -147,7 +160,7 @@ function CreateTransaction() {
         type: "POST",
         url: "http://localhost:8080/api/Transactions",
         data: JSON.stringify({
-            accountFrom: currentIban,
+            accountFrom: accountFrom,
             accountTo: accountTo,
             amount: amount,
             description: description,
@@ -162,11 +175,11 @@ function CreateTransaction() {
         complete: function(jqXHR) {
             switch (jqXHR.status) {
                 case 201:
-                    alert("Transaction Successful.");
+                    alert(jqXHR.responseText);
                     location.reload();
                     break;
                 default:
-                    alert("Oops! Something went wrong.");
+                    alert(jqXHR.responseText);
             }
         }
     });
@@ -188,3 +201,13 @@ function GetTransactionByCustomerAccountId() {
         }
     });
 };
+
+// Get the modal
+var modal = document.getElementById('createNewTransaction');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}

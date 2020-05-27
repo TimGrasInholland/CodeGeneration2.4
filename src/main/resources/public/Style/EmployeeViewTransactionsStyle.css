@@ -1,0 +1,255 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-image: url(../Images/EMPLOYEE\ -\ View\ Transactions\ -\ v1.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+h1{
+    font-size: 40px;
+    font-weight: bolder;
+    color: #06D4A2;
+}
+
+/* Content */
+
+.content{
+    margin-left: 300px;
+    margin-top: 100px;
+}
+
+aside{
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    padding: 20px;
+    width: 260px;
+    float: left;
+}
+
+section{
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    padding: 10px;
+    width: 600px;
+    height: 600px;
+    background-color: white;
+    float: left;
+    margin-left: 20px;
+}
+
+form{
+    margin-top: 30px;
+}
+
+.form-name{
+    float: left;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100px;
+}
+
+.submit{
+    height: 47px;
+    padding-top: 16px;
+    padding-bottom: 40px;
+    padding-left: 46px;
+    padding-right: 46px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #06D4A2;
+    border: none;
+    cursor: pointer;
+    margin-left: 300px;
+}
+
+#username{
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    width: 152px;
+}
+
+/* Transaction */
+
+hr{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+object{
+    font-size: 20px;
+}
+
+section{
+    overflow: auto;
+}
+
+.date{
+    font-weight: 600;
+}
+
+.sender{
+    width: 70px;
+    float: left;
+    color: gray;
+}
+
+.iban{
+    float: left;
+    color: gray;
+}
+
+.char{
+    float: right;
+    margin-right: 5px;
+}
+
+.amount{
+    float: right;
+}
+
+.currency{
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
+  
+  /* Add padding and center-align text to the container */
+  .container {
+    padding: 16px;
+    text-align: center;
+  }
+  
+  /* The Modal (background) */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: #FFFFFF;
+    padding-top: 50px;
+  }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+  
+  /* Style the horizontal ruler */
+  hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 25px;
+  }
+  
+  /* The Modal Close Button (x) */
+  .close {
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    font-size: 40px;
+    font-weight: bold;
+    color: #EE3E68;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #f44336;
+    cursor: pointer;
+  }
+  
+  /* Clear floats */
+  .clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  .cancelbtn {
+    position: relative;
+    cursor: pointer;
+    top: 20px;
+    height: 40px;
+    width: 110px;
+    border-style: none;
+    padding: 25px, 70px, 25px, 70px;
+    font-size: 17px;
+    font-weight: bold;
+    color: white;
+    background-color: #EE3E68;
+  }
+
+  .sendbtn {
+    position: relative;
+    cursor: pointer;
+    top: 20px;
+    height: 40px;
+    width: 110px;
+    border-style: none;
+    padding: 25px, 70px, 25px, 70px;
+    font-size: 17px;
+    font-weight: bold;
+    color: white;
+    background-color: #07CF97;
+  }
+
+  #account-header{
+    float: left;
+    margin-top: 60px;
+    width: 1000px;
+    margin-left: 50px;
+    margin-bottom: 20px;
+}
+
+#current-iban{
+    float: left;
+    position: relative;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+#account-balance{
+    float: left;
+    position: relative;
+    font-size: 20px;
+    font-weight: normal;
+    padding-left: 600px;
+}
+
+.currency-tag{
+    float: right;
+    position: relative;
+    font-weight: bold;
+    font-size: 20px;
+    width: 50px;
+}
+
+input[type=text]{
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 1px solid black;
+}
+
+.input-transaction{
+    width: 280px;
+    padding-left: 5px;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+  

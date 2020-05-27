@@ -12,17 +12,17 @@ import java.util.List;
 @Repository
 public interface TransactionRepository extends PagingAndSortingRepository<Transaction, Long> {
 
-    Iterable<Transaction> getTransactionsByAccountFromEqualsOrAccountToEquals(String accountFrom, String accountTo);
+    Iterable<Transaction> getTransactionsByAccountFromEqualsOrAccountToEqualsOrderByTimestampDesc(String accountFrom, String accountTo);
 
-    @Query("SELECT t FROM Transaction AS t WHERE t.accountFrom LIKE ?1 OR t.accountTo LIKE ?1 ORDER BY t.timestamp")
+    @Query("SELECT t FROM Transaction AS t WHERE t.accountFrom LIKE ?1 OR t.accountTo LIKE ?1 ORDER BY t.timestamp ASC")
     Iterable<Transaction> getTransactionsByIban(String iban);
 
-    List<Transaction> getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqual(OffsetDateTime dateFrom, OffsetDateTime dateTo, Pageable pageable);
+    List<Transaction> getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqualOrderByTimestampDesc(OffsetDateTime dateFrom, OffsetDateTime dateTo, Pageable pageable);
 
-    Integer countTransactionsByUserPerformingIdEqualsAndTimestampBetween(Long userPerformingId, OffsetDateTime minDate, OffsetDateTime maxDate);
+    Integer countTransactionsByUserPerformingIdEqualsAndTimestampBetweenOrderByTimestampDesc(Long userPerformingId, OffsetDateTime minDate, OffsetDateTime maxDate);
 
     @Query("SELECT COUNT(t) FROM Transaction as t")
     Integer countAllTransactions();
 
-    List<Transaction> getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqualAndIdEquals(OffsetDateTime dateFrom, OffsetDateTime dateTo, Long id, Pageable pageable);
+    List<Transaction> getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqualAndIdEqualsOrderByTimestampDesc(OffsetDateTime dateFrom, OffsetDateTime dateTo, Long id, Pageable pageable);
 }

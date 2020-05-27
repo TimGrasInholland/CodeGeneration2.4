@@ -18,7 +18,7 @@
     float: left;
     color: #07CF97;
     margin-top: 50px;
-    margin-left: 55px;
+    margin-left: 20px;
 }
 
 
@@ -67,16 +67,18 @@
     position: relative;
     height: 600px;
     float: left;
-    width: 1000px;
+    width: 1010px;
     border: 1px solid rgba(112, 112, 112, 0.5);
-    background-color: white;
+    overflow-y: scroll;
+    background-color: #FFFFFF;
 }
 
 #new-transaction-box{
     float: left;
     position: absolute;
     margin-left: 50px;
-    left: 1000px;
+    left: 1020px;
+    top: 220px;
     height: 250px;
     width: 500px;
     border: 1px solid rgba(112, 112, 112, 0.5);
@@ -89,8 +91,8 @@
 
 .transaction-row{
     float: left;
-    margin-left: 8px;
-    margin-top: 8px;
+    padding-top: 8px;
+    padding-left: 8px;
     width: 982px;
     font-size: 20px;
 }
@@ -123,7 +125,6 @@
 
 .transaction-amount{
     float: left;
-    padding-left: 
 
 }
 
@@ -137,7 +138,7 @@
 
 /*================================================*/
 
-/* Alles hieronder zit in de transaction-box*/ 
+/* Alles hieronder zit in de transaction-box*/
 
 #label-box{
     float: left;
@@ -165,7 +166,7 @@
 
 #send-btn {
     position: relative;
-    float: right; 
+    float: right;
     margin-top: 20px;
     margin-right: 40px;
 }
