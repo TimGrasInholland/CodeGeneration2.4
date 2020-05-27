@@ -9,18 +9,20 @@ function Login(){
             'Content-Type': 'application/x-www-form-urlencoded'
         },
         data: { username: username, password: password },
-        success: function(result) {
-            console.log(result)
-            sessionStorage.setItem("session", result)
-            if(GetCurrentUserRole() == "Customer")
-                window.location.href = './MyAccounts.html'
-            else{
-                window.location.href = './EmployeeDashboard.html'
+        complete: function(result) {
+            switch (result.status) {
+                case 200:
+                    console.log(result)
+                    sessionStorage.setItem("session", result.responseText)
+                    if(GetCurrentUserRole() == "Customer")
+                        window.location.href = './MyAccounts.html'
+                    else{
+                        window.location.href = './EmployeeDashboard.html'
+                    }
+                    break;
+                default:
+                    alert("Invalid username/password!");
             }
-        },
-        error: function(xhr){
-            console.log(xhr)
-            alert("Invalid username/password!")
         }
     });
 }
