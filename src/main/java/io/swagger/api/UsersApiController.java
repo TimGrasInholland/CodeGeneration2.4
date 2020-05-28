@@ -68,9 +68,9 @@ public class UsersApiController implements UsersApi {
         String authKey = request.getHeader("session");
         if (security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
             if(limit == null || offset == null || limit == 0 ){
-                List<User> users = service.getAllUsers();
-                users = security.filterUsers(users);
-                return ResponseEntity.status(200).body(users);
+                offset = 0; limit = 10;
+                Pageable pageable = PageRequest.of(offset, limit);
+                return ResponseEntity.status(200).body(security.filterUsers(service.getAllUsers(pageable)));
             }
             Pageable pageable = PageRequest.of(offset, limit);
             if(searchName != null &&!searchName.isEmpty()){
