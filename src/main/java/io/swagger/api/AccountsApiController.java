@@ -74,20 +74,25 @@ public class AccountsApiController implements AccountsApi {
 
     public ResponseEntity<Account> getAccountByIBAN(@ApiParam(value = "the IBAN", required = true) @PathVariable("iban") String iban) {
         String authKey = request.getHeader("session");
-        if (security.isOwnerOrPermitted(authKey, User.TypeEnum.EMPLOYEE, service.getAccountByIBAN(iban).getUserId())){
-            try {
-                // Check if the account gotten form this iban belongs to the bank and if so block this request.
-                if (!security.bankCheck(userService.getUserById(service.getAccountByIBAN(iban).getUserId()).getType())){
-                    return ResponseEntity.status(200).body(service.getAccountByIBAN(iban));
-                } else{
-                    return new ResponseEntity<Account>(HttpStatus.UNAUTHORIZED);
+        try {
+            if (security.isOwnerOrPermitted(authKey, User.TypeEnum.EMPLOYEE, service.getAccountByIBAN(iban).getUserId())){
+                try {
+                    // Check if the account gotten form this iban belongs to the bank and if so block this request.
+                    if (!security.bankCheck(userService.getUserById(service.getAccountByIBAN(iban).getUserId()).getType())){
+                        return ResponseEntity.status(200).body(service.getAccountByIBAN(iban));
+                    } else{
+                        return new ResponseEntity<Account>(HttpStatus.UNAUTHORIZED);
+                    }
+                } catch (Exception e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<Account>(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
-            } catch (Exception e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<Account>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
+            return new ResponseEntity<Account>(HttpStatus.UNAUTHORIZED);
+        } catch(NullPointerException e) {
+            return new ResponseEntity<Account>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<Account>(HttpStatus.UNAUTHORIZED);
+
     }
 
 

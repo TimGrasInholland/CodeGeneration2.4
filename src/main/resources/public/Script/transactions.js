@@ -10,8 +10,10 @@ function GetTransactionsFormatEmployee(){
     username = document.getElementById("username").value
     dateStart = document.getElementById("startdate").value
     dateEnd = document.getElementById("enddate").value
-    
+    limit = null;
+
     if(!username){
+        limit = 100;
         username = null
     }
     if(!dateStart){
@@ -30,7 +32,8 @@ function GetTransactionsFormatEmployee(){
         data: {
             "username": username,
             "dateFrom": dateStart,
-            "dateTo": dateEnd
+            "dateTo": dateEnd,
+            "limit": limit
         },
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -141,8 +144,7 @@ function GetTransactionType(accountTo, currentType) {
     if (GetAccount(accountTo).type == "Savings" && currentType == "Current") {return "Deposit";}
     if (GetAccount(accountTo).type == "Current" && currentType == "Savings") {return "Withdrawal";}
     if (GetAccount(accountTo).type == "Current" && currentType == "Current") {return "Payment";}
-    else {return "Payment";};
-
+    else {return "Payment";}
 }
 
 function CreateTransaction() {

@@ -127,8 +127,7 @@ function GetAccount(iban) {
             account = result;
         },
         error: function(error) {
-            console.log(error);
-            
+            alert("Given IBAN is incorrect.");
         }
     });
     return account;
