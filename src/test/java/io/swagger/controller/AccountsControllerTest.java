@@ -28,4 +28,6 @@ class AccountsControllerTest {
     public void getAllAccountsShouldReturnJsonArray() throws Exception {
         given(service.getAllAccounts()).willReturn(Arrays.asList(account));
     }
+
+
 }

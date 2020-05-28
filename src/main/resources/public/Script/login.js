@@ -21,7 +21,7 @@ function Login(){
                     }
                     break;
                 default:
-                    alert("Invalid username/password!");
+                    alert(result.responseText);
             }
         }
     });

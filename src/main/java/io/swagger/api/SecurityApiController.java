@@ -60,12 +60,13 @@ public class SecurityApiController implements SecurityApi {
         try {
             User user = loginService.login(username, password);
             if (user != null){
-                UUID authkey = UUID.randomUUID();
-
-                SessionToken sessionToken = new SessionToken(authkey.toString(), user.getId(), user.getType());
+                if (security.bankCheck(user.getType())) {
+                    return ResponseEntity.status(401).body("You are not allowed to login in behalf of the bank.");
+                }
+                SessionToken sessionToken = new SessionToken(user.getId(), user.getType());
                 sessionTokenService.registerSessionToken(sessionToken);
 
-                return ResponseEntity.status(200).body(authkey.toString());
+                return ResponseEntity.status(200).body(sessionTokenService.getSessionTokenByUserIdEquals(user.getId()).getAuthKey());
             } else{
                 return ResponseEntity.status(400).body("Invalid credentials");
             }
@@ -74,7 +75,6 @@ public class SecurityApiController implements SecurityApi {
         }
 
     }
-
 
     public ResponseEntity<SessionToken> getSessionTokenByAuthKey(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("APIkey") String authKey) {
         if (security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
@@ -87,5 +87,4 @@ public class SecurityApiController implements SecurityApi {
         }
         return new ResponseEntity<SessionToken>(HttpStatus.UNAUTHORIZED);
     }
-
 }

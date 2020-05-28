@@ -3,6 +3,7 @@ package io.swagger.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 public class SessionToken {
@@ -19,6 +20,13 @@ public class SessionToken {
 
     public SessionToken(String authKey, Long userId, User.TypeEnum role) {
         this.authKey = authKey;
+        this.userId = userId;
+        this.role = role;
+    }
+
+    public SessionToken(Long userId, User.TypeEnum role) {
+        UUID authKey = UUID.randomUUID();
+        this.authKey = authKey.toString();
         this.userId = userId;
         this.role = role;
     }
