@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiParam;
 import io.swagger.configuration.BankConfig;
 import io.swagger.model.Account;
+import io.swagger.model.AccountBalance;
 import io.swagger.model.Transaction;
 import io.swagger.model.User;
 import io.swagger.service.AccountBalanceService;
@@ -98,11 +99,13 @@ public class TransactionsApiController implements TransactionsApi {
                 }
 
                 // Update accountBalances of corresponding Accounts
-                accountBalanceService.getAccountBalance(accountFrom.getId()).setBalance(newAmountFrom);
-                accountBalanceService.getAccountBalance(accountTo.getId()).setBalance(newAmountTo);
+                AccountBalance balanceFrom = accountBalanceService.getAccountBalance(accountFrom.getId());
+                balanceFrom.setBalance(newAmountFrom);
+                AccountBalance balanceTo = accountBalanceService.getAccountBalance(accountTo.getId());
+                balanceTo.setBalance(newAmountTo);
 
-                service.updateAccount(accountFrom);
-                service.updateAccount(accountTo);
+                accountBalanceService.updateAccountBalance(balanceFrom);
+                accountBalanceService.updateAccountBalance(balanceTo);
                 try {
                     service.createTransaction(new Transaction(body.getAccountFrom(), body.getAccountTo(), body.getAmount(), body.getDescription(), body.getUserPerformingId(), body.getTransactionType()));
                 } catch(IllegalArgumentException e) {
