@@ -97,6 +97,7 @@ public class TransactionsApiController implements TransactionsApi {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Specified transaction amount is too high.");
                 }
 
+                // Update accountBalances of corresponding Accounts
                 accountBalanceService.getAccountBalance(accountFrom.getId()).setBalance(newAmountFrom);
                 accountBalanceService.getAccountBalance(accountTo.getId()).setBalance(newAmountTo);
 
