@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Min;
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-30T13:49:21.820Z[GMT]")
 @Controller
@@ -61,16 +60,12 @@ public class SecurityApiController implements SecurityApi {
         try {
             User user = loginService.login(username, password);
             if (user != null){
-                String authKey = "";
-                OffsetDateTime dateTimeNow = OffsetDateTime.now();
-                authKey =  dateTimeNow.format(DateTimeFormatter.ISO_LOCAL_DATE) + dateTimeNow.format(DateTimeFormatter.ISO_LOCAL_TIME);
-                authKey = authKey.replaceAll("\\D", "");
-                authKey = authKey.substring(5);
+                UUID authkey = UUID.randomUUID();
 
-                SessionToken sessionToken = new SessionToken(authKey, user.getId(), user.getType());
+                SessionToken sessionToken = new SessionToken(authkey.toString(), user.getId(), user.getType());
                 sessionTokenService.registerSessionToken(sessionToken);
 
-                return ResponseEntity.status(200).body(authKey);
+                return ResponseEntity.status(200).body(authkey.toString());
             } else{
                 return ResponseEntity.status(400).body("Invalid credentials");
             }
