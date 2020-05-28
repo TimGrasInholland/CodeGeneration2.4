@@ -27,10 +27,10 @@ public class SecurityStepDefinitions extends BaseClassTesting {
         responseEntity = template.exchange(uriLogin, HttpMethod.POST, httpEntity, String.class);
     }
 
-    @When("I logout")
-    public void iLogout() throws URISyntaxException {
+    @When("I logout with authKey is {string}")
+    public void iLogout(String authKey) throws URISyntaxException {
         uri = new URI(baseUrl+"/Logout");
-        headers.set("session", "0");
+        headers.set("session", authKey);
         headers.setContentType(MediaType.APPLICATION_JSON);
         httpEntity = new HttpEntity<>(null, headers);
         responseEntity = template.exchange(uri, HttpMethod.DELETE, httpEntity, String.class);

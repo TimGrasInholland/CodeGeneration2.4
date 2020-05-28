@@ -42,7 +42,7 @@ public class AppStarter{
     private void initTestSessionToken(){
         // Hardcoded users for testing purposes.
         List<SessionToken> sessionTokens = Arrays.asList(
-                new SessionToken("38ce48da-a0da-11ea-bb37-0242ac130002", 3L, User.TypeEnum.CUSTOMER),
+                new SessionToken("38ce48da-a0da-11ea-bb37-0242ac130002", 4L, User.TypeEnum.CUSTOMER),
                 new SessionToken("40e7a688-a0da-11ea-bb37-0242ac130002", 2L, User.TypeEnum.EMPLOYEE)
         );
         sessionTokens.forEach(
