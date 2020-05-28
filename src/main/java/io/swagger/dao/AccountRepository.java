@@ -13,9 +13,11 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
 
     Iterable<Account> findAccountsByUserIdAndActiveIsTrue(Long userId);
 
+    Account getAccountById(Long id);
+
     Account findAccountByIbanEqualsAndActiveIsTrue(String iban);
 
-    Integer countAccountByIbanEqualsAndActiveIsTrue(String iban);
+    Integer countAccountByIban(String iban);
 
     Account findAccountByIdAndActiveIsTrue(Long userId);
 

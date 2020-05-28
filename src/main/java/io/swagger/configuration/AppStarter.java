@@ -8,12 +8,10 @@ import io.swagger.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
-import org.threeten.bp.LocalDate;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 @Component
 @ConditionalOnProperty(prefix = "bankapi.autorun", name = "enabled", havingValue = "true", matchIfMissing = true)
@@ -56,7 +54,8 @@ public class AppStarter{
                 new Account(3L, Account.TypeEnum.SAVINGS, Account.CurrencyEnum.EUR, null, "NL01INHO4996947694", true),
                 new Account(3L, Account.TypeEnum.CURRENT, Account.CurrencyEnum.EUR, null, "NL01INHO4995677694", true),
                 new Account(2L, Account.TypeEnum.CURRENT, Account.CurrencyEnum.EUR, null, "NL01INHO6666934694", true),
-                new Account(2L, Account.TypeEnum.SAVINGS, Account.CurrencyEnum.EUR, null, "NL01INHO6666134694", true)
+                new Account(2L, Account.TypeEnum.SAVINGS, Account.CurrencyEnum.EUR, null, "NL01INHO6666134694", true),
+                new Account(2L, Account.TypeEnum.CURRENT, Account.CurrencyEnum.EUR, null, "NL01INHO7395712058", true)
         );
 
         accounts.forEach(

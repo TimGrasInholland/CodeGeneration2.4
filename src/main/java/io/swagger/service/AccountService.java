@@ -25,6 +25,10 @@ public class AccountService {
         return accountRepository.findAccountByIbanEqualsAndActiveIsTrue(iban);
     }
 
+    public Account getAccountById(Long id){
+        return accountRepository.getAccountById(id);
+    }
+
     public List<Account> getAccountsByUserId(Long id) {
         return (List<Account>) accountRepository.findAccountsByUserIdAndActiveIsTrue(id);
     }
@@ -38,7 +42,7 @@ public class AccountService {
     }
 
     public Integer countAccountByIBAN(String iban) {
-        return accountRepository.countAccountByIbanEqualsAndActiveIsTrue(iban);
+        return accountRepository.countAccountByIban(iban);
     }
 
     @Modifying
