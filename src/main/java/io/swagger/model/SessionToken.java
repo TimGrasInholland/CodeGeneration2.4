@@ -26,7 +26,7 @@ public class SessionToken {
 
     public SessionToken(Long userId, User.TypeEnum role) {
         UUID authKey = UUID.randomUUID();
-        this.authKey = authKey.toString();
+        setAuthKey(authKey.toString());
         this.userId = userId;
         this.role = role;
     }
@@ -45,6 +45,9 @@ public class SessionToken {
 
     public void setAuthKey(String authKey) {
         this.authKey = authKey;
+        if (authKey.length() != 36){
+            throw new IllegalArgumentException("AuthKey should have 36 character according to UUID guidelines.");
+        }
     }
 
     public Long getUserId() {
