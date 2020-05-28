@@ -34,9 +34,9 @@ public class AccountsStepDefinitions extends BaseClassTesting {
 
     @When("I disable an account")
     public void iDisableAccount() throws URISyntaxException, JsonProcessingException {
-        uri = new URI(baseUrl+"/Accounts");
         Account account = getAccountByIban("NL01INHO6666934694");
         account.setActive(false);
+        uri = new URI(baseUrl+"/Accounts");
         headers.setContentType(MediaType.APPLICATION_JSON);
         httpEntity = new HttpEntity<>(mapper.writeValueAsString(account), headers);
         responseEntity = template.exchange(uri, HttpMethod.PUT, httpEntity, String.class);
@@ -44,7 +44,7 @@ public class AccountsStepDefinitions extends BaseClassTesting {
 
     @When("I retrieve an account by iban {string}")
     public Account getAccountByIban(String iban) throws URISyntaxException {
-        uri = new URI(baseUrl+"/iban/"+iban);
+        uri = new URI(baseUrl+"/Accounts/iban/"+iban);
         httpEntity = new HttpEntity<>(null, headers);
         responseEntity = template.exchange(uri, HttpMethod.GET, httpEntity, String.class);
         return template.exchange(uri, HttpMethod.GET, httpEntity, Account.class).getBody();
