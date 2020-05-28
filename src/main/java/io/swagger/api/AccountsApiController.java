@@ -50,12 +50,12 @@ public class AccountsApiController implements AccountsApi {
 
     public ResponseEntity<Void> createAccount(@ApiParam(value = "") @Valid @RequestBody Account body) {
         String authKey = request.getHeader("session");
-        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
+        if (security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
             if(body.getId() == null){
                 if(body.isActive() == null){
                     body.setActive(true);
                 }
-                if (security.isOwner(authKey, body.getUserId()) || security.employeeCheck(authKey)){
+                if (security.isOwnerOrEmployee(authKey, body.getUserId())){
                     body.setBalance(new AccountBalance(body.getUserId(), 0.00));
                     body.setIban(generateIBAN());
                     service.createAccount(body);
@@ -74,22 +74,18 @@ public class AccountsApiController implements AccountsApi {
 
     public ResponseEntity<Account> getAccountByIBAN(@ApiParam(value = "the IBAN", required = true) @PathVariable("iban") String iban) {
         String authKey = request.getHeader("session");
-        if (security.isPermitted(authKey, User.TypeEnum.EMPLOYEE) || security.isOwner(authKey, service.getAccountByIBAN(iban).getUserId())) {
-            if (authKey != null){
-                try {
-                    // Check if the account gotten form this iban belongs to the bank and if so block this request.
-                    if (!security.bankCheck(userService.getUserById(service.getAccountByIBAN(iban).getUserId()).getType())){
-                        return ResponseEntity.status(200).body(service.getAccountByIBAN(iban));
-                    } else{
-                        return new ResponseEntity<Account>(HttpStatus.UNAUTHORIZED);
-                    }
-                } catch (Exception e) {
-                    log.error("Couldn't serialize response for content type application/json", e);
-                    return new ResponseEntity<Account>(HttpStatus.INTERNAL_SERVER_ERROR);
+        if (security.isOwnerOrPermitted(authKey, User.TypeEnum.EMPLOYEE, service.getAccountByIBAN(iban).getUserId())){
+            try {
+                // Check if the account gotten form this iban belongs to the bank and if so block this request.
+                if (!security.bankCheck(userService.getUserById(service.getAccountByIBAN(iban).getUserId()).getType())){
+                    return ResponseEntity.status(200).body(service.getAccountByIBAN(iban));
+                } else{
+                    return new ResponseEntity<Account>(HttpStatus.UNAUTHORIZED);
                 }
+            } catch (Exception e) {
+                log.error("Couldn't serialize response for content type application/json", e);
+                return new ResponseEntity<Account>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            return new ResponseEntity<Account>(HttpStatus.BAD_REQUEST);
-
         }
         return new ResponseEntity<Account>(HttpStatus.UNAUTHORIZED);
     }
@@ -99,7 +95,7 @@ public class AccountsApiController implements AccountsApi {
 ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "iban", required = false) String iban) {
         String authKey = request.getHeader("session");
         List<Account> ls = service.getAllAccounts();
-        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
+        if (security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
             if(limit == null){
                 limit = service.countAllAccounts();
             }
@@ -120,8 +116,8 @@ public class AccountsApiController implements AccountsApi {
 
     public ResponseEntity<List<Account>> getUserAccountsByUserId(@Min(1)@ApiParam(value = "bad input parameter",required=true, allowableValues="") @PathVariable("id") Long id){
         String authKey = request.getHeader("session");
-        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.CUSTOMER) && !security.bankCheck(userService.getUserById(id).getType())) {
-            if (security.isOwner(authKey, id) || security.employeeCheck(authKey)){
+        if (security.isPermittedAndNotBank(authKey, User.TypeEnum.EMPLOYEE, userService.getUserById(id).getType())) {
+            if (security.isOwnerOrEmployee(authKey, id)){
                 return ResponseEntity.status(200).body(service.getAccountsByUserId(id));
             }
         }
@@ -130,7 +126,7 @@ public class AccountsApiController implements AccountsApi {
 
     public ResponseEntity<String> disableAccount(@ApiParam(value = ""  )  @Valid @RequestBody Account body) {
         String authKey = request.getHeader("session");
-        if (authKey != null && security.isPermitted(authKey, User.TypeEnum.EMPLOYEE) && !security.bankCheck(userService.getUserById(body.getUserId()).getType())) {
+        if (security.isPermittedAndNotBank(authKey, User.TypeEnum.EMPLOYEE, userService.getUserById(body.getUserId()).getType())) {
             List<Account> accounts = service.getAccountsByUserId(body.getUserId());
             for (Account account : accounts) {
                 if (account.getId().equals(body.getId())){

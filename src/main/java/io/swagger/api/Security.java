@@ -21,9 +21,45 @@ public class Security {
     private UserService userService;
 
     public boolean isPermitted(String authKey, User.TypeEnum requiredRole){
-        SessionToken sessionToken = sessionTokenRepository.getByAuthKeyEquals(authKey);
-        if (sessionToken != null){
-            return requiredRole.equals(sessionToken.getRole()) || sessionToken.getRole().equals(User.TypeEnum.EMPLOYEE);
+        if (authKey != null){
+            SessionToken sessionToken = sessionTokenRepository.getByAuthKeyEquals(authKey);
+            if (sessionToken != null){
+                return requiredRole.equals(sessionToken.getRole()) || sessionToken.getRole().equals(User.TypeEnum.EMPLOYEE);
+            }
+            return false;
+        }
+        return false;
+    }
+
+    public boolean isPermittedAndNotBank(String authKey, User.TypeEnum requiredRole, User.TypeEnum requestedRole){
+        if (isPermitted(authKey, requiredRole)){
+            if (!bankCheck(requestedRole)){
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    public boolean isOwnerOrPermitted(String authKey, User.TypeEnum requiredRole, Long userId){
+        if (isOwner(authKey, userId)){
+            return true;
+        } else if (isPermitted(authKey, requiredRole)){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
+    public boolean isOwnerOrEmployee(String authKey, Long userId){
+        if (authKey != null){
+            if (isOwner(authKey, userId)){
+                return true;
+            } else if (employeeCheck(authKey)){
+                return true;
+            } else{
+                return false;
+            }
         }
         return false;
     }
@@ -36,7 +72,17 @@ public class Security {
     public boolean bankCheck(User.TypeEnum type){
         return type.equals(User.TypeEnum.BANK);
     }
-    
+
+    public boolean customerCheck(String authKey){
+        SessionToken sessionToken = sessionTokenRepository.getByAuthKeyEquals(authKey);
+        return sessionToken.getRole().equals(User.TypeEnum.CUSTOMER);
+    }
+
+    public boolean isOwner(String authKey, Long userId){
+        SessionToken sessionToken = sessionTokenRepository.getByAuthKeyEquals(authKey);
+        return sessionToken.getUserId().equals(userId);
+    }
+
     public List<User> filterUsers(List<User> users){
         List<User> cleanedUserList = new ArrayList<>();
 
@@ -59,13 +105,4 @@ public class Security {
         return cleanedAccountList;
     }
 
-    public boolean customerCheck(String authKey){
-        SessionToken sessionToken = sessionTokenRepository.getByAuthKeyEquals(authKey);
-        return sessionToken.getRole().equals(User.TypeEnum.CUSTOMER);
-    }
-
-    public boolean isOwner(String authKey, Long userId){
-        SessionToken sessionToken = sessionTokenRepository.getByAuthKeyEquals(authKey);
-        return sessionToken.getUserId().equals(userId);
-    }
 }
