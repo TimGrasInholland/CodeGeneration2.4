@@ -46,8 +46,7 @@ public class TransactionsStepDefinitions extends BaseClassTesting {
     public void iCreateTransaction() throws URISyntaxException {
         uri = new URI(baseUrl+"/Transactions");
         headers.setContentType(MediaType.APPLICATION_JSON);
-        String transactions = "{\"accountFrom\": \"NL01INHO4995677694\", \"accountTo\": \"NL01INHO4996947694\", \"amount\": 10.0, \"description\": \"TestDescription\", \"userPerformingId\": 2, \"transactionType\": \"Deposit\"}";
-        Transaction transaction = new Transaction("NL01INHO6666934694", "NL01INHO4995677694", 10.0, "TestTransaction", 2L, Transaction.TransactionTypeEnum.PAYMENT);
+        String transactions = "{\"accountFrom\": \"NL01INHO4996947694\", \"accountTo\": \"NL01INHO4995677694\", \"amount\": 10.0, \"description\": \"TestDescription\", \"userPerformingId\": 2, \"transactionType\": \"Deposit\"}";
         httpEntity = new HttpEntity<>(transactions, headers);
         responseEntity = template.exchange(uri, HttpMethod.POST, httpEntity, String.class);
     }

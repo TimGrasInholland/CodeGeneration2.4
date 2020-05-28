@@ -128,17 +128,12 @@ public class AccountsApiController implements AccountsApi {
     public ResponseEntity<String> disableAccount(@ApiParam(value = ""  )  @Valid @RequestBody Account body) {
         String authKey = request.getHeader("session");
         if (security.isPermittedAndNotBank(authKey, User.TypeEnum.EMPLOYEE, userService.getUserById(body.getUserId()).getType())) {
-            List<Account> accounts = service.getAccountsByUserId(body.getUserId());
-            for (Account account : accounts) {
-                if (account.getId().equals(body.getId())){
-                    // Make sure account is not changed but only set to inactive
-                    body = account;
-                    body.setActive(false);
-                    service.disableAccount(body);
-                    return ResponseEntity.status(200).body("Account disabeled succesfully");
-                }
-            }
-            return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+            Account account = service.getAccountByIBAN(body.getIban());
+            // Make sure account is not changed but only set to inactive
+            body = account;
+            body.setActive(false);
+            service.disableAccount(body);
+            return ResponseEntity.status(200).body("Account disabeled succesfully");
         }
         return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
     }
