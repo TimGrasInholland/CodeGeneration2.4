@@ -18,15 +18,12 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static org.mockito.BDDMockito.given;
 
 @SpringBootTest
 public class SecurityControllerTest {
-
-    @Autowired
-    @MockBean
-    private SessionTokenRepository repository;
 
     @Autowired
     private SessionTokenService sessionTokenService;
@@ -35,45 +32,60 @@ public class SecurityControllerTest {
     private LoginService loginService;
 
     private Security security;
-    private List<SessionToken> sessionTokens;
-
+    private SessionToken sessionToken;
 
     @BeforeEach
     public void setup() {
-        sessionTokens = Arrays.asList(
-                new SessionToken("1234567890", 3L, User.TypeEnum.CUSTOMER),
-                new SessionToken("1234567890", 1L, User.TypeEnum.BANK),
-                new SessionToken("1234567890", 2L, User.TypeEnum.EMPLOYEE)
-        );
-
-        sessionTokens.forEach(
-                repository::save
-        );
+        sessionToken = new SessionToken(4L, User.TypeEnum.CUSTOMER);
     }
 
     @Test
-    public void CanRegisterSessionToken()  {
-        sessionTokenService.registerSessionToken(sessionTokens.get(0));
+    public void canRegisterSessionToken()  {
+        sessionTokenService.registerSessionToken(sessionToken);
     }
 
+    // Check if an employee can log in.
     @Test
-    public void CanLogout()  {
-        sessionTokenService.logout(sessionTokens.get(0).getAuthKey());
-    }
-
-    @Test
-    public void EmployeeCanLogin() throws IllegalArgumentException{
+    public void employeeCanLogin() throws IllegalArgumentException{
         User user = loginService.login("Adrie538", "Welkom123!");
         if (!user.getUsername().equals("Adrie538")){
             throw new IllegalArgumentException("Logged in user does not match credentials.");
         }
     }
 
+    // Check if a customer can login.
     @Test
-    public void CustomerCanLogin() throws IllegalArgumentException{
+    public void customerCanLogin() throws IllegalArgumentException{
         User user = loginService.login("SjaakMaster", "Test123!");
         if (!user.getUsername().equals("SjaakMaster")){
             throw new IllegalArgumentException("Logged in user does not match credentials.");
         }
     }
+
+    // Can get a session token by a userId.
+    @Test
+    public void canGetSessionTokenByUserId() throws IllegalArgumentException{
+        SessionToken sessionToken = sessionTokenService.getSessionTokenByUserIdEquals(4L);
+        if (sessionToken == null){
+            throw new IllegalArgumentException("SessionToken could not be retrieved bij userId.");
+        }
+    }
+
+    // Can get a session token by a AuthKey.
+    @Test
+    public void canGetSessionTokenByAuthKey() throws IllegalArgumentException{
+        // Here an authKey is retrieved to test if with this authKey the session token can also be retrieved.
+        SessionToken authKey = sessionTokenService.getSessionTokenByUserIdEquals(4L);
+        SessionToken sessionToken = sessionTokenService.getSessionTokenByAuthKey(authKey.getAuthKey());
+        if (sessionToken == null){
+            throw new IllegalArgumentException("SessionToken could not be retrieved bij userId.");
+        }
+    }
+
+    // Check if the employee can logout.
+    @Test
+    public void canLogout()  {
+        sessionTokenService.logout(sessionTokenService.getSessionTokenByUserIdEquals(2L).getAuthKey());
+    }
+
 }

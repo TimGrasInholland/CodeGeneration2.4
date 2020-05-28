@@ -11,7 +11,7 @@ public class Settings {
     private Settings() {
         this.baseURL = "http://localhost:8080/api";
         this.headerName = "session";
-        this.authKey = "testEmployee";
+        this.authKey = "40e7a688-a0da-11ea-bb37-0242ac130002";
     }
 
     public static Settings getInstance() {

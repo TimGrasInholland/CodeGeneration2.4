@@ -9,5 +9,5 @@ Feature: Security tests
     Then I get http status security 200
 
   Scenario: Retrieve a sessionToken by authKey is OK
-    When I retrieve a sessionToken by authKey is "testEmployee"
+    When I retrieve a sessionToken by authKey is "40e7a688-a0da-11ea-bb37-0242ac130002"
     Then I get http status security 200
