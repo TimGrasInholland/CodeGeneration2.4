@@ -1,4 +1,4 @@
-package io.swagger.IT.steps;
+package io.swagger.IT;
 
 public class Settings {
 
@@ -23,5 +23,13 @@ public class Settings {
 
     public String getBaseURL() {
         return baseURL;
+    }
+
+    public String getHeaderName() {
+        return headerName;
+    }
+
+    public String getAuthKey() {
+        return authKey;
     }
 }

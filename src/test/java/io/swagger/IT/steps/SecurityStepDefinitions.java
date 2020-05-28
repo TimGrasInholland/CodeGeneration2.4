@@ -1,60 +1,47 @@
 package io.swagger.IT.steps;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.swagger.model.Account;
-import io.swagger.model.AccountBalance;
+import io.swagger.IT.BaseClassTesting;
 import io.swagger.model.SessionToken;
 import org.junit.Assert;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class SecurityStepDefinitions {
-
-    HttpHeaders headers = new HttpHeaders();
-    RestTemplate template = new RestTemplate();
-    ObjectMapper mapper = new ObjectMapper();
-    ResponseEntity<String> responseEntity;
-    String baseUrl = "http://localhost:8080/api/";
-    URI uri;
-
-    public SecurityStepDefinitions() throws URISyntaxException {
-        this.headers.add("session","testEmployee");
-        this.uri = new URI(baseUrl);
-    }
+public class SecurityStepDefinitions extends BaseClassTesting {
 
     @When("I login with username {string} and password {string}")
     public void iLogin(String username, String password) throws URISyntaxException {
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        URI uriLogin = new URI(baseUrl+"/Login");
         MultiValueMap<String, String> body = new LinkedMultiValueMap();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         body.add("username", username);
         body.add("password", password);
-        HttpEntity<String> entity = new HttpEntity(body, headers);
-        URI uriLogin = new URI(baseUrl+"Login");
-        responseEntity = template.exchange(uriLogin, HttpMethod.POST, entity, String.class);
+        httpEntity = new HttpEntity(body, headers);
+        responseEntity = template.exchange(uriLogin, HttpMethod.POST, httpEntity, String.class);
     }
 
     @When("I logout")
     public void iLogout() throws URISyntaxException {
+        uri = new URI(baseUrl+"/Logout");
         headers.set("session", "0");
         headers.setContentType(MediaType.APPLICATION_JSON);
-        URI uriLogin = new URI(baseUrl+"Logout");
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
-        responseEntity = template.exchange(uriLogin, HttpMethod.DELETE, entity, String.class);
+        httpEntity = new HttpEntity<>(null, headers);
+        responseEntity = template.exchange(uri, HttpMethod.DELETE, httpEntity, String.class);
     }
 
     @When("I retrieve a sessionToken by authKey is {string}")
     public SessionToken iGetSessionTokenByAuthKey(String authKey) throws URISyntaxException {
         URI uri = new URI(baseUrl+"/SessionToken/"+authKey);
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
-        responseEntity = template.exchange(uri, HttpMethod.GET, entity, String.class);
-        return template.exchange(uri, HttpMethod.GET, entity, SessionToken.class).getBody();
+        httpEntity = new HttpEntity<>(null, headers);
+        responseEntity = template.exchange(uri, HttpMethod.GET, httpEntity, String.class);
+        return template.exchange(uri, HttpMethod.GET, httpEntity, SessionToken.class).getBody();
     }
 
     @Then("I get http status security {int}")
