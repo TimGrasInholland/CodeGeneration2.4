@@ -4,6 +4,7 @@ import io.swagger.api.Security;
 import io.swagger.dao.SessionTokenRepository;
 import io.swagger.model.SessionToken;
 import io.swagger.model.User;
+import io.swagger.service.LoginService;
 import io.swagger.service.SessionTokenService;
 import io.swagger.service.UserService;
 import org.junit.Before;
@@ -28,7 +29,11 @@ public class SecurityControllerTest {
     private SessionTokenRepository repository;
 
     @Autowired
-    private SessionTokenService service;
+    private SessionTokenService sessionTokenService;
+
+    @Autowired
+    private LoginService loginService;
+
     private Security security;
     private List<SessionToken> sessionTokens;
 
@@ -48,11 +53,27 @@ public class SecurityControllerTest {
 
     @Test
     public void CanRegisterSessionToken()  {
-        service.registerSessionToken(sessionTokens.get(0));
+        sessionTokenService.registerSessionToken(sessionTokens.get(0));
     }
 
     @Test
     public void CanLogout()  {
-        service.logout(sessionTokens.get(0).getAuthKey());
+        sessionTokenService.logout(sessionTokens.get(0).getAuthKey());
+    }
+
+    @Test
+    public void EmployeeCanLogin() throws IllegalArgumentException{
+        User user = loginService.login("Adrie538", "Welkom123!");
+        if (!user.getUsername().equals("Adrie538")){
+            throw new IllegalArgumentException("Logged in user does not match credentials.");
+        }
+    }
+
+    @Test
+    public void CustomerCanLogin() throws IllegalArgumentException{
+        User user = loginService.login("SjaakMaster", "Test123!");
+        if (!user.getUsername().equals("SjaakMaster")){
+            throw new IllegalArgumentException("Logged in user does not match credentials.");
+        }
     }
 }
