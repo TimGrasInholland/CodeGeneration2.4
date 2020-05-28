@@ -1,11 +1,29 @@
 package io.swagger.model;
 
+import io.swagger.api.TransactionsApiController;
+import io.swagger.service.TransactionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.*;
+import org.springframework.http.ResponseEntity;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@SpringBootTest
 public class TransactionTest {
+    @Autowired
+    @MockBean
+    private TransactionService service;
+
+    @Autowired
+    private TransactionsApiController controller;
 
     private Transaction transaction;
 
@@ -18,4 +36,13 @@ public class TransactionTest {
     public void createTransactionShouldNotBeNull() {
         assertNotNull(transaction);
     }
+
+    @Test
+    public void setNegativeAmountShouldThrowError() {
+        Exception exception = assertThrows(IllegalArgumentException.class,
+                ()-> transaction.setAmount(-10.0));
+        assertEquals("Amount cannot be below zero.", exception.getMessage());
+    }
+
+
 }

@@ -23,6 +23,10 @@ public class SessionTokenService {
         }
     }
 
+    public SessionToken getSessionTokenByUserIdEquals(Long userId){
+        return sessionTokenRepository.getByUserIdEquals(userId);
+    }
+
     public SessionToken getSessionTokenByAuthKey(String authKey) {
         return sessionTokenRepository.getByAuthKeyEquals(authKey);
     }

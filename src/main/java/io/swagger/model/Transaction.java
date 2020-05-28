@@ -24,9 +24,9 @@ public class Transaction   {
   }
 
   public Transaction(String accountFrom, String accountTo, Double amount, String description, Long userPerformingId, TransactionTypeEnum transactionType) {
+    setAmount(amount);
     this.accountFrom = accountFrom;
     this.accountTo = accountTo;
-    this.amount = amount;
     this.description = description;
     this.userPerformingId = userPerformingId;
     this.transactionType = transactionType;
@@ -190,6 +190,13 @@ public class Transaction   {
   }
 
   public void setAmount(Double amount) {
+    String text = Double.toString(Math.abs(amount));
+    int integerPlaces = text.indexOf('.');
+    int decimalPlaces = text.length() - integerPlaces - 1;
+
+    if (amount <= 0 || decimalPlaces > 2) {
+      throw new IllegalArgumentException("Amount cannot be below zero.");
+    }
     this.amount = amount;
   }
 
