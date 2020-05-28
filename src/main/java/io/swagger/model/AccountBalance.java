@@ -2,6 +2,7 @@ package io.swagger.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.configuration.BankConfig;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
@@ -90,6 +91,16 @@ public class AccountBalance   {
   }
 
   public void setBalance(Double balance) {
+    BankConfig bankConfig = new BankConfig();
+    if(balance < bankConfig.getAbsoluteLimit()){
+      throw new IllegalArgumentException("Limit of account balance has reached!");
+    }
+    String text = Double.toString(Math.abs(balance));
+    int integerPlaces = text.indexOf('.');
+    int decimalPlaces = text.length() - integerPlaces - 1;
+    if(decimalPlaces > 2){
+      throw new IllegalArgumentException("Balance value has not the right format. Must have 2 decimals");
+    }
     this.balance = balance;
   }
 
