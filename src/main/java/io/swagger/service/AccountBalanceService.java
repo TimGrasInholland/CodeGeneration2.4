@@ -1,7 +1,6 @@
 package io.swagger.service;
 
 import io.swagger.dao.AccountBalanceRepository;
-import io.swagger.model.Account;
 import io.swagger.model.AccountBalance;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;

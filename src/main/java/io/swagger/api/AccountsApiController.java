@@ -52,12 +52,10 @@ public class AccountsApiController implements AccountsApi {
         String authKey = request.getHeader("session");
         if (security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
             if(body.getId() == null){
-                if(body.isActive() == null){
-                    body.setActive(true);
-                }
                 if (security.isOwnerOrEmployee(authKey, body.getUserId())){
                     body.setBalance(new AccountBalance(body.getUserId(), 0.00));
                     body.setIban(generateIBAN());
+                    body.setActive(true);
                     service.createAccount(body);
                     return new ResponseEntity<Void>(HttpStatus.CREATED);
                 } else{
@@ -92,14 +90,12 @@ public class AccountsApiController implements AccountsApi {
         } catch(NullPointerException e) {
             return new ResponseEntity<Account>(HttpStatus.BAD_REQUEST);
         }
-
     }
 
 
     public ResponseEntity<List<Account>> getAllAccounts(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
 ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "iban", required = false) String iban) {
         String authKey = request.getHeader("session");
-        List<Account> ls = service.getAllAccounts();
         if (security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
             if(limit == null){
                 limit = service.countAllAccounts();

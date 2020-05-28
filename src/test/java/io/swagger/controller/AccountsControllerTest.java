@@ -7,18 +7,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
-import java.util.Arrays;
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
 
-import static org.mockito.BDDMockito.given;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class AccountsControllerTest {
 
     @Autowired
-    @MockBean
     private AccountService service;
     private Account account;
 
@@ -28,24 +27,32 @@ class AccountsControllerTest {
     }
 
     @Test
-    public void getAllAccountsShouldReturnJsonArray() {
-        given(service.getAllAccounts()).willReturn(Arrays.asList(account));
-    }
-
-    @Test
-    public void getAccountsByUserIdShouldReturnAccounts(){
-        given(service.getAccountsByUserId(2L)).willReturn(Arrays.asList(account));
-    }
-
-    @Test
     public void createAnAccountIsEqualsToSetup(){
         service.createAccount(account);
-        given(service.getAccountByIBAN("NL01INHO8374054831")).willReturn(account);
+        assertEquals(service.getAccountByIBAN(account.getIban()), account);
+    }
+
+    @Test
+    public void givenAccountShouldAlreadyExcists(){
+        boolean accountAlreadyExcists = true;
+        if(service.countAccountByIBAN(account.getIban()) == 0){
+            accountAlreadyExcists = false;
+        }
+        assertEquals(accountAlreadyExcists, true);
+    }
+
+    @Test
+    public void limitShouldReturnThreeItems(){
+        int limit = 3;
+        Pageable pageable = PageRequest.of(1, limit);
+        List<Account> ls = service.getAllAccountsWithParams(pageable, "%");
+        assertEquals(ls.size(), limit);
     }
 
     @Test
     public void disabledAccountShouldBeInactive(){
+        account.setActive(false);
         service.disableAccount(account);
-        assertEquals(service.getAccountByIBAN("NL01INHO8374054831"),false);
+        assertEquals(service.getAccountById(7L).isActive(),false);
     }
 }

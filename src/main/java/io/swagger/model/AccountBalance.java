@@ -95,6 +95,7 @@ public class AccountBalance   {
     if(balance < bankConfig.getAbsoluteLimit()){
       throw new IllegalArgumentException("Limit of account balance has reached!");
     }
+
     String text = Double.toString(Math.abs(balance));
     int integerPlaces = text.indexOf('.');
     int decimalPlaces = text.length() - integerPlaces - 1;

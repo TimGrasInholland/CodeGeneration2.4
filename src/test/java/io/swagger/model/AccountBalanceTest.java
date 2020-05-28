@@ -27,13 +27,9 @@ public class AccountBalanceTest {
     }
 
     @Test
-    public void checkIfBanlanceValueHasTwoDecimals(){
+    public void checkIfBanlanceValueHasMoreThanTwoDecimals(){
         Exception exception0 = assertThrows(IllegalArgumentException.class,
-                () -> accountBalance.setBalance(8.000));
+                () -> accountBalance.setBalance(8.123));
         assertEquals("Balance value has not the right format. Must have 2 decimals", exception0.getMessage());
-
-        Exception exception1 = assertThrows(IllegalArgumentException.class,
-                () -> accountBalance.setBalance(8.0));
-        assertEquals("Balance value has not the right format. Must have 2 decimals", exception1.getMessage());
     }
 }
