@@ -17,7 +17,7 @@ function GetUsers(){
             };
             var data = {
                 "offset": 0,
-                "limit": 100,
+                "limit": 10,
                 "searchname": SeachString 
             };
         }
@@ -28,7 +28,7 @@ function GetUsers(){
             };
             var data = {
                 "offset": window.offset,
-                "limit": 100,
+                "limit": 10,
                 "searchname": SeachString 
             };
         }

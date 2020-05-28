@@ -75,10 +75,9 @@ public class AppStarter{
 
     private void initTransactions() {
         List<Transaction> transactions = Arrays.asList(
-                // illegal transactions
-                new Transaction("NL01INHO6666934694", "NL01INHO4996947694", 100.0, "Description1", 2L, Transaction.TransactionTypeEnum.DEPOSIT),
-                new Transaction("NL01INHO4996947694", "NL01INHO6666934694", 50.0, "Description2", 2L, Transaction.TransactionTypeEnum.WITHDRAWAL),
-                new Transaction("NL01INHO6666134694", "NL01INHO6666934694", 10.0, "Description3", 3L, Transaction.TransactionTypeEnum.PAYMENT)
+                new Transaction("NL01INHO6666934694", "NL01INHO4995677694", 100.0, "Description1", 2L, Transaction.TransactionTypeEnum.PAYMENT),
+                new Transaction("NL01INHO4996947694", "NL01INHO4995677694", 50.0, "Description2", 2L, Transaction.TransactionTypeEnum.WITHDRAWAL),
+                new Transaction("NL01INHO6666134694", "NL01INHO6666934694", 10.0, "Description3", 3L, Transaction.TransactionTypeEnum.WITHDRAWAL)
         );
 
         transactions.forEach(

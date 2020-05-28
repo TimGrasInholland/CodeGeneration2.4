@@ -29,7 +29,7 @@ public class AccountService {
         return (List<Account>) accountRepository.findAccountsByUserIdAndActiveIsTrue(id);
     }
 
-    public Account findAccountByUserId(Long id){
+    public Account findAccountById(Long id){
         return accountRepository.findAccountByIdAndActiveIsTrue(id);
     }
 
