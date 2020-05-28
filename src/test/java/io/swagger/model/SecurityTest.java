@@ -13,13 +13,20 @@ public class SecurityTest {
     public void setup() {
     }
 
-    // Check if the authKey is 36 chars like UUID should make it.
+    // Check if error occurs if the authKey is not 36 chars like UUID should make it.
     @Test
     public void authKeyNotCorrectLength(){
         SessionToken sessionToken = new SessionToken(4L, User.TypeEnum.CUSTOMER);
         Exception exception = assertThrows(IllegalArgumentException.class,
                 () -> sessionToken.setAuthKey("123456789"));
         assertEquals("AuthKey should have 36 character according to UUID guidelines.", exception.getMessage());
+    }
+
+    // Check if the authKey is 36 chars like UUID should make it.
+    @Test
+    public void authKeyCorrectLength(){
+        SessionToken sessionToken = new SessionToken(4L, User.TypeEnum.CUSTOMER);
+        assertEquals(sessionToken.getAuthKey().length(), 36);
     }
 
     // Check if the session token is null
