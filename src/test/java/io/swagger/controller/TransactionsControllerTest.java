@@ -1,30 +1,25 @@
 package io.swagger.controller;
 
-import io.swagger.model.AccountBalance;
+
 import io.swagger.model.Transaction;
-import io.swagger.service.AccountBalanceService;
 import io.swagger.service.TransactionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.threeten.bp.DayOfWeek;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.OffsetDateTime;
 
-import java.util.Arrays;
+import java.util.List;
 
-import static org.mockito.BDDMockito.given;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class TransactionsControllerTest {
     @Autowired
-    @MockBean
     private TransactionService service;
-
-    @Autowired
-    @MockBean
-    private AccountBalanceService accountBalanceService;
-
     private Transaction transaction;
 
     @BeforeEach
@@ -33,8 +28,26 @@ public class TransactionsControllerTest {
     }
 
     @Test
-    public void getAllTransactionsShouldReturnJsonArray() {
-        given(service.getAllTransactions(null, null, null, null, "")).willReturn(Arrays.asList(transaction));
+    public void createdTransactionShouldIncreaseTransactionCount() {
+        List<Transaction> transactionList = service.getAllTransactions(OffsetDateTime.MIN, OffsetDateTime.MAX, 0, 100, "%");
+        int currentTransactions = transactionList.size();
+        service.createTransaction(transaction);
+        assertEquals(currentTransactions + 1, service.getAllTransactions(OffsetDateTime.MIN, OffsetDateTime.MAX, 0, 100, "%").size());
+    }
+
+    @Test
+    public void getAllTransactionsWithLimit3ShouldReturn3Transactions() {
+        List<Transaction> transactionList = service.getAllTransactions(OffsetDateTime.MIN, OffsetDateTime.MAX, 0, 3, "%");
+        assertEquals(transactionList.size(), 3);
+    }
+
+    @Test
+    public void getAllTransactionsWithDateFromDateToShouldReturnTodayTransactions() {
+        OffsetDateTime dateFrom = OffsetDateTime.parse("2020-05-29T00:00:00.001+02:00");
+        OffsetDateTime dateTo = OffsetDateTime.parse("2020-05-29T23:59:59.999+02:00");
+
+        List<Transaction> transactionList = service.getAllTransactions(dateFrom, dateTo, 0, 100, "%");
+        assertEquals(transactionList.get(0).getTimestamp().getDayOfWeek(), LocalDate.now().getDayOfWeek());
     }
 
 }

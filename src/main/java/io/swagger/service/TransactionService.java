@@ -67,4 +67,5 @@ public class TransactionService {
     }
 
     public Integer countAllTransactions(){ return transactionRepository.countAllTransactions();}
+
 }
