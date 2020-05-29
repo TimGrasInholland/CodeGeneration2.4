@@ -4,66 +4,78 @@ window.offset = 0;
 var nextpage = false;
 
 function GetUsers(){
-    var userId = GetCurrentUserId()
+    var SeachString = $( "input[id=seaching]" ).val()
+    var header = {
+        "session": sessionStorage.getItem("session")
+    };
 
-    if(userId != null){
-        var offset = null;
-        var limit = null;
-        var SeachString = $( "input[id=seaching]" ).val()
-
-        if(SeachString != null && SeachString != ""){
-            var header = {
-                "session": sessionStorage.getItem("session")
-            };
-            var data = {
-                "offset": window.offset,
-                "limit": 10,
-                "searchname": SeachString 
-            };
-        }
-        else if(nextpage){
-            nextpage = false;
-            var header = {
-                "session": sessionStorage.getItem("session")
-            };
-            var data = {
-                "offset": window.offset,
-                "limit": 10,
-                "searchname": SeachString 
-            };
-        }
-        else{
-            var header = {
-                "session": sessionStorage.getItem("session")
-            };
-            var data = {
-                "searchname": SeachString
-            };
-        }
-        $.ajax({
-            type: "Get",
-            url: "http://localhost:8080/api/Users",
-            data: data,
-            headers: header,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            complete: function(jqXHR) {
-                switch (jqXHR.status) {
-                    case 200:
-                        break;
-                    default:
-                        alert("Oops! Something went wrong.");
-                }
-            },
-            success: function(result){
-                MakeUser(result);
-            }
-        });
+    if(SeachString != null && SeachString != ""){
+        var data = {
+            "offset": window.offset,
+            "limit": 10,
+            "searchname": SeachString 
+        };
+    }
+    else if(nextpage){
+        nextpage = false;
+        var data = {
+            "offset": window.offset,
+            "limit": 10,
+            "searchname": SeachString 
+        };
     }
     else{
-        alert("You are not logged in!")
-        window.location.href = './Login.html';
+        var data = {
+            "searchname": SeachString
+        };
     }
+    $.ajax({
+        type: "Get",
+        url: "http://localhost:8080/api/Users",
+        data: data,
+        headers: header,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        complete: function(jqXHR) {
+            switch (jqXHR.status) {
+                case 200:
+                    break;
+                default:
+                    alert("Oops! Something went wrong.");
+            }
+        },
+        success: function(result){
+            MakeUser(result);
+        }
+    });
+}
+
+function GetUserByUsername(username){
+    output = null
+    var header = {
+        "session": sessionStorage.getItem("session")
+    };
+    var data = {
+        "searchname": username,
+        "limit": 1,
+        "offset": 0
+    };
+    $.ajax({
+        type: "Get",
+        url: "http://localhost:8080/api/Users",
+        data: data,
+        headers: header,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function(result){
+            output = result;
+        }
+    });
+    if(output.length == 1 && username == output[0].username){
+        return output;
+    }
+    alert("Could not find user: "+username)
 }
 
 $(document).ready(function(){
