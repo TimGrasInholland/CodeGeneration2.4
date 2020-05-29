@@ -14,7 +14,7 @@ function CreateAccount(){
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/api/Accounts",
+        url: baseRequestURL+"/Accounts",
         data: marker,
         headers: {
             "session": sessionStorage.getItem("session")
@@ -49,7 +49,7 @@ function CreateAccountByEmployee(){
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/api/Accounts",
+        url: baseRequestURL+"/Accounts",
         data: marker,
         headers: {
             "session": sessionStorage.getItem("session")
@@ -72,7 +72,7 @@ function CreateAccountByEmployee(){
 function GetAccountsByUserId() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/api/Users/'+GetCurrentUserId()+'/Accounts',
+        url: baseRequestURL+'/Users/'+GetCurrentUserId()+'/Accounts',
         headers: {
             "session": sessionStorage.getItem("session")
         },
@@ -146,7 +146,7 @@ function GetAccount(iban) {
     var account = null;
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/api/Accounts/iban/'+iban,
+        url: baseRequestURL+'/Accounts/iban/'+iban,
         headers: { "session": sessionStorage.getItem("session")},
         async: false,
         success: function(result) {
@@ -179,7 +179,7 @@ function GetAccounts(){
     }
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/Accounts",
+        url: baseRequestURL+"/Accounts",
         data: data,
         headers: header,
         contentType: "application/json; charset=utf-8",
@@ -238,7 +238,7 @@ function DisableAccount(){
 
     $.ajax({
         type: "PUT",
-        url: "http://localhost:8080/api/Accounts",
+        url: baseRequestURL+"/Accounts",
         data: json,
         headers: {
             "session": sessionStorage.getItem("session")

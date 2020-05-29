@@ -31,7 +31,7 @@ function GetUsers(){
     }
     $.ajax({
         type: "Get",
-        url: "http://localhost:8080/api/Users",
+        url: baseRequestURL+"/Users",
         data: data,
         headers: header,
         contentType: "application/json; charset=utf-8",
@@ -62,7 +62,7 @@ function GetUserByUsername(username){
     };
     $.ajax({
         type: "Get",
-        url: "http://localhost:8080/api/Users",
+        url: baseRequestURL+"/Users",
         data: data,
         headers: header,
         contentType: "application/json; charset=utf-8",
@@ -153,7 +153,7 @@ function CreateUser(){
     if(userId != null){
         $.ajax({
             type: "POST",
-            url: "http://localhost:8080/api/Users",
+            url: baseRequestURL+"/Users",
             data: newUser,
             headers: {
                 "session": sessionStorage.getItem("session")
@@ -180,7 +180,7 @@ function CreateUser(){
     else{
         $.ajax({
             type: "POST",
-            url: "http://localhost:8080/api/Users",
+            url: baseRequestURL+"/Users",
             headers:"",
             data: newUser,
             contentType: "application/json; charset=utf-8",
@@ -238,7 +238,7 @@ function LoadMyProfileInfo() {
 function disableUser() {
     $.ajax({
         type: "PUT",
-        url: "http://localhost:8080/api/Users",
+        url: baseRequestURL+"/Users",
         data: JSON.stringify({
             active: false,
             address: currentUser.address,
@@ -290,7 +290,7 @@ function updateUser() {
 
     $.ajax({
         type: "PUT",
-        url: "http://localhost:8080/api/Users",
+        url: baseRequestURL+"/Users",
         data: JSON.stringify({
             active: true,
             address: address,
@@ -328,7 +328,7 @@ function GetUser(id) {
     var user = null;    
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/api/Users/'+ id,
+        url: baseRequestURL+'/Users/'+ id,
         headers: { "session": sessionStorage.getItem("session") },
         async: false,
         success: function(result) {

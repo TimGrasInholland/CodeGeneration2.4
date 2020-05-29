@@ -1,3 +1,6 @@
+//Set API Server
+var baseRequestURL = /*"http://localhost:8080/api"*/ "https://inholland-bank-api.herokuapp.com/api"
+
 function SetNavBar(active){
     var navbar
     if(sessionStorage.getItem("session") == null && (active == "home" || active == "login" || active == "unset")){
@@ -67,7 +70,7 @@ function GetCurrentUser(){
     var user;
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/SessionToken/"+sessionStorage.getItem("session"),
+        url: baseRequestURL+"/SessionToken/"+sessionStorage.getItem("session"),
         headers: {
             "session": sessionStorage.getItem("session")
         },
@@ -96,7 +99,7 @@ function GetCurrentUserId(){
 function logout() {
     $.ajax({
         type: "DELETE",
-        url: "http://localhost:8080/api/Logout",
+        url: baseRequestURL+"/Logout",
         headers: {
             "session": sessionStorage.getItem("session")
         },
