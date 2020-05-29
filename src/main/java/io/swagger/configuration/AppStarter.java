@@ -61,6 +61,7 @@ public class AppStarter{
         accounts.forEach(
                 accountRepository::save
         );
+
         accounts.forEach(
                 account ->
                         account.setBalance(new AccountBalance(account.getId(), 150.00))
@@ -70,6 +71,7 @@ public class AppStarter{
         accounts.forEach(
                 accountRepository::save
         );
+
     }
 
     private void initTransactions() {
