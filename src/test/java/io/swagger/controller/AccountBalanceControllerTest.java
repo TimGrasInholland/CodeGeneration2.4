@@ -39,7 +39,7 @@ public class AccountBalanceControllerTest {
         AccountBalance putAccountBalance = accountBalanceService.getAccountBalance(id);
         putAccountBalance.setBalance(160.00);
         accountBalanceService.updateAccountBalance(putAccountBalance);
-        assertEquals(accountBalanceService.getAccountBalance(id), accountBalance);
+        assertEquals(accountBalanceService.getAccountBalance(id), putAccountBalance);
     }
 
 }

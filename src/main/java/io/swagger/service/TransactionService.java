@@ -62,14 +62,10 @@ public class TransactionService {
         return transactionRepository.countTransactionsByUserPerformingIdEqualsAndTimestampBetweenOrderByTimestampDesc(userPerformingId, minDate, maxDate);
     }
 
-    @Modifying
-    public void updateAccount(Account account) {
-        accountRepository.save(account);
-    }
-
     public void createTransaction(Transaction transaction) {
         transactionRepository.save(transaction);
     }
 
     public Integer countAllTransactions(){ return transactionRepository.countAllTransactions();}
+
 }
