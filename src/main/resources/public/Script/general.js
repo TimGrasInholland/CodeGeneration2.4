@@ -5,7 +5,6 @@ function GetCustomerNavBar(){
           <li style="float:right"><a class="logout" type="button" onclick="logout()">Logout</a></li>\
           <li id="myProfile" style="float:right"><a href="ViewUser.html">My Profile</a></li>\
           <li id="myAccounts" style="float:right"><a href="MyAccounts.html">My Accounts</a></li>\
-          <li id="home" style="float:right"><a href="Home.html">Home</a></li>\
         </ul>'
 }
 
@@ -17,7 +16,6 @@ function GetEmployeeNavBar(){
             <li id="myProfile" style="float:right"><a href="ViewUser.html">My Profile</a></li>\
             <li id="dashboard" style="float:right"><a href="EmployeeDashboard.html">Dashboard</a></li>\
             <li id="myAccounts" style="float:right"><a href="MyAccounts.html">My Accounts</a></li>\
-            <li id="home"style="float:right"><a href="Home.html">Home</a></li>\
         </ul>'
 }
 
