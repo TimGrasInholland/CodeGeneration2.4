@@ -54,3 +54,9 @@ select{
     cursor: pointer;
     margin-left: 300px;
 }
+
+#username{
+    float: left;
+    width: 147px;
+    border-color: gray;
+}
