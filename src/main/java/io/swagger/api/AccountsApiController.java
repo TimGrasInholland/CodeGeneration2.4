@@ -89,7 +89,7 @@ public class AccountsApiController implements AccountsApi {
     public ResponseEntity<List<Account>> getUserAccountsByUserId(@Min(1)@ApiParam(value = "bad input parameter",required=true, allowableValues="") @PathVariable("id") Long id){
         String authKey = request.getHeader("session");
         try{
-            if (security.isPermittedAndNotBank(authKey, User.TypeEnum.EMPLOYEE, userService.getUserById(id).getType())) {
+            if (security.isPermittedAndNotBank(authKey, User.TypeEnum.CUSTOMER, userService.getUserById(id).getType())) {
                 if (security.isOwnerOrEmployee(authKey, id)){
                     return ResponseEntity.status(200).body(service.getAccountsByUserId(id));
                 }
