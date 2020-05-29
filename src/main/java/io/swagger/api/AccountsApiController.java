@@ -53,10 +53,16 @@ public class AccountsApiController implements AccountsApi {
         if (security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
             if(body.getId() == null){
                 if (security.isOwnerOrEmployee(authKey, body.getUserId())){
-                    body.setBalance(new AccountBalance(body.getUserId(), 0.00));
                     body.setIban(generateIBAN());
                     body.setActive(true);
+                    // create account with empty AccountBalance because accountId gets set with creation
                     service.createAccount(body);
+                    // get complete account with id
+                    Account acc = service.getAccountByIBAN(body.getIban());
+                    // set balance know that we know id
+                    acc.setBalance(new AccountBalance(acc.getId(), 0.00));
+                    // update acc with balance obj
+                    service.createAccount(acc);
                     return new ResponseEntity<Void>(HttpStatus.CREATED);
                 } else{
                     return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
