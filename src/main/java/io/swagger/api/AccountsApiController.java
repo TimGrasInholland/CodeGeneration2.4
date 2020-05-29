@@ -125,6 +125,7 @@ public class AccountsApiController implements AccountsApi {
         return new ResponseEntity<List<Account>>(HttpStatus.UNAUTHORIZED);
     }
 
+    // With this endpoint the account of a user can be disabled but only if the acting user is an Employee.
     public ResponseEntity<String> disableAccount(@ApiParam(value = ""  )  @Valid @RequestBody Account body) {
         String authKey = request.getHeader("session");
         if (security.isPermittedAndNotBank(authKey, User.TypeEnum.EMPLOYEE, userService.getUserById(body.getUserId()).getType())) {
@@ -138,6 +139,7 @@ public class AccountsApiController implements AccountsApi {
         return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
     }
 
+    // Generate IBANS all starting with NL01INHO.
     private String generateIBAN(){
         Random rnd = new Random();
         String iban = "NL01INHO";

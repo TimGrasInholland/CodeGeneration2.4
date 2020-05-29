@@ -88,20 +88,22 @@ public class UsersApiController implements UsersApi {
         return new ResponseEntity<List<User>>(HttpStatus.UNAUTHORIZED);
     }
 
+    // Get a unique user by id.
     public ResponseEntity<User> getUserById(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Long id) {
         String authKey = request.getHeader("session");
         if (security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
-            try {
-                if (security.isOwnerOrEmployee(authKey, id)){
-                    User user = service.getUserById(id);
-                    if (security.bankCheck(user.getType())){
-                        return new ResponseEntity<User>(HttpStatus.UNAUTHORIZED);
-                    }
-                    return ResponseEntity.status(200).body(user);
+            // Check if the user is allowed to get his own user profile or if the user is employee.
+            if (security.isOwnerOrEmployee(authKey, id)){
+                User user = service.getUserById(id);
+                // Check if there is a user with given id.
+                if (user == null){
+                    return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
                 }
-            } catch (IllegalArgumentException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+                // Check if the user is of type BANK, which is not allowed to be retrieved.
+                if (security.bankCheck(user.getType())){
+                    return new ResponseEntity<User>(HttpStatus.UNAUTHORIZED);
+                }
+                return ResponseEntity.status(200).body(user);
             }
         }
         return new ResponseEntity<User>(HttpStatus.UNAUTHORIZED);

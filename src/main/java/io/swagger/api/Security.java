@@ -4,6 +4,7 @@ import io.swagger.dao.SessionTokenRepository;
 import io.swagger.model.Account;
 import io.swagger.model.SessionToken;
 import io.swagger.model.User;
+import io.swagger.service.SessionTokenService;
 import io.swagger.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import java.util.List;
 public class Security {
 
     @Autowired
-    private SessionTokenRepository sessionTokenRepository;
+    private SessionTokenService sessionTokenService;
 
     @Autowired
     private UserService userService;
@@ -23,7 +24,7 @@ public class Security {
     // Check if the user has the required role by getting his role with his authKey.
     public boolean isPermitted(String authKey, User.TypeEnum requiredRole){
         if (authKey != null){
-            SessionToken sessionToken = sessionTokenRepository.getByAuthKeyEquals(authKey);
+            SessionToken sessionToken = sessionTokenService.getSessionTokenByAuthKey(authKey);
             if (sessionToken != null){
                 return requiredRole.equals(sessionToken.getRole()) || sessionToken.getRole().equals(User.TypeEnum.EMPLOYEE);
             }
@@ -70,7 +71,7 @@ public class Security {
 
     // Check if the user is employee.
     public boolean employeeCheck(String authKey){
-        SessionToken sessionToken = sessionTokenRepository.getByAuthKeyEquals(authKey);
+        SessionToken sessionToken = sessionTokenService.getSessionTokenByAuthKey(authKey);
         return sessionToken.getRole().equals(User.TypeEnum.EMPLOYEE);
     }
 
@@ -81,13 +82,13 @@ public class Security {
 
     // CHeck if given authKey belongs to a customer
     public boolean customerCheck(String authKey){
-        SessionToken sessionToken = sessionTokenRepository.getByAuthKeyEquals(authKey);
+        SessionToken sessionToken = sessionTokenService.getSessionTokenByAuthKey(authKey);
         return sessionToken.getRole().equals(User.TypeEnum.CUSTOMER);
     }
 
     // Check if given authKey belongs to the user which is being updated or changed.
     public boolean isOwner(String authKey, Long userId){
-        SessionToken sessionToken = sessionTokenRepository.getByAuthKeyEquals(authKey);
+        SessionToken sessionToken = sessionTokenService.getSessionTokenByAuthKey(authKey);
         return sessionToken.getUserId().equals(userId);
     }
 
