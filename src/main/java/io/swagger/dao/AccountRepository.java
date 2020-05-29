@@ -11,6 +11,9 @@ import java.util.List;
 @Repository
 public interface AccountRepository extends CrudRepository<Account, Long> {
 
+    @Query("SELECT A FROM Account AS A WHERE A.iban LIKE ?1")
+    List<Account> getAllAccountsWithParamsAndActiveIsTrue(String iban, Pageable pageable);
+
     Iterable<Account> findAccountsByUserIdAndActiveIsTrue(Long userId);
 
     Account getAccountById(Long id);
@@ -18,12 +21,4 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
     Account findAccountByIbanEqualsAndActiveIsTrue(String iban);
 
     Integer countAccountByIban(String iban);
-
-    Account findAccountByIdAndActiveIsTrue(Long userId);
-
-    @Query("SELECT COUNT(A) FROM Account AS A")
-    Integer countAllAccountsAndActiveIsTrue();
-
-    @Query("SELECT A FROM Account AS A WHERE A.iban LIKE ?1")
-    List<Account> getAllAccountsWithParamsAndActiveIsTrue(String iban, Pageable pageable);
 }

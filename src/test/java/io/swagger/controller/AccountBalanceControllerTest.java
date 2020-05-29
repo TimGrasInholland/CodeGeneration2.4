@@ -36,10 +36,11 @@ public class AccountBalanceControllerTest {
 
     @Test
     public void updateAccountBalance(){
+        //Update account balance and check if result is equal to given account balance
         AccountBalance putAccountBalance = accountBalanceService.getAccountBalance(id);
         putAccountBalance.setBalance(160.00);
         accountBalanceService.updateAccountBalance(putAccountBalance);
-        assertEquals(accountBalanceService.getAccountBalance(id), accountBalance);
+        assertEquals(accountBalanceService.getAccountBalance(id), putAccountBalance);
     }
 
 }
