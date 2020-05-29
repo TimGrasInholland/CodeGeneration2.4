@@ -18,4 +18,11 @@ public class AccountTest {
     public void createAccountShouldNotBeNull() {
         assertNotNull(account);
     }
+
+    @Test
+    public void ibanShouldHaveAnRequiredPattern(){
+        Exception exception = assertThrows(IllegalArgumentException.class,
+                () -> account.setIban("01NLINGB0384739473944"));
+        assertEquals("Invalid iban", exception.getMessage());
+    }
 }

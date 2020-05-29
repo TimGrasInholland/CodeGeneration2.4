@@ -37,7 +37,7 @@ public class TransactionService {
     }
 
     public List<Transaction> getTransactionsByAccountId(long accountId) {
-        Account account = accountRepository.findAccountByIdAndActiveIsTrue(accountId);
+        Account account = accountRepository.getAccountById(accountId);
         return (List<Transaction>) transactionRepository.getTransactionsByAccountFromEqualsOrAccountToEqualsOrderByTimestampDesc(account.getIban(), account.getIban());
     }
 

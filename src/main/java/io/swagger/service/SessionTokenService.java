@@ -13,6 +13,14 @@ public class SessionTokenService {
         this.sessionTokenRepository = sessionTokenRepository;
     }
 
+    public SessionToken getSessionTokenByUserIdEquals(Long userId){
+        return sessionTokenRepository.getByUserIdEquals(userId);
+    }
+
+    public SessionToken getSessionTokenByAuthKey(String authKey) {
+        return sessionTokenRepository.getByAuthKeyEquals(authKey);
+    }
+
     // Log the user in by registering the sessionToken.
     public void registerSessionToken(SessionToken sessionToken) {
         SessionToken checkSessionToken = sessionTokenRepository.getByUserIdEquals(sessionToken.getUserId());
@@ -26,18 +34,9 @@ public class SessionTokenService {
         }
     }
 
-    public SessionToken getSessionTokenByUserIdEquals(Long userId){
-        return sessionTokenRepository.getByUserIdEquals(userId);
-    }
-
-    public SessionToken getSessionTokenByAuthKey(String authKey) {
-        return sessionTokenRepository.getByAuthKeyEquals(authKey);
-    }
-
     public void logout(String authKey) {
         SessionToken sessionToken = getSessionTokenByAuthKey(authKey);
         sessionTokenRepository.delete(sessionToken);
     }
-
 
 }

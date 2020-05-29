@@ -34,12 +34,12 @@ class AccountsControllerTest {
     }
 
     @Test
-    public void givenAccountShouldAlreadyExists(){
+    public void givenAccountShouldAlreadyBeenUsed(){
         boolean accountAlreadyExists = true;
         if(service.countAccountByIBAN(account.getIban()) == 0){
             accountAlreadyExists = false;
         }
-        assertTrue(accountAlreadyExists);
+        assertEquals(accountAlreadyExists, true);
     }
 
     @Test
