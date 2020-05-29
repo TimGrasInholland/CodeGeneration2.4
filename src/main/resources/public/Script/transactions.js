@@ -25,7 +25,7 @@ function GetTransactionsFormatEmployee(){
 
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/Transactions",
+        url: baseRequestURL+"/Transactions",
         headers: {
             "session": sessionStorage.getItem("session")
         },
@@ -67,7 +67,7 @@ function GetCurrency(iban){
     currency = null;
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/Accounts/iban/"+iban,
+        url: baseRequestURL+"/Accounts/iban/"+iban,
         headers: {
             "session": sessionStorage.getItem("session")
         },
@@ -88,7 +88,7 @@ function SetListOfTransactions(output){
 function GetTransactions(){
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/Accounts/"+GetAccount(currentIban).id+"/Transactions",
+        url: baseRequestURL+"/Accounts/"+GetAccount(currentIban).id+"/Transactions",
         headers: {
             "session": sessionStorage.getItem("session")
         },
@@ -160,7 +160,7 @@ function CreateTransaction() {
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/api/Transactions",
+        url: baseRequestURL+"/Transactions",
         data: JSON.stringify({
             accountFrom: accountFrom,
             accountTo: accountTo,
@@ -192,7 +192,7 @@ function GetTransactionByCustomerAccountId() {
 
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/api/Accounts/'+ GetAccount(currentIban).id +'/Transactions',
+        url: baseRequestURL+'/Accounts/'+ GetAccount(currentIban).id +'/Transactions',
         headers: {
             "session": sessionStorage.getItem("session")
         },

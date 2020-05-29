@@ -67,11 +67,9 @@ public class AppStarter{
                         account.setBalance(new AccountBalance(account.getId(), 150.00))
         );
 
-        //TODO: ff netter maken
         accounts.forEach(
                 accountRepository::save
         );
-
     }
 
     private void initTransactions() {

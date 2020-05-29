@@ -1,6 +1,5 @@
 package io.swagger.api;
 
-import io.swagger.dao.SessionTokenRepository;
 import io.swagger.model.Account;
 import io.swagger.model.SessionToken;
 import io.swagger.model.User;
@@ -115,5 +114,4 @@ public class Security {
         }
         return cleanedAccountList;
     }
-
 }
