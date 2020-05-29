@@ -1,5 +1,3 @@
-
-
 function CreateAccount(){
     var userId = GetCurrentUserId()
 
@@ -30,7 +28,7 @@ function CreateAccount(){
                     window.location.href = './MyAccounts.html';
                     break;
                 default:
-                    alert("Oops! Something went wrong.");
+                    alert("Oops! Something went wrong. Error statuscode: "+jqXHR.status);
             }
         }
     });
@@ -65,7 +63,7 @@ function CreateAccountByEmployee(){
                     window.location.href = './EmployeeViewAccounts.html';
                     break;
                 default:
-                    alert("Oops! Something went wrong.");
+                    alert("Oops! Something went wrong. Error statuscode: "+jqXHR.status);
             }
         }
     });
@@ -155,30 +153,28 @@ function GetAccount(iban) {
             account = result;
         },
         error: function(error) {
-            alert("Given IBAN is incorrect.");
+            alert("Given IBAN is incorrect. Statuscode: "+error.status);
         }
     });
     return account;
 }
 
 function GetAccounts(){
-    var SeachString = $( "input[id=seaching]" ).val()
-    if(SeachString != null && SeachString != ""){
-        var header = {
-            "session": sessionStorage.getItem("session")
-        };
+    var SearchString = $( "input[id=seaching]" ).val()
+    var header = {
+        "session": sessionStorage.getItem("session")
+    };
+
+    if(SearchString != null && SearchString != ""){
         var data = {
             "offset": 0,
             "limit": 100,
-            "iban": SeachString 
+            "iban": SearchString 
         };
     }
     else{
-        header = {
-            "session": sessionStorage.getItem("session")
-        };
         data = {
-            "iban": SeachString,
+            "iban": SearchString,
         };
     }
     $.ajax({
@@ -192,8 +188,8 @@ function GetAccounts(){
             console.log(result)
             MakeUser(result);
         },
-        error: function(){
-            alert("Oops! Something went wrong.");
+        error: function(error){
+            alert("Oops! Something went wrong. Statuscode: "+error.status);
         }
     });
 }
@@ -252,7 +248,7 @@ function DisableAccount(){
             switch (jqXHR.status) {
                 case 200:
                     alert("Account has been disabled");
-                    window.location.href = './#jessedeel.html';
+                    window.location.href = './EmployeeViewAccounts.html';
                     break;
                 default:
                     alert("Oops! Something went wrong.");

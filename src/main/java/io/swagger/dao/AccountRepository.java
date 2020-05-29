@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface AccountRepository extends CrudRepository<Account, Long> {
 
-    @Query("SELECT A FROM Account AS A WHERE A.iban LIKE ?1")
+    @Query("SELECT A FROM Account AS A WHERE A.iban LIKE ?1 AND A.active = true")
     List<Account> getAllAccountsWithParamsAndActiveIsTrue(String iban, Pageable pageable);
 
     Iterable<Account> findAccountsByUserIdAndActiveIsTrue(Long userId);
