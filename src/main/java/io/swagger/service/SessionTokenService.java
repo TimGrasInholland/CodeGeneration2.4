@@ -13,8 +13,11 @@ public class SessionTokenService {
         this.sessionTokenRepository = sessionTokenRepository;
     }
 
+    // Log the user in by registering the sessionToken.
     public void registerSessionToken(SessionToken sessionToken) {
         SessionToken checkSessionToken = sessionTokenRepository.getByUserIdEquals(sessionToken.getUserId());
+        // If the session token of this user already exists he is already logged in so we delete the old token and save the new.
+        // By doing this the user can only be logged in on one device.
         if (checkSessionToken != null) {
             sessionTokenRepository.delete(checkSessionToken);
             sessionTokenRepository.save(sessionToken);
