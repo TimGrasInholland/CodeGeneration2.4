@@ -17,10 +17,6 @@ public class AccountBalanceService {
         return accountBalanceRepository.getAccountBalanceByAccountId(accountId);
     }
 
-    public List<AccountBalance> getAll() {
-        return (List<AccountBalance>) accountBalanceRepository.findAll();
-    }
-
     @Modifying
     public void updateAccountBalance(AccountBalance accountBalance) {
         accountBalanceRepository.save(accountBalance);

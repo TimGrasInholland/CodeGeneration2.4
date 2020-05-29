@@ -11,5 +11,5 @@ import org.junit.runner.RunWith;
         plugin = "pretty",
         strict = true
 )
-public class CumcumberIT {
+public class CucumberIT {
 }
