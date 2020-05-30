@@ -17,40 +17,32 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
-    public List<Account> getAllAccounts() {
-        return (List<Account>) accountRepository.findAll();
+    public List<Account> getAllAccountsWithParams(Pageable pageable, String iban){
+        return accountRepository.getAllAccountsWithParamsAndActiveIsTrue(iban, pageable);
     }
 
     public Account getAccountByIBAN(String iban) {
         return accountRepository.findAccountByIbanEqualsAndActiveIsTrue(iban);
     }
 
+    public Account getAccountById(Long id){
+        return accountRepository.getAccountById(id);
+    }
+
     public List<Account> getAccountsByUserId(Long id) {
         return (List<Account>) accountRepository.findAccountsByUserIdAndActiveIsTrue(id);
     }
 
-    public Account findAccountByUserId(Long id){
-        return accountRepository.findAccountByIdAndActiveIsTrue(id);
+    public Integer countAccountByIBAN(String iban) {
+        return accountRepository.countAccountByIban(iban);
     }
 
     public void createAccount(Account account) {
         accountRepository.save(account);
     }
 
-    public Integer countAccountByIBAN(String iban) {
-        return accountRepository.countAccountByIbanEqualsAndActiveIsTrue(iban);
-    }
-
     @Modifying
     public void disableAccount(Account account) {
         accountRepository.save(account);
-    }
-
-    public Integer countAllAccounts(){
-        return accountRepository.countAllAccountsAndActiveIsTrue();
-    }
-
-    public List<Account> getAllAccountsWithParams(Pageable pageable, String iban){
-        return accountRepository.getAllAccountsWithParamsAndActiveIsTrue(iban, pageable);
     }
 }

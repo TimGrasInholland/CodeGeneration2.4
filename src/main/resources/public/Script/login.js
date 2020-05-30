@@ -4,23 +4,28 @@ function Login(){
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/api/Login",
+        url: baseRequestURL+"/Login",
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        data: { username: username, password: password },
-        success: function(result) {
-            console.log(result)
-            sessionStorage.setItem("session", result)
-            if(GetCurrentUserRole() == "Customer")
-                window.location.href = './MyAccounts.html'
-            else{
-                window.location.href = './EmployeeDashboard.html'
-            }
+        data: { 
+            username: username, 
+            password: password 
         },
-        error: function(xhr){
-            console.log(xhr)
-            alert("Invalid username/password!")
+        complete: function(result) {
+            switch (result.status) {
+                case 200:
+                    console.log(result)
+                    sessionStorage.setItem("session", result.responseText)
+                    if(GetCurrentUserRole() == "Customer")
+                        window.location.href = './MyAccounts.html'
+                    else{
+                        window.location.href = './EmployeeDashboard.html'
+                    }
+                    break;
+                default:
+                    alert(result.responseText);
+            }
         }
     });
 }

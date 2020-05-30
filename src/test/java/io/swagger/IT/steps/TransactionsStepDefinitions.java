@@ -1,81 +1,68 @@
 package io.swagger.IT.steps;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.cucumber.core.internal.gherkin.deps.com.google.gson.Gson;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.swagger.IT.BaseClassTesting;
 import io.swagger.model.Transaction;
 import org.junit.Assert;
-import org.springframework.http.*;
-import org.springframework.web.client.RestTemplate;
-import org.threeten.bp.OffsetDateTime;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class TransactionsStepDefinitions {
-
-    HttpHeaders headers = new HttpHeaders();
-    RestTemplate template = new RestTemplate();
-    ObjectMapper mapper = new ObjectMapper();
-    ResponseEntity<String> responseEntity;
-    String baseUrl = "http://localhost:8080/api/Transactions";
-    URI uri;
-
-    public TransactionsStepDefinitions() throws URISyntaxException {
-        this.headers.add("session","testEmployee");
-        this.uri = new URI(baseUrl);
-    }
+public class TransactionsStepDefinitions extends BaseClassTesting {
 
     @When("I retrieve all transactions")
-    public void iRetrieveAllTransactions() {
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
-        responseEntity = template.exchange(uri, HttpMethod.GET, entity, String.class);
+    public void iRetrieveAllTransactions() throws URISyntaxException {
+        uri = new URI(baseUrl+"/Users");
+        httpEntity = new HttpEntity<>(null, headers);
+        responseEntity = template.exchange(uri, HttpMethod.GET, httpEntity, String.class);
     }
 
     @When("I retrieve all transactions with limit {int}, offset {int} and username {string}")
-    public void iRetrieveAllTransactionsByUsername(int limit, int offset, String username) {
+    public void iRetrieveAllTransactionsByUsername(int limit, int offset, String username) throws URISyntaxException {
+        uri = new URI(baseUrl+"/Users");
         headers.add("limit", String.valueOf(limit));
         headers.add("offset", String.valueOf(offset));
         headers.add("username", username);
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
-        responseEntity = template.exchange(uri, HttpMethod.GET, entity, String.class);
+        httpEntity = new HttpEntity<>(null, headers);
+        responseEntity = template.exchange(uri, HttpMethod.GET, httpEntity, String.class);
     }
 
     @When("I retrieve all transactions with limit {int}, offset {int} and dateFrom {string} and dateTo {string}")
-    public void iRetrieveAllTransactionsByDateFromTo(int limit, int offset, String dateFrom, String dateTo) {
+    public void iRetrieveAllTransactionsByDateFromTo(int limit, int offset, String dateFrom, String dateTo) throws URISyntaxException {
+        uri = new URI(baseUrl+"/Users");
         headers.add("limit", String.valueOf(limit));
         headers.add("offset", String.valueOf(offset));
         headers.add("dateFrom", dateFrom);
         headers.add("dateTo", dateTo);
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
-        responseEntity = template.exchange(uri, HttpMethod.GET, entity, String.class);
+        httpEntity = new HttpEntity<>(null, headers);
+        responseEntity = template.exchange(uri, HttpMethod.GET, httpEntity, String.class);
     }
 
     @When("I create a transaction")
-    public void iCreateTransaction() throws JsonProcessingException {
-        Transaction transaction = new Transaction("NL01INHO6666934694", "NL01INHO4996947694", 10.0, "TestDescription", 2L, Transaction.TransactionTypeEnum.DEPOSIT);
+    public void iCreateTransaction() throws URISyntaxException {
+        uri = new URI(baseUrl+"/Transactions");
         headers.setContentType(MediaType.APPLICATION_JSON);
-        Gson gson = new Gson();
-        gson.toJson(transaction);
-        String transactionS = "{\"accountFrom\": \"NL01INHO6666934694\", \"accountTo\": \"NL01INHO6666134694\", \"amount\": 10.0, \"description\": \"TestDescription\", \"userPerformingId\": 2, \"transactionType\": \"Deposit\"}";
-        HttpEntity<String> entity = new HttpEntity<>(transactionS, headers);
-        responseEntity = template.exchange(uri, HttpMethod.POST, entity, String.class);
+        String transactions = "{\"accountFrom\": \"NL01INHO4996947694\", \"accountTo\": \"NL01INHO4995677694\", \"amount\": 10.0, \"description\": \"TestDescription\", \"userPerformingId\": 2, \"transactionType\": \"Withdrawal\"}";
+        httpEntity = new HttpEntity<>(transactions, headers);
+        responseEntity = template.exchange(uri, HttpMethod.POST, httpEntity, String.class);
     }
 
     @When("I retrieve transactions by accountId {int}")
     public void iRetrieveAllTransactionsByAccountId(int accountId) throws URISyntaxException {
-        URI uri = new URI("http://localhost:8080/api/Accounts/"+accountId+"/Transactions");
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
-        responseEntity = template.exchange(uri, HttpMethod.GET, entity, String.class);
+        uri = new URI(baseUrl+"/Accounts/"+accountId+"/Transactions");
+        httpEntity = new HttpEntity<>(null, headers);
+        responseEntity = template.exchange(uri, HttpMethod.GET, httpEntity, String.class);
     }
 
     @When("I retrieve transactions by userId {int}")
     public void iRetrieveAllTransactionsByUserId(int userId) throws URISyntaxException {
-        URI uri = new URI("http://localhost:8080/api/Users/"+userId+"/Transactions");
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
-        responseEntity = template.exchange(uri, HttpMethod.GET, entity, String.class);
+        uri = new URI(baseUrl+"/Users/"+userId+"/Transactions");
+        httpEntity = new HttpEntity<>(null, headers);
+        responseEntity = template.exchange(uri, HttpMethod.GET, httpEntity, String.class);
     }
 
 

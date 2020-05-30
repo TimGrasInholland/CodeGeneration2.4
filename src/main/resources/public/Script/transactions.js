@@ -10,8 +10,10 @@ function GetTransactionsFormatEmployee(){
     username = document.getElementById("username").value
     dateStart = document.getElementById("startdate").value
     dateEnd = document.getElementById("enddate").value
-    
+    limit = null;
+
     if(!username){
+        limit = 100;
         username = null
     }
     if(!dateStart){
@@ -23,14 +25,15 @@ function GetTransactionsFormatEmployee(){
 
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/Transactions",
+        url: baseRequestURL+"/Transactions",
         headers: {
             "session": sessionStorage.getItem("session")
         },
         data: {
             "username": username,
             "dateFrom": dateStart,
-            "dateTo": dateEnd
+            "dateTo": dateEnd,
+            "limit": limit
         },
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -64,7 +67,7 @@ function GetCurrency(iban){
     currency = null;
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/Accounts/iban/"+iban,
+        url: baseRequestURL+"/Accounts/iban/"+iban,
         headers: {
             "session": sessionStorage.getItem("session")
         },
@@ -85,7 +88,7 @@ function SetListOfTransactions(output){
 function GetTransactions(){
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/Accounts/"+GetAccount(currentIban).id+"/Transactions",
+        url: baseRequestURL+"/Accounts/"+GetAccount(currentIban).id+"/Transactions",
         headers: {
             "session": sessionStorage.getItem("session")
         },
@@ -141,8 +144,7 @@ function GetTransactionType(accountTo, currentType) {
     if (GetAccount(accountTo).type == "Savings" && currentType == "Current") {return "Deposit";}
     if (GetAccount(accountTo).type == "Current" && currentType == "Savings") {return "Withdrawal";}
     if (GetAccount(accountTo).type == "Current" && currentType == "Current") {return "Payment";}
-    else {return "Payment";};
-
+    else {return "Payment";}
 }
 
 function CreateTransaction() {
@@ -158,7 +160,7 @@ function CreateTransaction() {
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/api/Transactions",
+        url: baseRequestURL+"/Transactions",
         data: JSON.stringify({
             accountFrom: accountFrom,
             accountTo: accountTo,
@@ -190,7 +192,7 @@ function GetTransactionByCustomerAccountId() {
 
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/api/Accounts/'+ GetAccount(currentIban).id +'/Transactions',
+        url: baseRequestURL+'/Accounts/'+ GetAccount(currentIban).id +'/Transactions',
         headers: {
             "session": sessionStorage.getItem("session")
         },

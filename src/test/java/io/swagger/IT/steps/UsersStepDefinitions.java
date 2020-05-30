@@ -1,77 +1,47 @@
 package io.swagger.IT.steps;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.cucumber.core.internal.gherkin.deps.com.google.gson.Gson;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.swagger.IT.BaseClassTesting;
 import io.swagger.model.User;
 import net.minidev.json.JSONObject;
 import org.junit.Assert;
-import org.springframework.http.*;
-import org.springframework.web.client.RestTemplate;
-import org.threeten.bp.LocalDate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class UsersStepDefinitions {
-
-    HttpHeaders headers = new HttpHeaders();
-    RestTemplate template = new RestTemplate();
-    ObjectMapper mapper = new ObjectMapper();
-    ResponseEntity<String> responseEntity;
-    String baseUrl = "http://localhost:8080/api/Users";
-    URI uri;
-
-    public UsersStepDefinitions() throws URISyntaxException {
-        this.headers.add("session","testEmployee");
-        this.uri = new URI(baseUrl);
-    }
+public class UsersStepDefinitions extends BaseClassTesting {
 
     @When("I retrieve all users")
-    public void iRetrieveAllUsers() {
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
-        responseEntity = template.exchange(uri, HttpMethod.GET, entity, String.class);
+    public void iRetrieveAllUsers() throws URISyntaxException {
+        uri = new URI(baseUrl+"/Users");
+        httpEntity = new HttpEntity<>(null, headers);
+        responseEntity = template.exchange(uri, HttpMethod.GET, httpEntity, String.class);
     }
 
     @When("I retrieve user by id {int}")
     public void iGetUserById(Integer id) throws URISyntaxException{
-        URI uri = new URI(baseUrl+"/"+id);
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
-        responseEntity = template.exchange(uri, HttpMethod.GET, entity, String.class);
+        URI uri = new URI(baseUrl+"/Users/"+id);
+        httpEntity = new HttpEntity<>(null, headers);
+        responseEntity = template.exchange(uri, HttpMethod.GET, httpEntity, String.class);
     }
 
-    //can only be tested when birthday is not required
     @When("I create an user")
-    public void iCreateUser() throws JsonProcessingException {
-
-        JSONObject obj = new JSONObject();
-        obj.put("username", "test123");
-        obj.put("password", "Welcome567?");
-        obj.put("firstName", "test");
-        obj.put("prefix", "t");
-        obj.put("lastName", "Tester");
-        obj.put("email", "test@test.nl");
-        obj.put("birthdate", "2020-05-05");
-        obj.put("address", "Haarlem");
-        obj.put("postalcode", "1544MK");
-        obj.put("city", "Haarlem");
-        obj.put("phoneNumber", "0611111111");
-        obj.put("type", User.TypeEnum.CUSTOMER);
-        obj.put("active", true);
-
-
+    public void iCreateUser() throws JsonProcessingException, URISyntaxException {
+        uri = new URI(baseUrl+"/Users");
+        User user = new User("test1234", "Welkom567!", "test", "", "Tester", "test@test.nl", "2020-05-05", "Lepellaan 2", "1544MK", "Haarlem", "0611111111", User.TypeEnum.CUSTOMER, true);
         headers.setContentType(MediaType.APPLICATION_JSON);
-        //HttpEntity<String> entity = new HttpEntity<>(json, headers);
-        HttpEntity<String> entity = new HttpEntity<>(mapper.writeValueAsString(obj), headers);
-        responseEntity = template.exchange(uri, HttpMethod.POST, entity, String.class);
+        httpEntity = new HttpEntity<>(mapper.writeValueAsString(user), headers);
+        responseEntity = template.exchange(uri, HttpMethod.POST, httpEntity, String.class);
     }
 
-    //can only be tested when birthday is not required
     @When("I update an user")
-    public void iUpdateUser() throws JsonProcessingException {
-
+    public void iUpdateUser() throws JsonProcessingException, URISyntaxException {
+        uri = new URI(baseUrl+"/Users");
         JSONObject obj = new JSONObject();
         obj.put("id", 2);
         obj.put("username", "Adrie5388");
@@ -88,28 +58,28 @@ public class UsersStepDefinitions {
         obj.put("type", User.TypeEnum.EMPLOYEE);
         obj.put("active", true);
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> entity = new HttpEntity<>(mapper.writeValueAsString(obj), headers);
-        responseEntity = template.exchange(uri, HttpMethod.PUT, entity, String.class);
+        httpEntity = new HttpEntity<>(mapper.writeValueAsString(obj), headers);
+        responseEntity = template.exchange(uri, HttpMethod.PUT, httpEntity, String.class);
     }
 
     @When("I retrieve an user by lastname {string}")
     public void GetUsersByLastname(String lastname) throws URISyntaxException{
-        URI uri = new URI(baseUrl);
+        uri = new URI(baseUrl+"/Accounts");
         String s =  "{\"offset\": 0,\n" +
                 "\"limit\": 100,\n" +
                 "\"searchname\": "+lastname+" }";
-        HttpEntity<String> entity = new HttpEntity<>(s, headers);
-        responseEntity = template.exchange(uri, HttpMethod.GET, entity, String.class);
+        httpEntity = new HttpEntity<>(s, headers);
+        responseEntity = template.exchange(uri, HttpMethod.GET, httpEntity, String.class);
     }
 
     @When("I retrieve an user by username {string}")
     public void GetUsersByUsername(String username) throws URISyntaxException{
-        URI uri = new URI(baseUrl);
+        uri = new URI(baseUrl+"/Users");
         String s =  "{\"offset\": 0,\n" +
                 "\"limit\": 100,\n" +
                 "\"searchname\": "+username+" }";
-        HttpEntity<String> entity = new HttpEntity<>(s, headers);
-        responseEntity = template.exchange(uri, HttpMethod.GET, entity, String.class);
+        httpEntity = new HttpEntity<>(s, headers);
+        responseEntity = template.exchange(uri, HttpMethod.GET, httpEntity, String.class);
     }
 
     @Then("I get http status users {int}")

@@ -3,6 +3,7 @@ package io.swagger.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 public class SessionToken {
@@ -23,6 +24,12 @@ public class SessionToken {
         this.role = role;
     }
 
+    public SessionToken(Long userId, User.TypeEnum role) {
+        setAuthKey();
+        this.userId = userId;
+        this.role = role;
+    }
+
     public Long getId() {
         return id;
     }
@@ -35,7 +42,19 @@ public class SessionToken {
         return authKey;
     }
 
-    public void setAuthKey(String authKey) {
+    public void setAuthKey() {
+        UUID uuid = UUID.randomUUID();
+        String authKey = uuid.toString();
+        if (authKey.length() != 36){
+            throw new IllegalArgumentException("AuthKey should have 36 character according to UUID guidelines.");
+        }
+        this.authKey = authKey;
+    }
+
+    public void setAuthKey(String authKey){
+        if (authKey.length() != 36){
+            throw new IllegalArgumentException("AuthKey should have 36 character according to UUID guidelines.");
+        }
         this.authKey = authKey;
     }
 
