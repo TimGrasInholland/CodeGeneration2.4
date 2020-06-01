@@ -1,21 +1,29 @@
 //Set API Server
-var baseRequestURL = /*"http://localhost:8080/api"*/ "https://inholland-bank-api.herokuapp.com/api"
+var baseRequestURL = "https://inholland-bank-api.herokuapp.com/api"
 
 function SetNavBar(active){
     var navbar
-    if(sessionStorage.getItem("session") == null && (active == "home" || active == "login" || active == "unset")){
-        navbar = GetUnsetUserNavBar()
-    }
-    else{
-        CheckIfUserIsLoggedIn()
-
+    sessionToken = GetCurrentSessionToken();
+    if (sessionToken != null) {
         if(GetCurrentUserRole() == 'Employee'){
             navbar = GetEmployeeNavBar()
-        }
-        else{
+        } else{
             navbar = GetCustomerNavBar()
         }
+    } else {
+        navbar = GetUnsetUserNavBar() 
+        if (active != 'login' && active != 'home' && active != 'unset') {
+            alert('This user account has been accessed on another browser, you are now being logged out.')
+            window.location.href = './Login.html' 
+        }
     }
+    // if (active != 'login' && active != 'home' && active != 'unset') {  
+    //     if (GetCurrentSessionToken() == null && active != 'home') {
+    //         sessionStorage.removeItem("session")
+    //         alert('This user account has been accessed on another browser, you are now being logged out.')
+    //         window.location.href = './Login.html' 
+    //     }      
+
 
     //Set navbar in HTML file
     $("nav").html(navbar)
@@ -66,8 +74,8 @@ function CheckIfUserIsLoggedIn(){
     }
 }
 
-function GetCurrentUser(){
-    var user;
+function GetCurrentSessionToken(){
+    var sessionToken;
     $.ajax({
         type: "GET",
         url: baseRequestURL+"/SessionToken/"+sessionStorage.getItem("session"),
@@ -78,22 +86,22 @@ function GetCurrentUser(){
         dataType: "json",
         async: false,
         success: function(data){
-            user = data
+            sessionToken = data
         }
     });
-    return user
+    return sessionToken
 }
 
 function GetCurrentUserRole(){
-    return GetCurrentUser().role
+    return GetCurrentSessionToken().role
 }
 
 function GetCurrentUserAuthKey(){
-    return GetCurrentUser().authKey
+    return GetCurrentSessionToken().authKey
 }
 
 function GetCurrentUserId(){
-    return GetCurrentUser().userId
+    return GetCurrentSessionToken().userId
 }
 
 function logout() {
