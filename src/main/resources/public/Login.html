@@ -2,46 +2,43 @@
 
 <html lang="en">
 <head>
+  <title>Groep 3B CodeGeneration - Login</title>
   <meta charset="utf-8">
-  <title>Groep 3B CodeGeneration</title>
   <meta name="description" content="CodeGeneration project website by Thijs van Tol, Chris Lips, Tim Gras, Jesse van Gelder and Stef Robbe.">
-  <meta name="author" content="SitePoint">
-  <link rel="stylesheet" href="LoginStyle.css">
-  <link rel="icon" type="image/png" href="kaas.png">
+  <meta name="author" content="Inholland Informatica group 3B - 2020">
+
+  <link rel="stylesheet" href="Style/LoginStyle.css">
+  <link rel="stylesheet" href="Style/general.css">
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="Script/general.js"></script>
+  <script type="text/javascript" src="Script/login.js"></script>
 </head>
 
 <body>
-  <script src="scripts.js"></script>
-  <div class="top-navbar">
-    <ul>
-      <li><p class="group-name"> Groep 3B</p></li>
-      <li style="float:right"><a href="#logout">Logout</a></li>
-      <li style="float:right"><a href="#myProfile">My Profile</a></li>
-      <li style="float:right"><a href="#myAccounts">My Accounts</a></li>
-      <li style="float:right"><a class="active" href="#home">Home</a></li>
-    </ul>
-  </div>
+  <!-- Navbar -->
+  <nav>
+  </nav>
+  <script>SetNavBar("login")</script>
+
   <div id="login-box">
     <h1 id="login-welcome">WELCOME</h1>
-    <form action="" method="post">
       <div id="username-field">
         <input type="text" name="username" id="form-username" placeholder="Username">
       </div>
       <div id="password-field">
         <input type="password" name="password" id="form-password" placeholder="Password">
       </div>
-      <div id="login-btn">
+      <div id="login-btn" onclick="Login()">
         <input type="submit" name="longBtn" id="form-login" value="LOGIN">
       </div>
       <div id="login-newaccount">
-        <p>Don't have an account? <a class="newaccount-link" href="">Create new account</a></p>
+        <p>Don't have an account? <a class="newaccount-link" href="Register.html">Create new account</a></p>
       </div>
-    </form>
   </div>
   <div id="material-thingy-right-login">
     <img id="material-sidethingy-img" src="Images/material-sidethingy.png">
   </div>
 </body>
-
 
 </html>

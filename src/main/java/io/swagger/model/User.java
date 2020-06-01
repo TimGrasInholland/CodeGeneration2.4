@@ -24,7 +24,7 @@ public class User {
   public User() {
   }
 
-  public User(String username, String password, String firstName, String prefix, String lastName, String email, LocalDate birthdate, String address, String postalcode, String city, String phoneNumber, TypeEnum type, Boolean active) {
+  public User(String username, String password, String firstName, String prefix, String lastName, String email, String birthdate, String address, String postalcode, String city, String phoneNumber, TypeEnum type, Boolean active) {
     this.username = username;
     this.password = password;
     this.firstName = firstName;
@@ -65,7 +65,7 @@ public class User {
   private String email = null;
 
   @JsonProperty("birthdate")
-  private LocalDate birthdate = null;
+  private String birthdate = null;
 
   @JsonProperty("address")
   private String address = null;
@@ -165,6 +165,7 @@ public class User {
   **/
   @ApiModelProperty(example = "Welcome0!", required = true, value = "")
   @NotNull
+  @Pattern(regexp="(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\d\\s:])([^\\s]){8,16}$")
   public String getPassword() {
     return password;
   }
@@ -249,7 +250,7 @@ public class User {
     this.email = email;
   }
 
-  public User birthdate(LocalDate birthdate) {
+  public User birthdate(String birthdate) {
     this.birthdate = birthdate;
     return this;
   }
@@ -261,11 +262,11 @@ public class User {
   @ApiModelProperty(required = true, value = "")
   @NotNull
   @Valid
-  public LocalDate getBirthdate() {
+  public String getBirthdate() {
     return birthdate;
   }
 
-  public void setBirthdate(LocalDate birthdate) {
+  public void setBirthdate(String birthdate) {
     this.birthdate = birthdate;
   }
 

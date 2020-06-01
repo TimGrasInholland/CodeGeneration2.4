@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <title>Groep 3B CodeGeneration - Transactions</title>
+  <meta charset="utf-8">
+  <meta name="description" content="CodeGeneration project website by Thijs van Tol, Chris Lips, Tim Gras, Jesse van Gelder and Stef Robbe.">
+  <meta name="author" content="Inholland Informatica group 3B - 2020">
+
+  <link rel="stylesheet" href="Style/EmployeeViewTransactionsStyle.css">
+  <link rel="stylesheet" href="Style/general.css">
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="Script/transactions.js"></script>
+  <script type="text/javascript" src="Script/accounts.js"></script>
+  <script type="text/javascript" src="Script/general.js"></script>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav>
+    </nav>
+    <script>SetNavBar("dashboard")</script>
+
+    <!-- Content -->
+    <main class="content">
+      <h1 style="float:left">Transactions</h1><button class="submit" style="margin-left: 402px;" onclick="document.getElementById('createNewTransaction').style.display='block'">CREATE NEW TRANSACTION</button>
+        <div id="createNewTransaction" class="modal">
+          <span onclick="document.getElementById('createNewTransaction').style.display='none'" class="close" title="Close">&times;</span>
+            <div class="container">
+              <h1>Create new Transaction</h1>
+              
+              <div class="clearfix">
+                <input type="text" id="ibanFrom" name="ibanFrom" class="input-transaction" placeholder="Sender's IBAN">
+                <br />
+                <input type="text" id="ibanTo" name="ibanTo" class="input-transaction" placeholder="Recipient's IBAN">
+                <br />
+                <input type="text" id="description" name="description" class="input-transaction" placeholder="Description">
+                <br />
+                <input type="text" id="amount" name="amount" class="input-transaction" placeholder="Amount">
+                <br />
+                <button type="button" onclick="document.getElementById('createNewTransaction').style.display='none'" class="cancelbtn">Cancel</button>
+                <button type="button" onclick="CreateTransaction()" class="sendbtn">Send</button>
+              </div>
+            </div>
+        </div>
+        <br><br>
+
+        <!-- Filter -->
+        <aside>
+            <h2>Filter results</h2>
+            <form>
+                <p class="form-name">From:</p>
+                    <input type="date" value="2020-01-01" id="startdate" name="startdate">
+                    <br><br>
+      
+                <p class="form-name">To:</p>
+                    <input type="date" value="2020-01-01" id="enddate" name="enddate">
+                    <br><br>
+
+                <p class="form-name">Username:</p>
+                    <input type="text" id="username" name="username">
+                    <br><br>
+                <button type="button" class="submit" style="margin-left:111px;" onclick="GetTransactionsFormatEmployee()">FILTER</button>
+              </form>
+        </aside>
+
+        <!-- Transactions -->
+        <section id="transactions">
+        </section>
+
+        <script>
+        SetDefaultDates()
+        GetTransactionsFormatEmployee()
+        </script>
+    </main>
+  </body>
+  
+  </html>

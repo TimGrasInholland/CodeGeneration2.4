@@ -1,0 +1,88 @@
+#login-box {
+    position: relative;
+    top: 100px;
+    left: 350px;
+    height: 400px;
+    width: 370px;
+    border: 1px solid rgba(112, 112, 112, 0.5);
+}
+
+#login-welcome {
+    letter-spacing: 6px;
+    font-weight: 400;
+    margin-left: 117px;
+    margin-top: 15px;
+    font-size: 20px;
+}
+
+#username-field {
+    position: relative;
+    left: 30px;
+    top: 60px;
+}
+
+#form-username {
+    position: relative;
+    height: 30px;
+    width: 300px;
+    border-style: none;
+    border-bottom: 1px solid #707070;
+    padding-left: 10px;
+}
+
+#password-field {
+    position: relative;
+    left: 30px;
+    top: 100px;
+}
+
+#form-password {
+    position: relative;
+    height: 30px;
+    width: 300px;
+    border-style: none;
+    border-bottom: 1px solid #707070;
+    padding-left: 10px;
+}
+
+#login-btn {
+    position: relative;
+    left: 110px;
+    top: 150px;
+}
+
+#form-login {
+    position: relative;
+    cursor: pointer;
+    height: 45px;
+    width: 120px;
+    border-style: none;
+    padding: 25px, 70px, 25px, 70px;
+    font-weight: 600;
+    color: white;
+    background-color: #07CF97;
+}
+
+#login-newaccount {
+    position: relative;
+    top: 175px;
+    left: 60px;
+    font-size: small;
+}
+
+a.newaccount-link {
+    color: #07CF97;
+}
+
+#material-thingy-right-login {
+    position: relative;
+    top: 489px;
+}
+
+#material-sidethingy-img {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 800px;
+    height: 800px;
+}

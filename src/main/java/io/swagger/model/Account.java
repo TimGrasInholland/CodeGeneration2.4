@@ -242,13 +242,16 @@ public class Account   {
    * Get iban
    * @return iban
   **/
-  @ApiModelProperty(example = "NLxxINHO0xxxxxxxxx", value = "")
+  @ApiModelProperty(example = "NL01INHO0xxxxxxxxx", value = "")
   
     public String getIban() {
     return iban;
   }
 
   public void setIban(String iban) {
+    if(!iban.startsWith("NL01INHO") || iban.length() != 18){
+      throw new IllegalArgumentException("Invalid iban");
+    }
     this.iban = iban;
   }
 

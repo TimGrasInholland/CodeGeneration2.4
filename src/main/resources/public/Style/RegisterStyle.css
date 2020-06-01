@@ -1,0 +1,91 @@
+body {
+    background-image: url(../Images/EMPLOYEE\ -\ View\ Transactions\ -\ v1.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#Register-box {
+    position: relative;
+    top: 100px;
+    left: 350px;
+    height: 750px;
+    width: 500px;
+    
+}
+
+#register-welcome {
+    color: #04b56e;
+    padding-bottom: 20px
+}
+.form-input{
+    position: relative;
+    height: 30px;
+    width: 500px;
+    border-style: none;
+    border-bottom: 1px solid #707070;
+    padding-left: 10px;
+}
+
+
+#login-btn {
+    margin-left: 50%;
+}
+
+#form-Register {
+    position: relative;
+    cursor: pointer;
+    height: 45px;
+    width: 120px;
+    border-style: none;
+    font-weight: 600;
+    color: white;
+    background-color: #07CF97;
+}
+
+#login-newaccount {
+    position: relative;
+    top: 175px;
+    left: 60px;
+    font-size: small;
+}
+
+a.newaccount-link {
+    color: #07CF97;
+}
+
+#material-thingy-right-login {
+    position: relative;
+    top: 100px;
+}
+
+#material-sidethingy-img {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 800px;
+    height: 800px;
+}
+
+#table{
+  margin-left: 50px;
+  background-color: white;
+}
+
+td {
+    font-weight: bold;
+    padding-top: 5px;
+    text-align: right;
+}
+
+.tdsec{
+    padding-left: 100px;
+}
+
+ /* The container must be positioned relative: */
+.custom-select {
+  position: relative;
+  font-family: Arial;
+  height: 30px;
+  width: 150px;
+  font-weight: bold;
+}

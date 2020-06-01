@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+<head>
+  <title>Groep 3B CodeGeneration - Account</title>
+  <meta charset="utf-8">
+  <meta name="description" content="CodeGeneration project website by Thijs van Tol, Chris Lips, Tim Gras, Jesse van Gelder and Stef Robbe.">
+  <meta name="author" content="Inholland Informatica group 3B - 2020">
+
+  <link rel="stylesheet" href="Style/EmployeeViewAccount.css">
+  <link rel="stylesheet" href="Style/general.css">
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="Script/general.js"></script>
+  <script type="text/javascript" src="Script/accounts.js"></script>
+  <script type="text/javascript" src="Script/transactions.js"></script>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav>
+  </nav>
+  <script>
+  SetNavBar("dashboard")
+  SetIban()
+  </script>
+
+  <h1 id="page-title">Account Overview</h1>
+  
+  <div id="account-header">
+  </div>
+  <script>GetHeader()</script>
+
+
+  <!-- Transactions -->
+  <div class="center-content">
+
+    <div class="accounts-box" id="transactions">
+
+    </div>
+    <button id="disable-account-btn" onclick="DisableAccount()">DISABLE ACCOUNT</button>
+
+  </div>
+
+
+  <div id="material-thingy-right-login">
+    <img id="material-sidethingy-img" src="Images/material-sidethingy.png">
+  </div>
+
+  <script>
+    GetTransactions()
+  </script>
+</body>
+
+
+</html>

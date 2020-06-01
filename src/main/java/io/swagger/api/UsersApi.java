@@ -32,7 +32,7 @@ public interface UsersApi {
 );
 
 
-    @ApiOperation(value = "gets all users", nickname = "getAllUsers", notes = "Calling this allows you to fetch all users", response = User.class, responseContainer = "List", authorizations = {
+    @ApiOperation(value = "gets all users", nickname = "getlAllUsers", notes = "Calling this allows you to fetch all users", response = User.class, responseContainer = "List", authorizations = {
         @Authorization(value = "ApiKeyAuth")    }, tags={ "Users", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Users", response = User.class, responseContainer = "List"),
@@ -42,8 +42,7 @@ public interface UsersApi {
     @RequestMapping(value = "/Users",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<User>> getAllUsers(@ApiParam(value = "get users based on lastname") @Valid @RequestParam(value = "lastname", required = false) String lastname
-,@ApiParam(value = "get users based on username") @Valid @RequestParam(value = "username", required = false) String username
+    ResponseEntity<List<User>> getAllUsers(@ApiParam(value = "get users based on searchname") @Valid @RequestParam(value = "searchname", required = false) String searchName
 ,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
 ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
 );
