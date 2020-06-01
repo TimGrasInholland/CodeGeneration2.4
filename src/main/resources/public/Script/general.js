@@ -94,7 +94,13 @@ function GetCurrentUserAuthKey(){
 }
 
 function GetCurrentUserId(){
-    return GetCurrentSessionToken().userId
+    var sessionToken = GetCurrentSessionToken();
+    if(sessionToken != null){
+        return sessionToken.userId;
+    }
+    else{
+        return null;
+    }
 }
 
 function logout() {
