@@ -1,3 +1,32 @@
+<<<<<<< Updated upstream
+=======
+//Set API Server
+var baseRequestURL =  "https://inholland-bank-api.herokuapp.com/api"
+
+function SetNavBar(active){
+    var navbar
+    navbar = GetUnsetUserNavBar()
+    if (active != 'login') {
+        if (GetCurrentSessionToken() == null) {
+            sessionStorage.removeItem("session")
+            alert('This user account has been accessed on another browser, you are now being logged out.')
+            window.location.href = './Login.html' 
+        }
+        if(GetCurrentUserRole() == 'Employee'){
+            navbar = GetEmployeeNavBar()
+        }
+        else{
+            navbar = GetCustomerNavBar()
+        }   
+    }
+
+    //Set navbar in HTML file
+    $("nav").html(navbar)
+    //Set active item in navbar (BOLD)
+    SetItemActive(active)
+}
+
+>>>>>>> Stashed changes
 function GetCustomerNavBar(){
     return '\
         <ul>\
@@ -83,8 +112,13 @@ function CheckIfUserIsLoggedIn(){
     }
 }
 
+<<<<<<< Updated upstream
 function GetCurrentUserRole(){
     var role;
+=======
+function GetCurrentSessionToken(){
+    var sessionToken;
+>>>>>>> Stashed changes
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/api/SessionToken/"+sessionStorage.getItem("session"),
@@ -95,6 +129,7 @@ function GetCurrentUserRole(){
         dataType: "json",
         async: false,
         success: function(data){
+<<<<<<< Updated upstream
             role = data.role
         }
     });
@@ -121,6 +156,27 @@ function GetCurrentUserAuthKey(){
 
 function GetCurrentUserId(){
     var id = null;
+=======
+            sessionToken = data
+        }
+    });
+    return sessionToken
+}
+
+function GetCurrentUserRole(){
+    return GetCurrentSessionToken().role
+}
+
+function GetCurrentUserAuthKey(){
+    return GetCurrentSessionToken().authKey
+}
+
+function GetCurrentUserId(){
+    return GetCurrentSessionToken().userId
+}
+
+function logout() {
+>>>>>>> Stashed changes
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/api/SessionToken/"+sessionStorage.getItem("session"),
