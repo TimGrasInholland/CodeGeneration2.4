@@ -134,22 +134,24 @@ function back(){
 }
 
 function CreateUser(){
-    var userId = GetCurrentUserId()
-        var newUser = JSON.stringify({
-            "username": $( "input[name=username]" ).val(),
-            "password": $( "input[name=password]" ).val(),
-            "firstName": $( "input[name=firstname]" ).val(),
-            "prefix": $( "input[name=prefix]" ).val(),
-            "lastName": $( "input[name=lastname]" ).val(),
-            "email": $( "input[name=email]" ).val(),
-            "birthdate": $( "input[name=birthdate]" ).val(),
-            "address": $( "input[name=address]" ).val(),
-            "postalcode": $( "input[name=postalcode]" ).val(),
-            "city": $( "input[name=city]" ).val(),
-            "phoneNumber": $( "input[name=phonenumber]" ).val(),
-            "type": $( "select[name=type]" ).val(),
-            "active": true
-        });
+    var userId = GetCurrentUserId();
+
+    var newUser = JSON.stringify({
+        "username": $( "input[name=username]" ).val(),
+        "password": $( "input[name=password]" ).val(),
+        "firstName": $( "input[name=firstname]" ).val(),
+        "prefix": $( "input[name=prefix]" ).val(),
+        "lastName": $( "input[name=lastname]" ).val(),
+        "email": $( "input[name=email]" ).val(),
+        "birthdate": $( "input[name=birthdate]" ).val(),
+        "address": $( "input[name=address]" ).val(),
+        "postalcode": $( "input[name=postalcode]" ).val(),
+        "city": $( "input[name=city]" ).val(),
+        "phoneNumber": $( "input[name=phonenumber]" ).val(),
+        "type": $( "select[name=type]" ).val(),
+        "active": true
+    });
+    
     if(userId != null){
         $.ajax({
             type: "POST",
@@ -342,7 +344,7 @@ function GetUser(id) {
 }
 
 $(document).ready(function(){
-    if(document.getElementById("selector") && GetCurrentUserId() == null){
+    if(document.getElementById("selector") && sessionStorage.getItem("session") != null && GetCurrentUserId() == null){
         $('#selector').hide();
     }
 });

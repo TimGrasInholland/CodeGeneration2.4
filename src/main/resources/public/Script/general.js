@@ -17,14 +17,7 @@ function SetNavBar(active){
             window.location.href = './Login.html' 
         }
     }
-    // if (active != 'login' && active != 'home' && active != 'unset') {  
-    //     if (GetCurrentSessionToken() == null && active != 'home') {
-    //         sessionStorage.removeItem("session")
-    //         alert('This user account has been accessed on another browser, you are now being logged out.')
-    //         window.location.href = './Login.html' 
-    //     }      
-
-
+    
     //Set navbar in HTML file
     $("nav").html(navbar)
     //Set active item in navbar (BOLD)
@@ -101,7 +94,13 @@ function GetCurrentUserAuthKey(){
 }
 
 function GetCurrentUserId(){
-    return GetCurrentSessionToken().userId
+    var sessionToken = GetCurrentSessionToken();
+    if(sessionToken != null){
+        return sessionToken.userId;
+    }
+    else{
+        return null;
+    }
 }
 
 function logout() {
