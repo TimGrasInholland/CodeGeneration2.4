@@ -4,11 +4,14 @@ function Login(){
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/api/Login",
+        url: baseRequestURL+"/Login",
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        data: { username: username, password: password },
+        data: { 
+            username: username, 
+            password: password 
+        },
         complete: function(result) {
             switch (result.status) {
                 case 200:

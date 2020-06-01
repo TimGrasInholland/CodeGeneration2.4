@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class AccountsControllerTest {
@@ -33,12 +34,12 @@ class AccountsControllerTest {
     }
 
     @Test
-    public void givenAccountShouldAlreadyExcists(){
-        boolean accountAlreadyExcists = true;
+    public void givenAccountShouldAlreadyBeenUsed(){
+        boolean accountAlreadyExists = true;
         if(service.countAccountByIBAN(account.getIban()) == 0){
-            accountAlreadyExcists = false;
+            accountAlreadyExists = false;
         }
-        assertEquals(accountAlreadyExcists, true);
+        assertEquals(accountAlreadyExists, true);
     }
 
     @Test

@@ -6,7 +6,9 @@ import io.cucumber.java.en.When;
 import io.swagger.IT.BaseClassTesting;
 import io.swagger.model.Account;
 import io.swagger.model.AccountBalance;
+import io.swagger.service.AccountService;
 import org.junit.Assert;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -24,11 +26,11 @@ public class AccountsStepDefinitions extends BaseClassTesting {
     }
 
     @When("I create an account")
-    public void iCreateAccount() throws JsonProcessingException, URISyntaxException {
-        Account account = new Account(2L, Account.TypeEnum.CURRENT, Account.CurrencyEnum.EUR, new AccountBalance(2L, 150.00), "NL01INHO7305732954", true);
+    public void iCreateAccount() throws URISyntaxException {
         uri = new URI(baseUrl+"/Accounts");
         headers.setContentType(MediaType.APPLICATION_JSON);
-        httpEntity = new HttpEntity<>(mapper.writeValueAsString(account), headers);
+        String account = "{\"userId\":2,\"type\":\"Current\",\"currency\":\"EUR\"}";
+        httpEntity = new HttpEntity<>(account, headers);
         responseEntity = template.exchange(uri, HttpMethod.POST, httpEntity, String.class);
     }
 

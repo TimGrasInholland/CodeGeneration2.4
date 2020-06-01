@@ -37,7 +37,7 @@ public class TransactionService {
     }
 
     public List<Transaction> getTransactionsByAccountId(long accountId) {
-        Account account = accountRepository.findAccountByIdAndActiveIsTrue(accountId);
+        Account account = accountRepository.getAccountById(accountId);
         return (List<Transaction>) transactionRepository.getTransactionsByAccountFromEqualsOrAccountToEqualsOrderByTimestampDesc(account.getIban(), account.getIban());
     }
 
@@ -62,14 +62,10 @@ public class TransactionService {
         return transactionRepository.countTransactionsByUserPerformingIdEqualsAndTimestampBetweenOrderByTimestampDesc(userPerformingId, minDate, maxDate);
     }
 
-    @Modifying
-    public void updateAccount(Account account) {
-        accountRepository.save(account);
-    }
-
     public void createTransaction(Transaction transaction) {
         transactionRepository.save(transaction);
     }
 
     public Integer countAllTransactions(){ return transactionRepository.countAllTransactions();}
+
 }

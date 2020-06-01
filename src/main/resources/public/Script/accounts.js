@@ -1,52 +1,78 @@
-
-
 function CreateAccount(){
     var userId = GetCurrentUserId()
 
-    if(userId != null){
+    var type = document.getElementById("type")
+    type = type.options[type.selectedIndex].value
+    var currency = document.getElementById("currency")
+    currency = currency.options[currency.selectedIndex].value
 
-        var type = document.getElementById("type")
-        type = type.options[type.selectedIndex].value
-        var currency = document.getElementById("currency")
-        currency = currency.options[currency.selectedIndex].value
+    var marker = JSON.stringify({
+        "userId": userId,
+        "type": type,
+        "currency": currency
+    })
 
-        var marker = JSON.stringify({
-            "userId": userId,
-            "type": type,
-            "currency": currency
-        })
-
-        $.ajax({
-            type: "POST",
-            url: "http://localhost:8080/api/Accounts",
-            data: marker,
-            headers: {
-                "session": sessionStorage.getItem("session")
-            },
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            complete: function(jqXHR) {
-                switch (jqXHR.status) {
-                    case 201:
-                        alert("Account created!");
-                        window.location.href = './MyAccounts.html';
-                        break;
-                    default:
-                        alert("Oops! Something went wrong.");
-                }
+    $.ajax({
+        type: "POST",
+        url: baseRequestURL+"/Accounts",
+        data: marker,
+        headers: {
+            "session": sessionStorage.getItem("session")
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        complete: function(jqXHR) {
+            switch (jqXHR.status) {
+                case 201:
+                    alert("Account created!");
+                    window.location.href = './MyAccounts.html';
+                    break;
+                default:
+                    alert("Oops! Something went wrong. Error statuscode: "+jqXHR.status);
             }
-        });
-    }
-    else{
-        alert("You are not logged in!")
-        window.location.href = './Login.html';
-    }
+        }
+    });
+}
+
+function CreateAccountByEmployee(){
+    var userId = GetUserByUsername(document.getElementById("username").value)[0].id
+    var type = document.getElementById("type")
+    type = type.options[type.selectedIndex].value
+    var currency = document.getElementById("currency")
+    currency = currency.options[currency.selectedIndex].value
+
+    var marker = JSON.stringify({
+        "userId": userId,
+        "type": type,
+        "currency": currency
+    })
+
+    $.ajax({
+        type: "POST",
+        url: baseRequestURL+"/Accounts",
+        data: marker,
+        headers: {
+            "session": sessionStorage.getItem("session")
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        complete: function(jqXHR) {
+            switch (jqXHR.status) {
+                case 201:
+                    alert("Account created!");
+                    window.location.href = './EmployeeViewAccounts.html';
+                    break;
+                default:
+                    alert("Oops! Something went wrong. Error statuscode: "+jqXHR.status);
+            }
+        }
+    });
 }
 
 function GetAccountsByUserId() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/api/Users/'+GetCurrentUserId()+'/Accounts',
+        url: baseRequestURL+'/Users/'+GetCurrentUserId()+'/Accounts',
         headers: {
             "session": sessionStorage.getItem("session")
         },
@@ -120,42 +146,40 @@ function GetAccount(iban) {
     var account = null;
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/api/Accounts/iban/'+iban,
+        url: baseRequestURL+'/Accounts/iban/'+iban,
         headers: { "session": sessionStorage.getItem("session")},
         async: false,
         success: function(result) {
             account = result;
         },
         error: function(error) {
-            alert("Given IBAN is incorrect.");
+            alert("Given IBAN is incorrect. Statuscode: "+error.status);
         }
     });
     return account;
 }
 
 function GetAccounts(){
-    var SeachString = $( "input[id=seaching]" ).val()
-    if(SeachString != null && SeachString != ""){
-        var header = {
-            "session": sessionStorage.getItem("session")
-        };
+    var SearchString = $( "input[id=seaching]" ).val()
+    var header = {
+        "session": sessionStorage.getItem("session")
+    };
+
+    if(SearchString != null && SearchString != ""){
         var data = {
             "offset": 0,
             "limit": 100,
-            "iban": SeachString 
+            "iban": SearchString 
         };
     }
     else{
-        header = {
-            "session": sessionStorage.getItem("session")
-        };
         data = {
-            "iban": SeachString,
+            "iban": SearchString,
         };
     }
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/Accounts",
+        url: baseRequestURL+"/Accounts",
         data: data,
         headers: header,
         contentType: "application/json; charset=utf-8",
@@ -164,8 +188,8 @@ function GetAccounts(){
             console.log(result)
             MakeUser(result);
         },
-        error: function(){
-            alert("Oops! Something went wrong.");
+        error: function(error){
+            alert("Oops! Something went wrong. Statuscode: "+error.status);
         }
     });
 }
@@ -214,7 +238,7 @@ function DisableAccount(){
 
     $.ajax({
         type: "PUT",
-        url: "http://localhost:8080/api/Accounts",
+        url: baseRequestURL+"/Accounts",
         data: json,
         headers: {
             "session": sessionStorage.getItem("session")
@@ -224,7 +248,7 @@ function DisableAccount(){
             switch (jqXHR.status) {
                 case 200:
                     alert("Account has been disabled");
-                    window.location.href = './#jessedeel.html';
+                    window.location.href = './EmployeeViewAccounts.html';
                     break;
                 default:
                     alert("Oops! Something went wrong.");
