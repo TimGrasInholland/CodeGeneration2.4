@@ -44,7 +44,7 @@ public class UsersApiController implements UsersApi {
     public ResponseEntity<String> createUser(@ApiParam(value = ""  )  @Valid @RequestBody User body) {
         body.setActive((true));
         String authKey = request.getHeader("session");
-        if(!security.isPermitted(authKey, User.TypeEnum.BANK)){
+        if(!security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)){
             body.setType(User.TypeEnum.CUSTOMER);
         }
         List<User> users = service.getAllUsers();
