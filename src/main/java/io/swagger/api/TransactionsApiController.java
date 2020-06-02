@@ -54,69 +54,81 @@ public class TransactionsApiController implements TransactionsApi {
     public ResponseEntity<String> createTransaction(@ApiParam(value = ""  )  @Valid @RequestBody Transaction body) {
         BankConfig bankConfig = new BankConfig();
         String authKey = request.getHeader("session");
+
+        // security checks
         if (security.isOwnerOrEmployee(authKey, body.getUserPerformingId())) {
-            if (security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
-                if (accountService.getAccountByIBAN(body.getAccountFrom()) == null || accountService.getAccountByIBAN(body.getAccountTo()) == null) { return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Given IBAN does not exist."); }
-                Account accountFrom = accountService.getAccountByIBAN(body.getAccountFrom());
-                Account accountTo = accountService.getAccountByIBAN(body.getAccountTo());
-
-                // Check if role is customer and make sure accountFrom iban belongs to the current logged in user
-                if (security.customerCheck(authKey) && accountFrom.getUserId() != sessionTokenService.getSessionTokenByAuthKey(authKey).getUserId()) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can't transfer funds from someone else's to your account.");
-                }
-                // Check if accounts dont equal each other
-                if (accountFrom == accountTo) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can't transfer funds to the same account.");
-                }
-                // Currency check.
-                if (accountFrom.getCurrency() != accountTo.getCurrency()) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can't transfer funds to this Account since it has a different currency.");
-                }
-                // Dont let savings accounts transfer money to savings accounts.
-                if (accountFrom.getType() == Account.TypeEnum.SAVINGS && accountTo.getType() == Account.TypeEnum.SAVINGS) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can't transfer between savings accounts.");
-                }
-                // Check if SAVINGS withdrawals and deposits are from own user or not.
-                if ((accountTo.getType().equals(Account.TypeEnum.SAVINGS) || accountFrom.getType().equals(Account.TypeEnum.SAVINGS)) && accountFrom.getUserId() != accountTo.getUserId()) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can't withdraw from or deposit to someone else's savings account.");
-                }
-
-                Double newAmountFrom = accountFrom.getBalance().getBalance() - body.getAmount();
-                Double newAmountTo = accountTo.getBalance().getBalance() + body.getAmount();
-
-                // Absolute limit check
-                if (newAmountFrom < bankConfig.getAbsoluteLimit()) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Account balance not high enough for this transaction.");
-                }
-                // Max amount transactions per day check
-                LocalDate currentDate = LocalDate.now();
-                if (service.getDailyTransactionsByUserPerforming(body.getUserPerformingId(), OffsetDateTime.parse(currentDate + "T00:00:00.001+02:00"), OffsetDateTime.parse(currentDate + "T23:59:59.999+02:00")) > bankConfig.getDayLimit()) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You've reached the maximum amount of transactions for today. Please try again tomorrow.");
-                }
-                // Transaction limit check
-                if (body.getAmount() > bankConfig.getTransactionLimit()) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Specified transaction amount is too high.");
-                }
-
-                // Update accountBalances of corresponding Accounts
-                AccountBalance balanceFrom = accountBalanceService.getAccountBalance(accountFrom.getId());
-                balanceFrom.setBalance(newAmountFrom);
-                AccountBalance balanceTo = accountBalanceService.getAccountBalance(accountTo.getId());
-                balanceTo.setBalance(newAmountTo);
-
-                accountBalanceService.updateAccountBalance(balanceFrom);
-                accountBalanceService.updateAccountBalance(balanceTo);
-                try {
-                    service.createTransaction(new Transaction(body.getAccountFrom(), body.getAccountTo(), body.getAmount(), body.getDescription(), body.getUserPerformingId(), body.getTransactionType()));
-                } catch(IllegalArgumentException e) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Incorrect amount.");
-                }
-
-                return ResponseEntity.status(HttpStatus.CREATED).body("Transaction successful!");
-            }
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        if (security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        // Check if given IBANs are correct
+        if (accountService.getAccountByIBAN(body.getAccountFrom()) == null || accountService.getAccountByIBAN(body.getAccountTo()) == null) { return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Given IBAN does not exist."); }
+        Account accountFrom = accountService.getAccountByIBAN(body.getAccountFrom());
+        Account accountTo = accountService.getAccountByIBAN(body.getAccountTo());
+
+        try {
+            checkTransactionRules(bankConfig, authKey, accountFrom, accountTo, body);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+
+        Double newAmountFrom = accountFrom.getBalance().getBalance() - body.getAmount();
+        Double newAmountTo = accountTo.getBalance().getBalance() + body.getAmount();
+
+        // Absolute limit check
+        if (newAmountFrom < bankConfig.getAbsoluteLimit()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Account balance not high enough for this transaction.");
+        }
+        // Max amount transactions per day check
+        LocalDate currentDate = LocalDate.now();
+        if (service.getDailyTransactionsByUserPerforming(body.getUserPerformingId(), OffsetDateTime.parse(currentDate + "T00:00:00.001+02:00"), OffsetDateTime.parse(currentDate + "T23:59:59.999+02:00")) > bankConfig.getDayLimit()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You've reached the maximum amount of transactions for today. Please try again tomorrow.");
+        }
+        // Transaction limit check
+        if (body.getAmount() > bankConfig.getTransactionLimit()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Specified transaction amount is too high.");
+        }
+
+        // Update accountBalances of corresponding Accounts
+        AccountBalance balanceFrom = accountBalanceService.getAccountBalance(accountFrom.getId());
+        balanceFrom.setBalance(newAmountFrom);
+        AccountBalance balanceTo = accountBalanceService.getAccountBalance(accountTo.getId());
+        balanceTo.setBalance(newAmountTo);
+
+        accountBalanceService.updateAccountBalance(balanceFrom);
+        accountBalanceService.updateAccountBalance(balanceTo);
+        try {
+            service.createTransaction(new Transaction(body.getAccountFrom(), body.getAccountTo(), body.getAmount(), body.getDescription(), body.getUserPerformingId(), body.getTransactionType()));
+        } catch(IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Incorrect amount.");
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body("Transaction successful!");
+    }
+
+    private void checkTransactionRules(BankConfig bankConfig, String authKey, Account accountFrom, Account accountTo, Transaction body) throws Exception {
+        // Check if role is customer and make sure accountFrom iban belongs to the current logged in user
+        if (security.customerCheck(authKey) && accountFrom.getUserId() != sessionTokenService.getSessionTokenByAuthKey(authKey).getUserId()) {
+            throw new Exception("Can't transfer funds from someone else's to your account.");
+        }
+        // Check if accounts dont equal each other
+        if (accountFrom == accountTo) {
+            throw new Exception("Can't transfer funds to the same account.");
+        }
+        // Currency check.
+        if (accountFrom.getCurrency() != accountTo.getCurrency()) {
+            throw new Exception("Can't transfer funds to this Account since it has a different currency.");
+        }
+        // Dont let savings accounts transfer money to savings accounts.
+        if (accountFrom.getType() == Account.TypeEnum.SAVINGS && accountTo.getType() == Account.TypeEnum.SAVINGS) {
+            throw new Exception("Can't transfer between savings accounts.");
+        }
+        // Check if SAVINGS withdrawals and deposits are from own user or not.
+        if ((accountTo.getType().equals(Account.TypeEnum.SAVINGS) || accountFrom.getType().equals(Account.TypeEnum.SAVINGS)) && accountFrom.getUserId() != accountTo.getUserId()) {
+            throw new Exception("Can't withdraw from or deposit to someone else's savings account.");
+        }
     }
 
     public ResponseEntity<List<Transaction>> getAllTransactions(@ApiParam(value = "transactions to date") @Valid @RequestParam(value = "dateTo", required = false) String dateTo,@ApiParam(value = "transactions from date") @Valid @RequestParam(value = "dateFrom", required = false) String dateFrom, @ApiParam(value = "transactions from username") @Valid @RequestParam(value = "username", required = false) String username,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
