@@ -23,6 +23,6 @@ public class TransactionTest {
     public void setNegativeAmountShouldThrowError() {
         Exception exception = assertThrows(IllegalArgumentException.class,
                 ()-> transaction.setAmount(-10.0));
-        assertEquals("Amount cannot be below zero.", exception.getMessage());
+        assertEquals("Invalid amount.", exception.getMessage());
     }
 }
