@@ -1,10 +1,13 @@
+## Swagger generated server
+This is a swagger based Spring Boot Server.
+Our API specification is made in SwaggerHub: https://app.swaggerhub.com/apis/Inholland_623434/Swagger_Specification_3B/2
+
 ## Heroku
 We have deployed our REST API to Heroku. Heroku is assigned with GitHub so all new commits in the master branche will deploy automaticly to heroku.
 Heroku REST API: http://inholland-bank-api.herokuapp.com/api/
 
-## Swagger generated server
-This is a swagger based Spring Boot Server.
-Our API specification is made in SwaggerHub: https://app.swaggerhub.com/apis/Inholland_623434/Swagger_Specification_3B/2
+##Postman Functional testing
+We have created a postman collection for functional testing. The public collection URL: https://documenter.getpostman.com/view/11069108/SztHWjhL
 
 ## Frontend
 We also made a frontend website for the REST API. The path for the frontend is : /src/main/resources/public/Home.html
