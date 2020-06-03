@@ -11,7 +11,6 @@ import io.swagger.service.AccountBalanceService;
 import io.swagger.service.AccountService;
 import io.swagger.service.SessionTokenService;
 import io.swagger.service.TransactionService;
-import org.graalvm.compiler.lir.amd64.AMD64CCall;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -72,7 +71,7 @@ public class TransactionsApiController implements TransactionsApi {
         try {
             accountFrom = accountService.getAccountByIBAN(body.getAccountFrom());
             accountTo = accountService.getAccountByIBAN(body.getAccountTo());
-        } catch(NullPointerException ne) {
+        } catch (NullPointerException ne) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Given IBAN does not exist.");
         }
 

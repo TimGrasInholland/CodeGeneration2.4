@@ -50,10 +50,11 @@ public class AccountsApiController implements AccountsApi {
 
     /**
      * Get all accounts with optional query parameters
+     *
      * @param offset
      * @param limit
      * @param iban
-     * @return HttpStatus
+     * @return HttpStatus with a list of accounts
      */
     public ResponseEntity<List<Account>> getAllAccounts(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
             , @ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit, @ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "iban", required = false) String iban) {
@@ -76,8 +77,9 @@ public class AccountsApiController implements AccountsApi {
 
     /**
      * Get an account by IBAN given in the URL parameter
+     *
      * @param iban
-     * @return HttpStatus
+     * @return HttpStatus with an account object
      */
     public ResponseEntity<Account> getAccountByIBAN(@ApiParam(value = "the IBAN", required = true) @PathVariable("iban") String iban) {
         String authKey = request.getHeader("session");
@@ -100,8 +102,9 @@ public class AccountsApiController implements AccountsApi {
 
     /**
      * Get accounts by the give userId in the URL parameter
+     *
      * @param id
-     * @return HttpStatus
+     * @return HttpStatus with a list of accounts
      */
     public ResponseEntity<List<Account>> getUserAccountsByUserId(@Min(1) @ApiParam(value = "bad input parameter", required = true, allowableValues = "") @PathVariable("id") Long id) {
         String authKey = request.getHeader("session");
@@ -120,6 +123,7 @@ public class AccountsApiController implements AccountsApi {
 
     /**
      * Create an account for an user. Only needed fields are: userId, Type and Currency
+     *
      * @param body
      * @return HttpStatus
      */
@@ -151,6 +155,7 @@ public class AccountsApiController implements AccountsApi {
 
     /**
      * The account of a user can be disabled but only if the acting user is an Employee.
+     *
      * @param body
      * @return HttpStatus
      */
@@ -168,6 +173,7 @@ public class AccountsApiController implements AccountsApi {
 
     /**
      * Generate a random IBAN for a new account
+     *
      * @return iban
      */
     private String generateIBAN() {
