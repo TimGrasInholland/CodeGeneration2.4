@@ -11,6 +11,7 @@ import io.swagger.service.AccountBalanceService;
 import io.swagger.service.AccountService;
 import io.swagger.service.SessionTokenService;
 import io.swagger.service.TransactionService;
+import org.graalvm.compiler.lir.amd64.AMD64CCall;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -64,13 +65,15 @@ public class TransactionsApiController implements TransactionsApi {
         if (!security.isOwnerOrEmployee(authKey, body.getUserPerformingId()) || !security.isPermitted(authKey, User.TypeEnum.CUSTOMER))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 
-        // First check is to see if given IBANs are correct
-        if (accountService.getAccountByIBAN(body.getAccountFrom()) == null || accountService.getAccountByIBAN(body.getAccountTo()) == null)
+        Account accountFrom;
+        Account accountTo;
+        // Create Account objects which allow the rest of checks
+        try {
+            accountFrom = accountService.getAccountByIBAN(body.getAccountFrom());
+            accountTo = accountService.getAccountByIBAN(body.getAccountTo());
+        } catch(NullPointerException ne) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Given IBAN does not exist.");
-
-        // IBANs are correct, create Account objects which allow the rest of checks
-        Account accountFrom = accountService.getAccountByIBAN(body.getAccountFrom());
-        Account accountTo = accountService.getAccountByIBAN(body.getAccountTo());
+        }
 
         // Calculate new account balances
         Double newAmountFromBalance = accountFrom.getBalance().getBalance() - body.getAmount();
@@ -96,8 +99,6 @@ public class TransactionsApiController implements TransactionsApi {
         balanceFrom.setBalance(newAmountFromBalance);
         AccountBalance balanceTo = accountBalanceService.getAccountBalance(accountTo.getId());
         balanceTo.setBalance(newAmountToBalance);
-        accountBalanceService.updateAccountBalance(balanceFrom);
-        accountBalanceService.updateAccountBalance(balanceTo);
 
         // Create actual transaction object
         try {
@@ -105,6 +106,8 @@ public class TransactionsApiController implements TransactionsApi {
         } catch(IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Incorrect amount.");
         }
+        accountBalanceService.updateAccountBalance(balanceFrom);
+        accountBalanceService.updateAccountBalance(balanceTo);
         return ResponseEntity.status(HttpStatus.CREATED).body("Transaction successful!");
     }
 
