@@ -19,25 +19,31 @@ public class UserService {
     public List<User> getAllUsers() {return (List<User>) userRepository.findAll();}
     public List<User> getAllUsers(Pageable pageable) { return userRepository.findAll(pageable);
     }
+    // redirect the user to
     public void createUser(User user) {userRepository.save(user);}
 
+    // redirect updates for a user
     @Modifying
     public void updateUser(User user) {
         userRepository.save(user);
     }
 
+    // redirect get user by Id
     public User getUserById(Long id) {
         return userRepository.getUserByIdEquals(id);
     }
 
+    // redirect get user by username
     public User getUserByUsername(String username) {
         return userRepository.getUserByUsernameEquals(username);
     }
 
+    // redirect get users by username
     public List<User> getAllUsersByUsername(String username, Pageable pageable) {
         return userRepository.getAllByUsernameContainingIgnoreCase(username, pageable);
     }
 
+    // redirect get users by lastname
     public List<User> getAllUsersByLastname(String lastname, Pageable pageable) {
         return userRepository.getAllByLastNameContainingIgnoreCase(lastname, pageable);
     }

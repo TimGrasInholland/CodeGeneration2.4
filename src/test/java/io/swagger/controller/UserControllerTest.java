@@ -27,6 +27,7 @@ class UserControllerTest {
     private User testUser;
     private User adrie;
 
+    // Make users to test with
     @BeforeEach
     public void setup() {
         testUser = new User("tester123", "Test123!", "test", "Van", "test", "test@gmail.com",
@@ -36,30 +37,35 @@ class UserControllerTest {
         adrie.setId(2L);
     }
 
+    // Create an new user to the list of users en test if it is created
     @Test
     public void createAnUser(){
         service.createUser(testUser);
         assertEquals(service.getUserByUsername("tester123"), testUser);
     }
 
+    // Get all users that are in the system should be atleast one
     @Test
     public void GetAllUsers() throws Exception {
         List<User> users = service.getAllUsers();
         assertNotEquals(users.size(), 0);
     }
 
+    // get the user defined with Id 2
     @Test
     public void GetUserByIdTwo() throws Exception {
         User test = service.getUserById((long)2);
         assertEquals(service.getUserById((long)2), adrie);
     }
 
+    // get users by searching with the lastname should give one
     @Test
     public void GetUserByLastname() throws Exception {
         Pageable pageable = PageRequest.of(0, 100);
         assertNotEquals(service.getAllUsersByLastname("Komen", pageable).size(), 0);
     }
 
+    // Get users by searching with the Username should give one
     @Test
     public void GetUserByUsername() throws Exception {
         Pageable pageable = PageRequest.of(0, 100);

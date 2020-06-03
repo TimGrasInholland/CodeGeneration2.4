@@ -171,10 +171,12 @@ function CreateUser(){
                     default:
                         var obj = jQuery.parseJSON(jqXHR.responseText);
                         $.each(obj, function(key,value) {
-                          alert(value.defaultMessage);
+                            if(key == "errors"){
+                                $.each(value, function(key,value) {
+                                      alert(value.field + ":" +value.defaultMessage);
+                                }); 
+                            }
                         }); 
-                        alert (jqXHR.responseText);
-                        alert("Oops! Something went wrong.");
                 }
             }
         });
