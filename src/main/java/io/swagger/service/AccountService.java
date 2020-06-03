@@ -22,7 +22,10 @@ public class AccountService {
     }
 
     public Account getAccountByIBAN(String iban) {
-        return accountRepository.findAccountByIbanEqualsAndActiveIsTrue(iban);
+        Account account = accountRepository.findAccountByIbanEqualsAndActiveIsTrue(iban);
+        if (account == null)
+            throw new NullPointerException();
+        return account;
     }
 
     public Account getAccountById(Long id) {
