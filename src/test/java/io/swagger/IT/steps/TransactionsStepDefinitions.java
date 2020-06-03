@@ -14,6 +14,7 @@ import java.net.URISyntaxException;
 
 public class TransactionsStepDefinitions extends BaseClassTesting {
 
+    // Each method does HTTP call towards API
     @When("I retrieve all transactions")
     public void iRetrieveAllTransactions() throws URISyntaxException {
         uri = new URI(baseUrl+"/Users");
@@ -46,6 +47,7 @@ public class TransactionsStepDefinitions extends BaseClassTesting {
     public void iCreateTransaction() throws URISyntaxException {
         uri = new URI(baseUrl+"/Transactions");
         headers.setContentType(MediaType.APPLICATION_JSON);
+        // Hardcoded JSON string because timestamp property get's messed up by class conversion to JSON
         String transactions = "{\"accountFrom\": \"NL01INHO4996947694\", \"accountTo\": \"NL01INHO4995677694\", \"amount\": 10.0, \"description\": \"TestDescription\", \"userPerformingId\": 2, \"transactionType\": \"Withdrawal\"}";
         httpEntity = new HttpEntity<>(transactions, headers);
         responseEntity = template.exchange(uri, HttpMethod.POST, httpEntity, String.class);

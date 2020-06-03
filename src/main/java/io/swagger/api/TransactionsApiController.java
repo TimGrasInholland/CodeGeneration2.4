@@ -51,6 +51,11 @@ public class TransactionsApiController implements TransactionsApi {
         this.accountBalanceService = accountBalanceService;
     }
 
+    /**
+     * checks given transaction object for rule complience, updates according account balances and creates transaction object
+     * @param body transaction object from front-end
+     * @return ResponseEntity with user feedback
+     */
     public ResponseEntity<String> createTransaction(@ApiParam(value = ""  )  @Valid @RequestBody Transaction body) {
         BankConfig bankConfig = new BankConfig();
         String authKey = request.getHeader("session");
@@ -63,22 +68,26 @@ public class TransactionsApiController implements TransactionsApi {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
-        // Check if given IBANs are correct
-        if (accountService.getAccountByIBAN(body.getAccountFrom()) == null || accountService.getAccountByIBAN(body.getAccountTo()) == null) { return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Given IBAN does not exist."); }
+        // First check is to see if given IBANs are correct
+        if (accountService.getAccountByIBAN(body.getAccountFrom()) == null || accountService.getAccountByIBAN(body.getAccountTo()) == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Given IBAN does not exist.");
+        }
+        // IBANs are correct, create Account objects which allow the rest of checks
         Account accountFrom = accountService.getAccountByIBAN(body.getAccountFrom());
         Account accountTo = accountService.getAccountByIBAN(body.getAccountTo());
 
+        // General transaction rule checks in different method for better reading
         try {
             checkTransactionRules(bankConfig, authKey, accountFrom, accountTo, body);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
 
-        Double newAmountFrom = accountFrom.getBalance().getBalance() - body.getAmount();
-        Double newAmountTo = accountTo.getBalance().getBalance() + body.getAmount();
-
+        // Calculate new account balances and perform BankConfig checks
+        Double newAmountFromBalance = accountFrom.getBalance().getBalance() - body.getAmount();
+        Double newAmountToBalance = accountTo.getBalance().getBalance() + body.getAmount();
         // Absolute limit check
-        if (newAmountFrom < bankConfig.getAbsoluteLimit()) {
+        if (newAmountFromBalance < bankConfig.getAbsoluteLimit()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Account balance not high enough for this transaction.");
         }
         // Max amount transactions per day check
@@ -93,9 +102,9 @@ public class TransactionsApiController implements TransactionsApi {
 
         // Update accountBalances of corresponding Accounts
         AccountBalance balanceFrom = accountBalanceService.getAccountBalance(accountFrom.getId());
-        balanceFrom.setBalance(newAmountFrom);
+        balanceFrom.setBalance(newAmountFromBalance);
         AccountBalance balanceTo = accountBalanceService.getAccountBalance(accountTo.getId());
-        balanceTo.setBalance(newAmountTo);
+        balanceTo.setBalance(newAmountToBalance);
 
         accountBalanceService.updateAccountBalance(balanceFrom);
         accountBalanceService.updateAccountBalance(balanceTo);
