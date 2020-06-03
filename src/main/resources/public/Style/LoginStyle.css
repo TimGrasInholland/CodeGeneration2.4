@@ -5,6 +5,7 @@
     height: 400px;
     width: 370px;
     border: 1px solid rgba(112, 112, 112, 0.5);
+    background-color: #FFFFFF;
 }
 
 #login-welcome {
@@ -80,6 +81,7 @@ a.newaccount-link {
 }
 
 #material-sidethingy-img {
+    z-index: -1;
     position: absolute;
     bottom: 0;
     right: 0;

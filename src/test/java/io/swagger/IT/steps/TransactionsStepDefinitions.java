@@ -48,7 +48,8 @@ public class TransactionsStepDefinitions extends BaseClassTesting {
         uri = new URI(baseUrl+"/Transactions");
         headers.setContentType(MediaType.APPLICATION_JSON);
         // Hardcoded JSON string because timestamp property get's messed up by class conversion to JSON
-        String transactions = "{\"accountFrom\": \"NL01INHO4996947694\", \"accountTo\": \"NL01INHO4995677694\", \"amount\": 10.0, \"description\": \"TestDescription\", \"userPerformingId\": 2, \"transactionType\": \"Withdrawal\"}";
+        //NL01INHO4996947694
+        String transactions = "{\"accountFrom\": \"NL01INHO6666134694\", \"accountTo\": \"NL01INHO4995677694\", \"amount\": 2001.0, \"description\": \"TestDescription\", \"userPerformingId\": 2, \"transactionType\": \"Withdrawal\"}";
         httpEntity = new HttpEntity<>(transactions, headers);
         responseEntity = template.exchange(uri, HttpMethod.POST, httpEntity, String.class);
     }

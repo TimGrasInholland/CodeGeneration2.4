@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.configuration.BankConfig;
 import org.springframework.validation.annotation.Validated;
 import org.threeten.bp.OffsetDateTime;
 
@@ -195,7 +196,7 @@ public class Transaction   {
     int decimalPlaces = text.length() - integerPlaces - 1;
 
     if (amount <= 0 || decimalPlaces > 2) {
-      throw new IllegalArgumentException("Amount cannot be below zero.");
+      throw new IllegalArgumentException("Invalid amount.");
     }
     this.amount = amount;
   }

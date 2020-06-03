@@ -22,8 +22,4 @@ public class BankConfig {
     public static double getTransactionLimit() {
         return transactionLimit;
     }
-
-    public boolean checkAbsoluteLimit(Double newBalance) {
-        return newBalance >= absoluteLimit;
-    }
 }
