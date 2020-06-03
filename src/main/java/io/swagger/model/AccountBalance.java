@@ -100,7 +100,7 @@ public class AccountBalance   {
     int integerPlaces = text.indexOf('.');
     int decimalPlaces = text.length() - integerPlaces - 1;
     if(decimalPlaces > 2){
-      throw new IllegalArgumentException("Balance value has not the right format. Must have 2 decimals");
+      throw new IllegalArgumentException("Balance value doesn't have the right format. Must have 2 decimals");
     }
     this.balance = balance;
   }
