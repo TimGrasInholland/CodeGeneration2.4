@@ -2,43 +2,44 @@
 
 <html lang="en">
 <head>
-  <title>Groep 3B CodeGeneration - Login</title>
-  <meta charset="utf-8">
-  <meta name="description" content="CodeGeneration project website by Thijs van Tol, Chris Lips, Tim Gras, Jesse van Gelder and Stef Robbe.">
-  <meta name="author" content="Inholland Informatica group 3B - 2020">
+    <title>Groep 3B CodeGeneration - Login</title>
+    <meta charset="utf-8">
+    <meta content="CodeGeneration project website by Thijs van Tol, Chris Lips, Tim Gras, Jesse van Gelder and Stef Robbe."
+          name="description">
+    <meta content="Inholland Informatica group 3B - 2020" name="author">
 
-  <link rel="stylesheet" href="Style/LoginStyle.css">
-  <link rel="stylesheet" href="Style/general.css">
+    <link href="Style/LoginStyle.css" rel="stylesheet">
+    <link href="Style/general.css" rel="stylesheet">
 
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script type="text/javascript" src="Script/general.js"></script>
-  <script type="text/javascript" src="Script/login.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type="text/javascript"></script>
+    <script src="Script/general.js" type="text/javascript"></script>
+    <script src="Script/login.js" type="text/javascript"></script>
 </head>
 
 <body>
-  <!-- Navbar -->
-  <nav>
-  </nav>
-  <script>SetNavBar("login")</script>
+<!-- Navbar -->
+<nav>
+</nav>
+<script>SetNavBar("login")</script>
 
-  <div id="login-box">
+<div id="login-box">
     <h1 id="login-welcome">WELCOME</h1>
-      <div id="username-field">
-        <input type="text" name="username" id="form-username" placeholder="Username">
-      </div>
-      <div id="password-field">
-        <input type="password" name="password" id="form-password" placeholder="Password">
-      </div>
-      <div id="login-btn" onclick="Login()">
-        <input type="submit" name="longBtn" id="form-login" value="LOGIN">
-      </div>
-      <div id="login-newaccount">
+    <div id="username-field">
+        <input id="form-username" name="username" placeholder="Username" type="text">
+    </div>
+    <div id="password-field">
+        <input id="form-password" name="password" placeholder="Password" type="password">
+    </div>
+    <div id="login-btn" onclick="Login()">
+        <input id="form-login" name="longBtn" type="submit" value="LOGIN">
+    </div>
+    <div id="login-newaccount">
         <p>Don't have an account? <a class="newaccount-link" href="Register.html">Create new account</a></p>
-      </div>
-  </div>
-  <div id="material-thingy-right-login">
+    </div>
+</div>
+<div id="material-thingy-right-login">
     <img id="material-sidethingy-img" src="Images/material-sidethingy.png">
-  </div>
+</div>
 </body>
 
 </html>

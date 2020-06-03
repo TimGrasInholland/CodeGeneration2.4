@@ -1,4 +1,4 @@
-#page-title{
+#page-title {
     position: relative;
     color: #07CF97;
     left: 50px;
@@ -7,7 +7,7 @@
 }
 
 
-#transaction-title{
+#transaction-title {
     position: relative;
     float: left;
     color: #07CF97;
@@ -18,7 +18,7 @@
 
 /* Alles hieronder zit in de account-header*/
 
-#account-header{
+#account-header {
     float: left;
     margin-top: 60px;
     width: 1000px;
@@ -26,14 +26,14 @@
     margin-bottom: 20px;
 }
 
-#current-iban{
+#current-iban {
     float: left;
     position: relative;
     font-size: 20px;
     font-weight: normal;
 }
 
-#account-balance{
+#account-balance {
     float: left;
     position: relative;
     font-size: 20px;
@@ -41,7 +41,7 @@
     padding-left: 600px;
 }
 
-.currency-tag{
+.currency-tag {
     float: right;
     position: relative;
     font-weight: bold;
@@ -53,7 +53,7 @@
 
 /* Alles hieronder zit in de center-content*/
 
-#center-content{
+#center-content {
     margin-left: 50px;
 }
 
@@ -67,7 +67,7 @@
     background-color: #FFFFFF;
 }
 
-#new-transaction-box{
+#new-transaction-box {
     float: left;
     position: absolute;
     margin-left: 50px;
@@ -83,7 +83,7 @@
 
 /* Alles hieronder zit in de transaction-row*/
 
-.transaction-row{
+.transaction-row {
     float: left;
     padding-top: 8px;
     padding-left: 8px;
@@ -91,14 +91,14 @@
     font-size: 20px;
 }
 
-.date-tag{
+.date-tag {
     float: left;
     font-size: 20px;
     width: 100%;
     font-weight: bold;
 }
 
-.transaction-from-to{
+.transaction-from-to {
     float: left;
     font-weight: bold;
     padding-right: 10px;
@@ -106,23 +106,23 @@
 
 }
 
-.transaction-iban{
+.transaction-iban {
     float: left;
 }
 
-.transaction-operator{
+.transaction-operator {
     float: left;
     padding-left: 450px;
     padding-right: 15px;
     font-weight: bold;
 }
 
-.transaction-amount{
+.transaction-amount {
     float: left;
 
 }
 
-.hr-line{
+.hr-line {
     height: 1px;
     width: 980px;
     margin-top: 5px;
@@ -134,7 +134,7 @@
 
 /* Alles hieronder zit in de transaction-box*/
 
-#label-box{
+#label-box {
     float: left;
     margin-left: 20px;
     margin-top: 20px;
@@ -142,7 +142,7 @@
     height: 200px;
 }
 
-#input-box{
+#input-box {
     float: left;
     margin-left: 20px;
     margin-top: 18px;
@@ -150,7 +150,7 @@
     font-size: 18px;
 }
 
-.labels{
+.labels {
     float: left;
     width: 100%;
     font-size: 18px;
@@ -165,12 +165,12 @@
     margin-right: 40px;
 }
 
-input[type=text]{
+input[type=text] {
     border: none;
-    border-bottom:  1px solid black;
+    border-bottom: 1px solid black;
 }
 
-.input-transaction{
+.input-transaction {
     width: 280px;
     padding-left: 5px;
     font-size: 18px;
@@ -190,7 +190,7 @@ input[type=text]{
     background-color: #07CF97;
 }
 
-.currency-tag-small{
+.currency-tag-small {
     float: right;
     font-weight: bold;
     z-index: -10;

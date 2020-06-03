@@ -16,11 +16,18 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> getAllUsers() {return (List<User>) userRepository.findAll();}
-    public List<User> getAllUsers(Pageable pageable) { return userRepository.findAll(pageable);
+    public List<User> getAllUsers() {
+        return (List<User>) userRepository.findAll();
     }
+
+    public List<User> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
     // redirect the user to
-    public void createUser(User user) {userRepository.save(user);}
+    public void createUser(User user) {
+        userRepository.save(user);
+    }
 
     // redirect updates for a user
     @Modifying

@@ -2,79 +2,82 @@
 
 <html lang="en">
 <head>
-  <title>Groep 3B CodeGeneration - Profile</title>
-  <meta charset="utf-8">
-  <meta name="description" content="CodeGeneration project website by Thijs van Tol, Chris Lips, Tim Gras, Jesse van Gelder and Stef Robbe.">
-  <meta name="author" content="Inholland Informatica group 3B - 2020">
+    <title>Groep 3B CodeGeneration - Profile</title>
+    <meta charset="utf-8">
+    <meta content="CodeGeneration project website by Thijs van Tol, Chris Lips, Tim Gras, Jesse van Gelder and Stef Robbe."
+          name="description">
+    <meta content="Inholland Informatica group 3B - 2020" name="author">
 
-  <link rel="stylesheet" href="Style/ViewUserStyle.css">
-  <link rel="stylesheet" href="Style/general.css">
+    <link href="Style/ViewUserStyle.css" rel="stylesheet">
+    <link href="Style/general.css" rel="stylesheet">
 
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script type="text/javascript" src="Script/general.js"></script>
-  <script type="text/javascript" src="Script/users.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type="text/javascript"></script>
+    <script src="Script/general.js" type="text/javascript"></script>
+    <script src="Script/users.js" type="text/javascript"></script>
 </head>
 
 <body>
-    <!-- Navbar -->
-    <nav>
-    </nav>
-    <script>SetNavBar("myProfile")</script>
+<!-- Navbar -->
+<nav>
+</nav>
+<script>SetNavBar("myProfile")</script>
 
-    <div id="overview-title">
-      <p>User Overview</p>
-    </div>
-    <div class="user-info">
-      <form class="user-info-form" method="POST">
-        <label for="username" class="formlbl">Username</label>
-        <input type="text" class="forminput" id="username">
-        <br />
-        <br />
-        <label for="password" class="formlbl">Password</label>
-        <input type="password" class="forminput" id="password">
-        <br />
-        <br />
-        <label for="firstname" class="formlbl">First name</label>
-        <input type="text" class="forminput" id="firstname">
-        <br />
-        <br />
-        <label for="prefix" class="formlbl">Prefix</label>
-        <input type="text" class="forminput" id="prefix">
-        <br />
-        <br />
-        <label for="lastname" class="formlbl">Last name</label>
-        <input type="text" class="forminput" id="lastname">
-        <br />
-        <br />
-        <label for="email" class="formlbl">Email</label>
-        <input type="email" class="forminput" id="email">
-        <br />
-        <br />
-        <label for="birthdate" class="formlbl">Birthdate</label>
-        <input type="date" class="forminput" id="birthdate">
-        <br />
-        <br />
-        <label for="address" class="formlbl">Address</label>
-        <input type="text" class="forminput" id="address">
-        <br />
-        <br />
-        <label for="city" class="formlbl">City</label>
-        <input type="text" class="forminput" id="city">
-        <br />
-        <br />
-        <label for="postalcode" class="formlbl">Postal Code</label>
-        <input type="text" class="forminput" id="postalcode">
-        <br />
-        <br />
-        <label for="phonenumber" class="formlbl">Phone number</label>
-        <input type="text" class="forminput" id="phonenumber">
-        <br />
-        <input type="button" class="userBtn" id="disableUserBtn" value="DISABLE USER" name="disableUserBtn" onclick="disableUser()"></input>
-        <input type="button" class="userBtn" id="updateUserBtn" value="UPDATE USER" name="updateUserBtn" onclick="updateUser()"></input>
+<div id="overview-title">
+    <p>User Overview</p>
+</div>
+<div class="user-info">
+    <form class="user-info-form" method="POST">
+        <label class="formlbl" for="username">Username</label>
+        <input class="forminput" id="username" type="text">
+        <br/>
+        <br/>
+        <label class="formlbl" for="password">Password</label>
+        <input class="forminput" id="password" type="password">
+        <br/>
+        <br/>
+        <label class="formlbl" for="firstname">First name</label>
+        <input class="forminput" id="firstname" type="text">
+        <br/>
+        <br/>
+        <label class="formlbl" for="prefix">Prefix</label>
+        <input class="forminput" id="prefix" type="text">
+        <br/>
+        <br/>
+        <label class="formlbl" for="lastname">Last name</label>
+        <input class="forminput" id="lastname" type="text">
+        <br/>
+        <br/>
+        <label class="formlbl" for="email">Email</label>
+        <input class="forminput" id="email" type="email">
+        <br/>
+        <br/>
+        <label class="formlbl" for="birthdate">Birthdate</label>
+        <input class="forminput" id="birthdate" type="date">
+        <br/>
+        <br/>
+        <label class="formlbl" for="address">Address</label>
+        <input class="forminput" id="address" type="text">
+        <br/>
+        <br/>
+        <label class="formlbl" for="city">City</label>
+        <input class="forminput" id="city" type="text">
+        <br/>
+        <br/>
+        <label class="formlbl" for="postalcode">Postal Code</label>
+        <input class="forminput" id="postalcode" type="text">
+        <br/>
+        <br/>
+        <label class="formlbl" for="phonenumber">Phone number</label>
+        <input class="forminput" id="phonenumber" type="text">
+        <br/>
+        <input class="userBtn" id="disableUserBtn" name="disableUserBtn" onclick="disableUser()" type="button"
+               value="DISABLE USER"></input>
+        <input class="userBtn" id="updateUserBtn" name="updateUserBtn" onclick="updateUser()" type="button"
+               value="UPDATE USER"></input>
         <script>LoadMyProfileInfo()</script>
-      </form>
-    </div>
-    <img src="Images/View_User_BG_1.png" class="bg1">
-    <img src="Images/View_User_BG_2.png" class="bg2">
+    </form>
+</div>
+<img class="bg1" src="Images/View_User_BG_1.png">
+<img class="bg2" src="Images/View_User_BG_2.png">
 </body>
 </html>

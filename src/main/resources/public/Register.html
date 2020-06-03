@@ -2,96 +2,99 @@
 
 <html lang="en">
 <head>
-  <title>Groep 3B CodeGeneration - Register</title>
-  <meta charset="utf-8">
-  <meta name="description" content="CodeGeneration project website by Thijs van Tol, Chris Lips, Tim Gras, Jesse van Gelder and Stef Robbe.">
-  <meta name="author" content="Inholland Informatica group 3B - 2020">
+    <title>Groep 3B CodeGeneration - Register</title>
+    <meta charset="utf-8">
+    <meta content="CodeGeneration project website by Thijs van Tol, Chris Lips, Tim Gras, Jesse van Gelder and Stef Robbe."
+          name="description">
+    <meta content="Inholland Informatica group 3B - 2020" name="author">
 
-  <link rel="stylesheet" href="Style/RegisterStyle.css">
-  <link rel="stylesheet" href="Style/general.css">
+    <link href="Style/RegisterStyle.css" rel="stylesheet">
+    <link href="Style/general.css" rel="stylesheet">
 
-  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-  <script type="text/javascript" src="Script/general.js"></script>
-  <script src="Script/users.js"></script>
+    <script src="http://code.jquery.com/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="Script/general.js" type="text/javascript"></script>
+    <script src="Script/users.js"></script>
 </head>
 
 <body>
-  <!-- Navbar -->
-  <nav>
-  </nav>
-  <script>SetNavBar("unset")</script>
+<!-- Navbar -->
+<nav>
+</nav>
+<script>SetNavBar("unset")</script>
 
-  <div id="Register-box">
+<div id="Register-box">
     <h1 id="register-welcome">Register</h1>
     <form class="UserFrom">
-      <table id="table">
-        <tr>
-          <td>Username</td>
-          <td  class="tdsec"><input type="text" name="username" class="form-input" placeholder="Username"></td>
-        </tr>
-        <tr>
-          <td>password</td>
-          <td class="tdsec"><input type="password" name="password" class="form-input" placeholder="Password"></td>
-        </tr>
-        <tr>
-          <td>firstname</td>
-          <td  class="tdsec"><input type="text" name="firstname" class="form-input" placeholder="firstname"></td>
-        </tr>
-        <tr>
-          <td>prefix</td>
-          <td  class="tdsec"><input type="text" name="prefix" class="form-input" placeholder="prefix"></td>
-        </tr>
-        <tr>
-          <td>Lastname</td>
-          <td class="tdsec"><input type="text" name="lastname" class="form-input" placeholder="lastname"></td>
-        </tr>
-        <tr>
-          <td>Email</td>
-          <td  class="tdsec"><input type="text" name="email" class="form-input" placeholder="email"></td>
-        </tr>
-        <tr>
-          <td>Birthdate</td>
-          <td class="tdsec"><input type="date" name="birthdate" class="form-input" placeholder="0000-00-00"></td>
-        </tr>
-        <tr>
-          <td>Addess</td>
-          <td class="tdsec"><input type="text" name="address" class="form-input" placeholder="address"></td>
-        </tr>
-        <tr>
-          <td>Postalcode</td>
-          <td class="tdsec"><input type="text" name="postalcode" class="form-input" placeholder="postalcode"></td>
-        </tr>
-        <tr>
-          <td>City</td>
-          <td class="tdsec"><input type="text" name="city" class="form-input" placeholder="city"></td>
-        </tr>
-        <tr>
-          <td>Phonenumber</td>
-          <td class="tdsec"><input type="text" name="phonenumber" class="form-input" placeholder="phonenumber"></td>
-        </tr>
-        <tr id="selector">
-          <td>Type</td>
-          <td class="tdsec">
-              <select name="type" class="custom-select" id="Type">
-                <option value="Customer">Customer</option>
-                <option value="Employee">Employee</option>
-              </select>
-          </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>
-            <div id="login-btn">
-               <button id="form-Register" class="submit" type="button" onclick="CreateUser()">CREATE User</button>
-            </div>
-          </td>
-        </tr>
-      </div>
-    </form>
-  </div>
-  <!--<div id="material-thingy-right-login">
-    <img id="material-sidethingy-img" src="Images/material-sidethingy.png">
-  </div>-->
+        <table id="table">
+            <tr>
+                <td>Username</td>
+                <td class="tdsec"><input class="form-input" name="username" placeholder="Username" type="text"></td>
+            </tr>
+            <tr>
+                <td>password</td>
+                <td class="tdsec"><input class="form-input" name="password" placeholder="Password" type="password"></td>
+            </tr>
+            <tr>
+                <td>firstname</td>
+                <td class="tdsec"><input class="form-input" name="firstname" placeholder="firstname" type="text"></td>
+            </tr>
+            <tr>
+                <td>prefix</td>
+                <td class="tdsec"><input class="form-input" name="prefix" placeholder="prefix" type="text"></td>
+            </tr>
+            <tr>
+                <td>Lastname</td>
+                <td class="tdsec"><input class="form-input" name="lastname" placeholder="lastname" type="text"></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td class="tdsec"><input class="form-input" name="email" placeholder="email" type="text"></td>
+            </tr>
+            <tr>
+                <td>Birthdate</td>
+                <td class="tdsec"><input class="form-input" name="birthdate" placeholder="0000-00-00" type="date"></td>
+            </tr>
+            <tr>
+                <td>Addess</td>
+                <td class="tdsec"><input class="form-input" name="address" placeholder="address" type="text"></td>
+            </tr>
+            <tr>
+                <td>Postalcode</td>
+                <td class="tdsec"><input class="form-input" name="postalcode" placeholder="postalcode" type="text"></td>
+            </tr>
+            <tr>
+                <td>City</td>
+                <td class="tdsec"><input class="form-input" name="city" placeholder="city" type="text"></td>
+            </tr>
+            <tr>
+                <td>Phonenumber</td>
+                <td class="tdsec"><input class="form-input" name="phonenumber" placeholder="phonenumber" type="text">
+                </td>
+            </tr>
+            <tr id="selector">
+                <td>Type</td>
+                <td class="tdsec">
+                    <select class="custom-select" id="Type" name="type">
+                        <option value="Customer">Customer</option>
+                        <option value="Employee">Employee</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <div id="login-btn">
+                        <button class="submit" id="form-Register" onclick="CreateUser()" type="button">CREATE User
+                        </button>
+                    </div>
+                </td>
+            </tr>
+</div>
+</form>
+</div>
+<!--<div id="material-thingy-right-login">
+  <img id="material-sidethingy-img" src="Images/material-sidethingy.png">
+</div>-->
 </body>
 
 

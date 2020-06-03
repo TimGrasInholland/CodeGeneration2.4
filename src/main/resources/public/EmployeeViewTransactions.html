@@ -1,78 +1,88 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-  <title>Groep 3B CodeGeneration - Transactions</title>
-  <meta charset="utf-8">
-  <meta name="description" content="CodeGeneration project website by Thijs van Tol, Chris Lips, Tim Gras, Jesse van Gelder and Stef Robbe.">
-  <meta name="author" content="Inholland Informatica group 3B - 2020">
+    <title>Groep 3B CodeGeneration - Transactions</title>
+    <meta charset="utf-8">
+    <meta content="CodeGeneration project website by Thijs van Tol, Chris Lips, Tim Gras, Jesse van Gelder and Stef Robbe."
+          name="description">
+    <meta content="Inholland Informatica group 3B - 2020" name="author">
 
-  <link rel="stylesheet" href="Style/EmployeeViewTransactionsStyle.css">
-  <link rel="stylesheet" href="Style/general.css">
+    <link href="Style/EmployeeViewTransactionsStyle.css" rel="stylesheet">
+    <link href="Style/general.css" rel="stylesheet">
 
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script type="text/javascript" src="Script/transactions.js"></script>
-  <script type="text/javascript" src="Script/accounts.js"></script>
-  <script type="text/javascript" src="Script/general.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type="text/javascript"></script>
+    <script src="Script/transactions.js" type="text/javascript"></script>
+    <script src="Script/accounts.js" type="text/javascript"></script>
+    <script src="Script/general.js" type="text/javascript"></script>
 </head>
 
 <body>
-    <!-- Navbar -->
-    <nav>
-    </nav>
-    <script>SetNavBar("dashboard")</script>
+<!-- Navbar -->
+<nav>
+</nav>
+<script>SetNavBar("dashboard")</script>
 
-    <!-- Content -->
-    <main class="content">
-      <h1 style="float:left">Transactions</h1><button class="submit" style="margin-left: 402px;" onclick="document.getElementById('createNewTransaction').style.display='block'">CREATE NEW TRANSACTION</button>
-        <div id="createNewTransaction" class="modal">
-          <span onclick="document.getElementById('createNewTransaction').style.display='none'" class="close" title="Close">&times;</span>
-            <div class="container">
-              <h1>Create new Transaction</h1>
-              
-              <div class="clearfix">
-                <input type="text" id="ibanFrom" name="ibanFrom" class="input-transaction" placeholder="Sender's IBAN">
-                <br />
-                <input type="text" id="ibanTo" name="ibanTo" class="input-transaction" placeholder="Recipient's IBAN">
-                <br />
-                <input type="text" id="description" name="description" class="input-transaction" placeholder="Description">
-                <br />
-                <input type="text" id="amount" name="amount" class="input-transaction" placeholder="Amount">
-                <br />
-                <button type="button" onclick="document.getElementById('createNewTransaction').style.display='none'" class="cancelbtn">Cancel</button>
-                <button type="button" onclick="CreateTransaction()" class="sendbtn">Send</button>
-              </div>
+<!-- Content -->
+<main class="content">
+    <h1 style="float:left">Transactions</h1>
+    <button class="submit" onclick="document.getElementById('createNewTransaction').style.display='block'"
+            style="margin-left: 402px;">CREATE NEW TRANSACTION
+    </button>
+    <div class="modal" id="createNewTransaction">
+        <span class="close" onclick="document.getElementById('createNewTransaction').style.display='none'"
+              title="Close">&times;</span>
+        <div class="container">
+            <h1>Create new Transaction</h1>
+
+            <div class="clearfix">
+                <input class="input-transaction" id="ibanFrom" name="ibanFrom" placeholder="Sender's IBAN" type="text">
+                <br/>
+                <input class="input-transaction" id="ibanTo" name="ibanTo" placeholder="Recipient's IBAN" type="text">
+                <br/>
+                <input class="input-transaction" id="description" name="description" placeholder="Description"
+                       type="text">
+                <br/>
+                <input class="input-transaction" id="amount" name="amount" placeholder="Amount" type="text">
+                <br/>
+                <button class="cancelbtn" onclick="document.getElementById('createNewTransaction').style.display='none'"
+                        type="button">Cancel
+                </button>
+                <button class="sendbtn" onclick="CreateTransaction()" type="button">Send</button>
             </div>
         </div>
-        <br><br>
+    </div>
+    <br><br>
 
-        <!-- Filter -->
-        <aside>
-            <h2>Filter results</h2>
-            <form>
-                <p class="form-name">From:</p>
-                    <input type="date" value="2020-01-01" id="startdate" name="startdate">
-                    <br><br>
-      
-                <p class="form-name">To:</p>
-                    <input type="date" value="2020-01-01" id="enddate" name="enddate">
-                    <br><br>
+    <!-- Filter -->
+    <aside>
+        <h2>Filter results</h2>
+        <form>
+            <p class="form-name">From:</p>
+            <input id="startdate" name="startdate" type="date" value="2020-01-01">
+            <br><br>
 
-                <p class="form-name">Username:</p>
-                    <input type="text" id="username" name="username">
-                    <br><br>
-                <button type="button" class="submit" style="margin-left:111px;" onclick="GetTransactionsFormatEmployee()">FILTER</button>
-              </form>
-        </aside>
+            <p class="form-name">To:</p>
+            <input id="enddate" name="enddate" type="date" value="2020-01-01">
+            <br><br>
 
-        <!-- Transactions -->
-        <section id="transactions">
-        </section>
+            <p class="form-name">Username:</p>
+            <input id="username" name="username" type="text">
+            <br><br>
+            <button class="submit" onclick="GetTransactionsFormatEmployee()" style="margin-left:111px;" type="button">
+                FILTER
+            </button>
+        </form>
+    </aside>
 
-        <script>
+    <!-- Transactions -->
+    <section id="transactions">
+    </section>
+
+    <script>
         SetDefaultDates()
         GetTransactionsFormatEmployee()
-        </script>
-    </main>
-  </body>
-  
-  </html>
+    </script>
+</main>
+</body>
+
+</html>

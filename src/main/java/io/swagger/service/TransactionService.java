@@ -7,7 +7,6 @@ import io.swagger.model.Account;
 import io.swagger.model.Transaction;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.threeten.bp.OffsetDateTime;
 
@@ -66,6 +65,8 @@ public class TransactionService {
         transactionRepository.save(transaction);
     }
 
-    public Integer countAllTransactions(){ return transactionRepository.countAllTransactions();}
+    public Integer countAllTransactions() {
+        return transactionRepository.countAllTransactions();
+    }
 
 }

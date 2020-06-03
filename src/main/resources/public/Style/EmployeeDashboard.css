@@ -1,27 +1,27 @@
-#page-title{
+#page-title {
     position: relative;
     color: #07CF97;
     left: 50px;
     top: 50px;
 }
 
-body{
+body {
     background-image: url("../Images/background-design.png");
     background-size: 1920px 1080px;
     background-repeat: no-repeat;
 }
 
-/* Alles hieronder zit in de transaction-box*/ 
+/* Alles hieronder zit in de transaction-box*/
 
-#dashboard-btns{
+#dashboard-btns {
     margin-left: 230px;
 }
 
-.dashboard-link{
+.dashboard-link {
     text-decoration: none;
 }
 
-.dashboard-btn{
+.dashboard-btn {
     color: #FFFFFF;
     border-style: none;
     font-size: 28px;
@@ -33,15 +33,15 @@ body{
     cursor: pointer;
 }
 
-#view-transactions-btn{
+#view-transactions-btn {
     background-color: #EE3E68;
 }
 
-#view-users-btn{
+#view-users-btn {
     background-color: #FFCB5D;
 }
 
-#view-accounts-btn{
+#view-accounts-btn {
     background-color: #07CF97;
 }
 
