@@ -56,10 +56,10 @@ public class TransactionsApiController implements TransactionsApi {
         String authKey = request.getHeader("session");
 
         // security checks
-        if (security.isOwnerOrEmployee(authKey, body.getUserPerformingId())) {
+        if (!security.isOwnerOrEmployee(authKey, body.getUserPerformingId())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
-        if (security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
+        if (!security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 

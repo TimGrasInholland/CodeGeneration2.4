@@ -3,6 +3,7 @@ package io.swagger.controller;
 
 import io.swagger.model.Transaction;
 import io.swagger.service.TransactionService;
+import jdk.vm.ci.meta.Local;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,11 +44,12 @@ public class TransactionsControllerTest {
 
     @Test
     public void getAllTransactionsWithDateFromDateToShouldReturnTodayTransactions() {
-        OffsetDateTime dateFrom = OffsetDateTime.parse("2020-05-29T00:00:00.001+02:00");
-        OffsetDateTime dateTo = OffsetDateTime.parse("2020-05-29T23:59:59.999+02:00");
+        LocalDate dateToday = LocalDate.now();
+        OffsetDateTime dateFrom = OffsetDateTime.parse(dateToday + "T00:00:00.001+02:00");
+        OffsetDateTime dateTo = OffsetDateTime.parse(dateToday + "T23:59:59.999+02:00");
 
         List<Transaction> transactionList = service.getAllTransactions(dateFrom, dateTo, 0, 100, "%");
-        assertEquals(transactionList.get(0).getTimestamp().getDayOfWeek(), LocalDate.now().getDayOfWeek());
+        assertEquals(transactionList.get(0).getTimestamp().getDayOfWeek(), dateToday.getDayOfWeek());
     }
 
 }
