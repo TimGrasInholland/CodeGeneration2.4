@@ -121,7 +121,7 @@ function next() {
     nextpage = true;
     GetUsers();
     console.log(offset)
-};
+}
 
 function back() {
     if (window.offset != 0) {

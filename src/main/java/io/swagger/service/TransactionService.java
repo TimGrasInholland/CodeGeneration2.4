@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.threeten.bp.OffsetDateTime;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
@@ -41,7 +40,7 @@ public class TransactionService {
         List<Account> accounts = (List<Account>) accountRepository.findAccountsByUserId(id);
         // get all transactions with ibanFrom x or ibanTo x
         List<Transaction> allTransactions = new ArrayList<>();
-        for (Account account: accounts) {
+        for (Account account : accounts) {
             allTransactions.addAll(transactionRepository.getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqualAndAccountFromEqualsOrAccountToEqualsOrderByTimestampDesc(dateFrom, dateTo, account.getIban(), account.getIban(), pageable));
         }
         // remove duplicates and return

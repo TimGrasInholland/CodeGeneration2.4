@@ -35,10 +35,7 @@ public class Security {
     // Check if the user is permitted based on authKey and check to make sure role is not BANK.
     public boolean isPermittedAndNotBank(String authKey, User.TypeEnum requiredRole, User.TypeEnum requestedRole) {
         if (isPermitted(authKey, requiredRole)) {
-            if (!bankCheck(requestedRole)) {
-                return true;
-            }
-            return false;
+            return !bankCheck(requestedRole);
         }
         return false;
     }
@@ -47,11 +44,7 @@ public class Security {
     public boolean isOwnerOrPermitted(String authKey, User.TypeEnum requiredRole, Long userId) {
         if (isOwner(authKey, userId)) {
             return true;
-        } else if (isPermitted(authKey, requiredRole)) {
-            return true;
-        } else {
-            return false;
-        }
+        } else return isPermitted(authKey, requiredRole);
     }
 
     // Check if the user is owner or Employee.
@@ -59,11 +52,7 @@ public class Security {
         if (authKey != null) {
             if (isOwner(authKey, userId)) {
                 return true;
-            } else if (employeeCheck(authKey)) {
-                return true;
-            } else {
-                return false;
-            }
+            } else return employeeCheck(authKey);
         }
         return false;
     }
