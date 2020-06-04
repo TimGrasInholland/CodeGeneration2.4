@@ -48,64 +48,90 @@ public class AccountsApiController implements AccountsApi {
         this.request = request;
     }
 
+    /**
+     * Get all accounts with optional query parameters
+     *
+     * @param offset
+     * @param limit
+     * @param iban
+     * @return HttpStatus with a list of accounts
+     */
     public ResponseEntity<List<Account>> getAllAccounts(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
-            ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "iban", required = false) String iban) {
+            , @ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit, @ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "iban", required = false) String iban) {
         String authKey = request.getHeader("session");
         if (security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
-            //Set standard values if not given
-            if(limit == null)
+            //Set standard values if not given in query parameters
+            if (limit == null)
                 limit = 50;
-            if(offset == null)
+            if (offset == null)
                 offset = 0;
-            if(iban == null || iban.isEmpty())
+            if (iban == null || iban.isEmpty())
                 iban = "%";
             else
-                iban = "%"+iban+"%";
+                iban = "%" + iban + "%";
             Pageable pageable = PageRequest.of(offset, limit);
             return ResponseEntity.status(200).body(security.filterAccounts(service.getAllAccountsWithParams(pageable, iban)));
         }
         return new ResponseEntity<List<Account>>(HttpStatus.UNAUTHORIZED);
     }
 
+    /**
+     * Get an account by IBAN given in the URL parameter
+     *
+     * @param iban
+     * @return HttpStatus with an account object
+     */
     public ResponseEntity<Account> getAccountByIBAN(@ApiParam(value = "the IBAN", required = true) @PathVariable("iban") String iban) {
         String authKey = request.getHeader("session");
         try {
             Account account = service.getAccountByIBAN(iban);
-            if (security.isOwnerOrPermitted(authKey, User.TypeEnum.EMPLOYEE, account.getUserId())){
+            if (security.isOwnerOrPermitted(authKey, User.TypeEnum.EMPLOYEE, account.getUserId())) {
                 // Check if the account gotten form this iban belongs to the bank and if so block this request.
-                if (!security.bankCheck(userService.getUserById(account.getUserId()).getType())){
+                if (!security.bankCheck(userService.getUserById(account.getUserId()).getType())) {
                     return ResponseEntity.status(200).body(account);
-                } else{
+                } else {
                     return new ResponseEntity<Account>(HttpStatus.UNAUTHORIZED);
                 }
             }
             return new ResponseEntity<Account>(HttpStatus.UNAUTHORIZED);
-        } catch(NullPointerException e) {
+        } catch (NullPointerException e) {
             //Catch NullPointerExeption if IBAN does not exists in database
             return new ResponseEntity<Account>(HttpStatus.BAD_REQUEST);
         }
     }
 
-    public ResponseEntity<List<Account>> getUserAccountsByUserId(@Min(1)@ApiParam(value = "bad input parameter",required=true, allowableValues="") @PathVariable("id") Long id){
+    /**
+     * Get accounts by the give userId in the URL parameter
+     *
+     * @param id
+     * @return HttpStatus with a list of accounts
+     */
+    public ResponseEntity<List<Account>> getUserAccountsByUserId(@Min(1) @ApiParam(value = "bad input parameter", required = true, allowableValues = "") @PathVariable("id") Long id) {
         String authKey = request.getHeader("session");
-        try{
+        try {
             if (security.isPermittedAndNotBank(authKey, User.TypeEnum.CUSTOMER, userService.getUserById(id).getType())) {
-                if (security.isOwnerOrEmployee(authKey, id)){
+                if (security.isOwnerOrEmployee(authKey, id)) {
                     return ResponseEntity.status(200).body(service.getAccountsByUserId(id));
                 }
             }
             return new ResponseEntity<List<Account>>(HttpStatus.UNAUTHORIZED);
-        } catch(NullPointerException e) {
+        } catch (NullPointerException e) {
             //Catch NullPointerExeption if user does not exists in database
             return new ResponseEntity<List<Account>>(HttpStatus.BAD_REQUEST);
         }
     }
 
+    /**
+     * Create an account for an user. Only needed fields are: userId, Type and Currency
+     *
+     * @param body
+     * @return HttpStatus
+     */
     public ResponseEntity<Void> createAccount(@ApiParam(value = "") @Valid @RequestBody Account body) {
         String authKey = request.getHeader("session");
         if (security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
-            if(body.getId() == null){
-                if (security.isOwnerOrEmployee(authKey, body.getUserId())){
+            if (body.getId() == null) {
+                if (security.isOwnerOrEmployee(authKey, body.getUserId())) {
                     body.setIban(generateIBAN());
                     body.setActive(true);
                     // create account with empty AccountBalance because accountId gets set with creation
@@ -117,19 +143,23 @@ public class AccountsApiController implements AccountsApi {
                     // update acc with balance obj
                     service.createAccount(acc);
                     return new ResponseEntity<Void>(HttpStatus.CREATED);
-                } else{
+                } else {
                     return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
                 }
-            }
-            else{
+            } else {
                 return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
             }
         }
         return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
     }
 
-    // With this endpoint the account of a user can be disabled but only if the acting user is an Employee.
-    public ResponseEntity<String> disableAccount(@ApiParam(value = ""  )  @Valid @RequestBody Account body) {
+    /**
+     * The account of a user can be disabled but only if the acting user is an Employee.
+     *
+     * @param body
+     * @return HttpStatus
+     */
+    public ResponseEntity<String> disableAccount(@ApiParam(value = "") @Valid @RequestBody Account body) {
         String authKey = request.getHeader("session");
         if (security.isPermittedAndNotBank(authKey, User.TypeEnum.EMPLOYEE, userService.getUserById(body.getUserId()).getType())) {
             Account account = service.getAccountByIBAN(body.getIban());
@@ -141,18 +171,21 @@ public class AccountsApiController implements AccountsApi {
         return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
     }
 
-    // Generate IBANS all starting with NL01INHO.
-    private String generateIBAN(){
+    /**
+     * Generate a random IBAN for a new account
+     *
+     * @return iban
+     */
+    private String generateIBAN() {
         Random rnd = new Random();
         String iban = "NL01INHO";
-        for(int i = 0; i < 10; i++){
+        for (int i = 0; i < 10; i++) {
             iban += rnd.nextInt(10);
         }
         //Check if generated iban already exists
-        if(service.countAccountByIBAN(iban) == 0){
+        if (service.countAccountByIBAN(iban) == 0) {
             return iban;
-        }
-        else{
+        } else {
             return iban = generateIBAN();
         }
     }

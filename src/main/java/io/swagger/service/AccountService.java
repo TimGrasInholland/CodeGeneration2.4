@@ -13,19 +13,22 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
 
-    public AccountService(AccountRepository accountRepository){
+    public AccountService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
 
-    public List<Account> getAllAccountsWithParams(Pageable pageable, String iban){
+    public List<Account> getAllAccountsWithParams(Pageable pageable, String iban) {
         return accountRepository.getAllAccountsWithParamsAndActiveIsTrue(iban, pageable);
     }
 
     public Account getAccountByIBAN(String iban) {
-        return accountRepository.findAccountByIbanEqualsAndActiveIsTrue(iban);
+        Account account = accountRepository.findAccountByIbanEqualsAndActiveIsTrue(iban);
+        if (account == null)
+            throw new NullPointerException();
+        return account;
     }
 
-    public Account getAccountById(Long id){
+    public Account getAccountById(Long id) {
         return accountRepository.getAccountById(id);
     }
 

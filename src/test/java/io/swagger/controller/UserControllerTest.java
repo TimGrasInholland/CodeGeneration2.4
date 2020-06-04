@@ -1,24 +1,18 @@
 package io.swagger.controller;
 
-import io.swagger.dao.UserRepository;
-import io.swagger.model.Account;
 import io.swagger.model.User;
-import io.swagger.service.AccountService;
 import io.swagger.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.mockito.BDDMockito.given;
 
 @SpringBootTest
 class UserControllerTest {
@@ -39,7 +33,7 @@ class UserControllerTest {
 
     // Create an new user to the list of users en test if it is created
     @Test
-    public void createAnUser(){
+    public void createAnUser() {
         service.createUser(testUser);
         assertEquals(service.getUserByUsername("tester123"), testUser);
     }
@@ -54,8 +48,8 @@ class UserControllerTest {
     // get the user defined with Id 2
     @Test
     public void GetUserByIdTwo() throws Exception {
-        User test = service.getUserById((long)2);
-        assertEquals(service.getUserById((long)2), adrie);
+        User test = service.getUserById((long) 2);
+        assertEquals(service.getUserById((long) 2), adrie);
     }
 
     // get users by searching with the lastname should give one

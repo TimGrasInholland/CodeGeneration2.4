@@ -22,7 +22,7 @@ public class TransactionTest {
     @Test
     public void setNegativeAmountShouldThrowError() {
         Exception exception = assertThrows(IllegalArgumentException.class,
-                ()-> transaction.setAmount(-10.0));
+                () -> transaction.setAmount(-10.0));
         assertEquals("Invalid amount.", exception.getMessage());
     }
 }

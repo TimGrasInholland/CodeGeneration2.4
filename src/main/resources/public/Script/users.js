@@ -3,40 +3,38 @@ var isOwner;
 window.offset = 0;
 var nextpage = false;
 
-function GetUsers(){
-    var SeachString = $( "input[id=seaching]" ).val()
+function GetUsers() {
+    var SeachString = $("input[id=seaching]").val()
     var header = {
         "session": sessionStorage.getItem("session")
     };
 
-    if(SeachString != null && SeachString != ""){
+    if (SeachString != null && SeachString != "") {
         var data = {
             "offset": window.offset,
             "limit": 10,
-            "searchname": SeachString 
+            "searchname": SeachString
         };
-    }
-    else if(nextpage){
+    } else if (nextpage) {
         nextpage = false;
         var data = {
             "offset": window.offset,
             "limit": 10,
-            "searchname": SeachString 
+            "searchname": SeachString
         };
-    }
-    else{
+    } else {
         var data = {
             "searchname": SeachString
         };
     }
     $.ajax({
         type: "Get",
-        url: baseRequestURL+"/Users",
+        url: baseRequestURL + "/Users",
         data: data,
         headers: header,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        complete: function(jqXHR) {
+        complete: function (jqXHR) {
             switch (jqXHR.status) {
                 case 200:
                     break;
@@ -44,13 +42,13 @@ function GetUsers(){
                     alert("Oops! Something went wrong.");
             }
         },
-        success: function(result){
+        success: function (result) {
             MakeUser(result);
         }
     });
 }
 
-function GetUserByUsername(username){
+function GetUserByUsername(username) {
     output = null
     var header = {
         "session": sessionStorage.getItem("session")
@@ -62,71 +60,71 @@ function GetUserByUsername(username){
     };
     $.ajax({
         type: "Get",
-        url: baseRequestURL+"/Users",
+        url: baseRequestURL + "/Users",
         data: data,
         headers: header,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         async: false,
-        success: function(result){
+        success: function (result) {
             output = result;
         }
     });
-    if(output.length == 1 && username == output[0].username){
+    if (output.length == 1 && username == output[0].username) {
         return output;
     }
-    alert("Could not find user: "+username)
+    alert("Could not find user: " + username)
 }
 
-$(document).ready(function(){
+$(document).ready(function () {
     //Check if element excists in HTML file
-    if(document.getElementById("seaching")){
-        $('#seaching').on('keyup paste',username_check);
+    if (document.getElementById("seaching")) {
+        $('#seaching').on('keyup paste', username_check);
         GetUsers();
         offset = 0;
     }
     getMaxData();
 });
 
-function username_check(){ 
+function username_check() {
     GetUsers();
 }
 
-function MakeUser(users){
+function MakeUser(users) {
     $("#Users-box").empty();
-    $.each(users, function(i) {
+    $.each(users, function (i) {
         console.log(users[i]);
-        $( "#Users-box" ).append("<a href='ViewUser.html?id="+users[i].id+"'>"+
-            "<div class='user-box'>"+
-            "<i class='arrow right'></i>"+
-            "<div class='userName'> "+
-            users[i].username+
-            "</div>"+
-            "<address class='Email'>"+
-            users[i].email+
-            " </address>"+
-            "</div>"+
+        $("#Users-box").append("<a href='ViewUser.html?id=" + users[i].id + "'>" +
+            "<div class='user-box'>" +
+            "<i class='arrow right'></i>" +
+            "<div class='userName'> " +
+            users[i].username +
+            "</div>" +
+            "<address class='Email'>" +
+            users[i].email +
+            " </address>" +
+            "</div>" +
             "</a>");
     });
-    $( "#Users-box" ).append(
-        "<div id='back' onclick='back()' class='bottomleft'>"+
-        "<i class='arrow left'></i>"+
+    $("#Users-box").append(
+        "<div id='back' onclick='back()' class='bottomleft'>" +
+        "<i class='arrow left'></i>" +
         "</div>");
-    $( "#Users-box" ).append(
-        "<div id='next' onclick='next()' class='bottomright'>"+
-        "<i class='arrow right'></i>"+
+    $("#Users-box").append(
+        "<div id='next' onclick='next()' class='bottomright'>" +
+        "<i class='arrow right'></i>" +
         "</div>");
 }
 
-function next(){
+function next() {
     offset++;
     nextpage = true;
     GetUsers();
     console.log(offset)
-}; 
+};
 
-function back(){
-    if(window.offset != 0){
+function back() {
+    if (window.offset != 0) {
         offset--;
         nextpage = true;
         GetUsers();
@@ -134,36 +132,36 @@ function back(){
     console.log(offset);
 }
 
-function CreateUser(){
+function CreateUser() {
     var userId = GetCurrentUserId();
 
     var newUser = JSON.stringify({
-        "username": $( "input[name=username]" ).val(),
-        "password": $( "input[name=password]" ).val(),
-        "firstName": $( "input[name=firstname]" ).val(),
-        "prefix": $( "input[name=prefix]" ).val(),
-        "lastName": $( "input[name=lastname]" ).val(),
-        "email": $( "input[name=email]" ).val(),
-        "birthdate": $( "input[name=birthdate]" ).val(),
-        "address": $( "input[name=address]" ).val(),
-        "postalcode": $( "input[name=postalcode]" ).val(),
-        "city": $( "input[name=city]" ).val(),
-        "phoneNumber": $( "input[name=phonenumber]" ).val(),
-        "type": $( "select[name=type]" ).val(),
+        "username": $("input[name=username]").val(),
+        "password": $("input[name=password]").val(),
+        "firstName": $("input[name=firstname]").val(),
+        "prefix": $("input[name=prefix]").val(),
+        "lastName": $("input[name=lastname]").val(),
+        "email": $("input[name=email]").val(),
+        "birthdate": $("input[name=birthdate]").val(),
+        "address": $("input[name=address]").val(),
+        "postalcode": $("input[name=postalcode]").val(),
+        "city": $("input[name=city]").val(),
+        "phoneNumber": $("input[name=phonenumber]").val(),
+        "type": $("select[name=type]").val(),
         "active": true
     });
-    
-    if(userId != null){
+
+    if (userId != null) {
         $.ajax({
             type: "POST",
-            url: baseRequestURL+"/Users",
+            url: baseRequestURL + "/Users",
             data: newUser,
             headers: {
                 "session": sessionStorage.getItem("session")
             },
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            complete: function(jqXHR) {
+            complete: function (jqXHR) {
                 switch (jqXHR.status) {
                     case 201:
                         alert("User created!");
@@ -171,26 +169,25 @@ function CreateUser(){
                         break;
                     default:
                         var obj = jQuery.parseJSON(jqXHR.responseText);
-                        $.each(obj, function(key,value) {
-                            if(key == "errors"){
-                                $.each(value, function(key,value) {
-                                      alert(value.field + ":" +value.defaultMessage);
-                                }); 
+                        $.each(obj, function (key, value) {
+                            if (key == "errors") {
+                                $.each(value, function (key, value) {
+                                    alert(value.field + ":" + value.defaultMessage);
+                                });
                             }
-                        }); 
+                        });
                 }
             }
         });
-    }
-    else{
+    } else {
         $.ajax({
             type: "POST",
-            url: baseRequestURL+"/Users",
-            headers:"",
+            url: baseRequestURL + "/Users",
+            headers: "",
             data: newUser,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            complete: function(jqXHR) {
+            complete: function (jqXHR) {
                 switch (jqXHR.status) {
                     case 201:
                         alert("Your account is created!");
@@ -198,13 +195,13 @@ function CreateUser(){
                         break;
                     default:
                         var obj = jQuery.parseJSON(jqXHR.responseText);
-                        $.each(obj, function(key,value) {
-                            if(key == "errors"){
-                                $.each(value, function(key,value) {
-                                      alert(value.field + ":" +value.defaultMessage);
-                                }); 
+                        $.each(obj, function (key, value) {
+                            if (key == "errors") {
+                                $.each(value, function (key, value) {
+                                    alert(value.field + ":" + value.defaultMessage);
+                                });
                             }
-                        }); 
+                        });
                 }
             }
         });
@@ -243,7 +240,7 @@ function LoadMyProfileInfo() {
 function disableUser() {
     $.ajax({
         type: "PUT",
-        url: baseRequestURL+"/Users",
+        url: baseRequestURL + "/Users",
         data: JSON.stringify({
             active: false,
             address: currentUser.address,
@@ -265,11 +262,11 @@ function disableUser() {
         },
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        complete: function(jqXHR) {
+        complete: function (jqXHR) {
             switch (jqXHR.status) {
                 case 200:
-                    alert("Update Successful.");
-                    location.reload();
+                    alert("User has been disabeled.");
+                    window.location.href = './EmployeeViewUsers.html';
                     break;
                 default:
                     alert("Oops! Something went wrong.");
@@ -295,7 +292,7 @@ function updateUser() {
 
     $.ajax({
         type: "PUT",
-        url: baseRequestURL+"/Users",
+        url: baseRequestURL + "/Users",
         data: JSON.stringify({
             active: true,
             address: address,
@@ -317,7 +314,7 @@ function updateUser() {
         },
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        complete: function(jqXHR) {
+        complete: function (jqXHR) {
             switch (jqXHR.status) {
                 case 200:
                     alert("Update Successful.");
@@ -330,16 +327,16 @@ function updateUser() {
 }
 
 function GetUser(id) {
-    var user = null;    
+    var user = null;
     $.ajax({
         type: 'GET',
-        url: baseRequestURL+'/Users/'+ id,
-        headers: { "session": sessionStorage.getItem("session") },
+        url: baseRequestURL + '/Users/' + id,
+        headers: {"session": sessionStorage.getItem("session")},
         async: false,
-        success: function(result) {
+        success: function (result) {
             user = result;
         },
-        error: function(error) {
+        error: function (error) {
             alert("Something went wrong! " + error);
         }
     });
@@ -364,7 +361,7 @@ function getMaxData() {
 }
 
 $(document).ready(function(){
-    if(document.getElementById("selector") && sessionStorage.getItem("session") != null && GetCurrentUserId() == null){
+    if(document.getElementById("selector") && sessionStorage.getItem("session") == null && GetCurrentUserId() == null){
         $('#selector').hide();
     }
 });

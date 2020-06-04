@@ -1,30 +1,35 @@
 //Set API Server
-var baseRequestURL = "http://localhost:8080/api"//"https://inholland-bank-api.herokuapp.com/api"
+var baseRequestURL = "https://inholland-bank-api.herokuapp.com/api" //"http://localhost:8080/api"
 
-function SetNavBar(active){
+function SetNavBar(active) {
     var navbar
-    sessionToken = GetCurrentSessionToken();
-    if (sessionToken != null) {
-        if(GetCurrentUserRole() == 'Employee'){
-            navbar = GetEmployeeNavBar()
-        } else{
-            navbar = GetCustomerNavBar()
-        }
-    } else {
-        navbar = GetUnsetUserNavBar() 
-        if (active != 'login' && active != 'home' && active != 'unset') {
-            alert('This user account has been accessed on another browser, you are now being logged out.')
-            window.location.href = './Login.html' 
+    if(sessionStorage.getItem("session") != null){
+        sessionToken = GetCurrentSessionToken();
+        if (sessionToken != null) {
+            if(GetCurrentUserRole() == 'Employee'){
+                navbar = GetEmployeeNavBar()
+            } else{
+                navbar = GetCustomerNavBar()
+            }
+        } else {
+            navbar = GetUnsetUserNavBar()
+            if (active != 'login' && active != 'home' && active != 'unset') {
+                alert('This user account has been accessed on another browser, you are now being logged out.')
+                window.location.href = './Login.html'
+            }
         }
     }
-    
+    else{
+        navbar = GetUnsetUserNavBar()
+    }
+
     //Set navbar in HTML file
     $("nav").html(navbar)
     //Set active item in navbar (BOLD)
     SetItemActive(active)
 }
 
-function GetCustomerNavBar(){
+function GetCustomerNavBar() {
     return '\
         <ul>\
           <li><p class="group-name"> Groep 3B</p></li>\
@@ -34,7 +39,7 @@ function GetCustomerNavBar(){
         </ul>'
 }
 
-function GetEmployeeNavBar(){
+function GetEmployeeNavBar() {
     return '\
         <ul>\
             <li><p class="group-name"> Groep 3B</p></li>\
@@ -45,7 +50,7 @@ function GetEmployeeNavBar(){
         </ul>'
 }
 
-function GetUnsetUserNavBar(){
+function GetUnsetUserNavBar() {
     return '\
         <ul>\
             <li><p class="group-name"> Groep 3B</p></li>\
@@ -54,51 +59,50 @@ function GetUnsetUserNavBar(){
         </ul>'
 }
 
-function SetItemActive(active){
-    if(document.getElementById(active)){
+function SetItemActive(active) {
+    if (document.getElementById(active)) {
         document.getElementById(active).classList.add("active")
     }
 }
 
-function CheckIfUserIsLoggedIn(){
+function CheckIfUserIsLoggedIn() {
     var authKey = GetCurrentUserAuthKey()
-    if(authKey == null){
+    if (authKey == null) {
         window.location.href = './Login.html';
     }
 }
 
-function GetCurrentSessionToken(){
+function GetCurrentSessionToken() {
     var sessionToken;
     $.ajax({
         type: "GET",
-        url: baseRequestURL+"/SessionToken/"+sessionStorage.getItem("session"),
+        url: baseRequestURL + "/SessionToken/" + sessionStorage.getItem("session"),
         headers: {
             "session": sessionStorage.getItem("session")
         },
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         async: false,
-        success: function(data){
+        success: function (data) {
             sessionToken = data
         }
     });
     return sessionToken
 }
 
-function GetCurrentUserRole(){
+function GetCurrentUserRole() {
     return GetCurrentSessionToken().role
 }
 
-function GetCurrentUserAuthKey(){
+function GetCurrentUserAuthKey() {
     return GetCurrentSessionToken().authKey
 }
 
-function GetCurrentUserId(){
+function GetCurrentUserId() {
     var sessionToken = GetCurrentSessionToken();
-    if(sessionToken != null){
+    if (sessionToken != null) {
         return sessionToken.userId;
-    }
-    else{
+    } else {
         return null;
     }
 }
@@ -106,11 +110,11 @@ function GetCurrentUserId(){
 function logout() {
     $.ajax({
         type: "DELETE",
-        url: baseRequestURL+"/Logout",
+        url: baseRequestURL + "/Logout",
         headers: {
             "session": sessionStorage.getItem("session")
         },
-        complete: function(jqXHR) {
+        complete: function (jqXHR) {
             switch (jqXHR.status) {
                 case 200:
                     alert("You have been logged out.");
@@ -141,22 +145,22 @@ var getUrlParameter = function getUrlParameter(sParam) {
 
 function GetDate(transaction) {
     var date = new Date(transaction.timestamp);
-    var ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date)
-    var mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(date)
-    var da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date)
+    var ye = new Intl.DateTimeFormat('en', {year: 'numeric'}).format(date)
+    var mo = new Intl.DateTimeFormat('en', {month: 'short'}).format(date)
+    var da = new Intl.DateTimeFormat('en', {day: '2-digit'}).format(date)
     date = `${da} ${mo} ${ye}`
     return date;
 }
 
-function GetDateTime(timestamp){
+function GetDateTime(timestamp) {
     const date = new Date(timestamp)
-    const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date)
-    const mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(date)
-    const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date)
+    const ye = new Intl.DateTimeFormat('en', {year: 'numeric'}).format(date)
+    const mo = new Intl.DateTimeFormat('en', {month: 'short'}).format(date)
+    const da = new Intl.DateTimeFormat('en', {day: '2-digit'}).format(date)
     return `${da} ${mo} ${ye}`
 }
 
-function SetDefaultDates(){
+function SetDefaultDates() {
     var dateFrom = new Date()
     dateFrom.setDate(dateFrom.getDate() - 7)
     dateStart = document.getElementById("startdate").value = dateFrom.toISOString().substr(0, 10)

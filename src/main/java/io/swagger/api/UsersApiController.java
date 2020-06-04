@@ -42,12 +42,12 @@ public class UsersApiController implements UsersApi {
     }
 
     // create a user
-    public ResponseEntity<String> createUser(@ApiParam(value = ""  )  @Valid @RequestBody User body) {
+    public ResponseEntity<String> createUser(@ApiParam(value = "") @Valid @RequestBody User body) {
         body.setActive((true));
         // get authkey session form the website
         String authKey = request.getHeader("session");
         //check if user is employee if loged in, if not always customer
-        if(!security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)){
+        if (!security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
             body.setType(User.TypeEnum.CUSTOMER);
         }
         List<User> users = service.getAllUsers();
@@ -56,10 +56,9 @@ public class UsersApiController implements UsersApi {
             // maybe extra info why not correct
             return ResponseEntity.status(400).body("This username already exist");
         }
-        if(body.getId() != null) {
+        if (body.getId() != null) {
             return ResponseEntity.status(400).body("No id must be given");
-        }else
-        {
+        } else {
             // create the user with the given object
             service.createUser(body);
             return ResponseEntity.status(HttpStatus.CREATED).body("User has been created");
@@ -68,49 +67,50 @@ public class UsersApiController implements UsersApi {
 
     // get all users with params like searchname, offset and limit
     public ResponseEntity<List<User>> getAllUsers(@ApiParam(value = "get users based on searchname") @Valid @RequestParam(value = "searchname", required = false) String searchName
-,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
-,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
-) {
+            , @ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
+            , @ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
+    ) {
         String authKey = request.getHeader("session");
         //check if user is employee
         if (security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
             //if the params are empty or null give all users to the employee
-            if(limit == null || offset == null || limit == 0 ){
-                offset = 0; limit = 10;
+            if (limit == null || offset == null || limit == 0) {
+                offset = 0;
+                limit = 10;
                 Pageable pageable = PageRequest.of(offset, limit);
-                return ResponseEntity.status(200).body(security.filterUsers(service.getAllUsers(pageable)));
+                return ResponseEntity.status(200).body(service.getAllUsers(pageable));
             }
             Pageable pageable = PageRequest.of(offset, limit);
             //when there is a search string give all users that have the given string
-            if(searchName != null &&!searchName.isEmpty()){
-                List<User> lastnamelist =  service.getAllUsersByLastname(searchName, pageable);
+            if (searchName != null && !searchName.isEmpty()) {
+                List<User> lastnamelist = service.getAllUsersByLastname(searchName, pageable);
                 List<User> usernameList = service.getAllUsersByUsername(searchName, pageable);
                 // gets form the username and the lastname and checks if there is al ready the same user in the list if so then ignor the adding
-                for(User user : lastnamelist){
-                    if(!usernameList.stream().anyMatch(u -> u.getId() == user.getId())){
+                for (User user : lastnamelist) {
+                    if (!usernameList.stream().anyMatch(u -> u.getId() == user.getId())) {
                         usernameList.add(user);
                     }
                 }
-                return ResponseEntity.status(200).body(security.filterUsers(usernameList));
+                return ResponseEntity.status(200).body(usernameList);
             }
-            return ResponseEntity.status(200).body(security.filterUsers(service.getAllUsers(pageable)));
+            return ResponseEntity.status(200).body(service.getAllUsers(pageable));
         }
         return new ResponseEntity<List<User>>(HttpStatus.UNAUTHORIZED);
     }
 
     // Get a unique user by id.
-    public ResponseEntity<User> getUserById(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Long id) {
+    public ResponseEntity<User> getUserById(@Min(1) @ApiParam(value = "", required = true, allowableValues = "") @PathVariable("id") Long id) {
         String authKey = request.getHeader("session");
         if (security.isPermitted(authKey, User.TypeEnum.CUSTOMER)) {
             // Check if the user is allowed to get his own user profile or if the user is employee.
-            if (security.isOwnerOrEmployee(authKey, id)){
+            if (security.isOwnerOrEmployee(authKey, id)) {
                 User user = service.getUserById(id);
                 // Check if there is a user with given id.
-                if (user == null){
+                if (user == null) {
                     return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
                 }
                 // Check if the user is of type BANK, which is not allowed to be retrieved.
-                if (security.bankCheck(user.getType())){
+                if (security.bankCheck(user.getType())) {
                     return new ResponseEntity<User>(HttpStatus.UNAUTHORIZED);
                 }
                 return ResponseEntity.status(200).body(user);
@@ -120,7 +120,7 @@ public class UsersApiController implements UsersApi {
     }
 
     // update an user
-    public ResponseEntity<String> updateUser(@ApiParam(value = ""  )  @Valid @RequestBody User body) {
+    public ResponseEntity<String> updateUser(@ApiParam(value = "") @Valid @RequestBody User body) {
         String authKey = request.getHeader("session");
         // checked if user is a customer if so he can only change his own info and an employee can change that of any customer
         if (security.isPermittedAndNotBank(authKey, User.TypeEnum.CUSTOMER, body.getType())) {
@@ -130,7 +130,7 @@ public class UsersApiController implements UsersApi {
 
                     // Check if the username already exists.
                     List<User> users = service.getAllUsers();
-                    if  (users.stream().anyMatch((user) -> user.getUsername().equals(body.getUsername())) && !(service.getUserByUsername(body.getUsername()).getId().equals(body.getId()))){
+                    if (users.stream().anyMatch((user) -> user.getUsername().equals(body.getUsername())) && !(service.getUserByUsername(body.getUsername()).getId().equals(body.getId()))) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already in use");
                     }
 
@@ -141,24 +141,24 @@ public class UsersApiController implements UsersApi {
                         return ResponseEntity.status(HttpStatus.OK).body("User has been Updated");
                     }
                     // When user iw owner and is customer allow all changes except active and role.
-                    else if (security.isOwner(authKey, body.getId()) && security.customerCheck(authKey)){
+                    else if (security.isOwner(authKey, body.getId()) && security.customerCheck(authKey)) {
                         body.setType(User.TypeEnum.CUSTOMER);
                         body.setActive(true);
                         service.updateUser(body);
                         return ResponseEntity.status(HttpStatus.OK).body("User has been Updated");
                     }
                     // Else an employee is changing another use and may edit all except role.
-                    else{
+                    else {
                         body.setType(User.TypeEnum.CUSTOMER);
                         service.updateUser(body);
                         return ResponseEntity.status(HttpStatus.OK).body("User has been Updated");
                     }
                 }
-                return  new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
             }
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body("No id was given");
         }
-        return  new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
     }
 
 }

@@ -19,7 +19,7 @@ public class BaseClassTesting {
     public ResponseEntity<String> responseEntity;
     public URI uri;
 
-    public BaseClassTesting(){
+    public BaseClassTesting() {
         headers.add(settings.getHeaderName(), settings.getAuthKey());
     }
 }
