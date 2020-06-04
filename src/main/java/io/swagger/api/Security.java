@@ -91,18 +91,6 @@ public class Security {
         return sessionToken.getUserId().equals(userId);
     }
 
-    // Check if the list of users contains the BANK account.
-    public List<User> filterUsers(List<User> users) {
-        List<User> cleanedUserList = new ArrayList<>();
-
-        for (User user : users) {
-            if (!user.getType().equals(User.TypeEnum.BANK)) {
-                cleanedUserList.add(user);
-            }
-        }
-        return cleanedUserList;
-    }
-
     // Check if the given accounts list contains a BANK account.
     public List<Account> filterAccounts(List<Account> accounts) {
         List<Account> cleanedAccountList = new ArrayList<>();
@@ -114,4 +102,5 @@ public class Security {
         }
         return cleanedAccountList;
     }
+
 }

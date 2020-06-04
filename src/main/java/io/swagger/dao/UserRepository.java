@@ -14,13 +14,13 @@ public interface UserRepository extends CrudRepository<User, Long> {
     User getUserByIdEqualsAndActiveIsTrue(Long id);
 
     // get all users in the system
-    List<User> getAllByActiveIsTrue(Pageable pageable);
+    List<User> getAllByActiveIsTrueAndTypeIsNot(Pageable pageable, User.TypeEnum type);
 
     // get all users that equals with the string of usernames
-    List<User> getAllByUsernameContainingIgnoreCaseAndActiveIsTrue(String Username, Pageable pageable);
+    List<User> getAllByUsernameContainingIgnoreCaseAndActiveIsTrueAndTypeIsNot(String Username, Pageable pageable, User.TypeEnum type);
 
     // get all users that equals with the string of lastnames
-    List<User> getAllByLastNameContainingIgnoreCaseAndActiveIsTrue(String lastname, Pageable pageable);
+    List<User> getAllByLastNameContainingIgnoreCaseAndActiveIsTrueAndTypeIsNot(String lastname, Pageable pageable, User.TypeEnum type);
 
     User getUserByUsernameEqualsAndActiveIsTrue(String username);
 }
