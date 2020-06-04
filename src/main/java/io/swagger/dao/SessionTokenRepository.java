@@ -12,4 +12,5 @@ public interface SessionTokenRepository extends CrudRepository<SessionToken, Lon
 
     SessionToken getByUserIdEquals(Long id);
 
+    void deleteByUserId(Long userId);
 }
