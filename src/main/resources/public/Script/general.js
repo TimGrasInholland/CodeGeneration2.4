@@ -3,12 +3,12 @@ var baseRequestURL = /*"https://inholland-bank-api.herokuapp.com/api"*/ "http://
 
 function SetNavBar(active) {
     var navbar
-    if(sessionStorage.getItem("session") != null){
+    if (sessionStorage.getItem("session") != null) {
         sessionToken = GetCurrentSessionToken();
         if (sessionToken != null) {
-            if(GetCurrentUserRole() == 'Employee'){
+            if (GetCurrentUserRole() == 'Employee') {
                 navbar = GetEmployeeNavBar()
-            } else{
+            } else {
                 navbar = GetCustomerNavBar()
             }
         } else {
@@ -18,8 +18,7 @@ function SetNavBar(active) {
                 window.location.href = './Login.html'
             }
         }
-    }
-    else{
+    } else {
         navbar = GetUnsetUserNavBar()
     }
 

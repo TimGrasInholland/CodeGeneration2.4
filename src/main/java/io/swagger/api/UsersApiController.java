@@ -7,7 +7,6 @@ import io.swagger.service.SessionTokenService;
 import io.swagger.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -67,7 +65,7 @@ public class UsersApiController implements UsersApi {
         Date dateNow = calendar.getTime();
         Date birthDate= new SimpleDateFormat("yyyy-MM-dd").parse(body.getBirthdate());
         if (!birthDate.before(dateNow)) {
-            return ResponseEntity.status(400).body("birthdate is to young");
+            return ResponseEntity.status(400).body("User must be at least 12 years old");
         }
         if (body.getId() != null) {
             return ResponseEntity.status(400).body("No id must be given");

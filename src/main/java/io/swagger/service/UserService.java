@@ -47,7 +47,7 @@ public class UserService {
 
     // redirect get users by username
     public List<User> getAllUsersByUsername(String username, Pageable pageable) {
-        return userRepository.getAllByUsernameContainingIgnoreCaseAndActiveIsTrueAndTypeIsNot(username, pageable,User.TypeEnum.BANK);
+        return userRepository.getAllByUsernameContainingIgnoreCaseAndActiveIsTrueAndTypeIsNot(username, pageable, User.TypeEnum.BANK);
     }
 
     // redirect get users by lastname
