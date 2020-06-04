@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LoginRepository extends CrudRepository<User, Long> {
 
-    User getUserByUsernameEqualsAndPasswordEquals(String username, String password);
+    User getUserByUsernameEqualsAndPasswordEqualsAndActiveIsTrue(String username, String password);
 
 }
