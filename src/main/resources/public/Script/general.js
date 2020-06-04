@@ -1,5 +1,5 @@
 //Set API Server
-var baseRequestURL = "https://inholland-bank-api.herokuapp.com/api"
+var baseRequestURL =  "https://inholland-bank-api.herokuapp.com/api"
 
 function SetNavBar(active) {
     var navbar
