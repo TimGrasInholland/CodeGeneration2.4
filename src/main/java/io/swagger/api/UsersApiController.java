@@ -63,11 +63,11 @@ public class UsersApiController implements UsersApi {
         }
         // checks if user is older then 12
         Calendar calendar  = Calendar.getInstance();
-        calendar.add(Calendar.YEAR, -10);
-        Date d1 = calendar.getTime();
+        calendar.add(Calendar.YEAR, -12);
+        Date dateNow = calendar.getTime();
         Date birthDate= new SimpleDateFormat("yyyy-MM-dd").parse(body.getBirthdate());
-        if (!birthDate.before(d1)) {
-            return ResponseEntity.status(400).body("This username already exist");
+        if (!birthDate.before(dateNow)) {
+            return ResponseEntity.status(400).body("birthdate is to young");
         }
         if (body.getId() != null) {
             return ResponseEntity.status(400).body("No id must be given");
