@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import java.text.ParseException;
 import java.util.List;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
@@ -29,7 +30,7 @@ public interface UsersApi {
             consumes = {"application/json"},
             method = RequestMethod.POST)
     ResponseEntity<String> createUser(@ApiParam(value = "") @Valid @RequestBody User body
-    );
+    ) throws ParseException;
 
 
     @ApiOperation(value = "gets all users", nickname = "getlAllUsers", notes = "Calling this allows you to fetch all users", response = User.class, responseContainer = "List", authorizations = {

@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
@@ -42,7 +46,7 @@ public class UsersApiController implements UsersApi {
     }
 
     // create a user
-    public ResponseEntity<String> createUser(@ApiParam(value = "") @Valid @RequestBody User body) {
+    public ResponseEntity<String> createUser(@ApiParam(value = "") @Valid @RequestBody User body) throws ParseException {
         body.setActive((true));
         // get authkey session form the website
         String authKey = request.getHeader("session");
@@ -53,8 +57,15 @@ public class UsersApiController implements UsersApi {
         List<User> users = service.getAllUsers();
         // checks if username already exists
         if (users.stream().anyMatch((user) -> user.getUsername().equals(body.getUsername()))) {
-            // maybe extra info why not correct
             return ResponseEntity.status(400).body("This username already exist");
+        }
+        // checks if user is older then 12
+        Calendar calendar  = Calendar.getInstance();
+        calendar.add(Calendar.YEAR, -10);
+        Date d1 = calendar.getTime();
+        Date birthDate= new SimpleDateFormat("yyyy-MM-dd").parse(body.getBirthdate());
+        if (!birthDate.before(d1)) {
+            return ResponseEntity.status(400).body("You must be at least 12 years old");
         }
         if (body.getId() != null) {
             return ResponseEntity.status(400).body("No id must be given");

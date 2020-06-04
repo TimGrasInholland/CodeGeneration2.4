@@ -33,7 +33,7 @@ public class UsersStepDefinitions extends BaseClassTesting {
     @When("I create an user")
     public void iCreateUser() throws JsonProcessingException, URISyntaxException {
         uri = new URI(baseUrl + "/Users");
-        User user = new User("test1234", "Welkom567!", "test", "", "Tester", "test@test.nl", "2020-05-05", "Lepellaan 2", "1544MK", "Haarlem", "0611111111", User.TypeEnum.CUSTOMER, true);
+        User user = new User("test1234", "Welkom567!", "test", "", "Tester", "test@test.nl", "2002-05-05", "Lepellaan 2", "1544MK", "Haarlem", "0611111111", User.TypeEnum.CUSTOMER, true);
         headers.setContentType(MediaType.APPLICATION_JSON);
         httpEntity = new HttpEntity<>(mapper.writeValueAsString(user), headers);
         responseEntity = template.exchange(uri, HttpMethod.POST, httpEntity, String.class);
