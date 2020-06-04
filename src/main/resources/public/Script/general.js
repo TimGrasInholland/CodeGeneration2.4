@@ -3,21 +3,26 @@ var baseRequestURL = "https://inholland-bank-api.herokuapp.com/api"
 
 function SetNavBar(active) {
     var navbar
-    sessionToken = GetCurrentSessionToken();
-    if (sessionToken != null) {
-        if (GetCurrentUserRole() == 'Employee') {
-            navbar = GetEmployeeNavBar()
+    if(sessionStorage.getItem("session") != null){
+        sessionToken = GetCurrentSessionToken();
+        if (sessionToken != null) {
+            if(GetCurrentUserRole() == 'Employee'){
+                navbar = GetEmployeeNavBar()
+            } else{
+                navbar = GetCustomerNavBar()
+            }
         } else {
-            navbar = GetCustomerNavBar()
-        }
-    } else {
-        navbar = GetUnsetUserNavBar()
-        if (active != 'login' && active != 'home' && active != 'unset') {
-            alert('This user account has been accessed on another browser, you are now being logged out.')
-            window.location.href = './Login.html'
+            navbar = GetUnsetUserNavBar() 
+            if (active != 'login' && active != 'home' && active != 'unset') {
+                alert('This user account has been accessed on another browser, you are now being logged out.')
+                window.location.href = './Login.html' 
+            }
         }
     }
-
+    else{
+        navbar = GetUnsetUserNavBar()
+    }
+    
     //Set navbar in HTML file
     $("nav").html(navbar)
     //Set active item in navbar (BOLD)
