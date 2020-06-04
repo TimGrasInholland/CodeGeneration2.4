@@ -85,6 +85,7 @@ $(document).ready(function(){
         GetUsers();
         offset = 0;
     }
+    getMaxData();
 });
 
 function username_check(){ 
@@ -343,6 +344,23 @@ function GetUser(id) {
         }
     });
     return user;
+}
+
+function getMaxData() {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear() - 12;
+     if(dd<10){
+            dd='0'+dd
+        } 
+        if(mm<10){
+            mm='0'+mm
+        } 
+
+    today = yyyy+'-'+mm+'-'+dd;
+    document.getElementById("datepicker").setAttribute("max", today);
+
 }
 
 $(document).ready(function(){

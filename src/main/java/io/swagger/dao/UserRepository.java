@@ -17,10 +17,10 @@ public interface UserRepository extends CrudRepository<User, Long> {
     List<User> findAll(Pageable pageable);
 
     // get all users that equals with the string of usernames
-    List<User> getAllByUsernameContainingIgnoreCase(String Username, Pageable pageable);
+    List<User> getAllByUsernameContainingIgnoreCaseAndActiveIsFalse(String Username, Pageable pageable);
 
     // get all users that equals with the string of lastnames
-    List<User> getAllByLastNameContainingIgnoreCase(String lastname, Pageable pageable);
+    List<User> getAllByLastNameContainingIgnoreCaseAndActiveIsFalse(String lastname, Pageable pageable);
 
     User getUserByUsernameEquals(String username);
 }
