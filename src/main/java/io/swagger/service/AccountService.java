@@ -22,7 +22,7 @@ public class AccountService {
     }
 
     public Account getAccountByIBAN(String iban) {
-        Account account = accountRepository.findAccountByIbanEqualsAndActiveIsTrue(iban);
+        Account account = accountRepository.findAccountByIbanEquals(iban);
         if (account == null)
             throw new NullPointerException();
         return account;

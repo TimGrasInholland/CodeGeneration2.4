@@ -18,7 +18,7 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
 
     Account getAccountById(Long id);
 
-    Account findAccountByIbanEqualsAndActiveIsTrue(String iban);
+    Account findAccountByIbanEquals(String iban);
 
     Integer countAccountByIban(String iban);
 }
