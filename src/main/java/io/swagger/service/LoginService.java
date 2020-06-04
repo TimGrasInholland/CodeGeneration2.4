@@ -14,6 +14,6 @@ public class LoginService {
     }
 
     public User login(String username, String password) {
-        return loginRepository.getUserByUsernameEqualsAndPasswordEquals(username, password);
+        return loginRepository.getUserByUsernameEqualsAndPasswordEqualsAndActiveIsTrue(username, password);
     }
 }

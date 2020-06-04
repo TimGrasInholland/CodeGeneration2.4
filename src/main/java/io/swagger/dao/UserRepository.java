@@ -11,16 +11,16 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<User, Long> {
 
     // get user by Id
-    User getUserByIdEquals(Long id);
+    User getUserByIdEqualsAndActiveIsTrue(Long id);
 
     // get all users in the system
-    List<User> findAll(Pageable pageable);
+    List<User> getAllByActiveIsTrue(Pageable pageable);
 
     // get all users that equals with the string of usernames
-    List<User> getAllByUsernameContainingIgnoreCase(String Username, Pageable pageable);
+    List<User> getAllByUsernameContainingIgnoreCaseAndActiveIsTrue(String Username, Pageable pageable);
 
     // get all users that equals with the string of lastnames
-    List<User> getAllByLastNameContainingIgnoreCase(String lastname, Pageable pageable);
+    List<User> getAllByLastNameContainingIgnoreCaseAndActiveIsTrue(String lastname, Pageable pageable);
 
-    User getUserByUsernameEquals(String username);
+    User getUserByUsernameEqualsAndActiveIsTrue(String username);
 }
