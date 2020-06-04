@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.threeten.bp.OffsetDateTime;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -31,8 +33,19 @@ public class TransactionService {
         if (username.equals("%")) {
             return transactionRepository.getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqualOrderByTimestampDesc(dateFrom, dateTo, pageable);
         }
+
+        // Get userId by username in order to grab relevant accounts
         Long id = userRepository.getUserByUsernameEqualsAndActiveIsTrue(username).getId();
-        return transactionRepository.getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqualAndIdEqualsOrderByTimestampDesc(dateFrom, dateTo, id, pageable);
+
+        // get all accounts with userId x
+        List<Account> accounts = (List<Account>) accountRepository.findAccountsByUserId(id);
+        // get all transactions with ibanFrom x or ibanTo x
+        List<Transaction> allTransactions = new ArrayList<>();
+        for (Account account: accounts) {
+            allTransactions.addAll(transactionRepository.getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqualAndAccountFromEqualsOrAccountToEqualsOrderByTimestampDesc(dateFrom, dateTo, account.getIban(), account.getIban(), pageable));
+        }
+        // remove duplicates and return
+        return new ArrayList<>(new HashSet<>(allTransactions));
     }
 
     public List<Transaction> getTransactionsByAccountId(long accountId) {
@@ -46,7 +59,7 @@ public class TransactionService {
 
     public List<Transaction> getTransactionsByUserId(Long id) {
         //Get all accounts of user from userId
-        List<Account> userAccounts = (List<Account>) accountRepository.findAccountsByUserIdAndActiveIsTrue(id);
+        List<Account> userAccounts = (List<Account>) accountRepository.findAccountsByUserId(id);
         List<Transaction> transactions = new ArrayList<>();
 
         //Get foreach account all send and received transactions

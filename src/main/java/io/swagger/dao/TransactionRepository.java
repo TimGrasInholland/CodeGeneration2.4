@@ -25,4 +25,5 @@ public interface TransactionRepository extends PagingAndSortingRepository<Transa
     Integer countAllTransactions();
 
     List<Transaction> getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqualAndIdEqualsOrderByTimestampDesc(OffsetDateTime dateFrom, OffsetDateTime dateTo, Long id, Pageable pageable);
+    List<Transaction> getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqualAndAccountFromEqualsOrAccountToEqualsOrderByTimestampDesc(OffsetDateTime dateFrom, OffsetDateTime dateTo, String accountFrom, String accountTo, Pageable pageable);
 }

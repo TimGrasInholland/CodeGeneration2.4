@@ -33,7 +33,7 @@ public class AccountService {
     }
 
     public List<Account> getAccountsByUserId(Long id) {
-        return (List<Account>) accountRepository.findAccountsByUserIdAndActiveIsTrue(id);
+        return (List<Account>) accountRepository.findAccountsByUserId(id);
     }
 
     public Integer countAccountByIBAN(String iban) {

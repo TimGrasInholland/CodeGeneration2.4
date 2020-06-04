@@ -14,7 +14,7 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
     @Query("SELECT A FROM Account AS A WHERE A.iban LIKE ?1 AND A.active = true")
     List<Account> getAllAccountsWithParamsAndActiveIsTrue(String iban, Pageable pageable);
 
-    Iterable<Account> findAccountsByUserIdAndActiveIsTrue(Long userId);
+    Iterable<Account> findAccountsByUserId(Long userId);
 
     Account getAccountById(Long id);
 
