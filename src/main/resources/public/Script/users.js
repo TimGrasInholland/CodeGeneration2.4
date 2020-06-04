@@ -342,8 +342,8 @@ function GetUser(id) {
     return user;
 }
 
-$(document).ready(function () {
-    if (document.getElementById("selector") && sessionStorage.getItem("session") != null && GetCurrentUserId() == null) {
+$(document).ready(function(){
+    if(document.getElementById("selector") && sessionStorage.getItem("session") == null && GetCurrentUserId() == null){
         $('#selector').hide();
     }
 });
