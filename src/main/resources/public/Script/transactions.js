@@ -140,18 +140,16 @@ function GetTransactionCustommer(transaction) {
     }
 }
 
-function GetTransactionType(accountTo, currentType) {
-    if (GetAccount(accountTo).type == "Savings" && currentType == "Current") {
-        return "Deposit";
+function GetTransactionType(accountTo, currentAccount) {
+    if (accountTo.userId == currentAccount.userId) {
+        if (GetAccount(accountTo).type == "Savings" && currentAccount.type == "Current") {
+            return "Deposit";
+        }
+        if (GetAccount(accountTo).type == "Current" && currentAccount.type == "Savings") {
+            return "Withdrawal";
+        }
     }
-    if (GetAccount(accountTo).type == "Current" && currentType == "Savings") {
-        return "Withdrawal";
-    }
-    if (GetAccount(accountTo).type == "Current" && currentType == "Current") {
-        return "Payment";
-    } else {
-        return "Payment";
-    }
+    return "Payment";
 }
 
 function CreateTransaction() {
@@ -174,7 +172,7 @@ function CreateTransaction() {
             amount: amount,
             description: description,
             userPerformingId: GetCurrentUserId(),
-            transactionType: GetTransactionType(document.getElementById("ibanTo").value, currentAccount.type)
+            transactionType: GetTransactionType(document.getElementById("ibanTo").value, currentAccount)
         }),
         headers: {
             "session": sessionStorage.getItem("session")
@@ -188,7 +186,9 @@ function CreateTransaction() {
                     location.reload();
                     break;
                 default:
-                    alert(jqXHR.responseText);
+                    console.log(jqXHR);
+                    
+                    alert(jqXHR.responseJSON.message);
             }
         }
     });
