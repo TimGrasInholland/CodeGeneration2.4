@@ -21,7 +21,7 @@ public class UserService {
     }
 
     public List<User> getAllUsers(Pageable pageable) {
-        return userRepository.findAll(pageable);
+        return userRepository.getAllByActiveIsTrueAndTypeIsNot(pageable, User.TypeEnum.BANK);
     }
 
     // redirect the user to
@@ -37,21 +37,21 @@ public class UserService {
 
     // redirect get user by Id
     public User getUserById(Long id) {
-        return userRepository.getUserByIdEquals(id);
+        return userRepository.getUserByIdEqualsAndActiveIsTrue(id);
     }
 
     // redirect get user by username
     public User getUserByUsername(String username) {
-        return userRepository.getUserByUsernameEquals(username);
+        return userRepository.getUserByUsernameEqualsAndActiveIsTrue(username);
     }
 
     // redirect get users by username
     public List<User> getAllUsersByUsername(String username, Pageable pageable) {
-        return userRepository.getAllByUsernameContainingIgnoreCase(username, pageable);
+        return userRepository.getAllByUsernameContainingIgnoreCaseAndActiveIsTrueAndTypeIsNot(username, pageable,User.TypeEnum.BANK);
     }
 
     // redirect get users by lastname
     public List<User> getAllUsersByLastname(String lastname, Pageable pageable) {
-        return userRepository.getAllByLastNameContainingIgnoreCase(lastname, pageable);
+        return userRepository.getAllByLastNameContainingIgnoreCaseAndActiveIsTrueAndTypeIsNot(lastname, pageable, User.TypeEnum.BANK);
     }
 }

@@ -31,7 +31,7 @@ public class TransactionService {
         if (username.equals("%")) {
             return transactionRepository.getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqualOrderByTimestampDesc(dateFrom, dateTo, pageable);
         }
-        Long id = userRepository.getUserByUsernameEquals(username).getId();
+        Long id = userRepository.getUserByUsernameEqualsAndActiveIsTrue(username).getId();
         return transactionRepository.getTransactionsByTimestampGreaterThanEqualAndTimestampIsLessThanEqualAndIdEqualsOrderByTimestampDesc(dateFrom, dateTo, id, pageable);
     }
 

@@ -7,6 +7,7 @@ import io.swagger.service.SessionTokenService;
 import io.swagger.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -89,7 +91,7 @@ public class UsersApiController implements UsersApi {
                 offset = 0;
                 limit = 10;
                 Pageable pageable = PageRequest.of(offset, limit);
-                return ResponseEntity.status(200).body(security.filterUsers(service.getAllUsers(pageable)));
+                return ResponseEntity.status(200).body(service.getAllUsers(pageable));
             }
             Pageable pageable = PageRequest.of(offset, limit);
             //when there is a search string give all users that have the given string
@@ -102,9 +104,9 @@ public class UsersApiController implements UsersApi {
                         usernameList.add(user);
                     }
                 }
-                return ResponseEntity.status(200).body(security.filterUsers(usernameList));
+                return ResponseEntity.status(200).body(usernameList);
             }
-            return ResponseEntity.status(200).body(security.filterUsers(service.getAllUsers(pageable)));
+            return ResponseEntity.status(200).body(service.getAllUsers(pageable));
         }
         return new ResponseEntity<List<User>>(HttpStatus.UNAUTHORIZED);
     }
@@ -139,6 +141,12 @@ public class UsersApiController implements UsersApi {
                 // Check if user is owner or is employee.
                 if (security.isOwnerOrEmployee(authKey, body.getId())) {
 
+                    if (!body.isActive()) {
+                        service.updateUser(body);
+                        sessionTokenService.removeUserId(body.getId());
+                        return ResponseEntity.status(HttpStatus.OK).body("User has been Updated");
+                    }
+
                     // Check if the username already exists.
                     List<User> users = service.getAllUsers();
                     if (users.stream().anyMatch((user) -> user.getUsername().equals(body.getUsername())) && !(service.getUserByUsername(body.getUsername()).getId().equals(body.getId()))) {
@@ -164,6 +172,7 @@ public class UsersApiController implements UsersApi {
                         service.updateUser(body);
                         return ResponseEntity.status(HttpStatus.OK).body("User has been Updated");
                     }
+
                 }
                 return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
             }

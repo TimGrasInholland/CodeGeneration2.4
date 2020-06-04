@@ -1,5 +1,5 @@
 //Set API Server
-var baseRequestURL = "https://inholland-bank-api.herokuapp.com/api"
+var baseRequestURL = "https://inholland-bank-api.herokuapp.com/api" //"http://localhost:8080/api"
 
 function SetNavBar(active) {
     var navbar
@@ -12,17 +12,17 @@ function SetNavBar(active) {
                 navbar = GetCustomerNavBar()
             }
         } else {
-            navbar = GetUnsetUserNavBar() 
+            navbar = GetUnsetUserNavBar()
             if (active != 'login' && active != 'home' && active != 'unset') {
                 alert('This user account has been accessed on another browser, you are now being logged out.')
-                window.location.href = './Login.html' 
+                window.location.href = './Login.html'
             }
         }
     }
     else{
         navbar = GetUnsetUserNavBar()
     }
-    
+
     //Set navbar in HTML file
     $("nav").html(navbar)
     //Set active item in navbar (BOLD)
@@ -158,6 +158,14 @@ function GetDateTime(timestamp) {
     const mo = new Intl.DateTimeFormat('en', {month: 'short'}).format(date)
     const da = new Intl.DateTimeFormat('en', {day: '2-digit'}).format(date)
     return `${da} ${mo} ${ye}`
+}
+
+function GetBirthDate(birthdate) {
+    const date = new Date(birthdate)
+    const ye = new Intl.DateTimeFormat('en', {year: 'numeric'}).format(date)
+    const mo = new Intl.DateTimeFormat('en', {month: '2-digit'}).format(date)
+    const da = new Intl.DateTimeFormat('en', {day: '2-digit'}).format(date)
+    return `${ye}-${mo}-${da}`
 }
 
 function SetDefaultDates() {

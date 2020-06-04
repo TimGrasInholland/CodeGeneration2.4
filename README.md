@@ -6,7 +6,7 @@ Our API specification is made in SwaggerHub: https://app.swaggerhub.com/apis/Inh
 We have deployed our REST API to Heroku. Heroku is assigned with GitHub so all new commits in the master branche will deploy automaticly to heroku.
 Heroku REST API: http://inholland-bank-api.herokuapp.com/api/
 
-##Postman Functional testing
+## Postman Functional testing
 We have created a postman collection for functional testing. The public collection URL: https://documenter.getpostman.com/view/11069108/SztHWjhL
 
 ## Frontend
