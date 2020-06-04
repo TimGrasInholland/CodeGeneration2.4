@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class AccountsControllerTest {
@@ -28,8 +29,9 @@ class AccountsControllerTest {
 
     @Test
     public void createAnAccountIsEqualsToSetup() {
-        service.createAccount(account);
-        assertEquals(service.getAccountByIBAN(account.getIban()), account);
+        Account accountToBeCreated = new Account(2L, Account.TypeEnum.CURRENT, Account.CurrencyEnum.EUR, new AccountBalance(2L, 400.00), "NL01INHO8379054831", true);
+        service.createAccount(accountToBeCreated);
+        assertEquals(service.getAccountByIBAN(accountToBeCreated.getIban()), accountToBeCreated);
     }
 
     @Test
@@ -38,7 +40,7 @@ class AccountsControllerTest {
         if (service.countAccountByIBAN(account.getIban()) == 0) {
             accountAlreadyExists = false;
         }
-        assertEquals(accountAlreadyExists, true);
+        assertTrue(accountAlreadyExists);
     }
 
     @Test
@@ -53,6 +55,6 @@ class AccountsControllerTest {
     public void disabledAccountShouldBeInactive() {
         account.setActive(false);
         service.disableAccount(account);
-        assertEquals(service.getAccountById(7L).isActive(), false);
+        assertEquals(service.getAccountByIBAN("NL01INHO8374054831").isActive(), false);
     }
 }

@@ -212,7 +212,7 @@ function GetTransactionByCustomerAccountId() {
             });
         }
     });
-};
+}
 
 // Get the modal
 var modal = document.getElementById('createNewTransaction');
