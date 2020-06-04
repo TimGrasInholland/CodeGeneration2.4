@@ -264,8 +264,8 @@ function disableUser() {
         complete: function (jqXHR) {
             switch (jqXHR.status) {
                 case 200:
-                    alert("Update Successful.");
-                    location.reload();
+                    alert("User has been disabeled.");
+                    window.location.href = './EmployeeViewUsers.html';
                     break;
                 default:
                     alert("Oops! Something went wrong.");
