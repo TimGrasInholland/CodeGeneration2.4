@@ -1,3 +1,9 @@
+body {
+    background-image: url(../Images/material-sidethingy.png);
+    background-repeat: no-repeat;
+    background-position-x: right;
+}
+
 #login-box {
     position: relative;
     top: 100px;
