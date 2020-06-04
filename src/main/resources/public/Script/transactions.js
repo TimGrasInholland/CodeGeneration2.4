@@ -187,8 +187,11 @@ function CreateTransaction() {
                     break;
                 default:
                     console.log(jqXHR);
-                    
-                    alert(jqXHR.responseJSON.message);
+                    if (jqXHR.responseJSON.message != null) {
+                        alert(jqXHR.responseJSON.message);
+                    } else {
+                        alert(jqXHR.responseText);
+                    }
             }
         }
     });

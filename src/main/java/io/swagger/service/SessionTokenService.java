@@ -2,7 +2,10 @@ package io.swagger.service;
 
 import io.swagger.dao.SessionTokenRepository;
 import io.swagger.model.SessionToken;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 @Service
 public class SessionTokenService {
@@ -28,15 +31,18 @@ public class SessionTokenService {
         // By doing this the user can only be logged in on one device.
         if (checkSessionToken != null) {
             sessionTokenRepository.delete(checkSessionToken);
-            sessionTokenRepository.save(sessionToken);
-        } else {
-            sessionTokenRepository.save(sessionToken);
         }
+        sessionTokenRepository.save(sessionToken);
     }
 
     public void logout(String authKey) {
         SessionToken sessionToken = getSessionTokenByAuthKey(authKey);
         sessionTokenRepository.delete(sessionToken);
+    }
+
+    @Transactional
+    public void removeUserId(Long userId) {
+        sessionTokenRepository.deleteByUserId(userId);
     }
 
 }

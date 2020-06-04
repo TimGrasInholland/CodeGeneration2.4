@@ -168,13 +168,15 @@ function CreateUser() {
                         break;
                     default:
                         var obj = jQuery.parseJSON(jqXHR.responseText);
+                        var errors = "";
                         $.each(obj, function (key, value) {
                             if (key == "errors") {
                                 $.each(value, function (key, value) {
-                                    alert(value.field + ":" + value.defaultMessage);
+                                    errors += value.field + ":" + value.defaultMessage + "\n\n"
                                 });
                             }
                         });
+                        alert(errors)
                 }
             }
         });
@@ -193,14 +195,19 @@ function CreateUser() {
                         window.location.href = './Login.html';
                         break;
                     default:
-                        var obj = jQuery.parseJSON(jqXHR.responseText);
-                        $.each(obj, function (key, value) {
-                            if (key == "errors") {
-                                $.each(value, function (key, value) {
-                                    alert(value.field + ":" + value.defaultMessage);
-                                });
-                            }
-                        });
+                        try {
+                            var obj = jQuery.parseJSON(jqXHR.responseText);
+                            $.each(obj, function (key, value) {
+                                if (key == "errors") {
+                                    $.each(value, function (key, value) {
+                                        alert(value.field + ":" + value.defaultMessage);
+                                    });
+                                }
+                            });
+                        } catch(err) {
+                            alert(jqXHR.responseText)
+                        }
+
                 }
             }
         });
@@ -217,6 +224,7 @@ function LoadMyProfileInfo() {
     } else {
         isOwner = false;
         currentUser = GetUser(id);
+        SetNavBar("dashboard");
     }
 
     $("#username").val(currentUser.username);
@@ -225,7 +233,7 @@ function LoadMyProfileInfo() {
     $("#prefix").val(currentUser.prefix);
     $("#lastname").val(currentUser.lastName);
     $("#email").val(currentUser.email);
-    $("#birthdate").val(currentUser.birthdate);
+    document.getElementById('birthdate').value = GetBirthDate(currentUser.birthdate)
     $("#address").val(currentUser.address);
     $("#city").val(currentUser.city);
     $("#postalcode").val(currentUser.postalcode);
@@ -319,7 +327,22 @@ function updateUser() {
                     alert("Update Successful.");
                     break;
                 default:
-                    alert("Oops! Something went wrong.");
+                    var errors = "";
+                     
+                    try {
+                        var obj = jQuery.parseJSON(jqXHR.responseText);
+                        $.each(obj, function (key, value) {
+                            if (key == "errors") {
+                                $.each(value, function (key, value) {
+                                    errors += value.field + ":" + value.defaultMessage + "\n\n"
+                                });
+                            }
+                        });
+                    } catch(err) {
+                        errors += jqXHR.responseText;
+                    }
+
+                    alert(errors)
             }
         }
     });

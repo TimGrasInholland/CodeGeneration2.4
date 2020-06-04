@@ -7,6 +7,7 @@ import io.swagger.service.SessionTokenService;
 import io.swagger.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -128,6 +129,12 @@ public class UsersApiController implements UsersApi {
                 // Check if user is owner or is employee.
                 if (security.isOwnerOrEmployee(authKey, body.getId())) {
 
+                    if (!body.isActive()) {
+                        service.updateUser(body);
+                        sessionTokenService.removeUserId(body.getId());
+                        return ResponseEntity.status(HttpStatus.OK).body("User has been Updated");
+                    }
+
                     // Check if the username already exists.
                     List<User> users = service.getAllUsers();
                     if (users.stream().anyMatch((user) -> user.getUsername().equals(body.getUsername())) && !(service.getUserByUsername(body.getUsername()).getId().equals(body.getId()))) {
@@ -153,6 +160,7 @@ public class UsersApiController implements UsersApi {
                         service.updateUser(body);
                         return ResponseEntity.status(HttpStatus.OK).body("User has been Updated");
                     }
+
                 }
                 return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
             }
