@@ -78,7 +78,7 @@ public class UsersApiController implements UsersApi {
                 offset = 0;
                 limit = 10;
                 Pageable pageable = PageRequest.of(offset, limit);
-                return ResponseEntity.status(200).body(security.filterUsers(service.getAllUsers(pageable)));
+                return ResponseEntity.status(200).body(service.getAllUsers(pageable));
             }
             Pageable pageable = PageRequest.of(offset, limit);
             //when there is a search string give all users that have the given string
@@ -91,9 +91,9 @@ public class UsersApiController implements UsersApi {
                         usernameList.add(user);
                     }
                 }
-                return ResponseEntity.status(200).body(security.filterUsers(usernameList));
+                return ResponseEntity.status(200).body(usernameList);
             }
-            return ResponseEntity.status(200).body(security.filterUsers(service.getAllUsers(pageable)));
+            return ResponseEntity.status(200).body(service.getAllUsers(pageable));
         }
         return new ResponseEntity<List<User>>(HttpStatus.UNAUTHORIZED);
     }
