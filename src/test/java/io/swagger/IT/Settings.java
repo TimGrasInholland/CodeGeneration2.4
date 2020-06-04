@@ -2,11 +2,10 @@ package io.swagger.IT;
 
 public class Settings {
 
+    private static Settings INSTANCE;
     private String baseURL;
     private String headerName;
     private String authKey;
-
-    private static Settings INSTANCE;
 
     private Settings() {
         this.baseURL = "http://localhost:8080/api";
@@ -15,7 +14,7 @@ public class Settings {
     }
 
     public static Settings getInstance() {
-        if(INSTANCE == null) {
+        if (INSTANCE == null) {
             INSTANCE = new Settings();
         }
         return INSTANCE;

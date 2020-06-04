@@ -10,14 +10,15 @@ body {
     left: 350px;
     height: 750px;
     width: 500px;
-    
+
 }
 
 #register-welcome {
     color: #04b56e;
     padding-bottom: 20px
 }
-.form-input{
+
+.form-input {
     position: relative;
     height: 30px;
     width: 500px;
@@ -66,9 +67,9 @@ a.newaccount-link {
     height: 800px;
 }
 
-#table{
-  margin-left: 50px;
-  background-color: white;
+#table {
+    margin-left: 50px;
+    background-color: white;
 }
 
 td {
@@ -77,15 +78,15 @@ td {
     text-align: right;
 }
 
-.tdsec{
+.tdsec {
     padding-left: 100px;
 }
 
- /* The container must be positioned relative: */
+/* The container must be positioned relative: */
 .custom-select {
-  position: relative;
-  font-family: Arial;
-  height: 30px;
-  width: 150px;
-  font-weight: bold;
+    position: relative;
+    font-family: Arial;
+    height: 30px;
+    width: 150px;
+    font-weight: bold;
 }

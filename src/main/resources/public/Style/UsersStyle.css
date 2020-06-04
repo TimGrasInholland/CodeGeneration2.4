@@ -1,4 +1,4 @@
-a{
+a {
     text-decoration: none;
 }
 
@@ -8,7 +8,7 @@ body {
     background-size: cover;
 }
 
-#AllUsers{
+#AllUsers {
     position: relative;
     top: 40px;
     left: 280px;
@@ -21,19 +21,19 @@ body {
     position: relative;
     width: 100%;
     height: 750px;
-    border:solid 1px gray;
+    border: solid 1px gray;
 }
 
-.user-box{
+.user-box {
     float: left;
     background-color: white;
-    border:solid 1px gray;
+    border: solid 1px gray;
     width: 100%;
     height: 80px;
     padding-left: 20px;
 }
 
-#SearchBar{
+#SearchBar {
     float: left;
     position: relative;
     margin-bottom: 8px;
@@ -45,7 +45,7 @@ body {
     font-size: 20px;
 }
 
-#NewUser{
+#NewUser {
     font-weight: bold;
     text-decoration: none;
     font-size: 20px;
@@ -59,7 +59,7 @@ body {
     padding-top: 10px;
 }
 
-#NewUser:hover{
+#NewUser:hover {
     background-color: #10eb97;
     width: 200px;
     height: 50px;
@@ -68,18 +68,18 @@ body {
     padding-top: 10px;
 }
 
-.form-input{
+.form-input {
     border-style: none;
     width: 90%;
     padding-left: 10px;
 }
 
-.userName{
+.userName {
     font-size: 25px;
     margin-bottom: 10px
 }
 
-.Email{
+.Email {
     color: #828282;
     font-size: 20px;
 }
@@ -105,19 +105,19 @@ body {
     -webkit-transform: rotate(135deg);
     cursor: pointer;
 }
-  
-.bottomright{
-    position:absolute;  
-    padding-bottom: 10px;                
-    bottom:0; 
+
+.bottomright {
+    position: absolute;
+    padding-bottom: 10px;
+    bottom: 0;
     right: 0;
 }
 
-.bottomleft{
-    position:absolute;  
-    padding-bottom: 10px; 
-    padding-left: 10px;               
-    bottom:0; 
+.bottomleft {
+    position: absolute;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    bottom: 0;
     left: 0;
 }
 

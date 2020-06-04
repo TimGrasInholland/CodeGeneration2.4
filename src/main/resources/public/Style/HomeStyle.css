@@ -4,32 +4,32 @@ body {
     background-size: cover;
 }
 
-.home-text{
-	margin-top: 100px;
-	margin-left: 250px;
+.home-text {
+    margin-top: 100px;
+    margin-left: 250px;
 }
 
 h1 {
-	opacity: 0.5;
-	white-space: nowrap;
-	text-align: left;
-	font-weight: bold;
-	font-size: 40px;
-	color: rgba(238,62,104,1);
-	letter-spacing: 1.5px;
+    opacity: 0.5;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: bold;
+    font-size: 40px;
+    color: rgba(238, 62, 104, 1);
+    letter-spacing: 1.5px;
 }
 
 h2 {
-	line-height: 0.8;
-	width: 700px;
-	margin-top: 25px;
-	text-align: left;
-	font-weight: bold;
-	font-size: 100px;
-	letter-spacing: 2px;
+    line-height: 0.8;
+    width: 700px;
+    margin-top: 25px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 100px;
+    letter-spacing: 2px;
 }
 
-#submit{
+#submit {
     height: 47px;
     padding-top: 16px;
     padding-bottom: 40px;
@@ -40,6 +40,6 @@ h2 {
     font-weight: bold;
     background-color: #06D4A2;
     border: none;
-	cursor: pointer;
-	margin-top: 50px;
+    cursor: pointer;
+    margin-top: 50px;
 }

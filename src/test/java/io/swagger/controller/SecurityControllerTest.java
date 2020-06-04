@@ -1,24 +1,16 @@
 package io.swagger.controller;
 
 import io.swagger.api.Security;
-import io.swagger.model.Account;
-import io.swagger.model.AccountBalance;
 import io.swagger.model.SessionToken;
 import io.swagger.model.User;
-import io.swagger.service.AccountService;
 import io.swagger.service.LoginService;
 import io.swagger.service.SessionTokenService;
-import org.apache.catalina.SessionEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
-
-import static org.mockito.BDDMockito.given;
 
 
 @SpringBootTest
@@ -39,7 +31,7 @@ public class SecurityControllerTest {
 
     // Check if the user can be registered and if it succeeded.
     @Test()
-    public void canRegisterSessionToken()  {
+    public void canRegisterSessionToken() {
         sessionTokenService.registerSessionToken(sessionToken);
         //Check if the user is registered.
         SessionToken retrievedSessionToken = sessionTokenService.getSessionTokenByAuthKey(sessionToken.getAuthKey());
@@ -48,21 +40,21 @@ public class SecurityControllerTest {
 
     // Check if an employee can log in.
     @Test
-    public void employeeCanLogin(){
+    public void employeeCanLogin() {
         User user = loginService.login("Adrie538", "Welkom123!");
         assertEquals("Adrie538", user.getUsername());
     }
 
     // Check if a customer can login.
     @Test
-    public void customerCanLogin(){
+    public void customerCanLogin() {
         User user = loginService.login("SjaakMaster", "Test123!");
         assertEquals("SjaakMaster", user.getUsername());
     }
 
     // Can get a session token by a userId.
     @Test
-    public void canGetSessionTokenByUserId(){
+    public void canGetSessionTokenByUserId() {
         SessionToken sessionToken = sessionTokenService.getSessionTokenByUserIdEquals(2L);
         assertNotNull(sessionToken);
     }
@@ -78,7 +70,7 @@ public class SecurityControllerTest {
 
     // Check if the employee can logout.
     @Test
-    public void canLogout()  {
+    public void canLogout() {
         sessionTokenService.logout(sessionTokenService.getSessionTokenByUserIdEquals(4L).getAuthKey());
         SessionToken sessionToken = sessionTokenService.getSessionTokenByUserIdEquals(4L);
         // Check if the user's session token is actually deleted.

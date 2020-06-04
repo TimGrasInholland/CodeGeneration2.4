@@ -13,11 +13,11 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
 
-    public AccountService(AccountRepository accountRepository){
+    public AccountService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
 
-    public List<Account> getAllAccountsWithParams(Pageable pageable, String iban){
+    public List<Account> getAllAccountsWithParams(Pageable pageable, String iban) {
         return accountRepository.getAllAccountsWithParamsAndActiveIsTrue(iban, pageable);
     }
 
@@ -28,7 +28,7 @@ public class AccountService {
         return account;
     }
 
-    public Account getAccountById(Long id){
+    public Account getAccountById(Long id) {
         return accountRepository.getAccountById(id);
     }
 

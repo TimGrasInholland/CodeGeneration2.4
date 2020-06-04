@@ -1,31 +1,31 @@
 var currentIban = null;
 var currentAccount = null;
 
-function SetIban(){
+function SetIban() {
     this.currentIban = getUrlParameter("iban");
     this.currentAccount = GetAccount(currentIban);
 }
 
-function GetTransactionsFormatEmployee(){
+function GetTransactionsFormatEmployee() {
     username = document.getElementById("username").value
     dateStart = document.getElementById("startdate").value
     dateEnd = document.getElementById("enddate").value
     limit = null;
 
-    if(!username){
+    if (!username) {
         limit = 100;
         username = null
     }
-    if(!dateStart){
+    if (!dateStart) {
         dateStart = null
     }
-    if(!dateEnd){
+    if (!dateEnd) {
         dateEnd = null
     }
 
     $.ajax({
         type: "GET",
-        url: baseRequestURL+"/Transactions",
+        url: baseRequestURL + "/Transactions",
         headers: {
             "session": sessionStorage.getItem("session")
         },
@@ -37,19 +37,19 @@ function GetTransactionsFormatEmployee(){
         },
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        success: function(results){
+        success: function (results) {
             console.log(results)
             output = "";
             $.each(results, function () {
                 output += '\
                 <object>\
-                <p class="date">'+ GetDateTime(this.timestamp) +'</p>\
+                <p class="date">' + GetDateTime(this.timestamp) + '</p>\
                 <p class="sender">FROM:</p>\
-                <p class="iban">'+ this.accountFrom +'</p><br>\
+                <p class="iban">' + this.accountFrom + '</p><br>\
                 <p class="sender">TO:</p>\
-                <p class="iban">'+ this.accountTo +'</p>\
-                <p class="currency">'+ GetCurrency(this.accountFrom) +'</p>\
-                <p class="amount">'+ this.amount.toFixed(2) +'</p>\
+                <p class="iban">' + this.accountTo + '</p>\
+                <p class="currency">' + GetCurrency(this.accountFrom) + '</p>\
+                <p class="amount">' + this.amount.toFixed(2) + '</p>\
                 <p class="char"></p>\
                 <br>\
                 <hr>\
@@ -57,51 +57,51 @@ function GetTransactionsFormatEmployee(){
             });
             SetListOfTransactions(output)
         },
-        error: function(){
+        error: function () {
             alert("Could not load all transactions!")
         }
     });
 }
 
-function GetCurrency(iban){
+function GetCurrency(iban) {
     currency = null;
     $.ajax({
         type: "GET",
-        url: baseRequestURL+"/Accounts/iban/"+iban,
+        url: baseRequestURL + "/Accounts/iban/" + iban,
         headers: {
             "session": sessionStorage.getItem("session")
         },
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         async: false,
-        success: function (result){
+        success: function (result) {
             currency = result.currency
         }
     });
     return currency
 }
 
-function SetListOfTransactions(output){
+function SetListOfTransactions(output) {
     $("#transactions").html(output)
 }
 
-function GetTransactions(){
+function GetTransactions() {
     $.ajax({
         type: "GET",
-        url: baseRequestURL+"/Accounts/"+GetAccount(currentIban).id+"/Transactions",
+        url: baseRequestURL + "/Accounts/" + GetAccount(currentIban).id + "/Transactions",
         headers: {
             "session": sessionStorage.getItem("session")
         },
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        success: function(results){
+        success: function (results) {
             output = "";
             $.each(results, function (i, transaction) {
                 output += GetTransaction(transaction);
             });
             SetListOfTransactions(output)
         },
-        error: function(){
+        error: function () {
             alert("Could not load all transactions!")
         }
     });
@@ -111,22 +111,22 @@ function GetTransaction(transaction) {
     if (transaction.accountFrom == currentIban) {
 
         return '<div class="transaction-row">\
-                    <p class="date-tag">'+ GetDateTime(transaction.timestamp) +'</p>\
+                    <p class="date-tag">' + GetDateTime(transaction.timestamp) + '</p>\
                     <p class="transaction-from-to">TO: </p>\
-                    <p class="transaction-iban">'+ transaction.accountTo +'</p>\
+                    <p class="transaction-iban">' + transaction.accountTo + '</p>\
                     <p class="transaction-operator">- </p>\
-                    <p class="transaction-amount">'+ transaction.amount.toFixed(2) +'</p>\
-                    <p class="currency-tag">'+ GetCurrency(transaction.accountFrom) +'</p>\
+                    <p class="transaction-amount">' + transaction.amount.toFixed(2) + '</p>\
+                    <p class="currency-tag">' + GetCurrency(transaction.accountFrom) + '</p>\
                     <div class="hr-line">\
                 </div>';
     } else {
         return '<div class="transaction-row">\
-                    <p class="date-tag">'+ GetDateTime(transaction.timestamp) +'</p>\
+                    <p class="date-tag">' + GetDateTime(transaction.timestamp) + '</p>\
                     <p class="transaction-from-to">FROM: </p>\
-                    <p class="transaction-iban">'+ transaction.accountFrom +'</p>\
+                    <p class="transaction-iban">' + transaction.accountFrom + '</p>\
                     <p class="transaction-operator">+ </p>\
-                    <p class="transaction-amount">'+ transaction.amount.toFixed(2) +'</p>\
-                    <p class="currency-tag">'+ GetCurrency(transaction.accountFrom) +'</p>\
+                    <p class="transaction-amount">' + transaction.amount.toFixed(2) + '</p>\
+                    <p class="currency-tag">' + GetCurrency(transaction.accountFrom) + '</p>\
                     <div class="hr-line">\
                 </div>';
     }
@@ -134,17 +134,24 @@ function GetTransaction(transaction) {
 
 function GetTransactionCustommer(transaction) {
     if (transaction.accountFrom == currentIban) {
-        return '<div class="transaction-row"><p class="date-tag">'+GetDate(transaction)+'</p><p class="transaction-from-to">TO: </p><p class="transaction-iban">'+transaction.accountTo+'</p><p class="transaction-operator">- </p><p class="transaction-amount">€ '+transaction.amount.toFixed(2)+'</p><p class="currency-tag">EUR</p><div class="hr-line"></div></div>';
+        return '<div class="transaction-row"><p class="date-tag">' + GetDate(transaction) + '</p><p class="transaction-from-to">TO: </p><p class="transaction-iban">' + transaction.accountTo + '</p><p class="transaction-operator">- </p><p class="transaction-amount">€ ' + transaction.amount.toFixed(2) + '</p><p class="currency-tag">EUR</p><div class="hr-line"></div></div>';
     } else {
-        return '<div class="transaction-row"><p class="date-tag">'+GetDate(transaction)+'</p><p class="transaction-from-to">FROM: </p><p class="transaction-iban">'+transaction.accountFrom+'</p><p class="transaction-operator">+ </p><p class="transaction-amount">€ '+transaction.amount.toFixed(2)+'</p><p class="currency-tag">EUR</p><div class="hr-line"></div></div>';
+        return '<div class="transaction-row"><p class="date-tag">' + GetDate(transaction) + '</p><p class="transaction-from-to">FROM: </p><p class="transaction-iban">' + transaction.accountFrom + '</p><p class="transaction-operator">+ </p><p class="transaction-amount">€ ' + transaction.amount.toFixed(2) + '</p><p class="currency-tag">EUR</p><div class="hr-line"></div></div>';
     }
 }
 
 function GetTransactionType(accountTo, currentType) {
-    if (GetAccount(accountTo).type == "Savings" && currentType == "Current") {return "Deposit";}
-    if (GetAccount(accountTo).type == "Current" && currentType == "Savings") {return "Withdrawal";}
-    if (GetAccount(accountTo).type == "Current" && currentType == "Current") {return "Payment";}
-    else {return "Payment";}
+    if (GetAccount(accountTo).type == "Savings" && currentType == "Current") {
+        return "Deposit";
+    }
+    if (GetAccount(accountTo).type == "Current" && currentType == "Savings") {
+        return "Withdrawal";
+    }
+    if (GetAccount(accountTo).type == "Current" && currentType == "Current") {
+        return "Payment";
+    } else {
+        return "Payment";
+    }
 }
 
 function CreateTransaction() {
@@ -160,7 +167,7 @@ function CreateTransaction() {
 
     $.ajax({
         type: "POST",
-        url: baseRequestURL+"/Transactions",
+        url: baseRequestURL + "/Transactions",
         data: JSON.stringify({
             accountFrom: accountFrom,
             accountTo: accountTo,
@@ -174,7 +181,7 @@ function CreateTransaction() {
         },
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        complete: function(jqXHR) {
+        complete: function (jqXHR) {
             switch (jqXHR.status) {
                 case 201:
                     alert(jqXHR.responseText);
@@ -192,12 +199,12 @@ function GetTransactionByCustomerAccountId() {
 
     $.ajax({
         type: 'GET',
-        url: baseRequestURL+'/Accounts/'+ GetAccount(currentIban).id +'/Transactions',
+        url: baseRequestURL + '/Accounts/' + GetAccount(currentIban).id + '/Transactions',
         headers: {
             "session": sessionStorage.getItem("session")
         },
-        success: function(transactions) {
-            $.each(transactions, function(i, transaction) {
+        success: function (transactions) {
+            $.each(transactions, function (i, transaction) {
                 allTransactions.append(GetTransactionCustommer(transaction));
             });
         }
@@ -208,8 +215,8 @@ function GetTransactionByCustomerAccountId() {
 var modal = document.getElementById('createNewTransaction');
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
 }

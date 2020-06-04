@@ -15,7 +15,7 @@ import java.util.List;
 
 @Component
 @ConditionalOnProperty(prefix = "bankapi.autorun", name = "enabled", havingValue = "true", matchIfMissing = true)
-public class AppStarter{
+public class AppStarter {
 
     @Autowired
     private AccountRepository accountRepository;
@@ -30,14 +30,14 @@ public class AppStarter{
     private SessionTokenRepository sessionTokenRepository;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         initAccounts();
         initTransactions();
         initUsers();
         initTestSessionToken();
     }
 
-    private void initTestSessionToken(){
+    private void initTestSessionToken() {
         // Hardcoded users for testing purposes.
         List<SessionToken> sessionTokens = Arrays.asList(
                 new SessionToken("38ce48da-a0da-11ea-bb37-0242ac130002", 4L, User.TypeEnum.CUSTOMER),

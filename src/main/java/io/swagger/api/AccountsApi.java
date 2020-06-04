@@ -13,80 +13,81 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.List;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
 @Api(value = "Accounts", description = "the Accounts API")
 public interface AccountsApi {
 
     @ApiOperation(value = "create a new account", nickname = "createAccount", notes = "Calling this allows you to create a new Accounts.", authorizations = {
-        @Authorization(value = "ApiKeyAuth")    }, tags={ "Accounts", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "create new account"),
-        @ApiResponse(code = 400, message = "bad request", response = String.class),
-        @ApiResponse(code = 401, message = "API key is missing or invalid"),
-        @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
+            @Authorization(value = "ApiKeyAuth")}, tags = {"Accounts",})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "create new account"),
+            @ApiResponse(code = 400, message = "bad request", response = String.class),
+            @ApiResponse(code = 401, message = "API key is missing or invalid"),
+            @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class)})
     @RequestMapping(value = "/Accounts",
-        produces = { "application/json" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
-    ResponseEntity<Void> createAccount(@ApiParam(value = ""  )  @Valid @RequestBody Account body
-);
+            produces = {"application/json"},
+            consumes = {"application/json"},
+            method = RequestMethod.POST)
+    ResponseEntity<Void> createAccount(@ApiParam(value = "") @Valid @RequestBody Account body
+    );
 
 
     @ApiOperation(value = "get account by IBAN", nickname = "getAccountByIBAN", notes = "Calling this allows you to get the account by IBAN", response = Account.class, authorizations = {
-        @Authorization(value = "ApiKeyAuth")    }, tags={ "Accounts", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Accounts", response = Account.class),
-        @ApiResponse(code = 400, message = "bad request", response = String.class),
-        @ApiResponse(code = 401, message = "API key is missing or invalid"),
-        @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
+            @Authorization(value = "ApiKeyAuth")}, tags = {"Accounts",})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Accounts", response = Account.class),
+            @ApiResponse(code = 400, message = "bad request", response = String.class),
+            @ApiResponse(code = 401, message = "API key is missing or invalid"),
+            @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class)})
     @RequestMapping(value = "/Accounts/iban/{iban}",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    ResponseEntity<Account> getAccountByIBAN(@ApiParam(value = "the IBAN",required=true) @PathVariable("iban") String iban
-);
+            produces = {"application/json"},
+            method = RequestMethod.GET)
+    ResponseEntity<Account> getAccountByIBAN(@ApiParam(value = "the IBAN", required = true) @PathVariable("iban") String iban
+    );
 
 
     @ApiOperation(value = "gets all accounts", nickname = "getAllAccounts", notes = "Calling this allows you to fetch all the accounts of all users.", response = Account.class, responseContainer = "List", authorizations = {
-        @Authorization(value = "ApiKeyAuth")    }, tags={ "Accounts", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "get all accounts", response = Account.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "bad request", response = String.class),
-        @ApiResponse(code = 401, message = "API key is missing or invalid"),
-        @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
+            @Authorization(value = "ApiKeyAuth")}, tags = {"Accounts",})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "get all accounts", response = Account.class, responseContainer = "List"),
+            @ApiResponse(code = 400, message = "bad request", response = String.class),
+            @ApiResponse(code = 401, message = "API key is missing or invalid"),
+            @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class)})
     @RequestMapping(value = "/Accounts",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
+            produces = {"application/json"},
+            method = RequestMethod.GET)
     ResponseEntity<List<Account>> getAllAccounts(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
-,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "iban", required = false) String iban
-);
+            , @ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit, @ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "iban", required = false) String iban
+    );
 
 
     @ApiOperation(value = "Get user accounts", nickname = "getUserAccountsByUserId", notes = "Calling this allows you to fetch all the Accounts by a user", response = Account.class, responseContainer = "List", authorizations = {
-            @Authorization(value = "ApiKeyAuth")    }, tags={ "Accounts", })
+            @Authorization(value = "ApiKeyAuth")}, tags = {"Accounts",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "list of accounts", response = Account.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "bad request", response = String.class),
             @ApiResponse(code = 401, message = "API key is missing or invalid"),
-            @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
+            @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class)})
     @RequestMapping(value = "/Users/{id}/Accounts",
-            produces = { "application/json" },
+            produces = {"application/json"},
             method = RequestMethod.GET)
-    ResponseEntity<List<Account>> getUserAccountsByUserId(@Min(1)@ApiParam(value = "bad input parameter",required=true, allowableValues="") @PathVariable("id") Long id
+    ResponseEntity<List<Account>> getUserAccountsByUserId(@Min(1) @ApiParam(value = "bad input parameter", required = true, allowableValues = "") @PathVariable("id") Long id
     );
 
 
     @ApiOperation(value = "update the account", nickname = "updateAccount", notes = "update account", authorizations = {
-            @Authorization(value = "ApiKeyAuth")    }, tags={ "Accounts", })
+            @Authorization(value = "ApiKeyAuth")}, tags = {"Accounts",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "delete account"),
             @ApiResponse(code = 400, message = "bad request", response = String.class),
             @ApiResponse(code = 401, message = "API key is missing or invalid"),
-            @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class) })
+            @ApiResponse(code = 404, message = "The specified resource was not found", response = String.class)})
     @RequestMapping(value = "/Accounts",
-            produces = { "application/json" },
-            consumes = { "application/json" },
+            produces = {"application/json"},
+            consumes = {"application/json"},
             method = RequestMethod.PUT)
-    ResponseEntity<String> disableAccount(@ApiParam(value = ""  )  @Valid @RequestBody Account body
+    ResponseEntity<String> disableAccount(@ApiParam(value = "") @Valid @RequestBody Account body
     );
 
 }

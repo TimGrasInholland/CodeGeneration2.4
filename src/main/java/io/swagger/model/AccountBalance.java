@@ -14,137 +14,137 @@ import java.util.Objects;
 @Validated
 @Entity
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T09:19:06.758Z[GMT]")
-public class AccountBalance   {
+public class AccountBalance {
 
-  public AccountBalance() {
-  }
+    @Id
+    @SequenceGenerator(name = "balance_seq", sequenceName = "balance_seq", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "balance_seq")
+    @JsonProperty("id")
+    private Long id = null;
+    @JsonProperty("accountId")
+    private Long accountId = null;
+    @JsonProperty("balance")
+    private Double balance = null;
 
-  public AccountBalance(Long accountId, Double balance) {
-    this.accountId = accountId;
-    this.balance = balance;
-  }
+    public AccountBalance() {
+    }
 
+    public AccountBalance(Long accountId, Double balance) {
+        this.accountId = accountId;
+        this.balance = balance;
+    }
 
-  @Id
-  @SequenceGenerator(name = "balance_seq", sequenceName = "balance_seq", initialValue = 1, allocationSize = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "balance_seq")
-  @JsonProperty("id")
-  private Long id = null;
+    public AccountBalance id(Long id) {
+        this.id = id;
+        return this;
+    }
 
-  @JsonProperty("accountId")
-  private Long accountId = null;
+    /**
+     * Get id
+     *
+     * @return id
+     **/
+    @ApiModelProperty(example = "10000000001", value = "")
 
-  @JsonProperty("balance")
-  private Double balance = null;
-
-  public AccountBalance id(Long id) {
-    this.id = id;
-    return this;
-  }
-
-  /**
-   * Get id
-   * @return id
-  **/
-  @ApiModelProperty(example = "10000000001", value = "")
-  
     public Long getId() {
-    return id;
-  }
+        return id;
+    }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-  public AccountBalance accountId(Long accountId) {
-    this.accountId = accountId;
-    return this;
-  }
+    public AccountBalance accountId(Long accountId) {
+        this.accountId = accountId;
+        return this;
+    }
 
-  /**
-   * Get accountId
-   * @return accountId
-  **/
-  @ApiModelProperty(example = "1", value = "")
-  
+    /**
+     * Get accountId
+     *
+     * @return accountId
+     **/
+    @ApiModelProperty(example = "1", value = "")
+
     public Long getAccountId() {
-    return accountId;
-  }
+        return accountId;
+    }
 
-  public void setAccountId(Long accountId) {
-    this.accountId = accountId;
-  }
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
+    }
 
-  public AccountBalance balance(Double balance) {
-    this.balance = balance;
-    return this;
-  }
+    public AccountBalance balance(Double balance) {
+        this.balance = balance;
+        return this;
+    }
 
-  /**
-   * Get balance
-   * @return balance
-  **/
-  @ApiModelProperty(example = "250", value = "")
-  
+    /**
+     * Get balance
+     *
+     * @return balance
+     **/
+    @ApiModelProperty(example = "250", value = "")
+
     public Double getBalance() {
-    return balance;
-  }
-
-  public void setBalance(Double balance) {
-    BankConfig bankConfig = new BankConfig();
-    if(balance < bankConfig.getAbsoluteLimit()){
-      throw new IllegalArgumentException("Limit of account balance has reached!");
+        return balance;
     }
 
-    String text = Double.toString(Math.abs(balance));
-    int integerPlaces = text.indexOf('.');
-    int decimalPlaces = text.length() - integerPlaces - 1;
-    if(decimalPlaces > 2){
-      throw new IllegalArgumentException("Balance value doesn't have the right format. Must have 2 decimals");
+    public void setBalance(Double balance) {
+        BankConfig bankConfig = new BankConfig();
+        if (balance < bankConfig.getAbsoluteLimit()) {
+            throw new IllegalArgumentException("Limit of account balance has reached!");
+        }
+
+        String text = Double.toString(Math.abs(balance));
+        int integerPlaces = text.indexOf('.');
+        int decimalPlaces = text.length() - integerPlaces - 1;
+        if (decimalPlaces > 2) {
+            throw new IllegalArgumentException("Balance value doesn't have the right format. Must have 2 decimals");
+        }
+        this.balance = balance;
     }
-    this.balance = balance;
-  }
 
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        AccountBalance accountBalance = (AccountBalance) o;
+        return Objects.equals(this.id, accountBalance.id) &&
+                Objects.equals(this.accountId, accountBalance.accountId) &&
+                Objects.equals(this.balance, accountBalance.balance);
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, accountId, balance);
     }
-    AccountBalance accountBalance = (AccountBalance) o;
-    return Objects.equals(this.id, accountBalance.id) &&
-        Objects.equals(this.accountId, accountBalance.accountId) &&
-        Objects.equals(this.balance, accountBalance.balance);
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, accountId, balance);
-  }
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class AccountBalance {\n");
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class AccountBalance {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    accountId: ").append(toIndentedString(accountId)).append("\n");
-    sb.append("    balance: ").append(toIndentedString(balance)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
+        sb.append("    id: ").append(toIndentedString(id)).append("\n");
+        sb.append("    accountId: ").append(toIndentedString(accountId)).append("\n");
+        sb.append("    balance: ").append(toIndentedString(balance)).append("\n");
+        sb.append("}");
+        return sb.toString();
     }
-    return o.toString().replace("\n", "\n    ");
-  }
+
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(java.lang.Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
 }

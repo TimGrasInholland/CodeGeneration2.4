@@ -20,14 +20,14 @@ public class AccountBalanceTest {
     }
 
     @Test
-    public void balanceAmountCanNotBeLowerThenBankConfigLimit(){
+    public void balanceAmountCanNotBeLowerThenBankConfigLimit() {
         Exception exception = assertThrows(IllegalArgumentException.class,
                 () -> accountBalance.setBalance(-100.00));
         assertEquals("Limit of account balance has reached!", exception.getMessage());
     }
 
     @Test
-    public void checkIfBalanceValueHasMoreThanTwoDecimals(){
+    public void checkIfBalanceValueHasMoreThanTwoDecimals() {
         Exception exception = assertThrows(IllegalArgumentException.class,
                 () -> accountBalance.setBalance(8.123));
         assertEquals("Balance value doesn't have the right format. Must have 2 decimals", exception.getMessage());

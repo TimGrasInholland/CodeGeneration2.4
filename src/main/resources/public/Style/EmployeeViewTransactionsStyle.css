@@ -4,7 +4,7 @@ body {
     background-size: cover;
 }
 
-h1{
+h1 {
     font-size: 40px;
     font-weight: bolder;
     color: #06D4A2;
@@ -12,12 +12,12 @@ h1{
 
 /* Content */
 
-.content{
+.content {
     margin-left: 300px;
     margin-top: 100px;
 }
 
-aside{
+aside {
     border-color: black;
     border-style: solid;
     border-width: 1px;
@@ -26,7 +26,7 @@ aside{
     float: left;
 }
 
-section{
+section {
     border-color: black;
     border-style: solid;
     border-width: 1px;
@@ -38,18 +38,18 @@ section{
     margin-left: 20px;
 }
 
-form{
+form {
     margin-top: 30px;
 }
 
-.form-name{
+.form-name {
     float: left;
     font-size: 16px;
     font-weight: bold;
     width: 100px;
 }
 
-.submit{
+.submit {
     height: 47px;
     padding-top: 16px;
     padding-bottom: 40px;
@@ -64,7 +64,7 @@ form{
     margin-left: 300px;
 }
 
-#username{
+#username {
     border-top: 0px;
     border-left: 0px;
     border-right: 0px;
@@ -73,57 +73,57 @@ form{
 
 /* Transaction */
 
-hr{
+hr {
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
-object{
+object {
     font-size: 20px;
 }
 
-section{
+section {
     overflow: auto;
 }
 
-.date{
+.date {
     font-weight: 600;
 }
 
-.sender{
+.sender {
     width: 70px;
     float: left;
     color: gray;
 }
 
-.iban{
+.iban {
     float: left;
     color: gray;
 }
 
-.char{
+.char {
     float: right;
     margin-right: 5px;
 }
 
-.amount{
+.amount {
     float: right;
 }
 
-.currency{
+.currency {
     font-weight: bold;
     float: right;
     margin-left: 5px;
 }
-  
-  /* Add padding and center-align text to the container */
-  .container {
+
+/* Add padding and center-align text to the container */
+.container {
     padding: 16px;
     text-align: center;
-  }
-  
-  /* The Modal (background) */
-  .modal {
+}
+
+/* The Modal (background) */
+.modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -134,46 +134,46 @@ section{
     overflow: auto; /* Enable scroll if needed */
     background-color: #FFFFFF;
     padding-top: 50px;
-  }
-  
-  /* Modal Content/Box */
-  .modal-content {
+}
+
+/* Modal Content/Box */
+.modal-content {
     background-color: #fefefe;
     margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
-  }
-  
-  /* Style the horizontal ruler */
-  hr {
+}
+
+/* Style the horizontal ruler */
+hr {
     border: 1px solid #f1f1f1;
     margin-bottom: 25px;
-  }
-  
-  /* The Modal Close Button (x) */
-  .close {
+}
+
+/* The Modal Close Button (x) */
+.close {
     position: absolute;
     right: 35px;
     top: 15px;
     font-size: 40px;
     font-weight: bold;
     color: #EE3E68;
-  }
-  
-  .close:hover,
-  .close:focus {
+}
+
+.close:hover,
+.close:focus {
     color: #f44336;
     cursor: pointer;
-  }
-  
-  /* Clear floats */
-  .clearfix::after {
+}
+
+/* Clear floats */
+.clearfix::after {
     content: "";
     clear: both;
     display: table;
-  }
+}
 
-  .cancelbtn {
+.cancelbtn {
     position: relative;
     cursor: pointer;
     top: 20px;
@@ -185,9 +185,9 @@ section{
     font-weight: bold;
     color: white;
     background-color: #EE3E68;
-  }
+}
 
-  .sendbtn {
+.sendbtn {
     position: relative;
     cursor: pointer;
     top: 20px;
@@ -199,9 +199,9 @@ section{
     font-weight: bold;
     color: white;
     background-color: #07CF97;
-  }
+}
 
-  #account-header{
+#account-header {
     float: left;
     margin-top: 60px;
     width: 1000px;
@@ -209,14 +209,14 @@ section{
     margin-bottom: 20px;
 }
 
-#current-iban{
+#current-iban {
     float: left;
     position: relative;
     font-size: 20px;
     font-weight: normal;
 }
 
-#account-balance{
+#account-balance {
     float: left;
     position: relative;
     font-size: 20px;
@@ -224,7 +224,7 @@ section{
     padding-left: 600px;
 }
 
-.currency-tag{
+.currency-tag {
     float: right;
     position: relative;
     font-weight: bold;
@@ -232,14 +232,14 @@ section{
     width: 50px;
 }
 
-input[type=text]{
+input[type=text] {
     border-top: 0px;
     border-left: 0px;
     border-right: 0px;
     border-bottom: 1px solid black;
 }
 
-.input-transaction{
+.input-transaction {
     width: 280px;
     padding-left: 5px;
     font-size: 18px;

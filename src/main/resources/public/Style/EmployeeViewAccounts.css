@@ -1,4 +1,4 @@
-a{
+a {
     text-decoration: none;
 }
 
@@ -8,7 +8,7 @@ body {
     background-size: cover;
 }
 
-#AllAccounts{
+#AllAccounts {
     position: relative;
     top: 40px;
     left: 280px;
@@ -21,20 +21,20 @@ body {
     position: relative;
     width: 100%;
     height: 750px;
-    border:solid 1px gray;
+    border: solid 1px gray;
     background-color: white;
 }
 
-.Account-box{
+.Account-box {
     float: left;
     background-color: white;
-    border:solid 1px gray;
+    border: solid 1px gray;
     width: 100%;
     height: 80px;
     padding-left: 20px;
 }
 
-#SearchBar{
+#SearchBar {
     float: left;
     position: relative;
     margin-bottom: 8px;
@@ -46,7 +46,7 @@ body {
     font-size: 20px;
 }
 
-#NewAccount{
+#NewAccount {
     font-weight: bold;
     text-decoration: none;
     font-size: 20px;
@@ -60,7 +60,7 @@ body {
     padding-top: 10px;
 }
 
-#NewAccount:hover{
+#NewAccount:hover {
     background-color: #10eb97;
     width: 200px;
     height: 50px;
@@ -69,18 +69,18 @@ body {
     padding-top: 10px;
 }
 
-.form-input{
+.form-input {
     border-style: none;
     width: 90%;
     padding-left: 10px;
 }
 
-.iban{
+.iban {
     font-size: 25px;
     margin-bottom: 10px
 }
 
-.typeSaving{
+.typeSaving {
     color: #828282;
     font-size: 20px;
 }
@@ -96,13 +96,13 @@ body {
 }
 
 .right {
-  transform: rotate(-45deg);
-  -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
 }
 
-.bottom{
-    position:absolute;  
-    padding-bottom: 10px;                
-    bottom:0; 
+.bottom {
+    position: absolute;
+    padding-bottom: 10px;
+    bottom: 0;
     right: 0;
 }

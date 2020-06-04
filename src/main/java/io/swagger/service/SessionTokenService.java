@@ -13,7 +13,7 @@ public class SessionTokenService {
         this.sessionTokenRepository = sessionTokenRepository;
     }
 
-    public SessionToken getSessionTokenByUserIdEquals(Long userId){
+    public SessionToken getSessionTokenByUserIdEquals(Long userId) {
         return sessionTokenRepository.getByUserIdEquals(userId);
     }
 

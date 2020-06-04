@@ -11,7 +11,6 @@ import io.swagger.service.AccountBalanceService;
 import io.swagger.service.AccountService;
 import io.swagger.service.SessionTokenService;
 import io.swagger.service.TransactionService;
-import org.graalvm.compiler.lir.amd64.AMD64CCall;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -56,10 +55,11 @@ public class TransactionsApiController implements TransactionsApi {
 
     /**
      * checks given transaction object for rule complience, updates according account balances and creates transaction object
+     *
      * @param body transaction object from front-end
      * @return ResponseEntity with user feedback
      */
-    public ResponseEntity<String> createTransaction(@ApiParam(value = ""  )  @Valid @RequestBody Transaction body) {
+    public ResponseEntity<String> createTransaction(@ApiParam(value = "") @Valid @RequestBody Transaction body) {
         String authKey = request.getHeader("session");
         // security checks
         if (!security.isOwnerOrEmployee(authKey, body.getUserPerformingId()) || !security.isPermitted(authKey, User.TypeEnum.CUSTOMER))
@@ -71,7 +71,7 @@ public class TransactionsApiController implements TransactionsApi {
         try {
             accountFrom = accountService.getAccountByIBAN(body.getAccountFrom());
             accountTo = accountService.getAccountByIBAN(body.getAccountTo());
-        } catch(NullPointerException ne) {
+        } catch (NullPointerException ne) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Given IBAN does not exist.");
         }
 
@@ -86,7 +86,7 @@ public class TransactionsApiController implements TransactionsApi {
             Boolean value = entry.getValue();
             String key = entry.getKey();
             if (value) {
-                errors += key+"\n";
+                errors += key + "\n";
             }
         }
         if (errors != "") {
@@ -103,7 +103,7 @@ public class TransactionsApiController implements TransactionsApi {
         // Create actual transaction object
         try {
             service.createTransaction(new Transaction(body.getAccountFrom(), body.getAccountTo(), body.getAmount(), body.getDescription(), body.getUserPerformingId(), body.getTransactionType()));
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Incorrect amount.");
         }
         accountBalanceService.updateAccountBalance(balanceFrom);
@@ -113,6 +113,7 @@ public class TransactionsApiController implements TransactionsApi {
 
     /**
      * Method to check transaction to set rules
+     *
      * @param authKey
      * @param accountFrom
      * @param accountTo
@@ -138,6 +139,7 @@ public class TransactionsApiController implements TransactionsApi {
 
     /**
      * Gets all transactions with optional parameters
+     *
      * @param dateTo
      * @param dateFrom
      * @param username
@@ -145,7 +147,7 @@ public class TransactionsApiController implements TransactionsApi {
      * @param limit
      * @return ResponseEntity with user feedback
      */
-    public ResponseEntity<List<Transaction>> getAllTransactions(@ApiParam(value = "transactions to date") @Valid @RequestParam(value = "dateTo", required = false) String dateTo,@ApiParam(value = "transactions from date") @Valid @RequestParam(value = "dateFrom", required = false) String dateFrom, @ApiParam(value = "transactions from username") @Valid @RequestParam(value = "username", required = false) String username,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
+    public ResponseEntity<List<Transaction>> getAllTransactions(@ApiParam(value = "transactions to date") @Valid @RequestParam(value = "dateTo", required = false) String dateTo, @ApiParam(value = "transactions from date") @Valid @RequestParam(value = "dateFrom", required = false) String dateFrom, @ApiParam(value = "transactions from username") @Valid @RequestParam(value = "username", required = false) String username, @ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset, @ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
         String authKey = request.getHeader("session");
         // security check
         if (!security.isPermitted(authKey, User.TypeEnum.EMPLOYEE)) {
@@ -155,25 +157,23 @@ public class TransactionsApiController implements TransactionsApi {
         OffsetDateTime dateToNew;
 
         // creating parameters for service based on given parameters
-        if (dateFrom == null || dateFrom.isEmpty()){
+        if (dateFrom == null || dateFrom.isEmpty()) {
             dateFromNew = OffsetDateTime.MIN;
-        }
-        else{
+        } else {
             dateFromNew = OffsetDateTime.parse(dateFrom + "T00:00:00.001+02:00");
         }
-        if (dateTo == null || dateTo.isEmpty()){
+        if (dateTo == null || dateTo.isEmpty()) {
             dateToNew = OffsetDateTime.MAX;
-        }
-        else{
+        } else {
             dateToNew = OffsetDateTime.parse(dateTo + "T23:59:59.999+02:00");
         }
-        if (offset == null){
+        if (offset == null) {
             offset = 0;
         }
-        if (limit == null){
+        if (limit == null) {
             limit = service.countAllTransactions();
         }
-        if (username == null || username.isEmpty()){
+        if (username == null || username.isEmpty()) {
             username = "%";
         }
         return ResponseEntity.status(200).body(service.getAllTransactions(dateFromNew, dateToNew, offset, limit, username));
@@ -181,12 +181,13 @@ public class TransactionsApiController implements TransactionsApi {
 
     /**
      * Get all transactions with given account Id
-     * @param id account Id
+     *
+     * @param id     account Id
      * @param offset
      * @param limit
      * @return ResponseEntity with user feedback
      */
-    public ResponseEntity<List<Transaction>> getTransactionsFromAccountId(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Long id,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
+    public ResponseEntity<List<Transaction>> getTransactionsFromAccountId(@Min(1) @ApiParam(value = "", required = true, allowableValues = "") @PathVariable("id") Long id, @ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset, @ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
         String authKey = request.getHeader("session");
         // Security checks
         if (!security.isPermitted(authKey, User.TypeEnum.CUSTOMER) || !security.isOwnerOrEmployee(authKey, accountService.getAccountById(id).getUserId())) {
@@ -205,12 +206,13 @@ public class TransactionsApiController implements TransactionsApi {
 
     /**
      * Get transactions based on user Id
-     * @param id user Id
+     *
+     * @param id     user Id
      * @param offset
      * @param limit
      * @return ResponseEntity with user feedback
      */
-    public ResponseEntity<List<Transaction>> getTransactionsFromUserId(@Min(1)@ApiParam(value = "",required=true, allowableValues="") @PathVariable("id") Long id,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
+    public ResponseEntity<List<Transaction>> getTransactionsFromUserId(@Min(1) @ApiParam(value = "", required = true, allowableValues = "") @PathVariable("id") Long id, @ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset, @ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
         String authKey = request.getHeader("session");
         // Security checks
         if (!security.isPermitted(authKey, User.TypeEnum.CUSTOMER) || !security.isOwnerOrEmployee(authKey, id)) {

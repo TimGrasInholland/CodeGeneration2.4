@@ -2,67 +2,68 @@
 
 <html lang="en">
 <head>
-  <title>Groep 3B CodeGeneration - My account</title>
-  <meta charset="utf-8">
-  <meta name="description" content="CodeGeneration project website by Thijs van Tol, Chris Lips, Tim Gras, Jesse van Gelder and Stef Robbe.">
-  <meta name="author" content="Inholland Informatica group 3B - 2020">
+    <title>Groep 3B CodeGeneration - My account</title>
+    <meta charset="utf-8">
+    <meta content="CodeGeneration project website by Thijs van Tol, Chris Lips, Tim Gras, Jesse van Gelder and Stef Robbe."
+          name="description">
+    <meta content="Inholland Informatica group 3B - 2020" name="author">
 
-  <link rel="stylesheet" href="Style/CustomerViewAccount.css">
-  <link rel="stylesheet" href="Style/general.css">
+    <link href="Style/CustomerViewAccount.css" rel="stylesheet">
+    <link href="Style/general.css" rel="stylesheet">
 
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script type="text/javascript" src="Script/accounts.js"></script>
-  <script type="text/javascript" src="Script/transactions.js"></script>
-  <script type="text/javascript" src="Script/general.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type="text/javascript"></script>
+    <script src="Script/accounts.js" type="text/javascript"></script>
+    <script src="Script/transactions.js" type="text/javascript"></script>
+    <script src="Script/general.js" type="text/javascript"></script>
 </head>
 
 <body>
-  <!-- Navbar -->
-  <nav>
-  </nav>
-  <script>SetNavBar("myAccounts")</script>
-  <script>SetIban()</script>
+<!-- Navbar -->
+<nav>
+</nav>
+<script>SetNavBar("myAccounts")</script>
+<script>SetIban()</script>
 
-  <h1 id="page-title">Account Overview</h1>
-  
-  <div id="account-header">
+<h1 id="page-title">Account Overview</h1>
+
+<div id="account-header">
     <h2 id="current-iban"></h2>
     <h2 id="account-balance"></h2>
-    <p id="currency-tag" class="currency-tag"></p>
-  </div>
-  
-  <h1 id="transaction-title">New Transaction</h1>
+    <p class="currency-tag" id="currency-tag"></p>
+</div>
 
-  <div id="center-content">
+<h1 id="transaction-title">New Transaction</h1>
+
+<div id="center-content">
     <div id="accounts-box">
     </div>
-  </div>
+</div>
 
-  <div id="new-transaction-box">
+<div id="new-transaction-box">
     <div id="label-box">
-      <p class="labels">From:</p>
-      <p class="labels">To:</p>
-      <p class="labels">Description:</p>
-      <p class="labels">Amount:</p>
+        <p class="labels">From:</p>
+        <p class="labels">To:</p>
+        <p class="labels">Description:</p>
+        <p class="labels">Amount:</p>
     </div>
     <form action="" method="post">
-      <div id="input-box">
-          <input type="text" id="ibanFrom" name="ibanFrom" class="input-transaction" disabled>
-          <input type="text" id="ibanTo" name="ibanTo" class="input-transaction" placeholder="Recipient's IBAN">
-          <input type="text" id="description" name="description" class="input-transaction" placeholder="Message">
-          <input type="text" id="amount" name="amount" class="input-transaction" placeholder="0.00">
-      </div>
-      <p id="currencyTagSmall" class="currency-tag-small"></p>
-      <script>SetValues()</script>
-      <div id="send-btn">
-        <input type="button" name="sendBtn" id="form-transaction" value="SEND" onclick="CreateTransaction()">
-      </div>
+        <div id="input-box">
+            <input class="input-transaction" disabled id="ibanFrom" name="ibanFrom" type="text">
+            <input class="input-transaction" id="ibanTo" name="ibanTo" placeholder="Recipient's IBAN" type="text">
+            <input class="input-transaction" id="description" name="description" placeholder="Message" type="text">
+            <input class="input-transaction" id="amount" name="amount" placeholder="0.00" type="text">
+        </div>
+        <p class="currency-tag-small" id="currencyTagSmall"></p>
+        <script>SetValues()</script>
+        <div id="send-btn">
+            <input id="form-transaction" name="sendBtn" onclick="CreateTransaction()" type="button" value="SEND">
+        </div>
     </form>
-  </div>
+</div>
 
-  <div id="material-thingy-right-login">
+<div id="material-thingy-right-login">
     <img id="material-sidethingy-img" src="Images/material-sidethingy.png">
-  </div>
-  <script>GetTransactionByCustomerAccountId()</script>
+</div>
+<script>GetTransactionByCustomerAccountId()</script>
 </body>
 </html>
