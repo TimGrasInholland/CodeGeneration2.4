@@ -12,17 +12,17 @@ function SetNavBar(active) {
                 navbar = GetCustomerNavBar()
             }
         } else {
-            navbar = GetUnsetUserNavBar() 
+            navbar = GetUnsetUserNavBar()
             if (active != 'login' && active != 'home' && active != 'unset') {
                 alert('This user account has been accessed on another browser, you are now being logged out.')
-                window.location.href = './Login.html' 
+                window.location.href = './Login.html'
             }
         }
     }
     else{
         navbar = GetUnsetUserNavBar()
     }
-    
+
     //Set navbar in HTML file
     $("nav").html(navbar)
     //Set active item in navbar (BOLD)
