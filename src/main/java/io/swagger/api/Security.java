@@ -96,8 +96,10 @@ public class Security {
         List<User> cleanedUserList = new ArrayList<>();
 
         for (User user : users) {
-            if (!user.getType().equals(User.TypeEnum.BANK)){
-                cleanedUserList.add(user);
+            if(user.isActive()){
+                if (!user.getType().equals(User.TypeEnum.BANK)){
+                    cleanedUserList.add(user);
+                }
             }
         }
         return cleanedUserList;

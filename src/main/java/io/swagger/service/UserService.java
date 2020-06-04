@@ -40,11 +40,11 @@ public class UserService {
 
     // redirect get users by username
     public List<User> getAllUsersByUsername(String username, Pageable pageable) {
-        return userRepository.getAllByUsernameContainingIgnoreCaseAndActiveIsFalse(username, pageable);
+        return userRepository.getAllByUsernameContainingIgnoreCase(username, pageable);
     }
 
     // redirect get users by lastname
     public List<User> getAllUsersByLastname(String lastname, Pageable pageable) {
-        return userRepository.getAllByLastNameContainingIgnoreCaseAndActiveIsFalse(lastname, pageable);
+        return userRepository.getAllByLastNameContainingIgnoreCase(lastname, pageable);
     }
 }
