@@ -2,7 +2,6 @@ package io.swagger.service;
 
 import io.swagger.dao.SessionTokenRepository;
 import io.swagger.model.SessionToken;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

@@ -205,7 +205,7 @@ function CreateUser() {
                                     });
                                 }
                             });
-                        } catch(err) {
+                        } catch (err) {
                             alert(jqXHR.responseText)
                         }
 
@@ -329,7 +329,7 @@ function updateUser() {
                     break;
                 default:
                     var errors = "";
-                     
+
                     try {
                         var obj = jQuery.parseJSON(jqXHR.responseText);
                         $.each(obj, function (key, value) {
@@ -339,7 +339,7 @@ function updateUser() {
                                 });
                             }
                         });
-                    } catch(err) {
+                    } catch (err) {
                         errors += jqXHR.responseText;
                     }
 
@@ -367,27 +367,27 @@ function GetUser(id) {
 }
 
 function getMaxData() {
-    if ( $( "#datepicker" ).length ) {
-     
+    if ($("#datepicker").length) {
+
         var today = new Date();
         var dd = today.getDate();
-        var mm = today.getMonth()+1; //January is 0!
+        var mm = today.getMonth() + 1; //January is 0!
         var yyyy = today.getFullYear() - 12;
-         if(dd<10){
-                dd='0'+dd
-            } 
-            if(mm<10){
-                mm='0'+mm
-            } 
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
 
-        today = yyyy+'-'+mm+'-'+dd;
+        today = yyyy + '-' + mm + '-' + dd;
         document.getElementById("datepicker").setAttribute("max", today);
     }
 
 }
 
-$(document).ready(function(){
-    if(document.getElementById("selector") && sessionStorage.getItem("session") == null && GetCurrentUserId() == null){
+$(document).ready(function () {
+    if (document.getElementById("selector") && sessionStorage.getItem("session") == null && GetCurrentUserId() == null) {
         $('#selector').hide();
     }
 });

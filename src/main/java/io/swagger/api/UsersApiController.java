@@ -7,7 +7,6 @@ import io.swagger.service.SessionTokenService;
 import io.swagger.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -62,12 +60,12 @@ public class UsersApiController implements UsersApi {
             return ResponseEntity.status(400).body("This username already exist");
         }
         // checks if user is older then 12
-        Calendar calendar  = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR, -10);
         Date d1 = calendar.getTime();
-        Date birthDate= new SimpleDateFormat("yyyy-MM-dd").parse(body.getBirthdate());
+        Date birthDate = new SimpleDateFormat("yyyy-MM-dd").parse(body.getBirthdate());
         if (!birthDate.before(d1)) {
-            return ResponseEntity.status(400).body("You must be at least 12 years old");
+            return ResponseEntity.status(400).body("User must be at least 12 years old");
         }
         if (body.getId() != null) {
             return ResponseEntity.status(400).body("No id must be given");
