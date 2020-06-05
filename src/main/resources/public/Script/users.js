@@ -93,7 +93,6 @@ function username_check() {
 function MakeUser(users) {
     $("#Users-box").empty();
     $.each(users, function (i) {
-        console.log(users[i]);
         $("#Users-box").append("<a href='ViewUser.html?id=" + users[i].id + "'>" +
             "<div class='user-box'>" +
             "<i class='arrow right'></i>" +
@@ -120,7 +119,6 @@ function next() {
     offset++;
     nextpage = true;
     GetUsers();
-    console.log(offset)
 }
 
 function back() {
@@ -129,7 +127,6 @@ function back() {
         nextpage = true;
         GetUsers();
     }
-    console.log(offset);
 }
 
 function CreateUser() {
