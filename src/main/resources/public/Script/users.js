@@ -364,7 +364,16 @@ function GetUser(id) {
 }
 
 function getMaxData() {
+    var item;
+    var name;
     if ($("#datepicker").length) {
+        item = $("#datepicker");
+        name = "datepicker";
+    } else {
+        item = $("#birthdate");
+        name = "birthdate";
+    }
+    if (item.length) {
 
         var today = new Date();
         var dd = today.getDate();
@@ -378,7 +387,7 @@ function getMaxData() {
         }
 
         today = yyyy + '-' + mm + '-' + dd;
-        document.getElementById("datepicker").setAttribute("max", today);
+        document.getElementById(name).setAttribute("max", today);
     }
 
 }

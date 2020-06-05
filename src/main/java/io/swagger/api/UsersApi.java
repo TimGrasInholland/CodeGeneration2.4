@@ -75,6 +75,6 @@ public interface UsersApi {
             consumes = {"application/json"},
             method = RequestMethod.PUT)
     ResponseEntity<String> updateUser(@ApiParam(value = "") @Valid @RequestBody User body
-    );
+    ) throws ParseException;
 
 }

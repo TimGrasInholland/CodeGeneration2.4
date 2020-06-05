@@ -59,14 +59,10 @@ public class UsersApiController implements UsersApi {
         if (users.stream().anyMatch((user) -> user.getUsername().equals(body.getUsername()))) {
             return ResponseEntity.status(400).body("This username already exist");
         }
-        // checks if user is older then 12
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.YEAR, -12);
-        Date dateNow = calendar.getTime();
-        Date birthDate = new SimpleDateFormat("yyyy-MM-dd").parse(body.getBirthdate());
-        if (!birthDate.before(dateNow)) {
-            return ResponseEntity.status(400).body("User must be at least 12 years old");
-        }
+        if (!checkBirthDate(body.getBirthdate()))
+            return ResponseEntity.status(400).body("User can't be below the age of 12.");
+
+
         if (body.getId() != null) {
             return ResponseEntity.status(400).body("No id must be given");
         } else {
@@ -131,7 +127,7 @@ public class UsersApiController implements UsersApi {
     }
 
     // update an user
-    public ResponseEntity<String> updateUser(@ApiParam(value = "") @Valid @RequestBody User body) {
+    public ResponseEntity<String> updateUser(@ApiParam(value = "") @Valid @RequestBody User body) throws ParseException {
         String authKey = request.getHeader("session");
         // checked if user is a customer if so he can only change his own info and an employee can change that of any customer
         if (security.isPermittedAndNotBank(authKey, User.TypeEnum.CUSTOMER, body.getType())) {
@@ -150,6 +146,9 @@ public class UsersApiController implements UsersApi {
                     if (users.stream().anyMatch((user) -> user.getUsername().equals(body.getUsername())) && !(service.getUserByUsername(body.getUsername()).getId().equals(body.getId()))) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already in use");
                     }
+
+                    if (!checkBirthDate(body.getBirthdate()))
+                        return ResponseEntity.status(400).body("User can't be below the age of 12.");
 
                     // When user is owner and is employee allow all updates except role.
                     if (security.isOwner(authKey, body.getId()) && security.employeeCheck(authKey)) {
@@ -177,6 +176,15 @@ public class UsersApiController implements UsersApi {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body("No id was given");
         }
         return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
+    }
+
+    private boolean checkBirthDate(String givenBirthDate) throws ParseException {
+        // checks if user is older then 12
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.YEAR, -12);
+        Date dateNow = calendar.getTime();
+        Date birthDate = new SimpleDateFormat("yyyy-MM-dd").parse(givenBirthDate);
+        return birthDate.before(dateNow);
     }
 
 }
