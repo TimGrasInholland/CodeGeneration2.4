@@ -4,6 +4,8 @@ window.offset = 0;
 var nextpage = false;
 
 function GetUsers() {
+    var offset = window.offset;
+    var limit = 8;
     var SeachString = $("input[id=seaching]").val()
     var header = {
         "session": sessionStorage.getItem("session")
@@ -11,19 +13,21 @@ function GetUsers() {
 
     if (SeachString != null && SeachString != "") {
         var data = {
-            "offset": window.offset,
-            "limit": 10,
+            "offset": offset,
+            "limit": limit,
             "searchname": SeachString
         };
     } else if (nextpage) {
         nextpage = false;
         var data = {
-            "offset": window.offset,
-            "limit": 10,
+            "offset": offset,
+            "limit": limit,
             "searchname": SeachString
         };
     } else {
         var data = {
+            "offset": offset,
+            "limit": limit,
             "searchname": SeachString
         };
     }
