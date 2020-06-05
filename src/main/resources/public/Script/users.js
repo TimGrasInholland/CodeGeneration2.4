@@ -4,6 +4,8 @@ window.offset = 0;
 var nextpage = false;
 
 function GetUsers() {
+    var offset = window.offset;
+    var limit = 8;
     var SeachString = $("input[id=seaching]").val()
     var header = {
         "session": sessionStorage.getItem("session")
@@ -11,19 +13,21 @@ function GetUsers() {
 
     if (SeachString != null && SeachString != "") {
         var data = {
-            "offset": window.offset,
-            "limit": 10,
+            "offset": offset,
+            "limit": limit,
             "searchname": SeachString
         };
     } else if (nextpage) {
         nextpage = false;
         var data = {
-            "offset": window.offset,
-            "limit": 10,
+            "offset": offset,
+            "limit": limit,
             "searchname": SeachString
         };
     } else {
         var data = {
+            "offset": offset,
+            "limit": limit,
             "searchname": SeachString
         };
     }
@@ -93,7 +97,6 @@ function username_check() {
 function MakeUser(users) {
     $("#Users-box").empty();
     $.each(users, function (i) {
-        console.log(users[i]);
         $("#Users-box").append("<a href='ViewUser.html?id=" + users[i].id + "'>" +
             "<div class='user-box'>" +
             "<i class='arrow right'></i>" +
@@ -120,7 +123,6 @@ function next() {
     offset++;
     nextpage = true;
     GetUsers();
-    console.log(offset)
 }
 
 function back() {
@@ -129,7 +131,6 @@ function back() {
         nextpage = true;
         GetUsers();
     }
-    console.log(offset);
 }
 
 function CreateUser() {
@@ -367,7 +368,16 @@ function GetUser(id) {
 }
 
 function getMaxData() {
+    var item;
+    var name;
     if ($("#datepicker").length) {
+        item = $("#datepicker");
+        name = "datepicker";
+    } else {
+        item = $("#birthdate");
+        name = "birthdate";
+    }
+    if (item.length) {
 
         var today = new Date();
         var dd = today.getDate();
@@ -381,7 +391,7 @@ function getMaxData() {
         }
 
         today = yyyy + '-' + mm + '-' + dd;
-        document.getElementById("datepicker").setAttribute("max", today);
+        document.getElementById(name).setAttribute("max", today);
     }
 
 }

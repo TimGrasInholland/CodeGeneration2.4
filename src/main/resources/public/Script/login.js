@@ -15,7 +15,6 @@ function Login() {
         complete: function (result) {
             switch (result.status) {
                 case 200:
-                    console.log(result)
                     sessionStorage.setItem("session", result.responseText)
                     if (GetCurrentUserRole() == "Customer")
                         window.location.href = './MyAccounts.html'

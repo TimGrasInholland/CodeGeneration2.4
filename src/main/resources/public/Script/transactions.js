@@ -38,7 +38,6 @@ function GetTransactionsFormatEmployee() {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (results) {
-            console.log(results)
             output = "";
             $.each(results, function () {
                 output += '\
@@ -186,8 +185,7 @@ function CreateTransaction() {
                     location.reload();
                     break;
                 default:
-                    console.log(jqXHR);
-                    if (jqXHR.responseJSON.message != null) {
+                    if (jqXHR.responseJSON != null) {
                         alert(jqXHR.responseJSON.message);
                     } else {
                         alert(jqXHR.responseText);

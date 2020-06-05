@@ -80,7 +80,6 @@ function GetAccountsByUserId() {
         dataType: "json",
         async: false,
         success: function (results) {
-            console.log(results)
             currentsOutput = "";
             savingsOutput = "";
 
@@ -124,7 +123,7 @@ function GetAccountsByUserId() {
             SetListOfAccounts(currentsOutput, savingsOutput)
         },
         error: function (error) {
-            console.log(error);
+            alert("Something went wrong. Please try again later.")
         }
     });
 }
@@ -184,7 +183,6 @@ function GetAccounts() {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (result) {
-            console.log(result)
             MakeUser(result);
         },
         error: function (error) {
@@ -233,7 +231,6 @@ function DisableAccount() {
         active: false,
         iban: account.iban
     })
-    console.log(json);
 
     $.ajax({
         type: "PUT",

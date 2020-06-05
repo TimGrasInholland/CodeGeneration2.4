@@ -224,6 +224,7 @@ public class User {
     @ApiModelProperty(required = true, value = "")
     @NotNull
     @Valid
+    @Pattern(regexp = "([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))$")
     public String getBirthdate() {
         return birthdate;
     }
