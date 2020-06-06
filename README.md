@@ -1,3 +1,14 @@
+## Login Credentials
+### Employee:
+Username: Adrie538
+
+Password: Welkom123!
+
+### Customer:
+Username: SjaakMaster
+
+Password: Test123!
+
 ## Specification
 Our swagger specification can be found here: https://inholland-bank-api.herokuapp.com/api/swagger-ui.html
 

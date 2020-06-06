@@ -87,11 +87,11 @@ public class AppStarter {
     private void initUsers() {
         List<User> users = Arrays.asList(
                 new User("Inholland-Bank", "Welcome567?", "Bank", "", "Inholland", "bank@inholland-bank.nl",
-                        "2019-01-01", "Arnold straat 33", "1354PK", "Haarlem", "0638313905", User.TypeEnum.BANK, true),
+                        "2000-01-01", "Arnold straat 33", "1354PK", "Haarlem", "0638313905", User.TypeEnum.BANK, true),
                 new User("Adrie538", "Welkom123!", "Andries", "", "Komen", "AndriesK@gmail.com",
-                        "2019-01-01", "Bloemendotter 12", "1958TX", "Haarlem", "0637291827", User.TypeEnum.EMPLOYEE, true),
+                        "1989-06-11", "Bloemendotter 12", "1958TX", "Haarlem", "0637291827", User.TypeEnum.EMPLOYEE, true),
                 new User("SjaakMaster", "Test123!", "Sjaak", "Van", "Bergen", "SjaakVBergen@gmail.com",
-                        "2019-01-01", "Jacobstraat", "1938DR", "Amsterdam", "0638273745", User.TypeEnum.CUSTOMER, true),
+                        "1999-05-03", "Jacobstraat", "1938DR", "Amsterdam", "0638273745", User.TypeEnum.CUSTOMER, true),
                 new User("User", "Test123?", "Test", "Van", "User", "User@gmail.com",
                         "1993-11-04", "Pieterstraat", "1828ED", "Utrecht", "0638333745", User.TypeEnum.CUSTOMER, true),
                 new User("User1", "Test123?", "Test", "Van", "User", "User1@gmail.com",

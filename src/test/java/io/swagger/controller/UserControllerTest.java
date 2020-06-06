@@ -27,7 +27,7 @@ class UserControllerTest {
         testUser = new User("tester123", "Test123!", "test", "Van", "test", "test@gmail.com",
                 "2019-01-01", "test", "1938DR", "Amsterdam", "0638273745", User.TypeEnum.CUSTOMER, true);
         adrie = new User("Adrie538", "Welkom123!", "Andries", "", "Komen", "AndriesK@gmail.com",
-                "2019-01-01", "Bloemendotter 12", "1958TX", "Haarlem", "0637291827", User.TypeEnum.EMPLOYEE, true);
+                "1989-06-11", "Bloemendotter 12", "1958TX", "Haarlem", "0637291827", User.TypeEnum.EMPLOYEE, true);
         adrie.setId(2L);
     }
 
