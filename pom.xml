@@ -10,7 +10,7 @@
         <java.version>11</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <springfox-version>2.9.2</springfox-version>
+        <springfox-version>2.10.0</springfox-version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
